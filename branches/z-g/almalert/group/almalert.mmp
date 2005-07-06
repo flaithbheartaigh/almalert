@@ -1,0 +1,37 @@
+target AlmAlert.dll
+targettype dll
+
+uid 0x1000008d 0x1000599e
+targetpath \system\libs
+
+sourcepath ..\src
+source AlmAlert.cpp
+source AlarmAlertSettings.cpp
+source AlmProfile.cpp
+source AlmAudioBase.cpp
+source AlmAudioAlert.cpp
+source AlmAudioBeep.cpp
+
+userinclude ..\inc 
+
+systeminclude \epoc32\include
+systeminclude ..\..\common\inc
+
+library euser.lib
+library cone.lib
+library eikcoctl.lib
+library avkon.lib
+library eikcore.lib
+library commonengine.lib
+library eiksrv.lib
+library sysutil.lib
+library egul.lib
+library bafl.lib
+library ws32.lib
+library aknnotifyplugin.lib
+library aknlayout.lib
+library mediaclientaudio.lib
+library AudioSvrClient.lib
+library efsrv.lib
+library profileengine.lib
+library fbscli.lib
