@@ -1,0 +1,13 @@
+target pnmsg.dll
+targettype dll
+
+uid 0x10000079 0x100058d6
+targetpath \system\libs
+
+sourcepath ..\src\pnmsg
+source pnmsg.cpp
+
+systeminclude ..\inc
+systeminclude \epoc32\include
+
+library euser.lib
