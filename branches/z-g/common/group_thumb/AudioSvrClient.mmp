@@ -1,0 +1,13 @@
+target AudioSvrClient.dll
+targettype dll
+
+uid 0x1000008d 0x101f5cdf
+targetpath \system\libs
+
+sourcepath ..\src\audiosvrclient
+source AudioSvrClient.cpp
+
+systeminclude ..\inc
+systeminclude \epoc32\include
+
+library euser.lib
