@@ -1,0 +1,15 @@
+target mediaclientaudiostream_a.dll
+targettype dll
+
+uid 0x1000008d 0x10003996
+targetpath \system\libs
+
+sourcepath ..\src\mdaaudiooutputstream
+source mdaaudiooutputstreamimpl.cpp
+
+userinclude ..\inc 
+
+systeminclude \epoc32\include
+
+library euser.lib
+library mediaclient.lib
