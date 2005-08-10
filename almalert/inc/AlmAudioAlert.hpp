@@ -25,7 +25,7 @@
 class CAlmAudio: public CAlmAudioBase
 {
   public:
-    static CAlmAudio* NewL(CEikonEnv* anEnv,const TDesC& aFileName,TInt anAlarmType);
+    static CAlmAudio* NewL(CEikonEnv* anEnv,CSettings* aSettings,TInt anAlarmType);
   private:
     CAlmAudio(CEikonEnv* anEnv,TInt anAlarmType);
   protected: //CAlmAudioBase
@@ -33,6 +33,7 @@ class CAlmAudio: public CAlmAudioBase
     TMdaPriorityPreference PriorityPreference(void);
     TBool PlayAlways(void);
     void PlayInit(void);
+    const TDesC& FileName(CSettings* aSettings);
   private:
     TInt iAlarmType;
 };
