@@ -79,7 +79,7 @@ CAlm::~CAlm()
 
 const TDesC8& CAlm::Copyright(void) const
 {
-  _LIT8(KAppCopyright,"(c) 2005 by zg. version 0.03");
+  _LIT8(KAppCopyright,"(c) 2005 by zg. version 0.04");
   return KAppCopyright;
 }
 
@@ -429,7 +429,7 @@ void CAlm::RemoveDevStateNotification(void) //checked
 void CAlm::DoCreateAudioTimeout(void) //checked
 {
   iCreateAudioTimer->Cancel();
-  TRAPD(err,iAudio=CAlmAudio::NewL((CEikonEnv*)ControlEnv(),(iAlarmType==EAlarmTypeClock)?iSettings->Alarm():iSettings->Calendar(),iAlarmType));
+  TRAPD(err,iAudio=CAlmAudio::NewL((CEikonEnv*)ControlEnv(),iSettings,iAlarmType));
 }
 
 void CAlm::InitializeAudio(void) //checked
@@ -769,7 +769,7 @@ void CAlm::DoBeeperTimeout(void)
     TInt hour=dtime.Hour(),minute=dtime.Minute();
     if(!(iAlmFlags&EFlagAlarmActive)&&minute<2&&hour>=iSettings->BeepStart()&&hour<=iSettings->BeepFinish())
     {
-      TRAPD(err,iBeepAudio=CAlmAudioBeep::NewL((CEikonEnv*)(ControlEnv()),iSettings->Beep()));
+      TRAPD(err,iBeepAudio=CAlmAudioBeep::NewL((CEikonEnv*)(ControlEnv()),iSettings));
     }
     if(iBeepAudio)
     {

@@ -33,12 +33,12 @@ CAlmAudioBase::~CAlmAudioBase()
   delete iAudio;
 }
 
-void CAlmAudioBase::ConstructL(const TDesC& aFileName)
+void CAlmAudioBase::ConstructL(CSettings* aSettings)
 {
   AlmProfile::SoundParamsL(iRingType,iRingVolume);
   iAudio=CAudioClient::NewL();
   SetDspState(EFalse);
-  iPlayer=CMdaAudioPlayerUtility::NewFilePlayerL(aFileName,*this,Priority(),PriorityPreference());
+  iPlayer=CMdaAudioPlayerUtility::NewFilePlayerL(FileName(aSettings),*this,Priority(),PriorityPreference());
 }
 
 /*
@@ -80,8 +80,8 @@ void CAlmAudioBase::MapcInitComplete(TInt aError,const TTimeIntervalMicroSeconds
     {
       PlayInit();
       iPlayer->Play();
-      iPrepared=ETrue;
     }
+    iPrepared=ETrue;
   }
 }
 

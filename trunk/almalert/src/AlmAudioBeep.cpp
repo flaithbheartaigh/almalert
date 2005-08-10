@@ -20,11 +20,11 @@
 #include "AlmAudioBeep.hpp"
 #include <avkon.hrh> //EAknAudioPrefRingFilePreview
 
-CAlmAudioBeep* CAlmAudioBeep::NewL(CEikonEnv* anEnv,const TDesC& aFileName)
+CAlmAudioBeep* CAlmAudioBeep::NewL(CEikonEnv* anEnv,CSettings* aSettings)
 {
   CAlmAudioBeep* self=new(ELeave)CAlmAudioBeep(anEnv);
   CleanupStack::PushL(self);
-  self->ConstructL(aFileName);
+  self->ConstructL(aSettings);
   CleanupStack::Pop(self);
   return self;
 }

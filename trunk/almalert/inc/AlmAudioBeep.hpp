@@ -25,7 +25,7 @@
 class CAlmAudioBeep: public CAlmAudioBase
 {
   public:
-    static CAlmAudioBeep* NewL(CEikonEnv* anEnv,const TDesC& aFileName);
+    static CAlmAudioBeep* NewL(CEikonEnv* anEnv,CSettings* aSettings);
   private:
     CAlmAudioBeep(CEikonEnv* anEnv);
   protected: //CAlmAudioBase
@@ -33,6 +33,7 @@ class CAlmAudioBeep: public CAlmAudioBase
     TMdaPriorityPreference PriorityPreference(void);
     TBool PlayAlways(void) {return EFalse;};
     void PlayInit(void) {};
+    const TDesC& FileName(CSettings* aSettings) {return aSettings->Beep();};
   private:
     TInt iAlarmType;
 };
