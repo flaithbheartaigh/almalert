@@ -40,5 +40,5 @@ TInt CAlmAudioBeep::Priority(void)
 
 TMdaPriorityPreference CAlmAudioBeep::PriorityPreference(void)
 {
-  return (TMdaPriorityPreference)EAknAudioPrefRingFilePreview;
+  return EMdaPriorityPreferenceNone;
 }
