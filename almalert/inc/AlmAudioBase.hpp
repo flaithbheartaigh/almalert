@@ -46,7 +46,15 @@ class CAlmAudioBase: public CBase,public MMdaAudioPlayerCallback
     TInt iRingType;
     CMdaAudioPlayerUtility* iPlayer;
   private:
-    TBool iPrepared;
+    enum TState
+    {
+      ENonPrepared1=0,
+      EPrepared1,
+      ENonPrepared2,
+      EPrepared2
+    };
+  private:
+    TState iState;
     CEikonEnv* iEnv;
     CAudioClient* iAudio;
   private:
