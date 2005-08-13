@@ -71,4 +71,22 @@ class CIsiMsg691: public CIsiMsg //
     IMPORT_C static CIsiMsg691* NewL(TUint8 aParam1,TUint8 aParam2,TUint8 aParam3,CIsiMsg649* aMsg);
 };
 
+class CIsiMsg984: public CIsiMsg //
+{
+  public:
+    IMPORT_C static CIsiMsg984* NewL(TDesC8& aData,TUint anOffset,TUint8 aParam);
+};
+
+class CIsiMsg928: public CIsiMsg //
+{
+  public:
+    IMPORT_C static CIsiMsg928* NewL(TUint8 aParam,CIsiMsg984* aMsg);
+};
+
+class CIsiMsg902: public CIsiMsg //
+{
+  public:
+    IMPORT_C static CIsiMsg902* NewL(TUint8 aParam,TDesC8& aData);
+};
+
 #endif

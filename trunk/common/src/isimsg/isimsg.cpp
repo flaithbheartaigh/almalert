@@ -73,3 +73,18 @@ EXPORT_C CIsiMsg691* CIsiMsg691::NewL(TUint8 aParam1,TUint8 aParam2,TUint8 aPara
 {
   return NULL;
 }
+
+EXPORT_C CIsiMsg984* CIsiMsg984::NewL(TDesC8& aData,TUint anOffset,TUint8 aParam)
+{
+  return NULL;
+}
+
+EXPORT_C CIsiMsg928* CIsiMsg928::NewL(TUint8 aParam,CIsiMsg984* aMsg)
+{
+  return NULL;
+}
+
+EXPORT_C CIsiMsg902* CIsiMsg902::NewL(TUint8 aParam,TDesC8& aData)
+{
+  return NULL;
+}
