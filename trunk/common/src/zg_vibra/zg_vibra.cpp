@@ -51,12 +51,3 @@ TInt CVibraReq::SubBlockStart(void) //checked
 {
   return 0;
 }
-
-CPnMsg::~CPnMsg() //checked
-{
-  if(iBuf)
-  {
-    delete iBuf;
-    iBuf=NULL;
-  }
-}

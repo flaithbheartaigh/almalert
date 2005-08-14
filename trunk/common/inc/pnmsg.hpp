@@ -25,7 +25,13 @@
 class CPnMsg: public CBase
 {
   public:
-    ~CPnMsg();
+    enum TPnMsgPanic
+    {
+      EPanicPnMsgUnderflow=KErrUnderflow,
+      EPanicPnMsgNoMemory=KErrNoMemory
+    };
+  public:
+    ~CPnMsg() {if(iBuf) {delete iBuf;iBuf=NULL;}};
   public:
     IMPORT_C TInt ConstructL(TInt aSize); //ordinal 4
     IMPORT_C static CPnMsg* NewL(CPnMsg &aMsg); //ordinal 2
@@ -35,10 +41,12 @@ class CPnMsg: public CBase
     IMPORT_C static CPnMsg* NewL(TInt aSize); //ordinal 6
     IMPORT_C CPnMsg& operator=(CPnMsg &aMsg); //ordinal 7
   public:
-    TPtr8 iPtr;
-    HBufC8* iBuf;
+    TPtr8 iPtr; //0x04
+    HBufC8* iBuf; //0x10
   protected:
     CPnMsg(): CBase(),iPtr(0,0),iBuf(NULL) {};
+  private:
+    static void Panic(TPnMsgPanic aPanic);
 };
 
 #endif
