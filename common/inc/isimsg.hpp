@@ -34,11 +34,11 @@ class CIsiMsg: public CPnMsg
 class CIsiMsg976: public CIsiMsg //phonet init??
 {
   public:
-    IMPORT_C static CIsiMsg976* NewL(TInt aLength); //TUint8???
-    TUint8 GetParam10(void);
-    TUint8 GetParam10A(void);
-    TUint8 GetParam10B(void);
-    TUint8 GetParam10C(void);
+    IMPORT_C static CIsiMsg976* NewL(TInt aLength); //TUint8??? 976
+    TUint8 GetParam10(void); //259
+    TUint8 GetParam10A(void); //516
+    TUint8 GetParam10B(void); //524
+    TUint8 GetParam10C(void); //242
 };
 
 class CIsiMsg802: public CIsiMsg
