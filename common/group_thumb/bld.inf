@@ -1,6 +1,6 @@
 PRJ_MMPFILES
 AudioSvrClient.mmp
-phonet.mmp
-isimsg.mmp
 pnmsg.mmp
+isimsg.mmp
+phonet.mmp
 mediaclientaudiostream.mmp
