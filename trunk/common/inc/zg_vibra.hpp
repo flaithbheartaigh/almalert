@@ -28,8 +28,6 @@ class CVibraReq: public CIsiMsg
     void ConstructL(TInt aSize);
   public:
     static CVibraReq* NewL(TUint8 aParam,TUint8 aState);
-    TInt SubBlockCountIndex(void);
-    TInt SubBlockStart(void);
 };
 
 #endif

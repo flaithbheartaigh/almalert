@@ -24,9 +24,46 @@ GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
   return KErrNone;
 }
 
-EXPORT_C CIsiMsg976* CIsiMsg976::NewL(TInt aLength)
+EXPORT_C CIsiMsg::~CIsiMsg()
 {
-  return NULL;
+}
+
+EXPORT_C CIsiMsg* CIsiMsg::NewL(TDesC8& aData)
+{
+  CIsiMsg* self=new(ELeave)CIsiMsg;
+  CleanupStack::PushL(self);
+  self->iBuf=aData.AllocL();
+  self->iPtr.Set(self->iBuf->Des());
+  CleanupStack::Pop(); //self
+  return self;
+}
+
+EXPORT_C CIsiMsg* CIsiMsg::NewL(TInt aSize)
+{
+  CIsiMsg* self=new(ELeave)CIsiMsg;
+  CleanupStack::PushL(self);
+  self->ConstructL(aSize);
+  CleanupStack::Pop(); //self
+  return self;
+}
+
+EXPORT_C TInt CIsiMsg::SubBlockCountIndex(void)
+{
+  return 0;
+}
+
+EXPORT_C TInt CIsiMsg::SubBlockStart(void)
+{
+  return 0;
+}
+
+void CIsiMsg::ConstructL(TInt aSize)
+{
+  CPnMsg::ConstructL(aSize-6);
+  iPtr.SetLength(8);
+  TUint8 var=0;
+  iPtr[1]=var;
+  iPtr[6]=var;
 }
 
 EXPORT_C TUint8 CIsiMsg976::GetParam10(void)

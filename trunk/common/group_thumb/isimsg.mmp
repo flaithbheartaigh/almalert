@@ -12,3 +12,4 @@ systeminclude ..\inc
 systeminclude \epoc32\include
 
 library euser.lib
+library pnmsg.lib

@@ -25,16 +25,20 @@
 class CIsiMsg: public CPnMsg
 {
   public:
-    virtual TInt SubBlockCountIndex(void)=0;
-    virtual TInt SubBlockStart(void)=0;
-//  private:
-//    CIsiMsg();
+    IMPORT_C ~CIsiMsg(); //1600
+    IMPORT_C static CIsiMsg* NewL(TDesC8& aData); //975
+    IMPORT_C static CIsiMsg* NewL(TInt aSize); //976
+    IMPORT_C virtual TInt SubBlockCountIndex(void); //1410
+    IMPORT_C virtual TInt SubBlockStart(void); //1509
+  protected:
+    void ConstructL(TInt aSize);
 };
 
+//really not exist
 class CIsiMsg976: public CIsiMsg //phonet init??
 {
   public:
-    IMPORT_C static CIsiMsg976* NewL(TInt aLength); //TUint8??? 976
+    //IMPORT_C static CIsiMsg976* NewL(TInt aLength); //TUint8??? 976
     TUint8 GetParam10(void); //259
     TUint8 GetParam10A(void); //516
     TUint8 GetParam10B(void); //524

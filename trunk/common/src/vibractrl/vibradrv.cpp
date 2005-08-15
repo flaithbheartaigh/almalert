@@ -89,8 +89,8 @@ void CVibraDriver::SetL(TBool aState)
   CleanupStack::PushL(sendMsg);
   User::LeaveIfError(iPhoNet.Send(*sendMsg));
   CleanupStack::PopAndDestroy(); //sendMsg
-  CIsiMsg976* recvMsg;
-  recvMsg=CIsiMsg976::NewL(500);
+  CIsiMsg* recvMsg;
+  recvMsg=CIsiMsg::NewL(500);
   CleanupStack::PushL(recvMsg);
   TRequestStatus status;
   TPnReceiveAllocationLengthPckg pckg;
