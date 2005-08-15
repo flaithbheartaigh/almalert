@@ -58,10 +58,12 @@ void CAlmAudioBase::SetDspState(TBool aState)
 TInt CAlmAudioBase::UpdateVolume(void)
 {
   TInt maxVolume=(iPlayer)?iPlayer->MaxVolume():0;
-  TInt volume=maxVolume*iRingVolume/9U;
-  if(volume>maxVolume) volume=maxVolume;
+  TInt volume=maxVolume;
   if(!PlayAlways())
   {
+    volume*=iRingVolume/9U;
+    if(volume==0) volume=1;
+    if(volume>maxVolume) volume=maxVolume;
     if(iRingType==CProfileAPI::ERingTypeSilent) volume=0;
   }
   if(iPlayer) iPlayer->SetVolume(volume);
