@@ -25,7 +25,8 @@ _LIT(KLibs,"\\System\\Libs\\");
 _LIT(KDefault,"z:\\Nokia\\Sounds\\Digital\\Nokia tune.mid");
 _LIT(KNameAlarm,"Alarm");
 _LIT(KNameCalendar,"Calendar");
-_LIT(KNameSnooze,"Snooze");
+_LIT(KNameSnoozeTime,"SnoozeTime");
+_LIT(KNameSnoozeCount,"SnoozeCount");
 _LIT(KNameBeep,"Beep");
 _LIT(KNameBeepStart,"BeepStart");
 _LIT(KNameBeepFinish,"BeepFinish");
@@ -37,7 +38,7 @@ CSettings::~CSettings()
   delete iBeep;
 }
 
-CSettings::CSettings(): iBeepStart(1)
+CSettings::CSettings(): iBeepStart(1),iSnoozeCount(1)
 {
   RFs fs;
   if(fs.Connect()==KErrNone)
@@ -76,9 +77,13 @@ CSettings::CSettings(): iBeepStart(1)
             TLex lex(value);
             TUint8 ivalue;
             if(lex.Val(ivalue,EDecimal)!=KErrNone) continue;
-            if(!name.CompareF(KNameSnooze))
+            if(!name.CompareF(KNameSnoozeTime))
             {
-              if(ivalue>5) iSnooze=ivalue-5;
+              if(ivalue>5) iSnoozeTime=ivalue-5;
+            }
+            else if(!name.CompareF(KNameSnoozeCount))
+            {
+              if(ivalue>0) iSnoozeCount=ivalue;
             }
             else if(!name.CompareF(KNameBeepStart))
             {

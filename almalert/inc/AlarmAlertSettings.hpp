@@ -34,7 +34,8 @@ class CSettings: public CBase
     inline TBool Beeper(void) {return iBeep&&iBeepStart<=iBeepFinish;};
     TUint8 BeepStart(void) {return iBeepStart;};
     TUint8 BeepFinish(void) {return iBeepFinish;};
-    const TTimeIntervalMinutes Snooze(void) {return TTimeIntervalMinutes(iSnooze);};
+    const TTimeIntervalMinutes SnoozeTime(void) {return TTimeIntervalMinutes(iSnoozeTime);};
+    TInt SnoozeCount(void) {return iSnoozeCount;};
   private:
     TBool FileExist(const TDesC& aFileName);
   private:
@@ -43,7 +44,8 @@ class CSettings: public CBase
     HBufC* iBeep;
     TUint8 iBeepStart;
     TUint8 iBeepFinish;
-    TUint8 iSnooze;
+    TUint8 iSnoozeTime;
+    TUint8 iSnoozeCount;
 };
 
 #endif
