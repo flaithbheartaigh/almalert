@@ -137,7 +137,7 @@ void CAlm::SetSnoozeInfo(void) //checked
       {
         TTime time;
         time.HomeTime();
-        time+=iSettings->Snooze();
+        time+=iSettings->SnoozeTime();
         TDateTime dtime=time.DateTime();
         TBuf16<30> buf;
         buf.Format(KAlarmFormat,dtime.Year(),dtime.Month(),dtime.Day(),dtime.Hour(),dtime.Minute(),0);
@@ -153,7 +153,7 @@ void CAlm::SetSnoozeInfo(void) //checked
         {
           info.SetString(KKeySnoozeMsg,KLabelSnooze);
           info.SetString(KKeyAlarmTime,buf);
-          info.SetInt(KKeySnooze,6);
+          info.SetInt(KKeySnooze,iSettings->SnoozeCount());
         }
       }
       info.Close();
