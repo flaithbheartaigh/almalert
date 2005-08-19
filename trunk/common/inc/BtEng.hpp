@@ -55,7 +55,7 @@ class CBTMCMSettings: public CBase,public MSharedDataNotifyHandler
     IMPORT_C static TInt GetAllSettings(TBool& aPowerState,TBTDiscoverabilityMode& aDiscoverabilityMode,TBTSearchMode& aSearchMode,TDes16& aLocalBTName,TBool& aIsLocalNameModified);
     IMPORT_C TInt SetDefaultValuesL(void);
     IMPORT_C static TInt IsLocalNameModified(TBool& aIsLocalNameModified);
-    IMPORT_C TInt GetLocalBTName(TDes16& aLocalBTName);
+    IMPORT_C static TInt GetLocalBTName(TDes16& aLocalBTName);
     IMPORT_C TInt SetLocalBTName(const TDesC16& aLocalBTName);
     IMPORT_C TInt SetDiscoverabilityModeL(TBTDiscoverabilityMode aDiscoverabilityMode,TBool aSkip=EFalse);
     IMPORT_C static TInt GetDiscoverabilityModeL(TBTDiscoverabilityMode& aDiscoverabilityMode);
