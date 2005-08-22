@@ -1,5 +1,5 @@
 /*
-    AlmAudioBeep.cpp
+    AlmBirthdayTimer.cpp
     Copyright (C) 2005 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -17,27 +17,42 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include "AlmAudioBeep.hpp"
+#include "AlmBirthdayTimer.hpp"
+#include "AlmUtils.hpp"
 
-CAlmAudioBeep* CAlmAudioBeep::NewL(CEikonEnv* anEnv,CSettings* aSettings)
+CBirthdayTimer::~CBirthdayTimer()
 {
-  CAlmAudioBeep* self=new(ELeave)CAlmAudioBeep(anEnv);
+}
+
+CBirthdayTimer* CBirthdayTimer::NewL(TUint8 aHour,TCallBack aCallback)
+{
+  CBirthdayTimer* self=new(ELeave)CBirthdayTimer(aCallback);
   CleanupStack::PushL(self);
-  self->ConstructL(aSettings);
+  self->ConstructL(aHour);
   CleanupStack::Pop(self);
   return self;
 }
 
-CAlmAudioBeep::CAlmAudioBeep(CEikonEnv* anEnv): CAlmAudioBase(anEnv)
+CBirthdayTimer::CBirthdayTimer(TCallBack aCallback): CTimer(EPriorityIdle),iCallback(aCallback)
 {
 }
 
-TInt CAlmAudioBeep::Priority(void)
+void CBirthdayTimer::ConstructL(TUint8 aHour)
 {
-  return EMdaPriorityMin;
+  CTimer::ConstructL();
+  CActiveScheduler::Add(this);
+  TTime htime;
+  htime.HomeTime();
+  TDateTime time=AlmUtils::StripTime(htime.DateTime());
+  User::LeaveIfError(time.SetHour(aHour));
+  iTime=time;
+  if(iTime<htime) iTime+=TTimeIntervalDays(1);
+  At(iTime);
 }
 
-TMdaPriorityPreference CAlmAudioBeep::PriorityPreference(void)
+void CBirthdayTimer::RunL(void)
 {
-  return EMdaPriorityPreferenceNone;
+  iTime+=TTimeIntervalDays(1);
+  At(iTime);
+  iCallback.iFunction(iCallback.iPtr);
 }

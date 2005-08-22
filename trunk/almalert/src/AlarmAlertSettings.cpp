@@ -30,6 +30,9 @@ _LIT(KNameSnoozeCount,"SnoozeCount");
 _LIT(KNameBeep,"Beep");
 _LIT(KNameBeepStart,"BeepStart");
 _LIT(KNameBeepFinish,"BeepFinish");
+_LIT(KNameBirthday,"Birthday");
+_LIT(KNameBirthdayStart,"BirthdayStart");
+_LIT(KNameBirthdayHour,"BirthdayHour");
 
 CSettings::~CSettings()
 {
@@ -38,7 +41,7 @@ CSettings::~CSettings()
   delete iBeep;
 }
 
-CSettings::CSettings(): iBeepStart(1),iSnoozeCount(1)
+CSettings::CSettings(): iBeepStart(1),iSnoozeCount(1),iBirthdayHour(12)
 {
   RFs fs;
   if(fs.Connect()==KErrNone)
@@ -72,6 +75,10 @@ CSettings::CSettings(): iBeepStart(1),iSnoozeCount(1)
           {
             iBeep=value.Alloc();
           }
+          else if(!name.CompareF(KNameBirthday)&&!iBirthday&&value.Length())
+          {
+            iBirthday=value.Alloc();
+          }
           else
           {
             TLex lex(value);
@@ -92,6 +99,14 @@ CSettings::CSettings(): iBeepStart(1),iSnoozeCount(1)
             else if(!name.CompareF(KNameBeepFinish))
             {
               iBeepFinish=ivalue;
+            }
+            else if(!name.CompareF(KNameBirthdayStart))
+            {
+              iBirthdayStart=ivalue;
+            }
+            else if(!name.CompareF(KNameBirthdayHour))
+            {
+              iBirthdayHour=ivalue;
             }
           }
         }
@@ -117,6 +132,12 @@ const TDesC& CSettings::Calendar(void)
 const TDesC& CSettings::Beep(void)
 {
   if(iBeep&&FileExist(*iBeep)) return *iBeep;
+  return KDefault;
+}
+
+const TDesC& CSettings::Birthday(void)
+{
+  if(iBirthday&&FileExist(*iBirthday)) return *iBirthday;
   return KDefault;
 }
 

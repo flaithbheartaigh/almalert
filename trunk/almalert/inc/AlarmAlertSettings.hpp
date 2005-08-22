@@ -31,21 +31,28 @@ class CSettings: public CBase
     const TDesC& Alarm(void);
     const TDesC& Calendar(void);
     const TDesC& Beep(void);
-    inline TBool Beeper(void) {return iBeep&&iBeepStart<=iBeepFinish;};
-    TUint8 BeepStart(void) {return iBeepStart;};
-    TUint8 BeepFinish(void) {return iBeepFinish;};
-    const TTimeIntervalMinutes SnoozeTime(void) {return TTimeIntervalMinutes(iSnoozeTime);};
-    TInt SnoozeCount(void) {return iSnoozeCount;};
+    const TDesC& Birthday(void);
+    inline TBool IsBeep(void) {return iBeep&&iBeepStart<=iBeepFinish;};
+    inline TUint8 BeepStart(void) {return iBeepStart;};
+    inline TUint8 BeepFinish(void) {return iBeepFinish;};
+    inline const TTimeIntervalMinutes SnoozeTime(void) {return TTimeIntervalMinutes(iSnoozeTime);};
+    inline TInt SnoozeCount(void) {return iSnoozeCount;};
+    inline TBool IsBirthday(void) {return (iBirthday!=NULL);};
+    inline const TTimeIntervalDays BirthdayStart(void) {return TTimeIntervalDays(iBirthdayStart);};
+    inline TUint8 BirthdayHour(void) {return iBirthdayHour;};
   private:
     TBool FileExist(const TDesC& aFileName);
   private:
     HBufC* iAlarm;
     HBufC* iCalendar;
     HBufC* iBeep;
+    HBufC* iBirthday;
     TUint8 iBeepStart;
     TUint8 iBeepFinish;
     TUint8 iSnoozeTime;
     TUint8 iSnoozeCount;
+    TUint8 iBirthdayStart;
+    TUint8 iBirthdayHour;
 };
 
 #endif

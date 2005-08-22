@@ -1,5 +1,5 @@
 /*
-    AlmAudioBeep.hpp
+    AlmBirthdayTimer.hpp
     Copyright (C) 2005 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -17,23 +17,24 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#ifndef __ALMALERTAUDIOBEEP_HPP__
-#define __ALMALERTAUDIOBEEP_HPP__
+#ifndef __ALMBIRTHDAYTIMER_HPP__
+#define __ALMBIRTHDAYTIMER_HPP__
 
-#include "AlmAudioBase.hpp"
+#include <e32base.h>
 
-class CAlmAudioBeep: public CAlmAudioBase
+class CBirthdayTimer: public CTimer
 {
   public:
-    static CAlmAudioBeep* NewL(CEikonEnv* anEnv,CSettings* aSettings);
+    ~CBirthdayTimer();
+    static CBirthdayTimer* NewL(TUint8 aHour,TCallBack aCallback);
+  protected:
+    virtual void RunL(void);
   private:
-    CAlmAudioBeep(CEikonEnv* anEnv);
-  protected: //CAlmAudioBase
-    TInt Priority(void);
-    TMdaPriorityPreference PriorityPreference(void);
-    TBool PlayAlways(void) {return EFalse;};
-    void PlayInit(void) {};
-    const TDesC& FileName(CSettings* aSettings) {return aSettings->Beep();};
+    CBirthdayTimer(TCallBack aCallback);
+    void ConstructL(TUint8 aHour);
+  private:
+    TCallBack iCallback;
+    TTime iTime;
 };
 
 #endif
