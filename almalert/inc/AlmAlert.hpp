@@ -34,7 +34,9 @@
 
 #include "AlmAudioAlert.hpp"
 #include "AlmAudioBeep.hpp"
+#include "AlmAudioSms.hpp"
 #include "AlarmAlertSettings.hpp"
+#include "AlmBirthdayTimer.hpp"
 
 const TInt KAlmAlarmUidValue=0x1000599E;
 const TUid KAlmAlarmUid={KAlmAlarmUidValue};
@@ -163,7 +165,7 @@ class CAlm: public CEikBorderedControl,public MCoeControlContext,public MAlm,pub
     // делает AcknowledgeAlarm
     CIdle* iIdle; //0x1b4
     RSharedDataClient* iDevStateNotify; //0x1b8
-    RSharedDataClient* iKeyHideNotify; //0x1bc
+    RSharedDataClient* iSysApNotify; //0x1bc
     CNotifierDialogController* iNoteController; //0x1c0
     TInt iNoteId; //0x1c4
     TAknPopupFader iFader; //0x1c8
@@ -174,7 +176,7 @@ class CAlm: public CEikBorderedControl,public MCoeControlContext,public MAlm,pub
     //настройки
     CSettings* iSettings;
   private:
-    void OnGui(void);
+    void OnGuiL(void);
     static TInt Idle(TAny* anAlm);
     TInt DoIdle(void);
     void AcknowledgeAlarm(void);
@@ -208,10 +210,16 @@ class CAlm: public CEikBorderedControl,public MCoeControlContext,public MAlm,pub
   private: //Beeper
     CPeriodic* iBeeper;
     CAlmAudioBeep* iBeepAudio;
-    static TInt BeeperTimeout(TAny* aSettings);
+    static TInt BeeperTimeout(TAny* anAlm);
     void DoBeeperTimeout(void);
     void InitBeeperL(void);
-    void SetBeeperL(void);
+    void SetBeeper(void);
+  private: //Birthday
+    CBirthdayTimer* iBirthday;
+    CAlmAudioSms* iBirthdayAudio;
+    void InitBirthdayL(void);
+    static TInt BirthdayTimeout(TAny* anAlm);
+    void DoBirthdayTimeoutL(void);
 };
 
 #endif

@@ -1,5 +1,5 @@
 /*
-    AlmAudioBeep.hpp
+    AlmAudioSms.cpp
     Copyright (C) 2005 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -17,23 +17,28 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#ifndef __ALMALERTAUDIOBEEP_HPP__
-#define __ALMALERTAUDIOBEEP_HPP__
+#include "AlmAudioSms.hpp"
+#include <avkon.hrh> //EAknAudioPrefNewSpecialMessage
 
-#include "AlmAudioBase.hpp"
-
-class CAlmAudioBeep: public CAlmAudioBase
+CAlmAudioSms* CAlmAudioSms::NewL(CEikonEnv* anEnv,CSettings* aSettings)
 {
-  public:
-    static CAlmAudioBeep* NewL(CEikonEnv* anEnv,CSettings* aSettings);
-  private:
-    CAlmAudioBeep(CEikonEnv* anEnv);
-  protected: //CAlmAudioBase
-    TInt Priority(void);
-    TMdaPriorityPreference PriorityPreference(void);
-    TBool PlayAlways(void) {return EFalse;};
-    void PlayInit(void) {};
-    const TDesC& FileName(CSettings* aSettings) {return aSettings->Beep();};
-};
+  CAlmAudioSms* self=new(ELeave)CAlmAudioSms(anEnv);
+  CleanupStack::PushL(self);
+  self->ConstructL(aSettings);
+  CleanupStack::Pop(self);
+  return self;
+}
 
-#endif
+CAlmAudioSms::CAlmAudioSms(CEikonEnv* anEnv): CAlmAudioBase(anEnv)
+{
+}
+
+TInt CAlmAudioSms::Priority(void)
+{
+  return 90; //stolen from ncnlist.exe
+}
+
+TMdaPriorityPreference CAlmAudioSms::PriorityPreference(void)
+{
+  return (TMdaPriorityPreference)EAknAudioPrefNewSpecialMessage;
+}

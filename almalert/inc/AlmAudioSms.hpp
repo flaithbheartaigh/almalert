@@ -1,5 +1,5 @@
 /*
-    AlmAudioBeep.hpp
+    AlmAudioSms.hpp
     Copyright (C) 2005 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -17,23 +17,23 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#ifndef __ALMALERTAUDIOBEEP_HPP__
-#define __ALMALERTAUDIOBEEP_HPP__
+#ifndef __ALMAUDIOSMS_HPP__
+#define __ALMAUDIOSMS_HPP__
 
 #include "AlmAudioBase.hpp"
 
-class CAlmAudioBeep: public CAlmAudioBase
+class CAlmAudioSms: public CAlmAudioBase
 {
   public:
-    static CAlmAudioBeep* NewL(CEikonEnv* anEnv,CSettings* aSettings);
+    static CAlmAudioSms* NewL(CEikonEnv* anEnv,CSettings* aSettings);
   private:
-    CAlmAudioBeep(CEikonEnv* anEnv);
+    CAlmAudioSms(CEikonEnv* anEnv);
   protected: //CAlmAudioBase
     TInt Priority(void);
     TMdaPriorityPreference PriorityPreference(void);
     TBool PlayAlways(void) {return EFalse;};
     void PlayInit(void) {};
-    const TDesC& FileName(CSettings* aSettings) {return aSettings->Beep();};
+    const TDesC& FileName(CSettings* aSettings) {return aSettings->Birthday();};
 };
 
 #endif
