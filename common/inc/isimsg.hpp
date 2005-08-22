@@ -30,6 +30,8 @@ class CIsiMsg: public CPnMsg
     IMPORT_C static CIsiMsg* NewL(TInt aSize); //976
     IMPORT_C virtual TInt SubBlockCountIndex(void); //1410
     IMPORT_C virtual TInt SubBlockStart(void); //1509
+    IMPORT_C void Transfer(CIsiMsg* aTarget); //611
+    IMPORT_C TUint8 SubBlockCount(void); //990
   protected:
     void ConstructL(TInt aSize);
 };

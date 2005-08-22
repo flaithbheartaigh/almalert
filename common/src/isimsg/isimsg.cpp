@@ -47,6 +47,13 @@ EXPORT_C CIsiMsg* CIsiMsg::NewL(TInt aSize)
   return self;
 }
 
+EXPORT_C void CIsiMsg::Transfer(CIsiMsg* aTarget)
+{
+  aTarget->iBuf=iBuf;
+  iBuf=NULL;
+  aTarget->iPtr.Set(iPtr);
+}
+
 EXPORT_C TInt CIsiMsg::SubBlockCountIndex(void)
 {
   return 0;
@@ -54,6 +61,20 @@ EXPORT_C TInt CIsiMsg::SubBlockCountIndex(void)
 
 EXPORT_C TInt CIsiMsg::SubBlockStart(void)
 {
+  return 0;
+}
+
+EXPORT_C TUint8 CIsiMsg::SubBlockCount(void)
+{
+  TInt index=SubBlockCountIndex();
+  if(index>0)
+  {
+    return iPtr[index];
+  }
+  else if(index==-1)
+  {
+    return 1;
+  }
   return 0;
 }
 
