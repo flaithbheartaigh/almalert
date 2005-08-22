@@ -17,7 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include <mdaaudiooutputstreamimpl.hpp>
+#include "mdaaudiooutputstreamimpl.hpp"
 
 GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
 {
