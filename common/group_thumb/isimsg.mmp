@@ -7,6 +7,7 @@ targetpath \system\libs
 sourcepath ..\src\isimsg
 source isimsg.cpp
 source isimsg_bad.cpp
+source subblock.cpp
 
 systeminclude ..\inc
 systeminclude \epoc32\include

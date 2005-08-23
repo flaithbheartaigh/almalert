@@ -47,7 +47,7 @@ EXPORT_C CIsiMsg* CIsiMsg::NewL(TInt aSize)
   return self;
 }
 
-EXPORT_C void CIsiMsg::Transfer(CIsiMsg* aTarget)
+EXPORT_C void CIsiMsg::Move(CIsiMsg* aTarget)
 {
   aTarget->iBuf=iBuf;
   iBuf=NULL;
@@ -68,7 +68,7 @@ EXPORT_C TUint8 CIsiMsg::SubBlockCount(void)
 {
   TInt index=SubBlockCountIndex();
   if(index>0)
-  {
+   {
     return iPtr[index];
   }
   else if(index==-1)
@@ -76,6 +76,14 @@ EXPORT_C TUint8 CIsiMsg::SubBlockCount(void)
     return 1;
   }
   return 0;
+}
+
+EXPORT_C CSubBlock* CIsiMsg::SubBlock(void)
+{
+  TInt index=SubBlockCountIndex();
+  if(index==0||(index>0&&!iPtr[index])) return NULL;
+  TInt offset=SubBlockStart();
+  return CSubBlock::NewL(iPtr,offset,iPtr[3]);
 }
 
 void CIsiMsg::ConstructL(TInt aSize)
@@ -132,12 +140,12 @@ EXPORT_C CIsiMsg691* CIsiMsg691::NewL(TUint8 aParam1,TUint8 aParam2,TUint8 aPara
   return NULL;
 }
 
-EXPORT_C CIsiMsg984* CIsiMsg984::NewL(TDesC8& aData,TUint anOffset,TUint8 aParam)
+/*EXPORT_C CIsiMsg984* CIsiMsg984::NewL(TDesC8& aData,TUint anOffset,TUint8 aParam)
 {
   return NULL;
-}
+}*/
 
-EXPORT_C CIsiMsg928* CIsiMsg928::NewL(TUint8 aParam,CIsiMsg984* aMsg)
+EXPORT_C CIsiMsg928* CIsiMsg928::NewL(TUint8 aParam,CSubBlock* aMsg)
 {
   return NULL;
 }

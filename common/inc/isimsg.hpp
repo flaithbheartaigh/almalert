@@ -22,6 +22,8 @@
 
 #include "pnmsg.hpp"
 
+class CSubBlock;
+
 class CIsiMsg: public CPnMsg
 {
   public:
@@ -30,10 +32,29 @@ class CIsiMsg: public CPnMsg
     IMPORT_C static CIsiMsg* NewL(TInt aSize); //976
     IMPORT_C virtual TInt SubBlockCountIndex(void); //1410
     IMPORT_C virtual TInt SubBlockStart(void); //1509
-    IMPORT_C void Transfer(CIsiMsg* aTarget); //611
+    IMPORT_C void Move(CIsiMsg* aTarget); //611
     IMPORT_C TUint8 SubBlockCount(void); //990
+    IMPORT_C CSubBlock* SubBlock(void); //1413
   protected:
     void ConstructL(TInt aSize);
+};
+
+class CSubBlock: public CBase
+{
+  public:
+    IMPORT_C CSubBlock(); //1605
+    IMPORT_C ~CSubBlock(); //1602
+    IMPORT_C virtual TInt SubBlockCountIndex(); //1411
+    IMPORT_C virtual TInt SubBlockStart(); //1510
+    IMPORT_C void Move(CSubBlock* aTarget); //613
+    IMPORT_C static CSubBlock* NewL(TDesC8& aData,TInt anOffset,TUint8 aParam); //984
+    IMPORT_C static CSubBlock* NewL(TDesC8& aData,TInt anOffset); //985
+  protected:
+    void ConstructL(TInt aSize);
+  protected:
+    TUint8 iUnknown; //0x04
+    TPtr8 iPtr; //0x08
+    HBufC8* iBuf; //0x14
 };
 
 //really not exist
@@ -77,16 +98,16 @@ class CIsiMsg691: public CIsiMsg //
     IMPORT_C static CIsiMsg691* NewL(TUint8 aParam1,TUint8 aParam2,TUint8 aParam3,CIsiMsg649* aMsg);
 };
 
-class CIsiMsg984: public CIsiMsg //
+/*class CIsiMsg984: public CIsiMsg //
 {
   public:
     IMPORT_C static CIsiMsg984* NewL(TDesC8& aData,TUint anOffset,TUint8 aParam);
-};
+};*/
 
 class CIsiMsg928: public CIsiMsg //
 {
   public:
-    IMPORT_C static CIsiMsg928* NewL(TUint8 aParam,CIsiMsg984* aMsg);
+    IMPORT_C static CIsiMsg928* NewL(TUint8 aParam,CSubBlock* aMsg);
 };
 
 class CIsiMsg902: public CIsiMsg //
