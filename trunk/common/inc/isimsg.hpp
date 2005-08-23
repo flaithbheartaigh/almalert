@@ -20,7 +20,7 @@
 #ifndef __ISIMSG_HPP__
 #define __ISIMSG_HPP__
 
-#include "pnmsg.hpp"
+#include <pnmsg.hpp>
 
 class CSubBlock;
 
