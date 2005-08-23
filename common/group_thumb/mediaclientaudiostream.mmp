@@ -7,8 +7,7 @@ targetpath \system\libs
 sourcepath ..\src\mdaaudiooutputstream
 source mdaaudiooutputstreamimpl.cpp
 
-userinclude ..\inc 
-
+systeminclude ..\inc
 systeminclude \epoc32\include
 
 library euser.lib
