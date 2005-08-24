@@ -97,3 +97,13 @@ EXPORT_C TInt CSubBlock::SubBlockStart()
 {
   return 0;
 }
+
+EXPORT_C TPtrC8 CSubBlock::Data(void)
+{
+  return TPtrC8(iPtr);
+}
+
+EXPORT_C TInt CSubBlock::Length(void)
+{
+  return iPtr.Length();
+}

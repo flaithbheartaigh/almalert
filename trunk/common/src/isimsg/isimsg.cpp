@@ -86,6 +86,11 @@ EXPORT_C CSubBlock* CIsiMsg::SubBlock(void)
   return CSubBlock::NewL(iPtr,offset,iPtr[3]);
 }
 
+EXPORT_C void CIsiMsg::Append(CSubBlock* aBlock)
+{
+  iPtr.Append(aBlock->Data());
+}
+
 void CIsiMsg::ConstructL(TInt aSize)
 {
   CPnMsg::ConstructL(aSize-6);
@@ -136,21 +141,6 @@ EXPORT_C CIsiMsg649* CIsiMsg649::NewL(TUint8 aParam1,TUint8 aParam2,TUint8 aPara
 }
 
 EXPORT_C CIsiMsg691* CIsiMsg691::NewL(TUint8 aParam1,TUint8 aParam2,TUint8 aParam3,CIsiMsg649* aMsg)
-{
-  return NULL;
-}
-
-/*EXPORT_C CIsiMsg984* CIsiMsg984::NewL(TDesC8& aData,TUint anOffset,TUint8 aParam)
-{
-  return NULL;
-}*/
-
-EXPORT_C CIsiMsg928* CIsiMsg928::NewL(TUint8 aParam,CSubBlock* aMsg)
-{
-  return NULL;
-}
-
-EXPORT_C CIsiMsg902* CIsiMsg902::NewL(TUint8 aParam,TDesC8& aData)
 {
   return NULL;
 }

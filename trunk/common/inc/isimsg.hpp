@@ -35,6 +35,7 @@ class CIsiMsg: public CPnMsg
     IMPORT_C void Move(CIsiMsg* aTarget); //611
     IMPORT_C TUint8 SubBlockCount(void); //990
     IMPORT_C CSubBlock* SubBlock(void); //1413
+    IMPORT_C void Append(CSubBlock* aBlock); //34
   protected:
     void ConstructL(TInt aSize);
 };
@@ -49,6 +50,10 @@ class CSubBlock: public CBase
     IMPORT_C void Move(CSubBlock* aTarget); //613
     IMPORT_C static CSubBlock* NewL(TDesC8& aData,TInt anOffset,TUint8 aParam); //984
     IMPORT_C static CSubBlock* NewL(TDesC8& aData,TInt anOffset); //985
+    IMPORT_C TInt Length(void); //1186
+    IMPORT_C TPtrC8 Data(void); //200
+  public:
+    inline TDes8& Ptr() {return iPtr;};
   protected:
     void ConstructL(TInt aSize);
   protected:
@@ -96,24 +101,6 @@ class CIsiMsg691: public CIsiMsg //
 {
   public:
     IMPORT_C static CIsiMsg691* NewL(TUint8 aParam1,TUint8 aParam2,TUint8 aParam3,CIsiMsg649* aMsg);
-};
-
-/*class CIsiMsg984: public CIsiMsg //
-{
-  public:
-    IMPORT_C static CIsiMsg984* NewL(TDesC8& aData,TUint anOffset,TUint8 aParam);
-};*/
-
-class CIsiMsg928: public CIsiMsg //
-{
-  public:
-    IMPORT_C static CIsiMsg928* NewL(TUint8 aParam,CSubBlock* aMsg);
-};
-
-class CIsiMsg902: public CIsiMsg //
-{
-  public:
-    IMPORT_C static CIsiMsg902* NewL(TUint8 aParam,TDesC8& aData);
 };
 
 #endif

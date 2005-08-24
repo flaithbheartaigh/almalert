@@ -48,11 +48,11 @@ EXPORT_C void func_26(void) {}
 EXPORT_C void func_27(void) {}
 EXPORT_C void func_28(void) {}
 EXPORT_C void func_29(void) {}
-EXPORT_C void func_30(void) {}
-EXPORT_C void func_31(void) {}
+//EXPORT_C void func_30(void) {}
+//EXPORT_C void func_31(void) {}
 EXPORT_C void func_32(void) {}
 EXPORT_C void func_33(void) {}
-EXPORT_C void func_34(void) {}
+//EXPORT_C void func_34(void) {}
 EXPORT_C void func_35(void) {}
 EXPORT_C void func_36(void) {}
 EXPORT_C void func_37(void) {}
@@ -218,7 +218,7 @@ EXPORT_C void func_196(void) {}
 EXPORT_C void func_197(void) {}
 EXPORT_C void func_198(void) {}
 EXPORT_C void func_199(void) {}
-EXPORT_C void func_200(void) {}
+//EXPORT_C void func_200(void) {}
 EXPORT_C void func_201(void) {}
 EXPORT_C void func_202(void) {}
 EXPORT_C void func_203(void) {}
@@ -1199,7 +1199,7 @@ EXPORT_C void func_1182(void) {}
 EXPORT_C void func_1183(void) {}
 EXPORT_C void func_1184(void) {}
 EXPORT_C void func_1185(void) {}
-EXPORT_C void func_1186(void) {}
+//EXPORT_C void func_1186(void) {}
 EXPORT_C void func_1187(void) {}
 EXPORT_C void func_1188(void) {}
 EXPORT_C void func_1189(void) {}
@@ -1401,7 +1401,7 @@ EXPORT_C void func_1384(void) {}
 EXPORT_C void func_1385(void) {}
 EXPORT_C void func_1386(void) {}
 EXPORT_C void func_1387(void) {}
-EXPORT_C void func_1388(void) {}
+//EXPORT_C void func_1388(void) {}
 EXPORT_C void func_1389(void) {}
 EXPORT_C void func_1390(void) {}
 EXPORT_C void func_1391(void) {}
@@ -1500,7 +1500,7 @@ EXPORT_C void func_1483(void) {}
 EXPORT_C void func_1484(void) {}
 EXPORT_C void func_1485(void) {}
 EXPORT_C void func_1486(void) {}
-EXPORT_C void func_1487(void) {}
+//EXPORT_C void func_1487(void) {}
 EXPORT_C void func_1488(void) {}
 EXPORT_C void func_1489(void) {}
 EXPORT_C void func_1490(void) {}
