@@ -26,33 +26,45 @@ CBirthdayTimer::~CBirthdayTimer()
 
 CBirthdayTimer* CBirthdayTimer::NewL(TUint8 aHour,TCallBack aCallback)
 {
-  CBirthdayTimer* self=new(ELeave)CBirthdayTimer(aCallback);
+  CBirthdayTimer* self=new(ELeave)CBirthdayTimer(aHour,aCallback);
   CleanupStack::PushL(self);
-  self->ConstructL(aHour);
+  self->ConstructL();
   CleanupStack::Pop(self);
   return self;
 }
 
-CBirthdayTimer::CBirthdayTimer(TCallBack aCallback): CTimer(EPriorityIdle),iCallback(aCallback)
+CBirthdayTimer::CBirthdayTimer(TUint8 aHour,TCallBack aCallback): CTimer(EPriorityIdle),iCallback(aCallback),iHour(aHour)
 {
 }
 
-void CBirthdayTimer::ConstructL(TUint8 aHour)
+void CBirthdayTimer::NearTime(void)
 {
-  CTimer::ConstructL();
-  CActiveScheduler::Add(this);
   TTime htime;
   htime.HomeTime();
   TDateTime time=AlmUtils::StripTime(htime.DateTime());
-  User::LeaveIfError(time.SetHour(aHour));
+  User::LeaveIfError(time.SetHour(iHour));
   iTime=time;
   if(iTime<htime) iTime+=TTimeIntervalDays(1);
+}
+
+void CBirthdayTimer::ConstructL(void)
+{
+  CTimer::ConstructL();
+  CActiveScheduler::Add(this);
+  NearTime();
   At(iTime);
 }
 
 void CBirthdayTimer::RunL(void)
 {
-  iTime+=TTimeIntervalDays(1);
-  At(iTime);
-  iCallback.iFunction(iCallback.iPtr);
+  if(iStatus==KErrNone||iStatus==KErrAbort)
+  {
+    if(iStatus==KErrNone)
+    {
+      iCallback.iFunction(iCallback.iPtr);
+      iTime+=TTimeIntervalDays(1);
+    }
+    else NearTime();
+    At(iTime);
+  }
 }
