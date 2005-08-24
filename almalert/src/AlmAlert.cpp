@@ -72,7 +72,7 @@ CAlm::~CAlm()
 
 const TDesC8& CAlm::Copyright(void) const
 {
-  _LIT8(KAppCopyright,"(c) 2005 by zg. version 0.04");
+  _LIT8(KAppCopyright,"(c) 2005 by zg. version 0.1");
   return KAppCopyright;
 }
 

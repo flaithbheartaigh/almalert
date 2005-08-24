@@ -30,11 +30,13 @@ class CBirthdayTimer: public CTimer
   protected:
     virtual void RunL(void);
   private:
-    CBirthdayTimer(TCallBack aCallback);
-    void ConstructL(TUint8 aHour);
+    CBirthdayTimer(TUint8 aHour,TCallBack aCallback);
+    void ConstructL(void);
+    void NearTime(void);
   private:
     TCallBack iCallback;
     TTime iTime;
+    TUint8 iHour;
 };
 
 #endif
