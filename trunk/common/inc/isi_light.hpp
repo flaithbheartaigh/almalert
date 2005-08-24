@@ -22,26 +22,26 @@
 
 #include <isimsg.hpp>
 
-class CLightGetReq: public CIsiMsg
+class CLightBrightnessGetReq: public CIsiMsg
 {
   public:
-    IMPORT_C static CLightGetReq* NewL(TUint8 aParam,TDesC8& aData); //902
+    IMPORT_C static CLightBrightnessGetReq* NewL(TUint8 aParam,TDesC8& aData); //902
 };
 
-class CLightGetResp: public CIsiMsg
+class CLightBrightnessGetResp: public CIsiMsg
 {
   public:
     IMPORT_C TInt SubBlockCountIndex(void); //1388
     IMPORT_C TInt SubBlockStart(void); //1487
 };
 
-class CLightSetReq: public CIsiMsg
+class CLightBrightnessSetReq: public CIsiMsg
 {
   public:
-    IMPORT_C static CLightSetReq* NewL(TUint8 aParam,CSubBlock* aSubBlock); //928
+    IMPORT_C static CLightBrightnessSetReq* NewL(TUint8 aParam,CSubBlock* aSubBlock); //928
 };
 
-class CLightInfo: public CSubBlock
+class CLightBrightnessInfo: public CSubBlock
 {
   public:
     IMPORT_C TUint8 Brightness1(void); //30

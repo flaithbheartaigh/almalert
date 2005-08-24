@@ -19,9 +19,9 @@
 
 #include <isi_light.hpp>
 
-EXPORT_C CLightGetReq* CLightGetReq::NewL(TUint8 aParam,TDesC8& aData)
+EXPORT_C CLightBrightnessGetReq* CLightBrightnessGetReq::NewL(TUint8 aParam,TDesC8& aData)
 {
-  CLightGetReq* self=new(ELeave)CLightGetReq;
+  CLightBrightnessGetReq* self=new(ELeave)CLightBrightnessGetReq;
   CleanupStack::PushL(self);
   self->ConstructL(16);
   TUint8 param=0x3a;
@@ -42,19 +42,19 @@ EXPORT_C CLightGetReq* CLightGetReq::NewL(TUint8 aParam,TDesC8& aData)
   return self;
 }
 
-EXPORT_C TInt CLightGetResp::SubBlockCountIndex(void)
+EXPORT_C TInt CLightBrightnessGetResp::SubBlockCountIndex(void)
 {
   return 11;
 }
 
-EXPORT_C TInt CLightGetResp::SubBlockStart(void)
+EXPORT_C TInt CLightBrightnessGetResp::SubBlockStart(void)
 {
   return 12;
 }
 
-EXPORT_C CLightSetReq* CLightSetReq::NewL(TUint8 aParam,CSubBlock* aSubBlock)
+EXPORT_C CLightBrightnessSetReq* CLightBrightnessSetReq::NewL(TUint8 aParam,CSubBlock* aSubBlock)
 {
-  CLightSetReq* self=new(ELeave)CLightSetReq;
+  CLightBrightnessSetReq* self=new(ELeave)CLightBrightnessSetReq;
   CleanupStack::PushL(self);
   TInt len;
   if(aSubBlock)
@@ -80,12 +80,12 @@ EXPORT_C CLightSetReq* CLightSetReq::NewL(TUint8 aParam,CSubBlock* aSubBlock)
   return self;
 }
 
-EXPORT_C TUint8 CLightInfo::Brightness1(void)
+EXPORT_C TUint8 CLightBrightnessInfo::Brightness1(void)
 {
   return iPtr[2];
 }
 
-EXPORT_C TUint8 CLightInfo::Brightness2(void)
+EXPORT_C TUint8 CLightBrightnessInfo::Brightness2(void)
 {
   return iPtr[3];
 }
