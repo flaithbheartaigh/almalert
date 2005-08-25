@@ -41,7 +41,7 @@ class CPnMsg: public CBase
     IMPORT_C static CPnMsg* NewL(TInt aSize); //ordinal 6
     IMPORT_C CPnMsg& operator=(CPnMsg &aMsg); //ordinal 7
   public:
-    inline TDes8& Ptr() {return iPtr;};
+    inline TPtr8& Ptr() {return iPtr;};
   protected:
     TPtr8 iPtr; //0x04
     HBufC8* iBuf; //0x10

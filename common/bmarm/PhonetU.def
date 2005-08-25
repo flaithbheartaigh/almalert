@@ -30,11 +30,11 @@ EXPORTS
 	Unknown_29__7RPhoNet @ 29 NONAME R3UNUSED ; RPhoNet::Unknown_29(void)
 	Unknown_30__7RPhoNet @ 30 NONAME R3UNUSED ; RPhoNet::Unknown_30(void)
 	Unknown_31__7RPhoNet @ 31 NONAME R3UNUSED ; RPhoNet::Unknown_31(void)
-	ReceiveCancel__C7RPhoNet @ 32 NONAME R3UNUSED ; RPhoNet::ReceiveCancel(void) const
-	Receive__C7RPhoNetR14TRequestStatusR6CPnMsgRt8TPckgBuf1ZUs @ 33 NONAME ; RPhoNet::Receive(TRequestStatus &, CPnMsg &, TPckgBuf<unsigned short> &) const
+	ReceiveCancel__7RPhoNet @ 32 NONAME R3UNUSED ; RPhoNet::ReceiveCancel(void)
+	Receive__7RPhoNetR14TRequestStatusR6CPnMsgRt8TPckgBuf1ZUs @ 33 NONAME ; RPhoNet::Receive(TRequestStatus &, CPnMsg &, TPckgBuf<unsigned short> &)
 	Unknown_34__7RPhoNet @ 34 NONAME R3UNUSED ; RPhoNet::Unknown_34(void)
 	SendIsiEvent__C7RPhoNetR6CPnMsg @ 35 NONAME R3UNUSED ; RPhoNet::SendIsiEvent(CPnMsg &) const
-	Send__C7RPhoNetR6CPnMsg @ 36 NONAME R3UNUSED ; RPhoNet::Send(CPnMsg &) const
+	Send__7RPhoNetR6CPnMsg @ 36 NONAME R3UNUSED ; RPhoNet::Send(CPnMsg &)
 	Unknown_37__7RPhoNet @ 37 NONAME R3UNUSED ; RPhoNet::Unknown_37(void)
 	"_._7RPhoNet" @ 38 NONAME R3UNUSED ; RPhoNet::~RPhoNet(void)
 	Unknown_39__7RPhoNet @ 39 NONAME R3UNUSED ; RPhoNet::Unknown_39(void)

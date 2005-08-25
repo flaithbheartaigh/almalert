@@ -20,10 +20,10 @@
 #ifndef __PHONET_HPP__
 #define __PHONET_HPP__
 
-#include <e32std.h>
+#include <e32base.h>
 typedef TPckgBuf<TUint16> TPnReceiveAllocationLengthPckg;
 
-class CPnMsg;
+#include <pnmsg.hpp>
 
 class RPhoNet: public RBusLogicalChannel
 {
@@ -32,9 +32,9 @@ class RPhoNet: public RBusLogicalChannel
     IMPORT_C ~RPhoNet(); //ordinal 38
     IMPORT_C TInt Open(const TUint8 aObjectNumber); //ordinal 11
     IMPORT_C TInt Close(void); //ordinal 02
-    IMPORT_C TInt ReceiveCancel(void) const; //ordinal 32
-    IMPORT_C TInt Receive(TRequestStatus& aStatus,CPnMsg& aMsg,TPnReceiveAllocationLengthPckg& aLen) const; //ordinal 33
-    IMPORT_C TInt Send(CPnMsg& aMsg) const; //ordinal 36
+    IMPORT_C TInt ReceiveCancel(void); //ordinal 32
+    IMPORT_C TInt Receive(TRequestStatus& aStatus,CPnMsg& aMsg,TPnReceiveAllocationLengthPckg& aLen); //ordinal 33
+    IMPORT_C TInt Send(CPnMsg& aMsg); //ordinal 36
     IMPORT_C TInt SendIsiEvent(CPnMsg& aMsg) const; //ordinal 35
   private:
     IMPORT_C TInt Unknown_03(void);
@@ -69,9 +69,9 @@ class RPhoNet: public RBusLogicalChannel
     IMPORT_C TInt Unknown_37(void);
     IMPORT_C TInt Unknown_39(void);
   private:
-    TInt iValue1;
-    TInt iValue2;
-    TInt iValue3;
+    CActive* iActive;
+    TUint8 iObjectNumber;
+    TInt iOpened;
 };
 
 #endif
