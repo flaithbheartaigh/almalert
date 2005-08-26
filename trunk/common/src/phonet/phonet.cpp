@@ -217,7 +217,8 @@ EXPORT_C TInt RPhoNet::Open(const TUint8 aObjectNumber)
         err=DoCreate(ptr,version,NULL,0x11,NULL,NULL);
       }
       break;
-    case 0x58://qd: 0x54
+    //nowhere
+    case 0x58://qd: 0x54 - nowhere
       {
         TVersion version(1,0,1);
         TPtrC ptr(KDriver);

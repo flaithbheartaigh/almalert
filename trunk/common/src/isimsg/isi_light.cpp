@@ -80,6 +80,38 @@ EXPORT_C CLightBrightnessSetReq* CLightBrightnessSetReq::NewL(TUint8 aParam,CSub
   return self;
 }
 
+EXPORT_C CLightSwitchReq* CLightSwitchReq::NewL(TUint8 aParam,TUint8 aKeys,TUint8 aScreen,CSubBlock* aSubBlock)
+{
+  CLightSwitchReq* self=new(ELeave)CLightSwitchReq;
+  CleanupStack::PushL(self);
+  TInt len;
+  if(aSubBlock)
+    len=aSubBlock->Length()+16;
+  else
+    len=16;
+  self->ConstructL(len);
+  TUint8 param=0x3a;
+  self->iPtr[3]=param;
+  self->iPtr.Append(aParam);
+  self->iPtr.Append(5);
+  self->iPtr.Append(aKeys);
+  self->iPtr.Append(aScreen);
+  self->iPtr.Append(0);
+  self->iPtr.Append(0);
+  self->iPtr.Append(0);
+  if(aSubBlock)
+  {
+    self->iPtr.Append(1);
+    self->Append(aSubBlock);
+  }
+  else
+  {
+    self->iPtr.Append(0);
+  }
+  CleanupStack::Pop(); //self
+  return self;
+}
+
 EXPORT_C TUint8 CLightBrightnessInfo::Brightness1(void)
 {
   return iPtr[2];
