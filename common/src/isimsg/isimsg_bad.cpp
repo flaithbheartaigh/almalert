@@ -802,7 +802,7 @@ EXPORT_C void func_784(void) {}
 EXPORT_C void func_785(void) {}
 EXPORT_C void func_786(void) {}
 EXPORT_C void func_787(void) {}
-EXPORT_C void func_788(void) {}
+//EXPORT_C void func_788(void) {}
 EXPORT_C void func_789(void) {}
 EXPORT_C void func_790(void) {}
 EXPORT_C void func_791(void) {}

@@ -41,6 +41,12 @@ class CLightBrightnessSetReq: public CIsiMsg
     IMPORT_C static CLightBrightnessSetReq* NewL(TUint8 aParam,CSubBlock* aSubBlock); //928
 };
 
+class CLightSwitchReq: public CIsiMsg
+{
+  public:
+    IMPORT_C static CLightSwitchReq* NewL(TUint8 aParam,TUint8 aKeys,TUint8 aScreen,CSubBlock* aSubBlock); //788
+};
+
 class CLightBrightnessInfo: public CSubBlock
 {
   public:
