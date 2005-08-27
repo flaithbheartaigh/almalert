@@ -1,0 +1,16 @@
+target lightdrv.dll
+targettype dll
+
+uid 0x1000008d 0x101fb6fd
+targetpath \system\libs
+
+sourcepath ..\src\lightdrv
+source lightdrv.cpp
+
+userinclude ..\src\lightdrv\inc
+systeminclude ..\inc
+systeminclude \epoc32\include
+
+library euser.lib
+library commonengine.lib
+library dsclient.lib
