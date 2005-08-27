@@ -43,7 +43,8 @@ class RDosLights: public RDosSubSession
     enum TKeysState
     {
       EKeyOff=0,
-      EKeyAsScreen
+      EKeyAsScreen,
+      EKeyExtra //only on qd
     };
     enum TScreenState
     {

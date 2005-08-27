@@ -35,6 +35,7 @@ _LIT(KKeyHide,"Hide");
 _LIT(KKeyLight,"Light");
 _LIT(KKeyKeyGuard,"KeyGuard");
 _LIT(KKeyToneQuit,"ToneQuit");
+_LIT(KKeyGameMode,"GameMode"); //only on qd
 
 //KSysUtilUid
 _LIT(KKeyStateVal,"state.val");
