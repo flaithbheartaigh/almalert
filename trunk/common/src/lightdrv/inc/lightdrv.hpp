@@ -39,11 +39,11 @@ class CLightDrv: public CBase
     IMPORT_C ~CLightDrv();
     IMPORT_C static CLightDrv* NewL(TBool aGameModeType);
     IMPORT_C void SwitchLight(TInt aType,TInt aState);
-    IMPORT_C void SetGameMode(TInt aGameMode);
+    IMPORT_C TInt SetGameMode(TInt aGameMode);
   public:
     virtual char* Copyright(void) {return "fuck off!!!";};
     virtual void DoSwitchLight(TInt aType,TInt aState)=0;
-    virtual void DoSetGameMode(TInt aGameMode)=0;
+    virtual TInt DoSetGameMode(TInt aGameMode)=0;
 };
 
 #endif

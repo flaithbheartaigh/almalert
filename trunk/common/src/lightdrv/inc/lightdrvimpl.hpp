@@ -33,7 +33,7 @@ class CLightDrvImpl: public CLightDrv
     void ConstructL(TBool aGameModeType);
   public:
     void DoSwitchLight(TInt aType,TInt aState);
-    void DoSetGameMode(TInt aGameMode);
+    TInt DoSetGameMode(TInt aGameMode);
   private:
     void StartTimer(void);
     void StopTimer(void);
