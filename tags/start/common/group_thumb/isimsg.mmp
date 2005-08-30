@@ -1,0 +1,14 @@
+target isimsg.dll
+targettype dll
+
+uid 0x10000079 0x1000595c
+targetpath \system\libs
+
+sourcepath ..\src\isimsg
+source isimsg.cpp
+source isimsg_bad.cpp
+
+systeminclude ..\inc
+systeminclude \epoc32\include
+
+library euser.lib

@@ -1,0 +1,9 @@
+EXPORTS
+	NewL__6CPnMsgUcRC6TDesC8 @ 1 NONAME R3UNUSED ; CPnMsg::NewL(unsigned char, TDesC8 const &)
+	NewL__6CPnMsgR6CPnMsg @ 2 NONAME R3UNUSED ; CPnMsg::NewL(CPnMsg &)
+	NewL__6CPnMsgRC5TDes8 @ 3 NONAME R3UNUSED ; CPnMsg::NewL(TDes8 const &)
+	ConstructL__6CPnMsgi @ 4 NONAME R3UNUSED ; CPnMsg::ConstructL(int)
+	NewL__6CPnMsgUcUcRC6TDesC8 @ 5 NONAME R3UNUSED ; CPnMsg::NewL(unsigned char, unsigned char, TDesC8 const &)
+	NewL__6CPnMsgi @ 6 NONAME R3UNUSED ; CPnMsg::NewL(int)
+	__as__6CPnMsgR6CPnMsg @ 7 NONAME R3UNUSED ; CPnMsg::operator=(CPnMsg &)
+
