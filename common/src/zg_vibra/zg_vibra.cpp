@@ -17,7 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include <zg_vibra.hpp>
+#include "zg_vibra.hpp"
 
 CVibraReq* CVibraReq::NewL(TUint8 aParam,TUint8 aState) //checked
 {
@@ -33,8 +33,6 @@ CVibraReq* CVibraReq::NewL(TUint8 aParam,TUint8 aState) //checked
   return self;
 }
 
-//copy of CIsiMsg::ConstructL
-//because it isn't exported from isimsg.dll
 void CVibraReq::ConstructL(TInt aSize) //checked
 {
   CPnMsg::ConstructL(aSize-6);
@@ -42,4 +40,23 @@ void CVibraReq::ConstructL(TInt aSize) //checked
   TUint8 var=0;
   iPtr[1]=var;
   iPtr[6]=var;
+}
+
+TInt CVibraReq::SubBlockCountIndex(void) //checked
+{
+  return 0;
+}
+
+TInt CVibraReq::SubBlockStart(void) //checked
+{
+  return 0;
+}
+
+CPnMsg::~CPnMsg() //checked
+{
+  if(iBuf)
+  {
+    delete iBuf;
+    iBuf=NULL;
+  }
 }

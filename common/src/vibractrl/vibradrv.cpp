@@ -22,7 +22,7 @@
 
 const TDesC8& CVibraDriver::Copyright(void) const
 {
-  _LIT8(KAppCopyright,"what's up fucking dude from nokia? you're fucking pissed off? I am the real man who made this. (c) 2005 by zg. version 3.01");
+  _LIT8(KAppCopyright,"what's up fucking dude from nokia? you're fucking pissed off? I am the real man who made this. (c) 2005 by zg. version 3.00");
   return KAppCopyright;
 }
 
@@ -47,11 +47,11 @@ void CVibraDriver::ConstructL(void)
   {
     case 0x101F8C19: //n-gage
       iSupported=ETrue;
-      User::LeaveIfError(iPhoNet.Open(0x58));
+      User::LeaveIfError(iPhoNet.Open(0x53));
       break;
     case 0x101FB2B1: //n-gage qd
       iSupported=ETrue;
-      User::LeaveIfError(iPhoNet.Open(0x54));
+      User::LeaveIfError(iPhoNet.Open(0x4f));
       break;
   }
 }
@@ -89,8 +89,8 @@ void CVibraDriver::SetL(TBool aState)
   CleanupStack::PushL(sendMsg);
   User::LeaveIfError(iPhoNet.Send(*sendMsg));
   CleanupStack::PopAndDestroy(); //sendMsg
-  CIsiMsg* recvMsg;
-  recvMsg=CIsiMsg::NewL(500);
+  CIsiMsg976* recvMsg;
+  recvMsg=CIsiMsg976::NewL(500);
   CleanupStack::PushL(recvMsg);
   TRequestStatus status;
   TPnReceiveAllocationLengthPckg pckg;

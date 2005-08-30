@@ -27,18 +27,18 @@ CAlmAudioBase::CAlmAudioBase(CEikonEnv* anEnv): CBase(),iEnv(anEnv)
 
 CAlmAudioBase::~CAlmAudioBase()
 {
-  if(iState==EPrepared1||iState==EPrepared2) iPlayer->Stop();
+  if(iPrepared) iPlayer->Stop();
   delete iPlayer;
   SetDspState(ETrue);
   delete iAudio;
 }
 
-void CAlmAudioBase::ConstructL(CSettings* aSettings)
+void CAlmAudioBase::ConstructL(const TDesC& aFileName)
 {
   AlmProfile::SoundParamsL(iRingType,iRingVolume);
   iAudio=CAudioClient::NewL();
   SetDspState(EFalse);
-  iPlayer=CMdaAudioPlayerUtility::NewFilePlayerL(FileName(aSettings),*this,Priority(),PriorityPreference());
+  iPlayer=CMdaAudioPlayerUtility::NewFilePlayerL(aFileName,*this,Priority(),PriorityPreference());
 }
 
 /*
@@ -58,12 +58,10 @@ void CAlmAudioBase::SetDspState(TBool aState)
 TInt CAlmAudioBase::UpdateVolume(void)
 {
   TInt maxVolume=(iPlayer)?iPlayer->MaxVolume():0;
-  TInt volume=maxVolume;
+  TInt volume=maxVolume*iRingVolume/9U;
+  if(volume>maxVolume) volume=maxVolume;
   if(!PlayAlways())
   {
-    volume*=iRingVolume/9U;
-    if(volume==0) volume=1;
-    if(volume>maxVolume) volume=maxVolume;
     if(iRingType==CProfileAPI::ERingTypeSilent) volume=0;
   }
   if(iPlayer) iPlayer->SetVolume(volume);
@@ -78,20 +76,11 @@ void CAlmAudioBase::MapcInitComplete(TInt aError,const TTimeIntervalMicroSeconds
   }
   else
   {
-    if(iState==ENonPrepared1)
+    if(UpdateVolume())
     {
-      iState=EPrepared1;
-      if(UpdateVolume())
-      {
-        PlayInit();
-        iPlayer->Play();
-      }
-    }
-    else
-    {
-      iState=EPrepared2;
-      iPlayer->SetVolume(iPlayer->MaxVolume());
+      PlayInit();
       iPlayer->Play();
+      iPrepared=ETrue;
     }
   }
 }
@@ -99,12 +88,4 @@ void CAlmAudioBase::MapcInitComplete(TInt aError,const TTimeIntervalMicroSeconds
 // aError может быть KErrInUse
 void CAlmAudioBase::MapcPlayComplete(TInt aError)
 {
-  _LIT(KNoSound,"z:\\System\\Sounds\\Digital\\No_Sound.wav");
-  if(iState==EPrepared1&&aError==KErrInUse)
-  {
-    delete iPlayer;
-    iState=ENonPrepared2;
-    TRAPD(err,iPlayer=CMdaAudioPlayerUtility::NewFilePlayerL(KNoSound,*this,Priority(),PriorityPreference()));
-    if(err!=KErrNone) iPlayer=NULL;
-  }
 }

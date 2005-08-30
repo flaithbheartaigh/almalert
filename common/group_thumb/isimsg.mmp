@@ -7,11 +7,8 @@ targetpath \system\libs
 sourcepath ..\src\isimsg
 source isimsg.cpp
 source isimsg_bad.cpp
-source subblock.cpp
-source isi_light.cpp
 
 systeminclude ..\inc
 systeminclude \epoc32\include
 
 library euser.lib
-library pnmsg.lib

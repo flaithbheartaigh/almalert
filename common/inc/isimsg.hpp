@@ -20,57 +20,25 @@
 #ifndef __ISIMSG_HPP__
 #define __ISIMSG_HPP__
 
-#include <pnmsg.hpp>
-
-class CSubBlock;
+#include "pnmsg.hpp"
 
 class CIsiMsg: public CPnMsg
 {
   public:
-    IMPORT_C ~CIsiMsg(); //1600
-    IMPORT_C static CIsiMsg* NewL(TDesC8& aData); //975
-    IMPORT_C static CIsiMsg* NewL(TInt aSize); //976
-    IMPORT_C virtual TInt SubBlockCountIndex(void); //1410
-    IMPORT_C virtual TInt SubBlockStart(void); //1509
-    IMPORT_C void Move(CIsiMsg* aTarget); //611
-    IMPORT_C TUint8 SubBlockCount(void); //990
-    IMPORT_C CSubBlock* SubBlock(void); //1413
-    IMPORT_C void Append(CSubBlock* aBlock); //34
-  protected:
-    void ConstructL(TInt aSize);
+    virtual TInt SubBlockCountIndex(void)=0;
+    virtual TInt SubBlockStart(void)=0;
+//  private:
+//    CIsiMsg();
 };
 
-class CSubBlock: public CBase
-{
-  public:
-    IMPORT_C CSubBlock(); //1605
-    IMPORT_C ~CSubBlock(); //1602
-    IMPORT_C virtual TInt SubBlockCountIndex(); //1411
-    IMPORT_C virtual TInt SubBlockStart(); //1510
-    IMPORT_C void Move(CSubBlock* aTarget); //613
-    IMPORT_C static CSubBlock* NewL(TDesC8& aData,TInt anOffset,TUint8 aParam); //984
-    IMPORT_C static CSubBlock* NewL(TDesC8& aData,TInt anOffset); //985
-    IMPORT_C TInt Length(void); //1186
-    IMPORT_C TPtrC8 Data(void); //200
-  public:
-    inline TDes8& Ptr() {return iPtr;};
-  protected:
-    void ConstructL(TInt aSize);
-  protected:
-    TUint8 iUnknown; //0x04
-    TPtr8 iPtr; //0x08
-    HBufC8* iBuf; //0x14
-};
-
-//really not exist
 class CIsiMsg976: public CIsiMsg //phonet init??
 {
   public:
-    //IMPORT_C static CIsiMsg976* NewL(TInt aLength); //TUint8??? 976
-    TUint8 GetParam10(void); //259
-    TUint8 GetParam10A(void); //516
-    TUint8 GetParam10B(void); //524
-    TUint8 GetParam10C(void); //242
+    IMPORT_C static CIsiMsg976* NewL(TInt aLength); //TUint8???
+    TUint8 GetParam10(void);
+    TUint8 GetParam10A(void);
+    TUint8 GetParam10B(void);
+    TUint8 GetParam10C(void);
 };
 
 class CIsiMsg802: public CIsiMsg

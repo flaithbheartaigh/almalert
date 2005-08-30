@@ -22,11 +22,11 @@
 #include <avkon.hrh> //EAknAudioPrefCalendarAlarm
 #include <Mda/Common/Resource.h> //KMdaRepeatForever
 
-CAlmAudio* CAlmAudio::NewL(CEikonEnv* anEnv,CSettings* aSettings,TInt anAlarmType)
+CAlmAudio* CAlmAudio::NewL(CEikonEnv* anEnv,const TDesC& aFileName,TInt anAlarmType)
 {
   CAlmAudio* self=new(ELeave)CAlmAudio(anEnv,anAlarmType);
   CleanupStack::PushL(self);
-  self->ConstructL(aSettings);
+  self->ConstructL(aFileName);
   CleanupStack::Pop(self);
   return self;
 }
@@ -53,9 +53,4 @@ TBool CAlmAudio::PlayAlways(void)
 void CAlmAudio::PlayInit(void)
 {
   iPlayer->SetRepeats(KMdaRepeatForever,TTimeIntervalMicroSeconds(0));
-}
-
-const TDesC& CAlmAudio::FileName(CSettings* aSettings)
-{
-  return (iAlarmType==EAlarmTypeClock)?aSettings->Alarm():aSettings->Calendar();
 }

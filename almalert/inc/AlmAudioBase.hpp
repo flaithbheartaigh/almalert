@@ -23,7 +23,6 @@
 #include <mdaaudiosampleplayer.h> //MMdaAudioToneObserver
 #include <eikenv.h> //CEikonEnv
 #include <AudioSvrClient.hpp> //CAudioClient
-#include "AlarmAlertSettings.hpp" //CSettings
 
 class CAlmAudioBase: public CBase,public MMdaAudioPlayerCallback
 {
@@ -37,24 +36,15 @@ class CAlmAudioBase: public CBase,public MMdaAudioPlayerCallback
     virtual TMdaPriorityPreference PriorityPreference(void)=0;
     virtual TBool PlayAlways(void)=0;
     virtual void PlayInit(void)=0;
-    virtual const TDesC& FileName(CSettings* aSettings)=0;
   protected:
     CAlmAudioBase(CEikonEnv* anEnv);
-    void ConstructL(CSettings* aSettings);
+    void ConstructL(const TDesC& aFileName);
   protected:
     TInt iRingVolume;
     TInt iRingType;
     CMdaAudioPlayerUtility* iPlayer;
   private:
-    enum TState
-    {
-      ENonPrepared1=0,
-      EPrepared1,
-      ENonPrepared2,
-      EPrepared2
-    };
-  private:
-    TState iState;
+    TBool iPrepared;
     CEikonEnv* iEnv;
     CAudioClient* iAudio;
   private:

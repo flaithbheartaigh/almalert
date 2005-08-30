@@ -17,87 +17,16 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include <isimsg.hpp>
+#include "isimsg.hpp"
 
 GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
 {
   return KErrNone;
 }
 
-EXPORT_C CIsiMsg::~CIsiMsg()
+EXPORT_C CIsiMsg976* CIsiMsg976::NewL(TInt aLength)
 {
-}
-
-EXPORT_C CIsiMsg* CIsiMsg::NewL(TDesC8& aData)
-{
-  CIsiMsg* self=new(ELeave)CIsiMsg;
-  CleanupStack::PushL(self);
-  self->iBuf=aData.AllocL();
-  self->iPtr.Set(self->iBuf->Des());
-  CleanupStack::Pop(); //self
-  return self;
-}
-
-EXPORT_C CIsiMsg* CIsiMsg::NewL(TInt aSize)
-{
-  CIsiMsg* self=new(ELeave)CIsiMsg;
-  CleanupStack::PushL(self);
-  self->ConstructL(aSize);
-  CleanupStack::Pop(); //self
-  return self;
-}
-
-EXPORT_C void CIsiMsg::Move(CIsiMsg* aTarget)
-{
-  aTarget->iBuf=iBuf;
-  iBuf=NULL;
-  aTarget->iPtr.Set(iPtr);
-}
-
-EXPORT_C TInt CIsiMsg::SubBlockCountIndex(void)
-{
-  return 0;
-}
-
-EXPORT_C TInt CIsiMsg::SubBlockStart(void)
-{
-  return 0;
-}
-
-EXPORT_C TUint8 CIsiMsg::SubBlockCount(void)
-{
-  TInt index=SubBlockCountIndex();
-  if(index>0)
-   {
-    return iPtr[index];
-  }
-  else if(index==-1)
-  {
-    return 1;
-  }
-  return 0;
-}
-
-EXPORT_C CSubBlock* CIsiMsg::SubBlock(void)
-{
-  TInt index=SubBlockCountIndex();
-  if(index==0||(index>0&&!iPtr[index])) return NULL;
-  TInt offset=SubBlockStart();
-  return CSubBlock::NewL(iPtr,offset,iPtr[3]);
-}
-
-EXPORT_C void CIsiMsg::Append(CSubBlock* aBlock)
-{
-  iPtr.Append(aBlock->Data());
-}
-
-void CIsiMsg::ConstructL(TInt aSize)
-{
-  CPnMsg::ConstructL(aSize-6);
-  iPtr.SetLength(8);
-  TUint8 var=0;
-  iPtr[1]=var;
-  iPtr[6]=var;
+  return NULL;
 }
 
 EXPORT_C TUint8 CIsiMsg976::GetParam10(void)

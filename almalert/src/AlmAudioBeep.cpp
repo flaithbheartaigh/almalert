@@ -18,12 +18,13 @@
 */
 
 #include "AlmAudioBeep.hpp"
+#include <avkon.hrh> //EAknAudioPrefRingFilePreview
 
-CAlmAudioBeep* CAlmAudioBeep::NewL(CEikonEnv* anEnv,CSettings* aSettings)
+CAlmAudioBeep* CAlmAudioBeep::NewL(CEikonEnv* anEnv,const TDesC& aFileName)
 {
   CAlmAudioBeep* self=new(ELeave)CAlmAudioBeep(anEnv);
   CleanupStack::PushL(self);
-  self->ConstructL(aSettings);
+  self->ConstructL(aFileName);
   CleanupStack::Pop(self);
   return self;
 }
@@ -39,5 +40,5 @@ TInt CAlmAudioBeep::Priority(void)
 
 TMdaPriorityPreference CAlmAudioBeep::PriorityPreference(void)
 {
-  return EMdaPriorityPreferenceNone;
+  return (TMdaPriorityPreference)EAknAudioPrefRingFilePreview;
 }

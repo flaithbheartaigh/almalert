@@ -1,6 +1,0 @@
-EXPORTS
-	NewL__9CLightDrvi @ 1 NONAME R3UNUSED ; CLightDrv::NewL(int)
-	"_._9CLightDrv" @ 2 NONAME R3UNUSED ; CLightDrv::~CLightDrv(void)
-	SwitchLight__9CLightDrvii @ 3 NONAME R3UNUSED ; CLightDrv::SwitchLight(int, int)
-	SetGameMode__9CLightDrvi @ 4 NONAME R3UNUSED ; CLightDrv::SetGameMode(int)
-

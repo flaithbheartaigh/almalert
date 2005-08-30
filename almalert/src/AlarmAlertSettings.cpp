@@ -25,14 +25,10 @@ _LIT(KLibs,"\\System\\Libs\\");
 _LIT(KDefault,"z:\\Nokia\\Sounds\\Digital\\Nokia tune.mid");
 _LIT(KNameAlarm,"Alarm");
 _LIT(KNameCalendar,"Calendar");
-_LIT(KNameSnoozeTime,"SnoozeTime");
-_LIT(KNameSnoozeCount,"SnoozeCount");
+_LIT(KNameSnooze,"Snooze");
 _LIT(KNameBeep,"Beep");
 _LIT(KNameBeepStart,"BeepStart");
 _LIT(KNameBeepFinish,"BeepFinish");
-_LIT(KNameBirthday,"Birthday");
-_LIT(KNameBirthdayStart,"BirthdayStart");
-_LIT(KNameBirthdayHour,"BirthdayHour");
 
 CSettings::~CSettings()
 {
@@ -41,7 +37,7 @@ CSettings::~CSettings()
   delete iBeep;
 }
 
-CSettings::CSettings(): iBeepStart(1),iSnoozeCount(1),iBirthdayHour(12)
+CSettings::CSettings(): iBeepStart(1)
 {
   RFs fs;
   if(fs.Connect()==KErrNone)
@@ -75,22 +71,14 @@ CSettings::CSettings(): iBeepStart(1),iSnoozeCount(1),iBirthdayHour(12)
           {
             iBeep=value.Alloc();
           }
-          else if(!name.CompareF(KNameBirthday)&&!iBirthday&&value.Length())
-          {
-            iBirthday=value.Alloc();
-          }
           else
           {
             TLex lex(value);
             TUint8 ivalue;
             if(lex.Val(ivalue,EDecimal)!=KErrNone) continue;
-            if(!name.CompareF(KNameSnoozeTime))
+            if(!name.CompareF(KNameSnooze))
             {
-              if(ivalue>5) iSnoozeTime=ivalue-5;
-            }
-            else if(!name.CompareF(KNameSnoozeCount))
-            {
-              if(ivalue>0) iSnoozeCount=ivalue;
+              if(ivalue>5) iSnooze=ivalue-5;
             }
             else if(!name.CompareF(KNameBeepStart))
             {
@@ -99,14 +87,6 @@ CSettings::CSettings(): iBeepStart(1),iSnoozeCount(1),iBirthdayHour(12)
             else if(!name.CompareF(KNameBeepFinish))
             {
               iBeepFinish=ivalue;
-            }
-            else if(!name.CompareF(KNameBirthdayStart))
-            {
-              iBirthdayStart=ivalue;
-            }
-            else if(!name.CompareF(KNameBirthdayHour))
-            {
-              iBirthdayHour=ivalue;
             }
           }
         }
@@ -132,12 +112,6 @@ const TDesC& CSettings::Calendar(void)
 const TDesC& CSettings::Beep(void)
 {
   if(iBeep&&FileExist(*iBeep)) return *iBeep;
-  return KDefault;
-}
-
-const TDesC& CSettings::Birthday(void)
-{
-  if(iBirthday&&FileExist(*iBirthday)) return *iBirthday;
   return KDefault;
 }
 

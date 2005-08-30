@@ -18,9 +18,6 @@
 */
 
 #include "AlmAlert.hpp"
-#include "AlmUtils.hpp"
-#include <SharedData.hpp>
-
 #include <bautils.h> //BaflUtils
 #include <coemain.h> //CCoeEnv
 #include <coeaui.h> //ECoeStackPriorityDialog...
@@ -36,8 +33,20 @@
 #include <eiksrv.h> //FIXME
 
 _LIT(KAlarmFormat,"%04d%02d%02d:%02d%02d%02d.000000");
+_LIT(KKeySnoozeMsg,"SnoozeMsg");
+_LIT(KKeyAlarmTime,"AlarmTime");
+_LIT(KKeySnooze,"Snooze");
 _LIT(KLabelSnooze,"Snooze");
 _LIT(KResourceFile,"z:\\System\\data\\AlmAlert.rsc");
+_LIT(KKeyHide,"Hide");
+_LIT(KKeyStateVal,"state.val");
+_LIT(KEmpty,"");
+_LIT(KKeyLight,"Light");
+_LIT(KKeyKeyGuard,"KeyGuard");
+
+const TUid KSysAppUid={0x100058F3};
+const TUid KSysUtilUid={0x10005943};
+const TUid KAlmAlertUid={0x1000599E};
 
 CAlm::CAlm(): iAlmFlags(0)
 {
@@ -46,8 +55,6 @@ CAlm::CAlm(): iAlmFlags(0)
 
 CAlm::~CAlm()
 {
-  delete iBirthday;
-  delete iBirthdayAudio;
   delete iBeeper;
   delete iBeepAudio;
   delete iNoteContainer;
@@ -63,16 +70,16 @@ CAlm::~CAlm()
   delete iCreateAudioTimer;
   delete iBlinkOffTimer;
   RemoveDevStateNotification();
-  if(iSysApNotify)
+  if(iKeyHideNotify)
   {
-    iSysApNotify->Close();
-    delete iSysApNotify;
+    iKeyHideNotify->Close();
+    delete iKeyHideNotify;
   }
 }
 
 const TDesC8& CAlm::Copyright(void) const
 {
-  _LIT8(KAppCopyright,"(c) 2005 by zg. version 0.10");
+  _LIT8(KAppCopyright,"(c) 2005 by zg. version 0.03");
   return KAppCopyright;
 }
 
@@ -130,7 +137,7 @@ void CAlm::SetSnoozeInfo(void) //checked
       {
         TTime time;
         time.HomeTime();
-        time+=iSettings->SnoozeTime();
+        time+=iSettings->Snooze();
         TDateTime dtime=time.DateTime();
         TBuf16<30> buf;
         buf.Format(KAlarmFormat,dtime.Year(),dtime.Month(),dtime.Day(),dtime.Hour(),dtime.Minute(),0);
@@ -146,7 +153,7 @@ void CAlm::SetSnoozeInfo(void) //checked
         {
           info.SetString(KKeySnoozeMsg,KLabelSnooze);
           info.SetString(KKeyAlarmTime,buf);
-          info.SetInt(KKeySnooze,iSettings->SnoozeCount());
+          info.SetInt(KKeySnooze,6);
         }
       }
       info.Close();
@@ -330,9 +337,9 @@ void CAlm::ConstructAlarmL(CEikAlmControlSupervisor* aSupervisor,CEikServAppUi* 
   iCreateAudioTimer=CPeriodic::NewL(CActive::EPriorityIdle);
   iBlinkOffTimer=CPeriodic::NewL(CActive::EPriorityStandard);
   iSettings=new(ELeave)CSettings;
-  iSysApNotify=new(ELeave)RSharedDataClient(this);
-  User::LeaveIfError(iSysApNotify->Connect(0));
-  User::LeaveIfError(iSysApNotify->NotifySet(KSysAppUid,NULL));
+  iKeyHideNotify=new(ELeave)RSharedDataClient(this);
+  User::LeaveIfError(iKeyHideNotify->Connect(0));
+  User::LeaveIfError(iKeyHideNotify->NotifySet(KSysAppUid,&KKeyHide));
   iButtonsStopSnooze=LoadButtonsL(R_ALERT_SOFTKEYS_STOP_SNOOZE);
   iButtonsYesNo=LoadButtonsL(R_AVKON_SOFTKEYS_YES_NO);
   iButtonsCurrent=iButtonsStopSnooze;
@@ -422,7 +429,7 @@ void CAlm::RemoveDevStateNotification(void) //checked
 void CAlm::DoCreateAudioTimeout(void) //checked
 {
   iCreateAudioTimer->Cancel();
-  TRAPD(err,iAudio=CAlmAudio::NewL((CEikonEnv*)ControlEnv(),iSettings,iAlarmType));
+  TRAPD(err,iAudio=CAlmAudio::NewL((CEikonEnv*)ControlEnv(),(iAlarmType==EAlarmTypeClock)?iSettings->Alarm():iSettings->Calendar(),iAlarmType));
 }
 
 void CAlm::InitializeAudio(void) //checked
@@ -646,20 +653,9 @@ void CAlm::ProcessCommandL(TInt aCommandId)
 
 void CAlm::SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
 {
-  if(anUid==KSysAppUid)
+  if(anUid==KSysAppUid&&aKey==KKeyHide)
   {
-    if(aKey==KKeyHide)
-    {
-      if(!(iAlmFlags&EFlagAlarmAcknowledged)&&iAlmFlags&EFlagAlarmActive) AcknowledgeAlarm();
-    }
-    else if(aKey==KKeyToneQuit)
-    {
-      if(aValue[0]==0x30)
-      {
-        delete iBirthdayAudio;
-        iBirthdayAudio=NULL;
-      }
-    }
+    if(!(iAlmFlags&EFlagAlarmAcknowledged)&&iAlmFlags&EFlagAlarmActive) AcknowledgeAlarm();
   }
   else if(anUid==KSysUtilUid&&aKey==KKeyStateVal)
   {
@@ -673,15 +669,14 @@ void CAlm::SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue
     {
       iAlmFlags&=~EFlagAlarmStartPhone;
       RemoveDevStateNotification();
-      TRAPD(err,OnGuiL());
+      OnGui();
     }
   }
 }
 
-void CAlm::OnGuiL(void)
+void CAlm::OnGui(void)
 {
   InitBeeperL();
-  InitBirthdayL();
 }
 
 void CAlm::DialogNotify1(void) //checked
@@ -723,7 +718,7 @@ CCoeControl* CAlm::FadedComponent(TInt aIndex) //checked
   return iButtonsCurrent;
 }
 
-void CAlm::SetBeeper(void) //устанавливает таймер до следующего часа
+void CAlm::SetBeeperL(void) //устанавливает таймер до следующего часа
 {
   TTime next,curr;
   TCallBack callback(BeeperTimeout,this);
@@ -743,16 +738,16 @@ void CAlm::SetBeeper(void) //устанавливает таймер до следующего часа
   else
   {
     User::After(100000);
-    SetBeeper();
+    SetBeeperL();
   }
 }
 
 void CAlm::InitBeeperL(void)
 {
-  if(iSettings->IsBeep())
+  if(iSettings->Beeper())
   {
     iBeeper=CPeriodic::NewL(CActive::EPriorityIdle);
-    SetBeeper();
+    SetBeeperL();
   }
 }
 
@@ -763,7 +758,7 @@ void CAlm::DoBeeperTimeout(void)
   {
     delete iBeepAudio;
     iBeepAudio=NULL;
-    SetBeeper();
+    SetBeeperL();
   }
   else
   {
@@ -774,47 +769,20 @@ void CAlm::DoBeeperTimeout(void)
     TInt hour=dtime.Hour(),minute=dtime.Minute();
     if(!(iAlmFlags&EFlagAlarmActive)&&minute<2&&hour>=iSettings->BeepStart()&&hour<=iSettings->BeepFinish())
     {
-      TRAPD(err,iBeepAudio=CAlmAudioBeep::NewL((CEikonEnv*)(ControlEnv()),iSettings));
+      TRAPD(err,iBeepAudio=CAlmAudioBeep::NewL((CEikonEnv*)(ControlEnv()),iSettings->Beep()));
     }
     if(iBeepAudio)
     {
       TCallBack callback(BeeperTimeout,this);
       iBeeper->Start(5000000,0,callback);
     }
-    else SetBeeper();
+    else SetBeeperL();
   }
 }
 
-TInt CAlm::BeeperTimeout(TAny* anAlm)
+TInt CAlm::BeeperTimeout(TAny* aSettings)
 {
-  ((CAlm*)anAlm)->DoBeeperTimeout();
-  return 0;
-}
-
-void CAlm::InitBirthdayL(void)
-{
-  if(iSettings->IsBirthday())
-  {
-    TCallBack callback(BirthdayTimeout,this);
-    iBirthday=CBirthdayTimer::NewL(iSettings->BirthdayHour(),callback);
-  }
-}
-
-void CAlm::DoBirthdayTimeoutL(void)
-{
-  delete iBirthdayAudio;
-  iBirthdayAudio=NULL;
-  TInt count;
-  AlmUtils::ProcessBirthdaysL(iSettings->BirthdayStart(),count);
-  if(count)
-  {
-    iBirthdayAudio=CAlmAudioSms::NewL((CEikonEnv*)(ControlEnv()),iSettings);
-  }
-}
-
-TInt CAlm::BirthdayTimeout(TAny* anAlm)
-{
-  TRAPD(err,((CAlm*)anAlm)->DoBirthdayTimeoutL());
+  ((CAlm*)aSettings)->DoBeeperTimeout();
   return 0;
 }
 
@@ -879,7 +847,7 @@ void CNoteContainer::ConstructAlarmNoteL(const TAlarmInfo& aInfo)
   TBuf<256> label;
   iEnv->ReadResourceAsDes16(label,resourceId);
   iNote->SetTextL(label,0);
-  iNote->SetTextL(KNullDesC,2);
+  iNote->SetTextL(KEmpty,2);
   TInt length=aInfo.iMessage.Length();
   if(length)
   {
