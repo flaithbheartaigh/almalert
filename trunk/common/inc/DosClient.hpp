@@ -40,22 +40,22 @@ class RDosSubSession: public RSubSessionBase
 class RDosLights: public RDosSubSession
 {
   public:
-    enum TKeysState
+    enum TType
     {
-      EKeyOff=0,
-      EKeyAsScreen,
-      EKeyExtra //only on qd
+      ETypeScreen=0,
+      ETypeBoth,
+      ETypeKeys //only on qd
     };
-    enum TScreenState
+    enum TState
     {
-      EScreenSlowOn=0,
-      EScreenSlowOff,
-      EScreenOn,
-      EScreenBlink
+      ESlowOn=0,
+      ESlowOff,
+      EOn,
+      EBlink
     };
   public:
     IMPORT_C TInt Open(RDosServer& aSession);
-    IMPORT_C TInt SwitchLights(TInt aKeys,TInt aScreen) const;
+    IMPORT_C TInt SwitchLights(TInt aType,TInt aState) const;
     IMPORT_C TInt SetLightSensorSettings(TUint8 aParam1,TUint8 aParam2) const;
     IMPORT_C TInt GetLightSensorSettings(TUint8& aParam1,TUint8& aParam2) const;
 };
