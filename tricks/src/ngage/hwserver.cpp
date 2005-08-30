@@ -46,6 +46,7 @@ void CHWServerImpl::ConstructL(void)
   if(err==KErrAlreadyExists) err=iMutex.OpenGlobal(KMutexName);
   User::LeaveIfError(err);
   iMutex.Wait();
+  iCaptured=ETrue;
   TInt machine;
   HAL::Get(HALData::EModel,machine);
   switch(machine)
