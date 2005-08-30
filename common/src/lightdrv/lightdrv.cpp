@@ -40,9 +40,9 @@ EXPORT_C void CLightDrv::SwitchLight(TInt aType,TInt aState)
   DoSwitchLight(aType,aState);
 }
 
-EXPORT_C void CLightDrv::SetGameMode(TInt aGameMode)
+EXPORT_C TInt CLightDrv::SetGameMode(TInt aGameMode)
 {
-  DoSetGameMode(aGameMode);
+  return DoSetGameMode(aGameMode);
 }
 
 CLightDrvImpl::CLightDrvImpl(): iScreenState(0),iKeysState(0) //ok
@@ -160,17 +160,18 @@ void CLightDrvImpl::DoSwitchLight(TInt aType,TInt aState) //ok
   }
 }
 
-void CLightDrvImpl::DoSetGameMode(TInt aGameMode)
+TInt CLightDrvImpl::DoSetGameMode(TInt aGameMode)
 {
+  TInt res=KErrNone;
   if(iGameModeType)
   {
     if(aGameMode)
     {
-      iSysAp.SetInt(KKeyGameMode,1);
+      res=iSysAp.SetInt(KKeyGameMode,1);
     }
     else
     {
-      iSysAp.SetInt(KKeyGameMode,0);
+      res=iSysAp.SetInt(KKeyGameMode,0);
     }
   }
   else
@@ -178,6 +179,7 @@ void CLightDrvImpl::DoSetGameMode(TInt aGameMode)
     if(aGameMode) StartTimer();
     else StopTimer();
   }
+  return res;
 }
 
 void CLightDrvImpl::StartTimer(void)
