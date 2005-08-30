@@ -1,0 +1,22 @@
+target hwtricks.dll
+targettype dll
+uid 0x1000008d 0xa0000090
+
+sourcepath ..\src\ngage
+source hwdll.cpp
+source hwserver.cpp
+source hwvibra.cpp
+source hwlight.cpp
+source hwother.cpp
+source ..\..\..\common\src\zg_vibra\zg_vibra.cpp
+
+userinclude ..\inc
+systeminclude \epoc32\include    
+systeminclude ..\..\common\inc
+
+library euser.lib 
+library isimsg.lib
+library pnmsg.lib
+library phonet.lib
+library hal.lib
+library commonengine.lib
