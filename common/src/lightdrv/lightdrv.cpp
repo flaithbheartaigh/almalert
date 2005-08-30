@@ -72,7 +72,7 @@ void CLightDrvImpl::ConstructL(TBool aGameModeType) //ok
   iGameModeType=aGameModeType;
   User::LeaveIfError(iServer.Connect());
   User::LeaveIfError(iLights.Open(iServer));
-  iLights.SwitchLights(RDosLights::EKeyAsScreen,RDosLights::EScreenSlowOn);
+  iLights.SwitchLights(RDosLights::ETypeBoth,RDosLights::ESlowOn);
   if(iGameModeType)
   {
     User::LeaveIfError(iSysAp.Connect(0));
@@ -109,22 +109,22 @@ void CLightDrvImpl::DoSwitchLight(TInt aType,TInt aState) //ok
       {
         if(iScreenState==EOn)
         {
-          iLights.SwitchLights(RDosLights::EKeyAsScreen,RDosLights::EScreenSlowOn); //s:on,k:on
+          iLights.SwitchLights(RDosLights::ETypeBoth,RDosLights::ESlowOn); //s:on,k:on
         }
         if(iScreenState==EOff)
         {
-          iLights.SwitchLights(RDosLights::EKeyExtra,RDosLights::EScreenSlowOn); //s:off,k:on
+          iLights.SwitchLights(RDosLights::ETypeKeys,RDosLights::ESlowOn); //s:off,k:on
         }
       }
       else
       {
         if(iScreenState==EOn)
         {
-          iLights.SwitchLights(RDosLights::EKeyOff,RDosLights::EScreenSlowOn); //s:on,k:off
+          iLights.SwitchLights(RDosLights::ETypeScreen,RDosLights::ESlowOn); //s:on,k:off
         }
         if(iScreenState==EOff)
         {
-          iLights.SwitchLights(RDosLights::EKeyAsScreen,RDosLights::EScreenSlowOff); //s:off,k:off
+          iLights.SwitchLights(RDosLights::ETypeBoth,RDosLights::ESlowOff); //s:off,k:off
         }
       }
       break;
@@ -134,22 +134,22 @@ void CLightDrvImpl::DoSwitchLight(TInt aType,TInt aState) //ok
       {
         if(iKeysState==EOn)
         {
-          iLights.SwitchLights(RDosLights::EKeyAsScreen,RDosLights::EScreenSlowOn); //s:on,k:on
+          iLights.SwitchLights(RDosLights::ETypeBoth,RDosLights::ESlowOn); //s:on,k:on
         }
         if(iKeysState==EOff)
         {
-          iLights.SwitchLights(RDosLights::EKeyOff,RDosLights::EScreenSlowOn); //s:on,k:off
+          iLights.SwitchLights(RDosLights::ETypeScreen,RDosLights::ESlowOn); //s:on,k:off
         }
       }
       else
       {
         if(iKeysState==EOn)
         {
-          iLights.SwitchLights(RDosLights::EKeyExtra,RDosLights::EScreenSlowOn); //s:off,k:on
+          iLights.SwitchLights(RDosLights::ETypeKeys,RDosLights::ESlowOn); //s:off,k:on
         }
         if(iKeysState==EOff)
         {
-          iLights.SwitchLights(RDosLights::EKeyAsScreen,RDosLights::EScreenSlowOff); //s:off,k:off
+          iLights.SwitchLights(RDosLights::ETypeBoth,RDosLights::ESlowOff); //s:off,k:off
         }
       }
       break;
