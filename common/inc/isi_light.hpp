@@ -25,7 +25,7 @@
 class CLightBrightnessGetReq: public CIsiMsg
 {
   public:
-    IMPORT_C static CLightBrightnessGetReq* NewL(TUint8 aParam,TDesC8& aData); //902
+    IMPORT_C static CLightBrightnessGetReq* NewL(TUint8 aTransactionId,TDesC8& aData); //902
 };
 
 class CLightBrightnessGetResp: public CIsiMsg
@@ -38,13 +38,13 @@ class CLightBrightnessGetResp: public CIsiMsg
 class CLightBrightnessSetReq: public CIsiMsg
 {
   public:
-    IMPORT_C static CLightBrightnessSetReq* NewL(TUint8 aParam,CSubBlock* aSubBlock); //928
+    IMPORT_C static CLightBrightnessSetReq* NewL(TUint8 aTransactionId,CSubBlock* aSubBlock); //928
 };
 
 class CLightSwitchReq: public CIsiMsg
 {
   public:
-    IMPORT_C static CLightSwitchReq* NewL(TUint8 aParam,TUint8 aType,TUint8 aState,CSubBlock* aSubBlock); //788
+    IMPORT_C static CLightSwitchReq* NewL(TUint8 aTransactionId,TUint8 aType,TUint8 aState,CSubBlock* aSubBlock); //788
 };
 
 class CLightBrightnessInfo: public CSubBlock
