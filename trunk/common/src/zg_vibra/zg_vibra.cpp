@@ -19,14 +19,14 @@
 
 #include <zg_vibra.hpp>
 
-CVibraReq* CVibraReq::NewL(TUint8 aParam,TUint8 aState) //checked
+CVibraReq* CVibraReq::NewL(TUint8 aTransactionId,TUint8 aState) //checked
 {
   CVibraReq* self=new(ELeave)CVibraReq;
   CleanupStack::PushL(self);
   self->ConstructL(11);
   TUint8 var=0x1c;
   self->iPtr[3]=var;
-  self->iPtr.Append(aParam);
+  self->iPtr.Append(aTransactionId);
   self->iPtr.Append(0xc);
   self->iPtr.Append(aState);
   CleanupStack::Pop();

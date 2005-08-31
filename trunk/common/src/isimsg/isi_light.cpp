@@ -19,14 +19,14 @@
 
 #include <isi_light.hpp>
 
-EXPORT_C CLightBrightnessGetReq* CLightBrightnessGetReq::NewL(TUint8 aParam,TDesC8& aData)
+EXPORT_C CLightBrightnessGetReq* CLightBrightnessGetReq::NewL(TUint8 aTransactionId,TDesC8& aData)
 {
   CLightBrightnessGetReq* self=new(ELeave)CLightBrightnessGetReq;
   CleanupStack::PushL(self);
   self->ConstructL(16);
   TUint8 param=0x3a;
   self->iPtr[3]=param;
-  self->iPtr.Append(aParam);
+  self->iPtr.Append(aTransactionId);
   self->iPtr.Append(1);
   self->iPtr.Append(0);
   self->iPtr.Append(0);
@@ -52,7 +52,7 @@ EXPORT_C TInt CLightBrightnessGetResp::SubBlockStart(void)
   return 12;
 }
 
-EXPORT_C CLightBrightnessSetReq* CLightBrightnessSetReq::NewL(TUint8 aParam,CSubBlock* aSubBlock)
+EXPORT_C CLightBrightnessSetReq* CLightBrightnessSetReq::NewL(TUint8 aTransactionId,CSubBlock* aSubBlock)
 {
   CLightBrightnessSetReq* self=new(ELeave)CLightBrightnessSetReq;
   CleanupStack::PushL(self);
@@ -64,7 +64,7 @@ EXPORT_C CLightBrightnessSetReq* CLightBrightnessSetReq::NewL(TUint8 aParam,CSub
   self->ConstructL(len);
   TUint8 param=0x3a;
   self->iPtr[3]=param;
-  self->iPtr.Append(aParam);
+  self->iPtr.Append(aTransactionId);
   self->iPtr.Append(3);
   self->iPtr.Append(0);
   if(aSubBlock)
@@ -80,7 +80,7 @@ EXPORT_C CLightBrightnessSetReq* CLightBrightnessSetReq::NewL(TUint8 aParam,CSub
   return self;
 }
 
-EXPORT_C CLightSwitchReq* CLightSwitchReq::NewL(TUint8 aParam,TUint8 aType,TUint8 aState,CSubBlock* aSubBlock)
+EXPORT_C CLightSwitchReq* CLightSwitchReq::NewL(TUint8 aTransactionId,TUint8 aType,TUint8 aState,CSubBlock* aSubBlock)
 {
   CLightSwitchReq* self=new(ELeave)CLightSwitchReq;
   CleanupStack::PushL(self);
@@ -92,7 +92,7 @@ EXPORT_C CLightSwitchReq* CLightSwitchReq::NewL(TUint8 aParam,TUint8 aType,TUint
   self->ConstructL(len);
   TUint8 param=0x3a;
   self->iPtr[3]=param;
-  self->iPtr.Append(aParam);
+  self->iPtr.Append(aTransactionId);
   self->iPtr.Append(5);
   self->iPtr.Append(aType);
   self->iPtr.Append(aState);

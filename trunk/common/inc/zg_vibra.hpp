@@ -27,7 +27,7 @@ class CVibraReq: public CIsiMsg
   private:
     void ConstructL(TInt aSize);
   public:
-    static CVibraReq* NewL(TUint8 aParam,TUint8 aState);
+    static CVibraReq* NewL(TUint8 aTransactionId,TUint8 aState);
 };
 
 #endif
