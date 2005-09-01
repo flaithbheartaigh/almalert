@@ -39,9 +39,12 @@ class CHWServer: public CBase
 class HWVibra
 {
   public:
+    static const TUint8 KMaxIntensity=100;
+    static const TUint8 KDefaultIntensity=40;
+  public:
     IMPORT_C static void SwitchL(TBool aState);
     IMPORT_C static void Reserved_1(void);
-    IMPORT_C static void Reserved_2(void);
+    IMPORT_C static void SetIntensityL(TUint8 anIntensity);
     IMPORT_C static void Reserved_3(void);
 };
 
@@ -62,6 +65,8 @@ class HWBacklight
       EBlink2=4,
       EOn=5
     };
+  public:
+    static const TUint8 KMaxBrightness=100;
   public:
     IMPORT_C static void GameModeL(TBool aState);
     IMPORT_C static void SwitchL(TInt aType,TInt aState);

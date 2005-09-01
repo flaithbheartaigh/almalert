@@ -40,9 +40,20 @@ EXPORT_C void HWVibra::Reserved_1(void)
   User::Leave(KErrNotSupported);
 }
 
-EXPORT_C void HWVibra::Reserved_2(void)
+EXPORT_C void HWVibra::SetIntensityL(TUint8 anIntensity)
 {
-  User::Leave(KErrNotSupported);
+  if(anIntensity>KMaxIntensity) User::Leave(KErrTooBig);
+  CHWServer* server=CHWServer::NewLC();
+  CVibraIntensityReq* sendMsg=CVibraIntensityReq::NewL(0,anIntensity);
+  CleanupStack::PushL(sendMsg);
+  server->SendL(*sendMsg);
+  CIsiMsg* recvMsg=CIsiMsg::NewL(500);
+  CleanupStack::PushL(recvMsg);
+  TRequestStatus status;
+  TPnReceiveAllocationLengthPckg pckg;
+  server->ReceiveL(status,*recvMsg,pckg);
+  User::WaitForRequest(status);
+  CleanupStack::PopAndDestroy(3); //sendMsg,recvMsg,server
 }
 
 EXPORT_C void HWVibra::Reserved_3(void)
