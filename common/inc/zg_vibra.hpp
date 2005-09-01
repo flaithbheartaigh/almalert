@@ -22,12 +22,22 @@
 
 #include <isimsg.hpp>
 
-class CVibraReq: public CIsiMsg
+class CIsiMsgCustom: public CIsiMsg
 {
-  private:
+  protected:
     void ConstructL(TInt aSize);
+};
+
+class CVibraReq: public CIsiMsgCustom
+{
   public:
-    static CVibraReq* NewL(TUint8 aTransactionId,TUint8 aState);
+    static CVibraReq* NewL(TUint8 aTransactionId,TUint8 aState); //848
+};
+
+class CVibraIntensityReq: public CIsiMsgCustom
+{
+  public:
+    static CVibraIntensityReq* NewL(TUint8 aTransactionId,TUint8 anIntensity); //1623
 };
 
 #endif
