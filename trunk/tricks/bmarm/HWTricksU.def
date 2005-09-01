@@ -3,7 +3,7 @@ EXPORTS
 	InfoL__7HWOtherQ27HWOther9TInfoTypeRi @ 2 NONAME R3UNUSED ; HWOther::InfoL(HWOther::TInfoType, int &)
 	SwitchL__7HWVibrai @ 3 NONAME R3UNUSED ; HWVibra::SwitchL(int)
 	Reserved_1__7HWVibra @ 4 NONAME R3UNUSED ; HWVibra::Reserved_1(void)
-	Reserved_2__7HWVibra @ 5 NONAME R3UNUSED ; HWVibra::Reserved_2(void)
+	SetIntensityL__7HWVibraUc @ 5 NONAME R3UNUSED ; HWVibra::SetIntensityL(unsigned char)
 	Reserved_3__7HWVibra @ 6 NONAME R3UNUSED ; HWVibra::Reserved_3(void)
 	GameModeL__11HWBacklighti @ 7 NONAME R3UNUSED ; HWBacklight::GameModeL(int)
 	SwitchL__11HWBacklightii @ 8 NONAME R3UNUSED ; HWBacklight::SwitchL(int, int)
