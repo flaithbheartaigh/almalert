@@ -19,7 +19,18 @@
 
 #include <zg_vibra.hpp>
 
-CVibraReq* CVibraReq::NewL(TUint8 aTransactionId,TUint8 aState) //checked
+//copy of CIsiMsg::ConstructL
+//because it isn't exported from isimsg.dll
+void CIsiMsgCustom::ConstructL(TInt aSize)
+{
+  CPnMsg::ConstructL(aSize-6);
+  iPtr.SetLength(8);
+  TUint8 var=0;
+  iPtr[1]=var;
+  iPtr[6]=var;
+}
+
+CVibraReq* CVibraReq::NewL(TUint8 aTransactionId,TUint8 aState)
 {
   CVibraReq* self=new(ELeave)CVibraReq;
   CleanupStack::PushL(self);
@@ -33,13 +44,16 @@ CVibraReq* CVibraReq::NewL(TUint8 aTransactionId,TUint8 aState) //checked
   return self;
 }
 
-//copy of CIsiMsg::ConstructL
-//because it isn't exported from isimsg.dll
-void CVibraReq::ConstructL(TInt aSize) //checked
+CVibraIntensityReq* CVibraIntensityReq::NewL(TUint8 aTransactionId,TUint8 anIntensity)
 {
-  CPnMsg::ConstructL(aSize-6);
-  iPtr.SetLength(8);
-  TUint8 var=0;
-  iPtr[1]=var;
-  iPtr[6]=var;
+  CVibraIntensityReq* self=new(ELeave)CVibraIntensityReq;
+  CleanupStack::PushL(self);
+  self->ConstructL(11);
+  TUint8 var=0x1c;
+  self->iPtr[3]=var;
+  self->iPtr.Append(aTransactionId);
+  self->iPtr.Append(0xe);
+  self->iPtr.Append(anIntensity);
+  CleanupStack::Pop();
+  return self;
 }
