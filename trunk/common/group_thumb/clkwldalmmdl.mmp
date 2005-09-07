@@ -1,0 +1,17 @@
+target ClkWldAlmMdl_a.dll
+targettype dll
+
+uid 0x10000079 0x10005904
+targetpath \system\libs
+
+sourcepath ..\src\clkwldalmmdl
+source ClkWldAlmMdlDll.cpp
+source ClkWldAlmMdl.cpp
+
+systeminclude ..\inc
+systeminclude \epoc32\include
+
+library euser.lib
+library ealwl.lib
+library clknitzmdl.lib
+library eikcore.lib

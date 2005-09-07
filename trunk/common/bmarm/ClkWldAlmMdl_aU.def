@@ -1,0 +1,35 @@
+EXPORTS
+	__16CClkMdlResponderR13CClkModelBasei @ 1 NONAME R3UNUSED ; CClkMdlResponder::CClkMdlResponder(CClkModelBase &, int)
+	ClockAlarmEnable__12CClkAlmModeli14TAlarmSetState @ 2 NONAME R3UNUSED ; CClkAlmModel::ClockAlarmEnable(int, TAlarmSetState)
+	ClockAlarmInfo__C12CClkAlmModeliR15SClockAlarmInfo @ 3 NONAME R3UNUSED ; CClkAlmModel::ClockAlarmInfo(int, SClockAlarmInfo &) const
+	ClockAlarmSet__12CClkAlmModeliRC15SClockAlarmInfo @ 4 NONAME R3UNUSED ; CClkAlmModel::ClockAlarmSet(int, SClockAlarmInfo const &)
+	ClockAlarmState__C12CClkAlmModeli @ 5 NONAME R3UNUSED ; CClkAlmModel::ClockAlarmState(int) const
+	ClockAlarmType__C12CClkAlmModelR10TAlarmTypei @ 6 NONAME R3UNUSED ; CClkAlmModel::ClockAlarmType(TAlarmType &, int) const
+	ConstructL__16CClkIdleObserverP17MClkModelObserveri @ 7 NONAME R3UNUSED ; CClkIdleObserver::ConstructL(MClkModelObserver *, int)
+	DoIdleCancel__16CClkIdleObserver @ 8 NONAME R3UNUSED ; CClkIdleObserver::DoIdleCancel(void)
+	DoIdleNotifyL__16CClkIdleObserver @ 9 NONAME R3UNUSED ; CClkIdleObserver::DoIdleNotifyL(void)
+	GetCurrentNITZInfo__13CClkNitzModelRQ216MAdvGsmPhoneNitz9TNITZInfo @ 10 NONAME R3UNUSED ; CClkNitzModel::GetCurrentNITZInfo(MAdvGsmPhoneNitz::TNITZInfo &)
+	HandleUpdateL__16CClkIdleObserveri @ 11 NONAME R3UNUSED ; CClkIdleObserver::HandleUpdateL(int)
+	HandleUpdateL__24CClkIntermediateObserveri @ 12 NONAME R3UNUSED ; CClkIntermediateObserver::HandleUpdateL(int)
+	NewL__12CClkAlmModelP17MClkModelObserveri @ 13 NONAME R3UNUSED ; CClkAlmModel::NewL(MClkModelObserver *, int)
+	NewL__13CClkNitzModelP17MClkModelObserveri @ 14 NONAME R3UNUSED ; CClkNitzModel::NewL(MClkModelObserver *, int)
+	NewL__19CClkAlmIdleObserverP17MClkModelObserveri @ 15 NONAME R3UNUSED ; CClkAlmIdleObserver::NewL(MClkModelObserver *, int)
+	NewL__20CClkNitzIdleObserverP17MClkModelObserveri @ 16 NONAME R3UNUSED ; CClkNitzIdleObserver::NewL(MClkModelObserver *, int)
+	NitzState__C13CClkNitzModelRi @ 17 NONAME R3UNUSED ; CClkNitzModel::NitzState(int &) const
+	NotifyL__13CClkModelBasei @ 18 NONAME R3UNUSED ; CClkModelBase::NotifyL(int)
+	NotifyL__24CClkIntermediateObserveri @ 19 NONAME R3UNUSED ; CClkIntermediateObserver::NotifyL(int)
+	RunL__16CClkMdlResponder @ 20 NONAME R3UNUSED ; CClkMdlResponder::RunL(void)
+	SetClkModelObserver__13CClkModelBaseP17MClkModelObserver @ 21 NONAME R3UNUSED ; CClkModelBase::SetClkModelObserver(MClkModelObserver *)
+	SetClkModelObserver__24CClkIntermediateObserverP17MClkModelObserver @ 22 NONAME R3UNUSED ; CClkIntermediateObserver::SetClkModelObserver(MClkModelObserver *)
+	SetNitzState__13CClkNitzModeli @ 23 NONAME R3UNUSED ; CClkNitzModel::SetNitzState(int)
+	SetResponderActive__13CClkModelBaseP16CClkMdlResponder @ 24 NONAME R3UNUSED ; CClkModelBase::SetResponderActive(CClkMdlResponder *)
+	Start__13CClkModelBase @ 25 NONAME R3UNUSED ; CClkModelBase::Start(void)
+	Stop__13CClkModelBase @ 26 NONAME R3UNUSED ; CClkModelBase::Stop(void)
+	"_._12CClkAlmModel" @ 27 NONAME R3UNUSED ; CClkAlmModel::~CClkAlmModel(void)
+	"_._13CClkModelBase" @ 28 NONAME R3UNUSED ; CClkModelBase::~CClkModelBase(void)
+	"_._13CClkNitzModel" @ 29 NONAME R3UNUSED ; CClkNitzModel::~CClkNitzModel(void)
+	"_._16CClkIdleObserver" @ 30 NONAME R3UNUSED ; CClkIdleObserver::~CClkIdleObserver(void)
+	__13CClkModelBase @ 31 NONAME R3UNUSED ; CClkModelBase::CClkModelBase(void)
+	__16CClkIdleObserver @ 32 NONAME R3UNUSED ; CClkIdleObserver::CClkIdleObserver(void)
+	ClockAlarmDelete__12CClkAlmModeli @ 33 NONAME R3UNUSED ; CClkAlmModel::ClockAlarmDelete(int)
+
