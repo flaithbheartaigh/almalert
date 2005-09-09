@@ -14,4 +14,7 @@ EXPORTS
 	Reserved_3__11HWBacklight @ 13 NONAME R3UNUSED ; HWBacklight::Reserved_3(void)
 	Reserved_4__11HWBacklight @ 14 NONAME R3UNUSED ; HWBacklight::Reserved_4(void)
 	Reserved_5__11HWBacklight @ 15 NONAME R3UNUSED ; HWBacklight::Reserved_5(void)
+	SetContrastL__5HWLcdi @ 16 NONAME R3UNUSED ; HWLcd::SetContrastL(int)
+	ContrastL__5HWLcdRi @ 17 NONAME R3UNUSED ; HWLcd::ContrastL(int &)
+	MaxContrastL__5HWLcdRi @ 18 NONAME R3UNUSED ; HWLcd::MaxContrastL(int &)
 
