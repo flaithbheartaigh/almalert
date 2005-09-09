@@ -87,11 +87,20 @@ class HWOther
       EInfoBuild,
       EInfoServerSupported,
       EInfoVibraSupported,
-      ESwitchLightsSupported,
-      EBrightnessSupported
+      EInfoSwitchLightsSupported,
+      EInfoBrightnessSupported,
+      EInfoContrastSupported
     };
   public:
     IMPORT_C static void InfoL(TInfoType aType,TInt& aValue);
+};
+
+class HWLcd
+{
+  public:
+    IMPORT_C static void SetContrastL(TInt aContrast);
+    IMPORT_C static void ContrastL(TInt& aContrast);
+    IMPORT_C static void MaxContrastL(TInt& aMaxContrast);
 };
 
 #endif

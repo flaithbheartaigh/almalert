@@ -32,10 +32,13 @@ EXPORT_C void HWOther::InfoL(TInfoType aType,TInt& aValue)
     case EInfoVibraSupported:
       aValue=ETrue;
       break;
-    case ESwitchLightsSupported:
+    case EInfoSwitchLightsSupported:
       aValue=ETrue;
       break;
-    case EBrightnessSupported:
+    case EInfoBrightnessSupported:
+      aValue=ETrue;
+      break;
+    case EInfoContrastSupported:
       aValue=ETrue;
       break;
     default:
