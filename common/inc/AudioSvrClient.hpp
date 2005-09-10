@@ -25,18 +25,48 @@
 class RAdspServerSession: public RSessionBase
 {
   public:
-    TInt AudioSendReceive(TInt aFunction,TAny* aPtr) const; //17
+    IMPORT_C TInt AudioSendReceive(TInt aFunction,TAny* aPtr) const; //17
 };
 
 class CAudioClient: public CBase
 {
   public:
-    static CAudioClient* NewL(void); //08
-    TInt Connect(void); //02
+    IMPORT_C static CAudioClient* NewL(void); //08
+    IMPORT_C TInt Connect(void); //02
     inline RAdspServerSession& Session(void) {return iSession;};
-    void Close(void); //24
+    IMPORT_C void Close(void); //24
+  public: //interface
+    virtual void Unknown1(void); // 0x0c
+    virtual TInt Unknown2(TInt anOp,TUint16 anId); // 0x10
+    virtual void Unknown3(void);
+    virtual void Unknown4(void);
+    virtual void Unknown5(void);
+    virtual void Unknown6(void); // 0x20
+    virtual void Unknown7(void);
+    virtual void Unknown8(void);
+    virtual void Unknown9(void);
+    virtual void UnknownA(void); // 0x30
+    virtual void UnknownB(void);
+    virtual void UnknownC(void);
+    virtual void UnknownD(void);
+    virtual TInt UnknownE(TUint16& anId,TDesC& aFileName); // 0x40
+    virtual void UnknownF(void);
+    virtual void UnknownG(void);
+    virtual void UnknownH(void);
+    virtual void UnknownI(void);
+    virtual void UnknownJ(void);
+    virtual void UnknownK(void);
+    virtual void UnknownL(void);
   private:
     RAdspServerSession iSession;
+};
+
+class CMusicClient: private CAudioClient
+{
+};
+
+class CRadioClient: private CAudioClient
+{
 };
 
 #endif
