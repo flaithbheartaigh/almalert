@@ -63,3 +63,89 @@ EXPORT_C TInt RAdspServerSession::AudioSendReceive(TInt aFunction,TAny* aPtr) co
 EXPORT_C void CAudioClient::Close(void)
 {
 }
+
+void CAudioClient::Unknown1(void)
+{
+}
+
+TInt CAudioClient::Unknown2(TInt anOp,TUint16 anId)
+{
+  return KErrNone;
+}
+
+void CAudioClient::Unknown3(void)
+{
+}
+
+void CAudioClient::Unknown4(void)
+{
+}
+
+void CAudioClient::Unknown5(void)
+{
+}
+
+void CAudioClient::Unknown6(void)
+{
+}
+
+void CAudioClient::Unknown7(void)
+{
+}
+
+void CAudioClient::Unknown8(void)
+{
+}
+
+void CAudioClient::Unknown9(void)
+{
+}
+
+void CAudioClient::UnknownA(void)
+{
+}
+
+void CAudioClient::UnknownB(void)
+{
+}
+
+void CAudioClient::UnknownC(void)
+{
+}
+
+void CAudioClient::UnknownD(void)
+{
+}
+
+TInt CAudioClient::UnknownE(TUint16& anId,TDesC& aFileName)
+{
+  return KErrNone;
+}
+
+void CAudioClient::UnknownF(void)
+{
+}
+
+void CAudioClient::UnknownG(void)
+{
+}
+
+void CAudioClient::UnknownH(void)
+{
+}
+
+void CAudioClient::UnknownI(void)
+{
+}
+
+void CAudioClient::UnknownJ(void)
+{
+}
+
+void CAudioClient::UnknownK(void)
+{
+}
+
+void CAudioClient::UnknownL(void)
+{
+}
