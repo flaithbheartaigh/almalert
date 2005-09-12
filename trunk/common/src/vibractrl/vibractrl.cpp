@@ -18,6 +18,7 @@
 */
 
 #include "vibraimpl.hpp"
+#include <hwtricks.hpp>
 
 const TInt KProfileEngUidValue=0x100058FA;
 const TUid KProfileEngUid={KProfileEngUidValue};
@@ -27,6 +28,12 @@ _LIT(KVibraPanic,"VIBRA-CTRL");
 GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
 {
   return KErrNone;
+}
+
+const TDesC8& CVibraControlImpl::Copyright(void)
+{
+  _LIT8(KAppCopyright,"what's up fucking dude from nokia? you're fucking pissed off? I am the real man who made this. (c) 2005 by zg. version 3.02");
+  return KAppCopyright;
 }
 
 CVibraControl::CVibraControl(): CBase()
@@ -42,44 +49,35 @@ void Panic(CVibraControl::TVibraCtrlPanic aPanic)
   User::Panic(KVibraPanic,aPanic);
 }
 
+void CVibraControlImpl::DoCleanup(TAny* aPtr)
+{
+  CVibraControlImpl* vibra=STATIC_CAST(CVibraControlImpl*,aPtr);
+  TRAPD(err,HWVibra::SwitchL(EFalse));
+  if(err!=KErrNone)
+  {
+    if(vibra->iCallback) vibra->iCallback->VibraRequestStatus(EVibraRequestUnableToStop);
+    Panic(EPanicVibraGeneral);
+  }
+}
+
 EXPORT_C void CVibraControlImpl::StartVibraL(TUint16 aDuration)
 {
   if(!iTimer) User::Invariant();
-  if(!iDriver) User::Invariant();
-  TInt err=KErrNone;
-  if(!iDriver->State())
-  {
-    err=iDriver->On();
-    if(iCallback) iCallback->VibraRequestStatus(EVibraRequestOK);
-  }
-  if(err==KErrNone)
-  {
-    err=iTimer->Start(aDuration);
-    if(err!=KErrNone)
-    {
-      err=iDriver->Off();
-      if(err!=KErrNone)
-      {
-        if(iCallback) iCallback->VibraRequestStatus(EVibraRequestUnableToStop);
-        Panic(EPanicVibraGeneral);
-      }
-    }
-  }
-  User::LeaveIfError(err);
+  HWVibra::SwitchL(ETrue);
+  CleanupStack::PushL(TCleanupItem(DoCleanup,this));
+  if(iCallback) iCallback->VibraRequestStatus(EVibraRequestOK);
+  User::LeaveIfError(iTimer->Start(aDuration));
+  CleanupStack::Pop();
 }
 
 EXPORT_C void CVibraControlImpl::StopVibraL(void)
 {
   if(!iTimer) User::Invariant();
-  if(!iDriver) User::Invariant();
-  if(iDriver->State())
+  TRAPD(err,HWVibra::SwitchL(EFalse));
+  if(iCallback)
   {
-    TInt err=iDriver->Off();
-    if(iCallback)
-    {
-      if(err==KErrNone||err==KErrNotFound) iCallback->VibraRequestStatus(EVibraRequestStopped);
-      else iCallback->VibraRequestStatus(EVibraRequestUnableToStop);
-    }
+    if(err==KErrNone||err==KErrNotFound) iCallback->VibraRequestStatus(EVibraRequestStopped);
+    else iCallback->VibraRequestStatus(EVibraRequestUnableToStop);
   }
   if(iTimer->IsActive()) iTimer->Cancel();
 }
@@ -99,10 +97,7 @@ void CVibraControlImpl::HandleGainingForeground(void)
 
 void CVibraControlImpl::HandleLosingForeground(void)
 {
-  if(iDriver&&iDriver->State())
-  {
-    StopVibraL();
-  }
+  StopVibraL(); //never leave
 }
 
 void CVibraControlImpl::SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
@@ -120,8 +115,7 @@ void CVibraControlImpl::SharedDataNotify(TUid anUid,const TDesC16& aKey,const TD
 
 void CVibraControlImpl::TimerExpired(void)
 {
-  if(!iDriver->State()) Panic(EPanicVibraGeneral);
-  StopVibraL();
+  StopVibraL(); //never leave
 }
 
 CVibraControlImpl::CVibraControlImpl(MVibraControlObserver* aCallback): CVibraControl(),iCallback(aCallback),iShared(this),iVibraState(EVibraModeUnknown)
@@ -131,7 +125,6 @@ CVibraControlImpl::CVibraControlImpl(MVibraControlObserver* aCallback): CVibraCo
 void CVibraControlImpl::ConstructL(void)
 {
   iTimer=CVibraTimer::NewL(this);
-  iDriver=CVibraDriver::NewL();
   User::LeaveIfError(iShared.Connect(0));
   TInt vibra=0;
   TInt err=iShared.Assign(KProfileEngUid);
@@ -158,11 +151,7 @@ void CVibraControlImpl::ConstructL(void)
 
 CVibraControlImpl::~CVibraControlImpl()
 {
-  if(iDriver)
-  {
-    if(iDriver->State()) StopVibraL(); //really never leave
-    delete iDriver;
-  }
+  StopVibraL(); //never leave
   iTimer->Cancel();
   delete iTimer;
   iShared.Close();

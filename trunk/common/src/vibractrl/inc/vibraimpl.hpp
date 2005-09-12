@@ -24,7 +24,6 @@
 #include <CommonEngine.hpp>
 #include <coemain.h>
 
-#include "vibradrv.hpp"
 #include "vibratimer.hpp"
 
 class CVibraControlImpl: public CVibraControl,public MSharedDataNotifyHandler,public MTimeOutNotify,public MCoeForegroundObserver
@@ -43,15 +42,18 @@ class CVibraControlImpl: public CVibraControl,public MSharedDataNotifyHandler,pu
     void SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue);
   public: //MTimeOutNotify
     void TimerExpired(void);
+  public:
+    static const TDesC8& Copyright(void);
   private:
     CVibraControlImpl(MVibraControlObserver* aCallback);
     void ConstructL(void);
+    static void DoCleanup(TAny* aPtr);
   private:
-    MVibraControlObserver* iCallback; //0x10
-    RSharedDataClient iShared; //0x14
-    CVibraDriver* iDriver; //0x24
-    TVibraModeState iVibraState; //0x28
-    CVibraTimer* iTimer; //0x2c
+    MVibraControlObserver* iCallback;
+    RSharedDataClient iShared;
+    TBool iState;
+    TVibraModeState iVibraState;
+    CVibraTimer* iTimer;
   friend class VibraFactory;
 };
 
