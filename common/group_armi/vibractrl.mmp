@@ -6,18 +6,14 @@ targetpath \system\libs
 
 sourcepath ..\src\vibractrl
 source vibractrl.cpp
-source vibradrv.cpp
 source vibratimer.cpp
-source ..\zg_vibra\zg_vibra.cpp
 
 userinclude ..\src\vibractrl\inc
 systeminclude \epoc32\include
 systeminclude ..\inc
+systeminclude ..\..\tricks\inc
 
 library euser.lib
 library cone.lib
 library commonengine.lib
-library isimsg.lib
-library pnmsg.lib
-library phonet.lib
-library hal.lib
+library hwtricks.lib
