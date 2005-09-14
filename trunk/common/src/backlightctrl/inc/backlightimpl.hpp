@@ -3,27 +3,19 @@
 
 #include <backlightctrl.hpp>
 #include <coemain.h>
-#include "../../lightdrv/inc/lightdrv.hpp"
+#include "backlighttimer.hpp"
 
-class CBackLightTimerContainer;
-
-class MBackLightNotify
-{
-  public:
-    virtual void BackLightNotify(TInt aType,TInt aState)=0;
-};
-
-class CBackLightControlImpl: public CBackLightControl,public MBackLightNotify,public MCoeForegroundObserver
+class CBackLightControlImpl: public CBackLightControl,public MCoeForegroundObserver,public MTimeOutNotify
 {
   public:
     CBackLightControlImpl(MBackLightControlObserver* aCallback);
     void ConstructL(void);
     ~CBackLightControlImpl();
-  public: //MBackLightNotify
-    void BackLightNotify(TInt aType,TInt aState);
   public: //MCoeForegroundObserver
     void HandleGainingForeground(void);
     void HandleLosingForeground(void);
+  public: //MTimeOutNotify
+    void TimerExpired(TUint aParam);
   public:
     TInt BackLightOn(TInt aType,TUint16 aDuration);
     TInt BackLightBlink(TInt aType,TUint16 aDuration,TUint16 aOnTime,TUint16 aOffTime);
@@ -32,15 +24,41 @@ class CBackLightControlImpl: public CBackLightControl,public MBackLightNotify,pu
     TInt BackLightState(TInt aType);
   public:
     static void Panic(TInt aPanic);
-    static TBool IsOriginalNGage(void);
   private:
-    TInt NormalizeType(TInt aType);
+    enum TType
+    {
+      EScreen,
+      EKeys,
+      EScreenBlink,
+      EKeysBlink
+    };
+    struct SBlink
+    {
+      TUint16 iOn;
+      TUint16 iOff;
+    };
   private:
-    MBackLightControlObserver* iCallback; //0x0c
-    TBool iExtended; //0x10
-    CBackLightTimerContainer* iTimerKeys; //0x14
-    CBackLightTimerContainer* iTimerScreen; //0x18
-    CLightDrv* iDrv; //0x1c
+    void UpdateState(TInt aType,TInt aState,TUint16 aDuration,SBlink aBlink);
+    TInt Switch(void);
+    TInt Start(TInt aType,TUint16 aDuration);
+  private:
+    MBackLightControlObserver* iCallback;
+    TBool iScreenState;
+    TBool iKeysState;
+    TBool iScreenCurrentState;
+    TBool iKeysCurrentState;
+    TBool iScreenBlink;
+    TBool iKeysBlink;
+    TBool iScreenCurrentBlink;
+    TBool iKeysCurrentBlink;
+    CBackLightTimer* iScreen;
+    CBackLightTimer* iKeys;
+    CBackLightTimer* iScreenBlinker;
+    CBackLightTimer* iKeysBlinker;
+    SBlink iScreenTime;
+    SBlink iKeysTime;
+    SBlink iScreenCurrentTime;
+    SBlink iKeysCurrentTime;
 };
 
 #endif
