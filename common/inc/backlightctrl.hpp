@@ -12,12 +12,13 @@ class CBackLightControl: public CBase
     {
       EBackLightTypeScreen=0,
       EBackLightTypeKeys,
-      EBackLightTypeUnknown
+      EBackLightTypeBoth
     };
     enum TBackLightState
     {
       EBackLightStateOn=0,
       EBackLightStateOff,
+      EBackLightStateBlink,
       EBackLightStateUnknown
     };
   public:

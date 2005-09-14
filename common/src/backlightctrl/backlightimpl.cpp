@@ -1,5 +1,5 @@
+#include <hwtricks.hpp>
 #include "backlightimpl.hpp"
-#include <hal.h>
 #include "backlighttimer.hpp"
 
 CBackLightControlImpl::CBackLightControlImpl(MBackLightControlObserver* aCallback): CBackLightControl(),iCallback(aCallback)
@@ -9,211 +9,219 @@ CBackLightControlImpl::CBackLightControlImpl(MBackLightControlObserver* aCallbac
 CBackLightControlImpl::~CBackLightControlImpl()
 {
   iCallback=NULL;
-  iDrv->SetGameMode(EFalse);
-  BackLightOn(2,0);
+  TRAPD(err,HWBacklight::GameModeL(EFalse));
+  BackLightOn(EBackLightTypeBoth,0);
   CCoeEnv::Static()->RemoveForegroundObserver(*this);
-  delete iTimerKeys;
-  delete iTimerScreen;
-  delete iDrv;
-  iDrv=NULL;
-  iTimerKeys=NULL;
-  iTimerScreen=NULL;
+  delete iScreen;
+  delete iKeys;
+  delete iScreenBlinker;
+  delete iKeysBlinker;
 }
 
 void CBackLightControlImpl::ConstructL(void)
 {
-  iExtended=IsOriginalNGage()?EFalse:ETrue;
-  iDrv=CLightDrv::NewL(iExtended);
-  iDrv->SetGameMode(ETrue);
-  iTimerKeys=CBackLightTimerContainer::NewL(this,1,iDrv);
-  iTimerScreen=CBackLightTimerContainer::NewL(this,0,iDrv);
+  HWBacklight::GameModeL(ETrue);
+  iScreen=CBackLightTimer::NewL(this,EScreen);
+  iKeys=CBackLightTimer::NewL(this,EKeys);
+  iScreenBlinker=CBackLightTimer::NewL(this,EScreenBlink);
+  iKeysBlinker=CBackLightTimer::NewL(this,EKeysBlink);
   CCoeEnv::Static()->AddForegroundObserverL(*this);
-  BackLightOn(2,0);
+  BackLightOn(EBackLightTypeBoth,0);
+}
+
+TInt CBackLightControlImpl::Switch(void)
+{
+  TInt type=HWBacklight::EBoth;
+  TInt state=HWBacklight::EOn;
+  if(iScreenCurrentState==iKeysCurrentState)
+  {
+    if(iScreenCurrentState==EBackLightStateOff)
+    {
+      type=HWBacklight::EKeys;
+      state=HWBacklight::ESlowOff;
+    }
+  }
+  else
+  {
+    if(iScreenCurrentState==EBackLightStateOn)
+    {
+      type=HWBacklight::EScreen;
+    }
+    else
+    {
+      type=HWBacklight::EKeys;
+    }
+  }
+  TRAPD(err,HWBacklight::SwitchL(type,state));
+  if(iScreenCurrentBlink)
+  {
+    if(!iScreenBlinker->IsActive()) iScreenBlinker->Start((iScreenCurrentState==EBackLightStateOn)?iScreenCurrentTime.iOn:iScreenCurrentTime.iOff);
+  }
+  else
+  {
+    iScreenBlinker->Cancel();
+  }
+  if(iKeysCurrentBlink)
+  {
+    if(!iKeysBlinker->IsActive()) iKeysBlinker->Start((iKeysCurrentState==EBackLightStateOn)?iKeysCurrentTime.iOn:iKeysCurrentTime.iOff);
+  }
+  else
+  {
+    iKeysBlinker->Cancel();
+  }
+  if(iCallback)
+  {
+    iCallback->ScreenNotify(iScreenCurrentBlink?EBackLightStateBlink:iScreenCurrentState);
+    iCallback->KeysNotify(iKeysCurrentBlink?EBackLightStateBlink:iKeysCurrentState);
+  }
+  return err;
+}
+
+void CBackLightControlImpl::UpdateState(TInt aType,TInt aState,TUint16 aDuration,SBlink aBlink)
+{
+  if(aType==EBackLightTypeScreen||aType==EBackLightTypeBoth)
+  {
+    iScreenCurrentState=(aState==EBackLightStateBlink)?(!iScreenCurrentState):aState;
+    iScreenCurrentBlink=(aState==EBackLightStateBlink&&aBlink.iOn);
+    iScreenCurrentTime=aBlink;
+    if(!aDuration)
+    {
+      iScreenState=iScreenCurrentState;
+      iScreenBlink=iScreenCurrentBlink;
+      iScreenTime=iScreenCurrentTime;
+    }
+  }
+  if(aType==EBackLightTypeKeys||aType==EBackLightTypeBoth)
+  {
+    iKeysCurrentState=(aState==EBackLightStateBlink)?(!iKeysCurrentState):aState;
+    iKeysCurrentBlink=(aState==EBackLightStateBlink&&aBlink.iOn);
+    iKeysCurrentTime=aBlink;
+    if(!aDuration)
+    {
+      iKeysState=iKeysCurrentState;
+      iKeysBlink=iKeysCurrentBlink;
+      iKeysTime=iKeysCurrentTime;
+    }
+  }
+}
+
+TInt CBackLightControlImpl::Start(TInt aType,TUint16 aDuration)
+{
+  TInt err;
+  switch(aType)
+  {
+    case EBackLightTypeScreen:
+      err=iScreen->Start(aDuration);
+      break;
+    case EBackLightTypeKeys:
+      err=iKeys->Start(aDuration);
+      break;
+    case EBackLightTypeBoth:
+      err=iScreen->Start(aDuration);
+      if(err==KErrNone) err=iKeys->Start(aDuration);
+      break;
+    default:
+      err=KErrNotSupported;
+      break;
+  }
+  return err;
+}
+
+void CBackLightControlImpl::TimerExpired(TUint aParam)
+{
+  switch(aParam)
+  {
+    case EScreen:
+      iScreenBlinker->Cancel();
+      iScreenCurrentState=iScreenState;
+      iScreenCurrentBlink=iScreenBlink;
+      iScreenCurrentTime=iScreenTime;
+      break;
+    case EKeys:
+      iKeysBlinker->Cancel();
+      iKeysCurrentState=iKeysState;
+      iKeysCurrentBlink=iKeysBlink;
+      iKeysCurrentTime=iKeysTime;
+      break;
+    case EScreenBlink:
+      iScreenCurrentState=(iScreenCurrentState==EBackLightStateOn)?EBackLightStateOff:EBackLightStateOn;
+      break;
+    case EKeysBlink:
+      iKeysCurrentState=(iKeysCurrentState==EBackLightStateOn)?EBackLightStateOff:EBackLightStateOn;
+      break;
+  }
+  Switch();
 }
 
 EXPORT_C TInt CBackLightControlImpl::BackLightOn(TInt aType,TUint16 aDuration)
 {
-  TInt res;
-  if(!iTimerScreen) User::Invariant();
-  if(!iTimerKeys) User::Invariant();
-  switch(NormalizeType(aType))
-  {
-    case 0:
-      res=iTimerScreen->BackLightSwitch(0,aDuration);
-      break;
-    case 1:
-      res=iTimerKeys->BackLightSwitch(0,aDuration);
-      break;
-    case 2:
-      iTimerScreen->BackLightSwitch(0,aDuration);
-      res=iTimerKeys->BackLightSwitch(0,aDuration);
-      if(res==KErrNone) res=iTimerScreen->BackLightSwitch(0,aDuration);
-      break;
-    default:
-      res=KErrNotSupported;
-      break;
-  }
-  return res;
+  TInt err;
+  SBlink blink={0,0};
+  UpdateState(aType,EBackLightStateOn,aDuration,blink);
+  err=Switch();
+  if(err==KErrNone) err=Start(aType,aDuration);
+  return err;
 }
 
 EXPORT_C TInt CBackLightControlImpl::BackLightBlink(TInt aType,TUint16 aDuration,TUint16 aOnTime,TUint16 aOffTime)
 {
-  TInt res;
-  if(!iTimerScreen) User::Invariant();
-  if(!iTimerKeys) User::Invariant();
-  switch(NormalizeType(aType))
-  {
-    case 0:
-      res=iTimerScreen->StartBlink(aDuration,aOnTime,aOffTime);
-      break;
-    case 1:
-      res=iTimerKeys->StartBlink(aDuration,aOnTime,aOffTime);
-      break;
-    case 2:
-      res=iTimerKeys->StartBlink(aDuration,aOnTime,aOffTime);
-      if(res==KErrNone) res=iTimerScreen->StartBlink(aDuration,aOnTime,aOffTime);
-      break;
-    default:
-      res=KErrNotSupported;
-      break;
-  }
-  return res;
+  TInt err;
+  if(aOnTime==0||aOffTime==0) return KErrArgument;
+  SBlink blink={aOnTime,aOffTime};
+  UpdateState(aType,EBackLightStateBlink,aDuration,blink);
+  err=Switch();
+  if(err==KErrNone) err=Start(aType,aDuration);
+  return err;
 }
 
 EXPORT_C TInt CBackLightControlImpl::BackLightOff(TInt aType)
 {
-  TInt res;
-  if(!iTimerScreen) User::Invariant();
-  if(!iTimerKeys) User::Invariant();
-  switch(NormalizeType(aType))
-  {
-    case 0:
-      res=iTimerScreen->BackLightSwitch(1,0);
-      break;
-    case 1:
-      res=iTimerKeys->BackLightSwitch(1,0);
-      break;
-    case 2:
-      res=iTimerScreen->BackLightSwitch(1,0);
-      if(res==KErrNone) res=iTimerKeys->BackLightSwitch(1,0);
-      break;
-    default:
-      res=KErrNotSupported;
-      break;
-  }
-  return res;
+  TInt err;
+  SBlink blink={0,0};
+  UpdateState(aType,EBackLightStateOff,0,blink);
+  err=Switch();
+  if(err==KErrNone) err=Start(aType,0);
+  return err;
 }
 
 EXPORT_C TInt CBackLightControlImpl::BackLightChange(TInt aType,TUint16 aDuration)
 {
-  TInt res;
-  if(!iTimerScreen) User::Invariant();
-  if(!iTimerKeys) User::Invariant();
-  switch(NormalizeType(aType))
-  {
-    case 0:
-      res=iTimerScreen->BackLightChange(aDuration);
-      break;
-    case 1:
-      res=iTimerKeys->BackLightChange(aDuration);
-      break;
-    case 2:
-      res=iTimerScreen->BackLightChange(aDuration);
-      if(res==KErrNone) res=iTimerKeys->BackLightChange(aDuration);
-      break;
-    default:
-      res=KErrNotSupported;
-      break;
-  }
-  return res;
+  TInt err;
+  SBlink blink={0,0};
+  UpdateState(aType,EBackLightStateBlink,aDuration,blink);
+  err=Switch();
+  if(err==KErrNone) err=Start(aType,aDuration);
+  return err;
 }
 
 EXPORT_C TInt CBackLightControlImpl::BackLightState(TInt aType)
 {
   TInt res;
-  if(!iTimerScreen) User::Invariant();
-  if(!iTimerKeys) User::Invariant();
   switch(aType)
   {
-    case 0:
-      res=iTimerScreen->BackLightState();
+    case EBackLightTypeScreen:
+      res=iScreenCurrentState;
       break;
-    case 1:
-      res=iTimerKeys->BackLightState();
+    case EBackLightTypeKeys:
+      res=iKeysCurrentState;
       break;
     default:
-      res=3;
+      res=EBackLightStateUnknown;
       break;
   }
   return res;
-}
-
-TInt CBackLightControlImpl::NormalizeType(TInt aType)
-{
-  TInt res=2;
-  switch(aType)
-  {
-    case 0:
-      if(!iExtended) res=2;
-      else res=0;
-      break;
-    case 1:
-      if(!iExtended) res=3;
-      else res=1;
-      break;
-    case 2:
-      res=2;
-      break;
-    default:
-      Panic(0);
-      break;
-  }
-  return res;
-}
-
-void CBackLightControlImpl::Panic(TInt aPanic)
-{
-  User::Panic(_L("BACKLIGHT-CTRL"),aPanic);
-}
-
-TBool CBackLightControlImpl::IsOriginalNGage(void)
-{
-  TInt model=0;
-  if(HAL::Get(HALData::EModel,model)!=KErrNone||model==0x101F8C19) return ETrue;
-  return EFalse;
-}
-
-void CBackLightControlImpl::BackLightNotify(TInt aType,TInt aState)
-{
-  if(iCallback)
-  {
-    if(aType==0)
-    {
-      iCallback->ScreenNotify(aState);
-    }
-    else
-    {
-      iCallback->KeysNotify(aState);
-    }
-  }
 }
 
 void CBackLightControlImpl::HandleGainingForeground(void)
 {
-  if(!iTimerScreen) User::Invariant();
-  if(!iTimerKeys) User::Invariant();
-  if(!iDrv) User::Invariant();
-  if(iDrv->SetGameMode(ETrue)!=KErrNone||iTimerScreen->ResumeBackLight()!=KErrNone||iTimerKeys->ResumeBackLight()!=KErrNone) Panic(2);
+  TRAPD(err,HWBacklight::GameModeL(ETrue));
+  BackLightOn(EBackLightTypeBoth,0);
 }
 
 void CBackLightControlImpl::HandleLosingForeground(void)
 {
-  if(!iTimerScreen) User::Invariant();
-  if(!iTimerKeys) User::Invariant();
-  if(!iDrv) User::Invariant();
-  iDrv->SetGameMode(EFalse);
-  iTimerScreen->PauseBackLight();
-  iTimerKeys->PauseBackLight();
+  BackLightOn(EBackLightTypeBoth,0);
+  TRAPD(err,HWBacklight::GameModeL(EFalse));
 }
 
 EXPORT_C CBackLightControl* CBackLightControl::NewL(void)

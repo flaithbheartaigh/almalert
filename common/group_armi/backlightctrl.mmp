@@ -1,7 +1,7 @@
 target backlightctrl.dll
 targettype dll
 
-uid 0x10000079 0x10005952
+uid 0x10000079 0x101fec04
 targetpath \system\libs
 
 sourcepath ..\src\backlightctrl
@@ -13,8 +13,8 @@ source backlighttimer.cpp
 userinclude ..\src\backlightctrl\inc
 systeminclude ..\inc
 systeminclude \epoc32\include
+systeminclude ..\..\tricks\inc
 
 library euser.lib
 library cone.lib
-library hal.lib
-library lightdrv.lib
+library hwtricks.lib
