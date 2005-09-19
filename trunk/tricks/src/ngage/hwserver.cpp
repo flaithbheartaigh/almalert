@@ -18,7 +18,7 @@
 */
 
 #include "hwtricksimpl.hpp"
-#include <hal.h>
+#include <e32svr.h>
 
 EXPORT_C CHWServer* CHWServer::NewLC(void)
 {
@@ -48,7 +48,7 @@ void CHWServerImpl::ConstructL(void)
   iMutex.Wait();
   iCaptured=ETrue;
   TInt machine;
-  HAL::Get(HALData::EModel,machine);
+  User::LeaveIfError(UserSvr::HalGet(0x25,&machine));
   switch(machine)
   {
     case 0x101F8C19: //n-gage

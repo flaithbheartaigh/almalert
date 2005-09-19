@@ -18,6 +18,7 @@
 */
 
 #include "hwtricks.hpp"
+#include <e32svr.h>
 
 EXPORT_C void HWOther::InfoL(TInfoType aType,TInt& aValue)
 {
@@ -39,7 +40,12 @@ EXPORT_C void HWOther::InfoL(TInfoType aType,TInt& aValue)
       aValue=ETrue;
       break;
     case EInfoContrastSupported:
-      aValue=ETrue;
+      {
+        TInt machine;
+        User::LeaveIfError(UserSvr::HalGet(0x25,&machine));
+        if(machine==0x101F8C19) aValue=ETrue;
+        else aValue=EFalse;
+      }
       break;
     default:
       User::Leave(KErrNotSupported);
