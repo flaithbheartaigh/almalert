@@ -9,7 +9,7 @@ CBackLightControlImpl::CBackLightControlImpl(MBackLightControlObserver* aCallbac
 CBackLightControlImpl::~CBackLightControlImpl()
 {
   iCallback=NULL;
-  TRAPD(err,HWBacklight::GameModeL(EFalse));
+  TRAPD(err,HWBacklight::SetGameModeL(EFalse));
   BackLightOn(EBackLightTypeBoth,0);
   CCoeEnv::Static()->RemoveForegroundObserver(*this);
   delete iScreen;
@@ -20,7 +20,7 @@ CBackLightControlImpl::~CBackLightControlImpl()
 
 void CBackLightControlImpl::ConstructL(void)
 {
-  HWBacklight::GameModeL(ETrue);
+  HWBacklight::SetGameModeL(ETrue);
   iScreen=CBackLightTimer::NewL(this,EScreen);
   iKeys=CBackLightTimer::NewL(this,EKeys);
   iScreenBlinker=CBackLightTimer::NewL(this,EScreenBlink);
@@ -214,14 +214,14 @@ EXPORT_C TInt CBackLightControlImpl::BackLightState(TInt aType)
 
 void CBackLightControlImpl::HandleGainingForeground(void)
 {
-  TRAPD(err,HWBacklight::GameModeL(ETrue));
+  TRAPD(err,HWBacklight::SetGameModeL(ETrue));
   BackLightOn(EBackLightTypeBoth,0);
 }
 
 void CBackLightControlImpl::HandleLosingForeground(void)
 {
   BackLightOn(EBackLightTypeBoth,0);
-  TRAPD(err,HWBacklight::GameModeL(EFalse));
+  TRAPD(err,HWBacklight::SetGameModeL(EFalse));
 }
 
 EXPORT_C CBackLightControl* CBackLightControl::NewL(void)
