@@ -23,7 +23,7 @@
 #include <CommonEngine.hpp>
 #include <SharedData.hpp>
 
-EXPORT_C void HWBacklight::GameModeL(TBool aState)
+EXPORT_C void HWBacklight::SetGameModeL(TBool aState)
 {
   RSharedDataClient sysap;
   User::LeaveIfError(sysap.Connect(0));

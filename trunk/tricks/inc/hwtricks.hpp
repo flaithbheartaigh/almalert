@@ -68,7 +68,7 @@ class HWBacklight
   public:
     static const TUint8 KMaxBrightness=100;
   public:
-    IMPORT_C static void GameModeL(TBool aState);
+    IMPORT_C static void SetGameModeL(TBool aState);
     IMPORT_C static void SwitchL(TInt aType,TInt aState);
     IMPORT_C static void Reserved_1(void);
     IMPORT_C static void SetBrightnessL(TUint8 aBrightness);
