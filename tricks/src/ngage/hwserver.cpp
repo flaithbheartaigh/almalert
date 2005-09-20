@@ -20,6 +20,12 @@
 #include "hwtricksimpl.hpp"
 #include <hal.h>
 
+const TDesC8& CHWServerImpl::Copyright(void)
+{
+  _LIT8(KAppCopyright,"hwtricks. (c) 2005 by zg.");
+  return KAppCopyright;
+}
+
 EXPORT_C CHWServer* CHWServer::NewLC(void)
 {
   CHWServerImpl* self=new(ELeave)CHWServerImpl;
