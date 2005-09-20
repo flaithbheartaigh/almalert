@@ -18,7 +18,7 @@
 */
 
 #include "hwtricks.hpp"
-#include <e32svr.h>
+#include <hal.h>
 
 EXPORT_C void HWOther::InfoL(TInfoType aType,TInt& aValue)
 {
@@ -42,7 +42,7 @@ EXPORT_C void HWOther::InfoL(TInfoType aType,TInt& aValue)
     case EInfoContrastSupported:
       {
         TInt machine;
-        User::LeaveIfError(UserSvr::HalGet(0x25,&machine));
+        User::LeaveIfError(HAL::Get(HALData::EModel,machine));
         if(machine==0x101F8C19) aValue=ETrue;
         else aValue=EFalse;
       }
