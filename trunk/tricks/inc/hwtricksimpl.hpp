@@ -34,6 +34,7 @@ class CHWServerImpl: public CHWServer
   protected:
     CHWServerImpl();
     void ConstructL(void);
+    static const TDesC8& Copyright(void);
   private:
     TBool iCaptured;
     RMutex iMutex;
