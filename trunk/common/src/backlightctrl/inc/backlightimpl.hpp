@@ -24,8 +24,6 @@ class CBackLightControlImpl: public CBackLightControl,public MCoeForegroundObser
     TInt BackLightState(TInt aType);
   public:
     static const TDesC8& Copyright(void);
-  public:
-    static void Panic(TInt aPanic);
   private:
     enum TType
     {
