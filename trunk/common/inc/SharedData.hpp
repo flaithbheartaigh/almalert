@@ -21,9 +21,10 @@
 #define __SHAREDDATA_HPP__
 
 //uids
-const TUid KSysAppUid={0x100058F3};
+const TUid KSettingsUid={0x100058ec};
+const TUid KSysAppUid={0x100058f3};
 const TUid KSysUtilUid={0x10005943};
-const TUid KAlmAlertUid={0x1000599E};
+const TUid KAlmAlertUid={0x1000599e};
 
 //KAlmAlertUid
 _LIT(KKeySnoozeMsg,"SnoozeMsg");
@@ -39,5 +40,51 @@ _LIT(KKeyGameMode,"GameMode"); //only on qd
 
 //KSysUtilUid
 _LIT(KKeyStateVal,"state.val");
+
+//KSettingsUid
+_LIT(KKeyAutoRedial,"AutoRedial");
+_LIT(KKeySumAftCall,"SumAftCall");
+_LIT(KKeyOneKeyDial,"OneKeyDial");
+_LIT(KKeyAnyKeyAns,"AnyKeyAns");
+_LIT(KKeyMcnDisplay,"McnDisplay");
+_LIT(KKeyWNoteType,"WNoteType");
+_LIT(KKeyWNoteText,"WNoteText");
+_LIT(KKeyWNoteImg,"WNoteImg");
+_LIT(KKeyBGImg,"BGImg");
+_LIT(KKeyBGImgPath,"BGImgPath");
+_LIT(KKeyLeftIdle,"LeftIdle");
+_LIT(KKeyRightIdle,"RightIdle");
+_LIT(KKeyColPal,"ColPal");
+_LIT(KKeyColPals,"ColPals");
+_LIT(KKeyScrSvrObj,"ScrSvrObj");
+_LIT(KKeyScrSvrText,"ScrSvrText");
+_LIT(KKeyScrSvrPrd,"ScrSvrPrd");
+_LIT(KKeyAutoLock,"AutoLock");
+_LIT(KKeyLockTime,"LockTime");
+_LIT(KKeyConfirmSat,"ConfirmSat");
+_LIT(KKeyHsProfile,"HsProfile");
+_LIT(KKeyLsProfile,"LsProfile");
+_LIT(KKeyLoopSet,"LoopSet");
+_LIT(KKeyHsAutoAns,"HsAutoAns");
+_LIT(KKeyLsAutoAns,"LsAutoAns");
+_LIT(KKeyInputLang,"InputLang");
+_LIT(KKeyDispLang,"DispLang");
+_LIT(KKeyPredTxt,"PredTxt");
+_LIT(KKeyInputMode,"InputMode");
+_LIT(KKeyTolerance,"Tolerance");
+_LIT(KKeyNrGrouping,"NrGrouping");
+_LIT(KKeyTTYProfile,"TTYProfile");
+_LIT(KKeyAccessory,"Accessory");
+_LIT(KKeyBTProfile,"BTProfile");
+_LIT(KKeyBtAutoAns,"BtAutoAns");
+_LIT(KKeySScrBObj,"SScrBObj");
+_LIT(KKeySScrBTextLength,"SScrBText#len");
+_LIT(KKeySScrBText,"SScrBText");
+_LIT(KKeyScrSvrTextLength,"ScrSvrText#len");
+//r/o keys
+_LIT(KKeyROHSCSD,"R-HSCSD");
+_LIT(KKeyROWNote,"R-WNote");
+_LIT(KKeyROConfirmSat,"R-ConfirmSat");
+_LIT(KKeyROOffline,"R-Offline");
 
 #endif
