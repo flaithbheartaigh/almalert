@@ -32,7 +32,7 @@ GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
 
 const TDesC8& CVibraControlImpl::Copyright(void)
 {
-  _LIT8(KAppCopyright,"what's up fucking dude from nokia? you're fucking pissed off? I am the real man who made this. (c) 2005 by zg. version 3.02");
+  _LIT8(KAppCopyright,"vibractrl. (c) 2005 by zg. version 3.02");
   return KAppCopyright;
 }
 
