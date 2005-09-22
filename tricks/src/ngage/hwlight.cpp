@@ -33,7 +33,7 @@ EXPORT_C void HWBacklight::SetGameModeL(TBool aState)
   if(aState)
   {
     User::After(100000);
-    SwitchL(EBoth,EOn);
+    SwitchL(ESwitchBoth,EOn);
   }
   CleanupStack::PopAndDestroy(); //sysap
 }
@@ -58,14 +58,16 @@ EXPORT_C void HWBacklight::Reserved_1(void)
   User::Leave(KErrNotSupported);
 }
 
-EXPORT_C void HWBacklight::SetBrightnessL(TUint8 aBrightness)
+const TUint8 KBrightnesParam[]={1,5,6,2,7,3,4};
+
+EXPORT_C void HWBacklight::SetBrightnessL(TBrightnessType aType,TUint8 aValue1,TUint8 aValue2)
 {
   CHWServer* server=CHWServer::NewLC();
   TBuf8<4> data;
-  data.Append(3);
+  data.Append(KBrightnesParam[aType]);
   data.Append(4);
-  data.Append(aBrightness);
-  data.Append(0);
+  data.Append(aValue1);
+  data.Append(aValue2);
   CSubBlock* subBlock=CSubBlock::NewL(data,0,0x3a);
   CleanupStack::PushL(subBlock);
   CLightBrightnessSetReq* sendMsg=CLightBrightnessSetReq::NewL(0,subBlock);
@@ -80,14 +82,14 @@ EXPORT_C void HWBacklight::SetBrightnessL(TUint8 aBrightness)
   CleanupStack::PopAndDestroy(4); //recvMsg,sendMsg,subBlock,server
 }
 
-EXPORT_C void HWBacklight::BrightnessL(TUint8& aBrightness)
+EXPORT_C void HWBacklight::BrightnessL(TBrightnessType aType,TUint8& aValue1,TUint8& aValue2)
 {
   CHWServer* server=CHWServer::NewLC();
   TBuf8<4> data;
   data.Append(0);
   data.Append(0);
   data.Append(0);
-  data.Append(0x20);
+  data.Append(1<<aType);
   CLightBrightnessGetReq* sendMsg=CLightBrightnessGetReq::NewL(0,data);
   CleanupStack::PushL(sendMsg);
   server->SendL(*sendMsg);
@@ -97,17 +99,18 @@ EXPORT_C void HWBacklight::BrightnessL(TUint8& aBrightness)
   TPnReceiveAllocationLengthPckg pckg;
   server->ReceiveL(status,*recvMsg,pckg);
   User::WaitForRequest(status);
-  if(recvMsg->Ptr()[9]!=2) User::Leave(KErrUnknown);
+  if(recvMsg->Ptr()[9]!=2) User::Leave(KErrGeneral);
   CLightBrightnessGetResp* resp=new(ELeave)CLightBrightnessGetResp;
   CleanupStack::PushL(resp);
   recvMsg->Move(resp);
   if(!resp->SubBlockCount()) User::Leave(KErrUnknown);
   CSubBlock* subBlock=resp->SubBlock();
   CleanupStack::PushL(subBlock);
-  if(subBlock->Ptr()[0]!=3) User::Leave(KErrUnknown);
+  if(subBlock->Ptr()[0]!=KBrightnesParam[aType]) User::Leave(KErrUnknown);
   CLightBrightnessInfo* info=new(ELeave)CLightBrightnessInfo;
   subBlock->Move(info);
-  aBrightness=info->Brightness1();
+  aValue1=info->Brightness1();
+  aValue2=info->Brightness2();
   delete info;
   CleanupStack::PopAndDestroy(5); //subBlock,resp,recvMsg,sendMsg,server
 }
