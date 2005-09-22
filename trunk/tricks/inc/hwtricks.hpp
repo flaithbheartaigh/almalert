@@ -51,13 +51,13 @@ class HWVibra
 class HWBacklight
 {
   public:
-    enum TType
+    enum TSwitchType
     {
-      EScreen=1,
-      EKeys=2,
-      EBoth=3
+      ESwitchScreen=1,
+      ESwitchKeys=2,
+      ESwitchBoth=3
     };
-    enum TState
+    enum TSwitchState
     {
       ESlowOn=1,
       ESlowOff=2,
@@ -65,14 +65,24 @@ class HWBacklight
       EBlink2=4,
       EOn=5
     };
+    enum TBrightnessType
+    {
+      EUnknown1=0,
+      EUnknown2,
+      EUnknown3,
+      EUnknown4,
+      EBrightnessSensor,
+      EBrightnessScreen,
+      EBrightnessKeys
+    };
   public:
     static const TUint8 KMaxBrightness=100;
   public:
     IMPORT_C static void SetGameModeL(TBool aState);
     IMPORT_C static void SwitchL(TInt aType,TInt aState);
     IMPORT_C static void Reserved_1(void);
-    IMPORT_C static void SetBrightnessL(TUint8 aBrightness);
-    IMPORT_C static void BrightnessL(TUint8& aBrightness);
+    IMPORT_C static void SetBrightnessL(TBrightnessType aType,TUint8 aValue1,TUint8 aValue2=0);
+    IMPORT_C static void BrightnessL(TBrightnessType aType,TUint8& aValue1,TUint8& aValue2);
     IMPORT_C static void Reserved_2(void);
     IMPORT_C static void Reserved_3(void);
     IMPORT_C static void Reserved_4(void);
