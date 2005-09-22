@@ -56,13 +56,13 @@ void CBackLightControlImpl::ConstructL(void)
 
 TInt CBackLightControlImpl::Switch(void)
 {
-  TInt type=HWBacklight::EBoth;
+  TInt type=HWBacklight::ESwitchBoth;
   TInt state=HWBacklight::EOn;
   if(iScreenCurrentState==iKeysCurrentState)
   {
     if(iScreenCurrentState==EBackLightStateOff)
     {
-      type=HWBacklight::EKeys;
+      type=HWBacklight::ESwitchKeys;
       state=HWBacklight::ESlowOff;
     }
   }
@@ -70,11 +70,11 @@ TInt CBackLightControlImpl::Switch(void)
   {
     if(iScreenCurrentState==EBackLightStateOn)
     {
-      type=HWBacklight::EScreen;
+      type=HWBacklight::ESwitchScreen;
     }
     else
     {
-      type=HWBacklight::EKeys;
+      type=HWBacklight::ESwitchKeys;
     }
   }
   TRAPD(err,HWBacklight::SwitchL(type,state));

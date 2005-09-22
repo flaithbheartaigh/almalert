@@ -42,9 +42,9 @@ class RDosLights: public RDosSubSession
   public:
     enum TType
     {
-      ETypeScreen=0,
-      ETypeBoth,
-      ETypeKeys //only on qd
+      ESwitchScreen=0,
+      ESwitchBoth,
+      ESwitchKeys //only on qd
     };
     enum TState
     {
