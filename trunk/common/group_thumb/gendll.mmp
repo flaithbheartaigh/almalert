@@ -1,0 +1,16 @@
+target gendll.dll
+targettype dll
+
+uid 0x1000008d 0x1000595a
+targetpath \system\libs
+
+sourcepath ..\src\gendll
+source gendll.cpp
+
+systeminclude ..\inc
+systeminclude \epoc32\include
+
+library euser.lib
+library phonet.lib
+library isimsg.lib
+library pnmsg.lib
