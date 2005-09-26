@@ -27,7 +27,7 @@ CAlmAudioBase::CAlmAudioBase(CEikonEnv* anEnv): CBase(),iEnv(anEnv)
 
 CAlmAudioBase::~CAlmAudioBase()
 {
-  if(iState==EPrepared1||iState==EPrepared2) iPlayer->Stop();
+  if(iPrepared) iPlayer->Stop();
   delete iPlayer;
   SetDspState(ETrue);
   delete iAudio;
@@ -78,33 +78,16 @@ void CAlmAudioBase::MapcInitComplete(TInt aError,const TTimeIntervalMicroSeconds
   }
   else
   {
-    if(iState==ENonPrepared1)
+    if(UpdateVolume())
     {
-      iState=EPrepared1;
-      if(UpdateVolume())
-      {
-        PlayInit();
-        iPlayer->Play();
-      }
-    }
-    else
-    {
-      iState=EPrepared2;
-      iPlayer->SetVolume(iPlayer->MaxVolume());
+      PlayInit();
       iPlayer->Play();
     }
+    iPrepared=ETrue;
   }
 }
 
 // aError может быть KErrInUse
 void CAlmAudioBase::MapcPlayComplete(TInt aError)
 {
-  _LIT(KNoSound,"z:\\System\\Sounds\\Digital\\No_Sound.wav");
-  if(iState==EPrepared1&&aError==KErrInUse)
-  {
-    delete iPlayer;
-    iState=ENonPrepared2;
-    TRAPD(err,iPlayer=CMdaAudioPlayerUtility::NewFilePlayerL(KNoSound,*this,Priority(),PriorityPreference()));
-    if(err!=KErrNone) iPlayer=NULL;
-  }
 }

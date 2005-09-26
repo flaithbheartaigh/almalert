@@ -34,7 +34,7 @@ CAlmAudioBeep::CAlmAudioBeep(CEikonEnv* anEnv): CAlmAudioBase(anEnv)
 
 TInt CAlmAudioBeep::Priority(void)
 {
-  return EMdaPriorityMin;
+  return 80;
 }
 
 TMdaPriorityPreference CAlmAudioBeep::PriorityPreference(void)
