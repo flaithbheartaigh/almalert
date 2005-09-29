@@ -913,7 +913,7 @@ EXPORT_C void func_896(void) {}
 EXPORT_C void func_897(void) {}
 EXPORT_C void func_898(void) {}
 EXPORT_C void func_899(void) {}
-EXPORT_C void func_900(void) {}
+//EXPORT_C void func_900(void) {}
 EXPORT_C void func_901(void) {}
 //EXPORT_C void func_902(void) {}
 EXPORT_C void func_903(void) {}
@@ -983,9 +983,9 @@ EXPORT_C void func_966(void) {}
 EXPORT_C void func_967(void) {}
 EXPORT_C void func_968(void) {}
 EXPORT_C void func_969(void) {}
-EXPORT_C void func_970(void) {}
-EXPORT_C void func_971(void) {}
-EXPORT_C void func_972(void) {}
+//EXPORT_C void func_970(void) {}
+//EXPORT_C void func_971(void) {}
+//EXPORT_C void func_972(void) {}
 EXPORT_C void func_973(void) {}
 EXPORT_C void func_974(void) {}
 //EXPORT_C void func_975(void) {}
