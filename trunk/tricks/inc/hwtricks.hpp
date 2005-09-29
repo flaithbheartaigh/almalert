@@ -59,18 +59,33 @@ class HWBacklight
     };
     enum TSwitchState
     {
-      ESlowOn=1,
-      ESlowOff=2,
+      ESmoothOn=1,
+      ESmoothOff=2,
       EBlink1=3,
       EBlink2=4,
       EOn=5
     };
+    enum TBrightnessBlock
+    {
+      EBlockOff=1,
+      EBlockOn=2
+    };
+    enum TBrightnessTimer
+    {
+      ETimerOn=1,
+      ETimerOff=2
+    };
+    enum TBrightnessSmooth
+    {
+      ESmoothSlow=1,
+      ESmoothFast=2
+    };
     enum TBrightnessType
     {
-      EUnknown1=0,
-      EUnknown2,
-      EUnknown3,
-      EUnknown4,
+      EBrightnessBlock=0,
+      EBrightnessTimer,
+      EBrightnessBlink, //aValue1 - on time, aValue2 - off time. all times in 100 ms.
+      EBrightnessSmooth,
       EBrightnessSensor,
       EBrightnessScreen,
       EBrightnessKeys
