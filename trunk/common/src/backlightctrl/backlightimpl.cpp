@@ -63,7 +63,7 @@ TInt CBackLightControlImpl::Switch(void)
     if(iScreenCurrentState==EBackLightStateOff)
     {
       type=HWBacklight::ESwitchKeys;
-      state=HWBacklight::ESlowOff;
+      state=HWBacklight::ESmoothOff;
     }
   }
   else

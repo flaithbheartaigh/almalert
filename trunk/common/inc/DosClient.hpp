@@ -48,8 +48,8 @@ class RDosLights: public RDosSubSession
     };
     enum TState
     {
-      ESlowOn=0,
-      ESlowOff,
+      ESmoothOn=0,
+      ESmoothOff,
       EOn,
       EBlink
     };
