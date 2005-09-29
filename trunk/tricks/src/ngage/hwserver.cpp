@@ -57,6 +57,9 @@ void CHWServerImpl::ConstructL(void)
   User::LeaveIfError(HAL::Get(HALData::EModel,machine));
   switch(machine)
   {
+    case 0x101F466A: //3650&3660
+      User::LeaveIfError(iPhoNet.Open(0x51));
+      break;
     case 0x101F8C19: //n-gage
       User::LeaveIfError(iPhoNet.Open(0x58));
       break;
