@@ -19,6 +19,51 @@
 
 #include <isimsg.hpp>
 
+EXPORT_C TUint8 CIsiMsg976::GetParam10(void)
+{
+  return iPtr[10];
+}
+
+EXPORT_C TUint8 CIsiMsg976::GetParam10A(void)
+{
+  return iPtr[10];
+}
+
+EXPORT_C TUint8 CIsiMsg976::GetParam10B(void)
+{
+  return iPtr[10];
+}
+
+EXPORT_C TUint8 CIsiMsg976::GetParam10C(void)
+{
+  return iPtr[10];
+}
+
+EXPORT_C CIsiMsg802* CIsiMsg802::NewL(TUint8 aParam1,TUint8 aParam2)
+{
+  return NULL;
+}
+
+EXPORT_C CIsiMsg848* CIsiMsg848::NewL(TUint8 aParam1,TUint8 aParam2)
+{
+  return NULL;
+}
+
+EXPORT_C CIsiMsg850* CIsiMsg850::NewL(TUint8 aParam1,TUint8 aParam2,TUint8 aParam3,TUint8 aParam4)
+{
+  return NULL;
+}
+
+EXPORT_C CIsiMsg649* CIsiMsg649::NewL(TUint8 aParam1,TUint8 aParam2,TUint8 aParam3)
+{
+  return NULL;
+}
+
+EXPORT_C CIsiMsg691* CIsiMsg691::NewL(TUint8 aParam1,TUint8 aParam2,TUint8 aParam3,CIsiMsg649* aMsg)
+{
+  return NULL;
+}
+
 EXPORT_C void* IsiMsg900(TUint8 aTransactionId,TUint8 aParam1,TUint8 aParam2,TUint8 aParam3)
 {
   return NULL;
