@@ -225,6 +225,7 @@ EXPORT_C TInt RPhoNet::Open(const TUint8 aObjectNumber)
         err=DoCreate(ptr,version,NULL,0x13,NULL,NULL);
       }
       break;
+    //GD1ENG.DLL
     case 0x59://qd: no
       {
         TVersion version(1,0,1);
