@@ -18,6 +18,7 @@
 */
 
 #include <isimsg.hpp>
+#include <isi_units.hpp>
 
 EXPORT_C CSubBlock::~CSubBlock()
 {
@@ -47,16 +48,16 @@ inline TUint16 Combine(TUint16 aParam1,TUint8 aParam2)
   return aParam1|aParam2;
 }
 
-EXPORT_C CSubBlock* CSubBlock::NewL(TDesC8& aData,TInt anOffset,TUint8 aParam)
+EXPORT_C CSubBlock* CSubBlock::NewL(TDesC8& aData,TInt anOffset,TUint8 aUnit)
 {
   TInt len;
-  if(aParam==3)
+  if(aUnit==KPhonePndUnit)
   {
     len=Combine(aData[anOffset+2]<<8,aData[anOffset+3]);
   }
   else
   {
-    if(aData[anOffset]==4&&aParam==0x58&&aData[anOffset+4]==0x10)
+    if(aData[anOffset]==4&&aUnit==KPhoneUnknown0x58Unit&&aData[anOffset+4]==0x10)
     {
       len=Combine(aData[anOffset+1]<<8,aData[anOffset+2]);
     }

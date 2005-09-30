@@ -66,9 +66,9 @@ EXPORT_C void CGeneral::DoCancel(void)
 
 void CGeneral::Response(void)
 {
-  TUint8 transactionId=iRecvMsg->Ptr()[8];
-  TUint8 unit=iRecvMsg->Ptr()[3];
-  TUint8 function=iRecvMsg->Ptr()[9];
+  TUint8 transactionId=iRecvMsg->Transaction();
+  TUint8 unit=iRecvMsg->Unit();
+  TUint8 function=iRecvMsg->Function();
   TInt len=iRecvMsg->Ptr().Length();
   if(len>10)
   {
