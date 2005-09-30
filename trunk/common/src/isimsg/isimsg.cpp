@@ -83,7 +83,7 @@ EXPORT_C CSubBlock* CIsiMsg::SubBlock(void)
   TInt index=SubBlockCountIndex();
   if(index==0||(index>0&&!iPtr[index])) return NULL;
   TInt offset=SubBlockStart();
-  return CSubBlock::NewL(iPtr,offset,iPtr[3]);
+  return CSubBlock::NewL(iPtr,offset,Unit());
 }
 
 EXPORT_C void CIsiMsg::Append(CSubBlock* aBlock)

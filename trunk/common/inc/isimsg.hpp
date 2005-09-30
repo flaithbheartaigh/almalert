@@ -36,6 +36,11 @@ class CIsiMsg: public CPnMsg
     IMPORT_C TUint8 SubBlockCount(void); //990
     IMPORT_C CSubBlock* SubBlock(void); //1413
     IMPORT_C void Append(CSubBlock* aBlock); //34
+  public:
+    inline TUint8 Unit(void) {return iPtr[3];};
+    inline TUint8 Transaction(void) {return iPtr[8];};
+    inline TUint8 Function(void) {return iPtr[9];};
+    inline void SetUnit(TUint8 aUnit) {iPtr[3]=aUnit;};
   protected:
     void ConstructL(TInt aSize);
 };
@@ -48,7 +53,7 @@ class CSubBlock: public CBase
     IMPORT_C virtual TInt SubBlockCountIndex(); //1411
     IMPORT_C virtual TInt SubBlockStart(); //1510
     IMPORT_C void Move(CSubBlock* aTarget); //613
-    IMPORT_C static CSubBlock* NewL(TDesC8& aData,TInt anOffset,TUint8 aParam); //984
+    IMPORT_C static CSubBlock* NewL(TDesC8& aData,TInt anOffset,TUint8 aUnit); //984
     IMPORT_C static CSubBlock* NewL(TDesC8& aData,TInt anOffset); //985
     IMPORT_C TInt Length(void); //1186
     IMPORT_C TPtrC8 Data(void); //200

@@ -36,7 +36,7 @@ CVibraReq* CVibraReq::NewL(TUint8 aTransactionId,TUint8 aState)
   CVibraReq* self=new(ELeave)CVibraReq;
   CleanupStack::PushL(self);
   self->ConstructL(11);
-  self->iPtr[3]=KPhoneAccessoryUnit;
+  self->SetUnit(KPhoneAccessoryUnit);
   self->iPtr.Append(aTransactionId);
   self->iPtr.Append(0xc);
   self->iPtr.Append(aState);
@@ -49,7 +49,7 @@ CVibraIntensityReq* CVibraIntensityReq::NewL(TUint8 aTransactionId,TUint8 anInte
   CVibraIntensityReq* self=new(ELeave)CVibraIntensityReq;
   CleanupStack::PushL(self);
   self->ConstructL(11);
-  self->iPtr[3]=KPhoneAccessoryUnit;
+  self->SetUnit(KPhoneAccessoryUnit);
   self->iPtr.Append(aTransactionId);
   self->iPtr.Append(0xe);
   self->iPtr.Append(anIntensity);

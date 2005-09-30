@@ -25,10 +25,10 @@
 const TUint8 KPhoneCallUnit=0x01;
 const TUint8 KPhoneSmsUnit=0x02;
 const TUint8 KPhonePndUnit=0x03;
-const TUint8 KPhoneUnknown1Unit=0x06;
+const TUint8 KPhoneUnknown0x06Unit=0x06;
 const TUint8 KPhoneAocUnit=0x07;
 const TUint8 KPhoneSecurityUnit=0x08;
-const TUint8 KPhoneUnknown2Unit=0x09;
+const TUint8 KPhoneUnknown0x09Unit=0x09;
 const TUint8 KPhoneNetUnit=0x0a;
 const TUint8 KPhoneAudioUnit=0x0b;
 const TUint8 KPhoneMtcUnit=0x15;
@@ -48,8 +48,9 @@ const TUint8 KPhoneRadioUnit=0x3e;
 const TUint8 KPhoneNvdUnit=0x43;
 const TUint8 KPhoneSimLockUnit=0x53;
 const TUint8 KPhoneLocationUnit=0x54;
-const TUint8 KPhoneUnknown3Unit=0x5e;
+const TUint8 KPhoneUnknown0x58Unit=0x58;
+const TUint8 KPhoneUnknown0x5eUnit=0x5e;
 const TUint8 KPhoneBearerUnit=0x60;
-const TUint8 KPhoneUnknown4Unit=0xd1;
+const TUint8 KPhoneUnknown0xd1Unit=0xd1;
 
 #endif

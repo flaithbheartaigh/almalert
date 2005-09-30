@@ -25,7 +25,7 @@ EXPORT_C CLightBrightnessGetReq* CLightBrightnessGetReq::NewL(TUint8 aTransactio
   CLightBrightnessGetReq* self=new(ELeave)CLightBrightnessGetReq;
   CleanupStack::PushL(self);
   self->ConstructL(16);
-  self->iPtr[3]=KPhoneLightUnit;
+  self->SetUnit(KPhoneLightUnit);
   self->iPtr.Append(aTransactionId);
   self->iPtr.Append(1);
   self->iPtr.Append(0);
@@ -62,7 +62,7 @@ EXPORT_C CLightBrightnessSetReq* CLightBrightnessSetReq::NewL(TUint8 aTransactio
   else
     len=12;
   self->ConstructL(len);
-  self->iPtr[3]=KPhoneLightUnit;
+  self->SetUnit(KPhoneLightUnit);
   self->iPtr.Append(aTransactionId);
   self->iPtr.Append(3);
   self->iPtr.Append(0);
@@ -89,7 +89,7 @@ EXPORT_C CLightSwitchReq* CLightSwitchReq::NewL(TUint8 aTransactionId,TUint8 aTy
   else
     len=16;
   self->ConstructL(len);
-  self->iPtr[3]=KPhoneLightUnit;
+  self->SetUnit(KPhoneLightUnit);
   self->iPtr.Append(aTransactionId);
   self->iPtr.Append(5);
   self->iPtr.Append(aType);
