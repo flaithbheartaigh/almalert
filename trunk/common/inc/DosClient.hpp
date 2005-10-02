@@ -60,4 +60,17 @@ class RDosLights: public RDosSubSession
     IMPORT_C TInt GetLightSensorSettings(TUint8& aParam1,TUint8& aParam2) const;
 };
 
+
+class RDosHelper: public RDosSubSession
+{
+  public:
+    IMPORT_C TInt Open(RDosServer& aSession);
+    IMPORT_C TInt GetStartupReason(TInt& aStartupReason) const;
+    IMPORT_C TInt GetSWStartupReason(TInt16& aSWStartupReason) const;
+    IMPORT_C TInt SetSWStartupReason(TInt16 aSWStartupReason) const;
+    IMPORT_C TInt HiddenReset(void) const;
+    IMPORT_C TInt GetRTCStatus(TInt& aStatus) const;
+    IMPORT_C TInt GenerateGripEvent(void) const;
+};
+
 #endif
