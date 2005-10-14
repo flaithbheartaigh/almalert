@@ -2,3 +2,4 @@ PRJ_MMPFILES
 vibractrl.mmp
 lightdrv.mmp
 backlightctrl.mmp
+lcddev.mmp
