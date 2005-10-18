@@ -1,0 +1,16 @@
+target FixSS.mdl
+targettype MDL 
+uid 0x10003a19 0x1020810b
+
+targetpath \system\recogs\
+
+sourcepath ..\src
+source FixSS.cpp
+
+userinclude ..\inc
+systeminclude ..\..\common\inc
+systeminclude \epoc32\include
+
+library euser.lib
+library apmime.lib
+library adsp.lib
