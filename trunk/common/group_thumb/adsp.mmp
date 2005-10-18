@@ -1,0 +1,13 @@
+target adsp.dll
+targettype dll
+
+uid 0x1000008d 0x101f5cdd
+targetpath \system\libs
+
+sourcepath ..\src\adsp
+source adsp.cpp
+
+systeminclude ..\inc
+systeminclude \epoc32\include
+
+library euser.lib

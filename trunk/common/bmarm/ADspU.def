@@ -1,0 +1,10 @@
+EXPORTS
+	func_1__Fv @ 1 NONAME R3UNUSED ; func_1(void)
+	func_2__Fv @ 2 NONAME R3UNUSED ; func_2(void)
+	func_3__Fv @ 3 NONAME R3UNUSED ; func_3(void)
+	func_4__Fv @ 4 NONAME R3UNUSED ; func_4(void)
+	func_5__Fv @ 5 NONAME R3UNUSED ; func_5(void)
+	func_6__Fv @ 6 NONAME R3UNUSED ; func_6(void)
+	StartServer__4ADsp @ 7 NONAME R3UNUSED ; ADsp::StartServer(void)
+	func_8__Fv @ 8 NONAME R3UNUSED ; func_8(void)
+
