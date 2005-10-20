@@ -1,5 +1,5 @@
 /*
-    FixSS.cpp
+    LoadNotifier.hpp
     Copyright (C) 2005 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -17,43 +17,25 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include <adsp.hpp>
-#include "FixSS.hpp"
+#ifndef __LOADNOTIFIER_HPP__
+#define __LOADNOTIFIER_HPP__
 
-_LIT8(KCopyright,"(c) by zg. version 1.04");
+#include <CommonEngine.hpp>
 
-const TUid KUidRecog={KUidRecogValue};
-
-GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
+class CLoadNotifier: public CBase,public MSharedDataNotifyHandler
 {
-  return KErrNone;
-}
+  public:
+    static CLoadNotifier* NewLC(void);
+    ~CLoadNotifier();
+    void Wait(void);
+  public:
+    void SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue);
+  private:
+    CLoadNotifier();
+    void ConstructL(void);
+    void PatchL(void);
+  private:
+    RSharedDataClient iSysAp;
+};
 
-EXPORT_C CApaDataRecognizerType* CreateRecognizer()
-{
-  KCopyright();
-  ADsp::StartServer();
-  CRecog::StartThread();
-  CApaDataRecognizerType* thing=new CRecog();
-  return thing;
-}
-
-CRecog::CRecog():CApaDataRecognizerType(KUidRecog,CApaDataRecognizerType::ENormal)
-{
-  iCountDataTypes=0;
-}
-
-TUint CRecog::PreferredBufSize()
-{
-  return 0;
-}
-
-TDataType CRecog::SupportedDataTypeL(TInt /*aIndex*/) const
-{
-  return TDataType();
-}
-
-void CRecog::DoRecognizeL(TDesC& /*aName*/,const TDesC8& /*aBuffer*/)
-{
-  iConfidence=ENotRecognized;
-}
+#endif
