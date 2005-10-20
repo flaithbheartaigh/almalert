@@ -1,5 +1,5 @@
 /*
-    FixSS.cpp
+    FixSSThread.cpp
     Copyright (C) 2005 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -17,43 +17,39 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include <adsp.hpp>
 #include "FixSS.hpp"
+#include "LoadNotifier.hpp"
 
-_LIT8(KCopyright,"(c) by zg. version 1.04");
-
-const TUid KUidRecog={KUidRecogValue};
-
-GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
+LOCAL_C void ThreadProcL(void)
 {
-  return KErrNone;
+  CActiveScheduler* scheduler=new(ELeave)CActiveScheduler;
+  CleanupStack::PushL(scheduler);
+  CActiveScheduler::Install(scheduler);
+  CLoadNotifier* notifier=CLoadNotifier::NewLC();
+  notifier->Wait();
+  CleanupStack::PopAndDestroy(2); //notifier, scheduler
 }
 
-EXPORT_C CApaDataRecognizerType* CreateRecognizer()
+LOCAL_C TInt ThreadProc(TAny* aParam)
 {
-  KCopyright();
-  ADsp::StartServer();
-  CRecog::StartThread();
-  CApaDataRecognizerType* thing=new CRecog();
-  return thing;
+  TInt err=KErrNoMemory;
+  CTrapCleanup* cleanup=CTrapCleanup::New();
+  if(cleanup)
+  {
+    TRAP(err,ThreadProcL());
+    delete cleanup;
+  }
+  return err;
 }
 
-CRecog::CRecog():CApaDataRecognizerType(KUidRecog,CApaDataRecognizerType::ENormal)
-{
-  iCountDataTypes=0;
-}
+_LIT(KThreadName,"zg.fixss");
 
-TUint CRecog::PreferredBufSize()
+void CRecog::StartThread(void)
 {
-  return 0;
-}
-
-TDataType CRecog::SupportedDataTypeL(TInt /*aIndex*/) const
-{
-  return TDataType();
-}
-
-void CRecog::DoRecognizeL(TDesC& /*aName*/,const TDesC8& /*aBuffer*/)
-{
-  iConfidence=ENotRecognized;
+  RThread thread;
+  if(thread.Create(KThreadName,ThreadProc,KDefaultStackSize,KMinHeapSize,KMinHeapSize,NULL,EOwnerThread)==KErrNone)
+  {
+    thread.Resume();
+    thread.Close();
+  }
 }

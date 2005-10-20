@@ -32,6 +32,8 @@ class CRecog: public CApaDataRecognizerType
     TDataType SupportedDataTypeL(TInt aIndex) const;
   private:
     void DoRecognizeL(TDesC& aName,const TDesC8& aBuffer);
+  public:
+    static void StartThread(void);
 };
 
 #endif
