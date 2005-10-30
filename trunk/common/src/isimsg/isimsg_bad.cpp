@@ -19,7 +19,7 @@
 
 #include <e32base.h>
 
-EXPORT_C void func_1(void) {}
+//EXPORT_C void func_1(void) {}
 EXPORT_C void func_2(void) {}
 EXPORT_C void func_3(void) {}
 EXPORT_C void func_4(void) {}
@@ -776,7 +776,7 @@ EXPORT_C void func_758(void) {}
 EXPORT_C void func_759(void) {}
 EXPORT_C void func_760(void) {}
 EXPORT_C void func_761(void) {}
-EXPORT_C void func_762(void) {}
+//EXPORT_C void func_762(void) {}
 EXPORT_C void func_763(void) {}
 EXPORT_C void func_764(void) {}
 EXPORT_C void func_765(void) {}
@@ -1612,7 +1612,7 @@ EXPORT_C void func_1595(void) {}
 EXPORT_C void func_1596(void) {}
 EXPORT_C void func_1597(void) {}
 EXPORT_C void func_1598(void) {}
-EXPORT_C void func_1599(void) {}
+//EXPORT_C void func_1599(void) {}
 //EXPORT_C void func_1600(void) {}
 EXPORT_C void func_1601(void) {}
 //EXPORT_C void func_1602(void) {}
