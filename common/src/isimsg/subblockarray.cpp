@@ -1,5 +1,5 @@
 /*
-    subblock.cpp
+    subblockarray.cpp
     Copyright (C) 2005 zg
 
     This program is free software; you can redistribute it and/or modify
