@@ -69,12 +69,12 @@ EXPORT_C void* IsiMsg900(TUint8 aTransactionId,TUint8 aParam1,TUint8 aParam2,TUi
   return NULL;
 }
 
-EXPORT_C void* IsiMsg970(TUint8 aTransactionId,TUint8 aParam1,TUint8 aParam2,TUint8 aParam3,const TDesC8& aParam4)
+EXPORT_C void* IsiMsg970(TUint8 aTransactionId,TUint8 aParam1,TUint8 aParam2,TUint8 aParam3,const TDesC16& aParam4)
 {
   return NULL;
 }
 
-EXPORT_C void* IsiMsg971(TUint8 aTransactionId,TUint8 aParam1,TUint8 aParam2,TUint8 aParam3,const TDesC8& aParam4)
+EXPORT_C void* IsiMsg971(TUint8 aTransactionId,TUint8 aParam1,TUint8 aParam2,TUint8 aParam3,const TDesC16& aParam4)
 {
   return NULL;
 }

@@ -9,6 +9,7 @@ source isimsg.cpp
 source isimsg_unknown.cpp
 source isimsg_bad.cpp
 source subblock.cpp
+source subblockarray.cpp
 source isi_light.cpp
 
 systeminclude ..\inc

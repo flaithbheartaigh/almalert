@@ -67,6 +67,20 @@ class CSubBlock: public CBase
     HBufC8* iBuf; //0x14
 };
 
+class CSubBlockArray: public CBase
+{
+  public:
+    IMPORT_C static CSubBlockArray* NewL(TUint8 aNumber); //762
+    IMPORT_C ~CSubBlockArray(); //1599
+  public:
+    IMPORT_C CSubBlock*& operator[](TUint8 aIndex); //1
+  private:
+    void ConstructL(TUint8 aAmount);
+  private:
+    TUint8 iAmount;
+    CSubBlock** iSubBlocks;
+};
+
 //really not exist
 class CIsiMsg976: public CIsiMsg //phonet init??
 {
