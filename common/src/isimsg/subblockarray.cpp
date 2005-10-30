@@ -46,3 +46,15 @@ void CSubBlockArray::ConstructL(TUint8 aAmount)
   iSubBlocks=new(ELeave)CSubBlock*[aAmount];
   for(TInt i=0;i<aAmount;i++) iSubBlocks[i]=NULL;
 }
+
+EXPORT_C TUint8 CSubBlockArray::Number(void)
+{
+  return iAmount;
+}
+
+EXPORT_C TInt CSubBlockArray::DataSize(void)
+{
+  TInt size=0;
+  for(TInt i=0;i<iAmount;i++) size+=iSubBlocks[i]->Length();
+  return size;
+}

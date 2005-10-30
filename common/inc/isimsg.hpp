@@ -74,6 +74,8 @@ class CSubBlockArray: public CBase
     IMPORT_C ~CSubBlockArray(); //1599
   public:
     IMPORT_C CSubBlock*& operator[](TUint8 aIndex); //1
+    IMPORT_C TUint8 Number(void); //1006
+    IMPORT_C TInt DataSize(void); //192
   private:
     void ConstructL(TUint8 aAmount);
   private:

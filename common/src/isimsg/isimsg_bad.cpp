@@ -210,7 +210,7 @@ EXPORT_C void func_188(void) {}
 EXPORT_C void func_189(void) {}
 EXPORT_C void func_190(void) {}
 EXPORT_C void func_191(void) {}
-EXPORT_C void func_192(void) {}
+//EXPORT_C void func_192(void) {}
 EXPORT_C void func_193(void) {}
 EXPORT_C void func_194(void) {}
 EXPORT_C void func_195(void) {}
@@ -1019,7 +1019,7 @@ EXPORT_C void func_1002(void) {}
 EXPORT_C void func_1003(void) {}
 EXPORT_C void func_1004(void) {}
 EXPORT_C void func_1005(void) {}
-EXPORT_C void func_1006(void) {}
+//EXPORT_C void func_1006(void) {}
 EXPORT_C void func_1007(void) {}
 EXPORT_C void func_1008(void) {}
 EXPORT_C void func_1009(void) {}
