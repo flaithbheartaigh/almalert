@@ -77,7 +77,7 @@ EXPORT_C CSubBlock* CSubBlock::NewL(TDesC8& aData,TInt anOffset,TUint8 aUnit)
   return self;
 }
 
-EXPORT_C CSubBlock* CSubBlock::NewL(TDesC8& aData,TInt anOffset)
+EXPORT_C CSubBlock* CSubBlock::NewL1(TDesC8& aData,TInt anOffset)
 {
   TPtrC8 subBlock=aData.Mid(anOffset,aData.Length()-anOffset);
   CSubBlock* self=new(ELeave)CSubBlock;
@@ -107,4 +107,23 @@ EXPORT_C TPtrC8 CSubBlock::Data(void)
 EXPORT_C TInt CSubBlock::Length(void)
 {
   return iPtr.Length();
+}
+
+EXPORT_C CSubBlock* CSubBlock::NewL0(TDesC8& aData,TInt anOffset)
+{
+  TUint8 length=aData[anOffset+2];
+  if((anOffset+length)>aData.Length()) User::Leave(KErrGeneral);
+  TPtrC8 ptr=aData.Mid(anOffset,length);
+  CSubBlock* self=new(ELeave)CSubBlock;
+  CleanupStack::PushL(self);
+  self->ConstructL(ptr.Length());
+  self->iUnknown=aData[anOffset];
+  self->iPtr=ptr;
+  CleanupStack::Pop(); //self
+  return self;
+}
+
+EXPORT_C TUint16 CSubBlock::Address(void) //149
+{
+  return Combine(iPtr[0]<<8,iPtr[1]);
 }
