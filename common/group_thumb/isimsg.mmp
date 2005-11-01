@@ -11,6 +11,7 @@ source isimsg_bad.cpp
 source subblock.cpp
 source subblockarray.cpp
 source isi_light.cpp
+source isi_test.cpp
 
 systeminclude ..\inc
 systeminclude \epoc32\include

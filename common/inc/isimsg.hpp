@@ -54,9 +54,11 @@ class CSubBlock: public CBase
     IMPORT_C virtual TInt SubBlockStart(); //1510
     IMPORT_C void Move(CSubBlock* aTarget); //613
     IMPORT_C static CSubBlock* NewL(TDesC8& aData,TInt anOffset,TUint8 aUnit); //984
-    IMPORT_C static CSubBlock* NewL(TDesC8& aData,TInt anOffset); //985
+    IMPORT_C static CSubBlock* NewL0(TDesC8& aData,TInt anOffset); //983
+    IMPORT_C static CSubBlock* NewL1(TDesC8& aData,TInt anOffset); //985
     IMPORT_C TInt Length(void); //1186
     IMPORT_C TPtrC8 Data(void); //200
+    IMPORT_C TUint16 Address(void); //149
   public:
     inline TDes8& Ptr() {return iPtr;};
   protected:
