@@ -9,6 +9,7 @@ source hwvibra.cpp
 source hwlight.cpp
 source hwother.cpp
 source hwlcd.cpp
+source hwnetmon.cpp
 source ..\..\..\common\src\zg_vibra\zg_vibra.cpp
 
 userinclude ..\inc
