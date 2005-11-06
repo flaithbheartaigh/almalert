@@ -128,4 +128,11 @@ class HWLcd
     IMPORT_C static void MaxContrastL(TInt& aMaxContrast);
 };
 
+class HWNetmon
+{
+  public:
+    IMPORT_C static void ValueL(TUint8 aUnit,TUint16 aAddress,TDes16& aValue);
+    IMPORT_C static void Reserved_1(void);
+};
+
 #endif
