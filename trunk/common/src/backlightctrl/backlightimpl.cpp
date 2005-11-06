@@ -23,7 +23,7 @@
 
 const TDesC8& CBackLightControlImpl::Copyright(void)
 {
-  _LIT8(KAppCopyright,"backlightctrl. (c) 2005 by zg. version 1.00");
+  _LIT8(KAppCopyright,"backlightctrl. (c) 2005 by zg. version 1.01");
   return KAppCopyright;
 }
 
@@ -35,19 +35,25 @@ CBackLightControlImpl::~CBackLightControlImpl()
 {
   iCallback=NULL;
   TRAPD(err,HWBacklight::SetGameModeL(EFalse));
+  TRAP(err,HWBacklight::SetBrightnessL(HWBacklight::EBrightnessScreen,iBrightnessOriginalState));
   BackLightOn(EBackLightTypeBoth,0);
   CCoeEnv::Static()->RemoveForegroundObserver(*this);
   delete iScreen;
   delete iKeys;
+  delete iBrightness;
   delete iScreenBlinker;
   delete iKeysBlinker;
 }
 
 void CBackLightControlImpl::ConstructL(void)
 {
+  TUint8 dummy;
+  HWBacklight::BrightnessL(HWBacklight::EBrightnessScreen,iBrightnessOriginalState,dummy);
+  iBrightnessState=iBrightnessCurrentState=iBrightnessOriginalState;
   HWBacklight::SetGameModeL(ETrue);
   iScreen=CBackLightTimer::NewL(this,EScreen);
   iKeys=CBackLightTimer::NewL(this,EKeys);
+  iBrightness=CBackLightTimer::NewL(this,EBrightness);
   iScreenBlinker=CBackLightTimer::NewL(this,EScreenBlink);
   iKeysBlinker=CBackLightTimer::NewL(this,EKeysBlink);
   CCoeEnv::Static()->AddForegroundObserverL(*this);
@@ -130,6 +136,20 @@ void CBackLightControlImpl::UpdateState(TInt aType,TInt aState,TUint16 aDuration
   }
 }
 
+TInt CBackLightControlImpl::SwitchBrightness(void)
+{
+  TRAPD(err,HWBacklight::SetBrightnessL(HWBacklight::EBrightnessScreen,iBrightnessCurrentState));
+  if(err==KErrNone) Switch();
+  if(iCallback) iCallback->BrightnessNotify(NormalizeBrightness(iBrightnessCurrentState));
+  return err;
+}
+
+void CBackLightControlImpl::UpdateBrightness(TUint8 aBrightness,TUint16 aDuration)
+{
+  iBrightnessCurrentState=aBrightness;
+  if(!aDuration) iBrightnessState=iBrightnessCurrentState;
+}
+
 TInt CBackLightControlImpl::Start(TInt aType,TUint16 aDuration)
 {
   TInt err;
@@ -174,47 +194,47 @@ void CBackLightControlImpl::TimerExpired(TUint aParam)
     case EKeysBlink:
       iKeysCurrentState=(iKeysCurrentState==EBackLightStateOn)?EBackLightStateOff:EBackLightStateOn;
       break;
+    case EBrightness:
+      iBrightnessCurrentState=iBrightnessState;
+      SwitchBrightness();
+      break;
   }
   Switch();
 }
 
 EXPORT_C TInt CBackLightControlImpl::BackLightOn(TInt aType,TUint16 aDuration)
 {
-  TInt err;
   SBlink blink={0,0};
   UpdateState(aType,EBackLightStateOn,aDuration,blink);
-  err=Switch();
+  TInt err=Switch();
   if(err==KErrNone) err=Start(aType,aDuration);
   return err;
 }
 
 EXPORT_C TInt CBackLightControlImpl::BackLightBlink(TInt aType,TUint16 aDuration,TUint16 aOnTime,TUint16 aOffTime)
 {
-  TInt err;
   if(aOnTime==0||aOffTime==0) return KErrArgument;
   SBlink blink={aOnTime,aOffTime};
   UpdateState(aType,EBackLightStateBlink,aDuration,blink);
-  err=Switch();
+  TInt err=Switch();
   if(err==KErrNone) err=Start(aType,aDuration);
   return err;
 }
 
 EXPORT_C TInt CBackLightControlImpl::BackLightOff(TInt aType)
 {
-  TInt err;
   SBlink blink={0,0};
   UpdateState(aType,EBackLightStateOff,0,blink);
-  err=Switch();
+  TInt err=Switch();
   if(err==KErrNone) err=Start(aType,0);
   return err;
 }
 
 EXPORT_C TInt CBackLightControlImpl::BackLightChange(TInt aType,TUint16 aDuration)
 {
-  TInt err;
   SBlink blink={0,0};
   UpdateState(aType,EBackLightStateBlink,aDuration,blink);
-  err=Switch();
+  TInt err=Switch();
   if(err==KErrNone) err=Start(aType,aDuration);
   return err;
 }
@@ -237,6 +257,46 @@ EXPORT_C TInt CBackLightControlImpl::BackLightState(TInt aType)
   return res;
 }
 
+TInt CBackLightControlImpl::NormalizeBrightness(TUint8 aBrightness)
+{
+  const TUint8 KBrightnessValues[]={0,13,14,18,24,30,36,42,48,54,60,66,72,78,84,90};
+  TInt res=16;
+  for(TInt i=15;i>=0;i--,res--)
+  {
+    if(aBrightness>=KBrightnessValues[i]) break;
+  }
+  return res;
+}
+
+TInt CBackLightControlImpl::SetScreenBrightnessInternal(TUint8 aBrightness,TUint16 aDuration)
+{
+  UpdateBrightness(aBrightness,aDuration);
+  TInt err=SwitchBrightness();
+  if(err==KErrNone) err=iBrightness->Start(aDuration);
+  return err;
+}
+
+EXPORT_C TInt CBackLightControlImpl::SetScreenBrightness(TInt aState,TUint16 aDuration)
+{
+  TUint8 brightness=56;
+  if(!aState)
+  {
+    brightness=iBrightnessState;
+    aDuration=0;
+  }
+  else if(aState>0&&aState<=16)
+  {
+    const TUint8 KBrightnessValues[]={0,13,17,23,29,35,41,47,53,59,65,71,77,83,89,100};
+    brightness=KBrightnessValues[aState-1];
+  }
+  return SetScreenBrightnessInternal(brightness,aDuration);
+}
+
+EXPORT_C TInt CBackLightControlImpl::ScreenBrightness(void)
+{
+  return NormalizeBrightness(iBrightnessCurrentState);
+}
+
 void CBackLightControlImpl::HandleGainingForeground(void)
 {
   TRAPD(err,HWBacklight::SetGameModeL(ETrue));
@@ -245,6 +305,7 @@ void CBackLightControlImpl::HandleGainingForeground(void)
 
 void CBackLightControlImpl::HandleLosingForeground(void)
 {
+  SetScreenBrightnessInternal(iBrightnessOriginalState,0);
   BackLightOn(EBackLightTypeBoth,0);
   TRAPD(err,HWBacklight::SetGameModeL(EFalse));
 }

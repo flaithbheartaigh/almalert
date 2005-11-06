@@ -22,6 +22,8 @@ class CBackLightControlImpl: public CBackLightControl,public MCoeForegroundObser
     TInt BackLightOff(TInt aType);
     TInt BackLightChange(TInt aType,TUint16 aDuration);
     TInt BackLightState(TInt aType);
+    TInt SetScreenBrightness(TInt aState,TUint16 aDuration);
+    TInt ScreenBrightness(void);
   public:
     static const TDesC8& Copyright(void);
   private:
@@ -30,7 +32,8 @@ class CBackLightControlImpl: public CBackLightControl,public MCoeForegroundObser
       EScreen,
       EKeys,
       EScreenBlink,
-      EKeysBlink
+      EKeysBlink,
+      EBrightness
     };
     struct SBlink
     {
@@ -40,13 +43,20 @@ class CBackLightControlImpl: public CBackLightControl,public MCoeForegroundObser
   private:
     void UpdateState(TInt aType,TInt aState,TUint16 aDuration,SBlink aBlink);
     TInt Switch(void);
+    void UpdateBrightness(TUint8 aBrightness,TUint16 aDuration);
+    TInt SwitchBrightness(void);
     TInt Start(TInt aType,TUint16 aDuration);
+    TInt NormalizeBrightness(TUint8 aBrightness);
+    TInt SetScreenBrightnessInternal(TUint8 aState,TUint16 aDuration);
   private:
     MBackLightControlObserver* iCallback;
+    TUint8 iBrightnessOriginalState;
     TBool iScreenState;
     TBool iKeysState;
+    TUint8 iBrightnessState;
     TBool iScreenCurrentState;
     TBool iKeysCurrentState;
+    TUint8 iBrightnessCurrentState;
     TBool iScreenBlink;
     TBool iKeysBlink;
     TBool iScreenCurrentBlink;
@@ -55,6 +65,7 @@ class CBackLightControlImpl: public CBackLightControl,public MCoeForegroundObser
     CBackLightTimer* iKeys;
     CBackLightTimer* iScreenBlinker;
     CBackLightTimer* iKeysBlinker;
+    CBackLightTimer* iBrightness;
     SBlink iScreenTime;
     SBlink iKeysTime;
     SBlink iScreenCurrentTime;
