@@ -22,11 +22,13 @@ class CBackLightControl: public CBase
       EBackLightStateUnknown
     };
   public:
-    virtual TInt BackLightOn(TInt aState,TUint16 aDuration)=0;
+    virtual TInt BackLightOn(TInt aType,TUint16 aDuration)=0;
     virtual TInt BackLightBlink(TInt aType,TUint16 aDuration,TUint16 aOnTime,TUint16 aOffTime)=0;
     virtual TInt BackLightOff(TInt aType)=0;
     virtual TInt BackLightChange(TInt aType,TUint16 aDuration)=0;
     virtual TInt BackLightState(TInt aType)=0;
+    virtual TInt SetScreenBrightness(TInt aState,TUint16 aDuration)=0;
+    virtual TInt ScreenBrightness(void)=0;
   public:
     static CBackLightControl* NewL(void);
     static CBackLightControl* NewL(MBackLightControlObserver* aCallback);
@@ -41,6 +43,7 @@ class MBackLightControlObserver
   public:
     virtual void ScreenNotify(TInt aState)=0;
     virtual void KeysNotify(TInt aState)=0;
+    virtual void BrightnessNotify(TInt aState)=0;
 };
 
 #endif
