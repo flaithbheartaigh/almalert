@@ -48,6 +48,7 @@ class CVibraControlImpl: public CVibraControl,public MSharedDataNotifyHandler,pu
     CVibraControlImpl(MVibraControlObserver* aCallback);
     void ConstructL(void);
     static void DoCleanup(TAny* aPtr);
+    static void DoCleanupIntensity(TAny* aPtr);
   private:
     MVibraControlObserver* iCallback;
     RSharedDataClient iShared;

@@ -32,7 +32,7 @@ GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
 
 const TDesC8& CVibraControlImpl::Copyright(void)
 {
-  _LIT8(KAppCopyright,"vibractrl. (c) 2005 by zg. version 3.02");
+  _LIT8(KAppCopyright,"vibractrl. (c) 2005 by zg. version 3.03");
   return KAppCopyright;
 }
 
@@ -60,6 +60,11 @@ void CVibraControlImpl::DoCleanup(TAny* aPtr)
   }
 }
 
+void CVibraControlImpl::DoCleanupIntensity(TAny* aPtr)
+{
+  TRAPD(err,HWVibra::SetIntensityL(HWVibra::KDefaultIntensity));
+}
+
 EXPORT_C void CVibraControlImpl::StartVibraL(TUint16 aDuration)
 {
   if(!iTimer) User::Invariant();
@@ -74,6 +79,7 @@ EXPORT_C void CVibraControlImpl::StopVibraL(void)
 {
   if(!iTimer) User::Invariant();
   TRAPD(err,HWVibra::SwitchL(EFalse));
+  TRAP(err,HWVibra::SetIntensityL(HWVibra::KDefaultIntensity));
   if(iCallback)
   {
     if(err==KErrNone||err==KErrNotFound) iCallback->VibraRequestStatus(EVibraRequestStopped);
@@ -89,6 +95,12 @@ EXPORT_C CVibraControl::TVibraModeState CVibraControlImpl::VibraSettings(void) c
 
 EXPORT_C void CVibraControlImpl::StartVibraL(TUint16 aDuration,TInt aIntensity)
 {
+  aIntensity=aIntensity*40/100;
+  if(aIntensity<0||aIntensity>HWVibra::KMaxIntensity) aIntensity=0;
+  HWVibra::SetIntensityL(aIntensity);
+  CleanupStack::PushL(TCleanupItem(DoCleanupIntensity,this));
+  StartVibraL(aDuration);
+  CleanupStack::Pop();
 }
 
 void CVibraControlImpl::HandleGainingForeground(void)
