@@ -73,8 +73,12 @@ void CNetmonValue::ValueL(TDes16& aTarget)
   else
   {
     TInt length=block->Ptr()[3];
-    if(length&&block->Ptr()[3+length]==0) --length;
-    aTarget.Copy(block->Ptr().Mid(4,length));
+    if((length+3)<block->Ptr().Length())
+    {
+      if(length&&block->Ptr()[3+length]==0) --length;
+      aTarget.Copy(block->Ptr().Mid(4,length));
+    }
+    else User::Leave(KErrUnderflow);
   }
   CleanupStack::PopAndDestroy(); //array
 }
