@@ -65,7 +65,7 @@ void CNetmonValue::ValueL(TDes16& aTarget)
   }
   if(!block) User::Leave(KErrNotFound);
   TInt blockLen=block->Ptr()[2];
-  if(blockLen<4) User::Leave(KErrGeneral);
+  if(blockLen<4) User::Leave(KErrUnderflow);
   if(blockLen==4)
   {
     aTarget.Num((TUint)block->Ptr()[3]);
@@ -96,7 +96,7 @@ void CNetmonValue::ConstructL(void)
   TPnReceiveAllocationLengthPckg pckg;
   iServer->ReceiveL(status,*iRecvMsg,pckg);
   User::WaitForRequest(status);
-  if(iRecvMsg->Function()!=0xf0||iRecvMsg->Ptr()[10]!=5) User::Leave(KErrGeneral);
+  if(iRecvMsg->Function()!=0xf0||iRecvMsg->Ptr()[10]!=5) User::Leave(KErrNotSupported);
 }
 
 void CNetmonValue::CleanupL(void)
