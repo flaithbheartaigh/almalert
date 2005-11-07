@@ -18,10 +18,27 @@
 */
 
 #include <isi_test.hpp>
+#include <isi_utils.hpp>
 
 EXPORT_C CTestGetReq* CTestGetReq::NewL(TUint8 aTransactionId,TUint8 aUnit,TUint8 aParam,TUint8 aCount,const TDesC16& aData) //970
 {
-  return NULL;
+  CTestGetReq* self=new(ELeave)CTestGetReq;
+  TInt length=aData.Length();
+  length*=2;
+  length+=12;
+  CleanupStack::PushL(self);
+  self->ConstructL(length);
+  TPtr8& ptr=self->iPtr;
+  self->SetUnit(aUnit);
+  ptr.Append(aTransactionId);
+  ptr.Append(0xf0);
+  ptr.Append(aParam);
+  ptr.Append(aCount);
+  TBuf8<100> buffer;
+  Des162Des8(aData,buffer);
+  ptr.Append(buffer);
+  CleanupStack::Pop(); //self
+  return self;
 }
 
 EXPORT_C CTestRemoveReq* CTestRemoveReq::NewL(TUint8 aTransactionId,TUint8 aUnit,TUint8 aParam,TUint8 aCount,const TDesC16& aData) //971
