@@ -114,7 +114,8 @@ class HWOther
       EInfoVibraSupported,
       EInfoSwitchLightsSupported,
       EInfoBrightnessSupported,
-      EInfoContrastSupported
+      EInfoContrastSupported,
+      EInfoNetmonSupported
     };
   public:
     IMPORT_C static void InfoL(TInfoType aType,TInt& aValue);

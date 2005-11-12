@@ -47,6 +47,9 @@ EXPORT_C void HWOther::InfoL(TInfoType aType,TInt& aValue)
         else aValue=EFalse;
       }
       break;
+    case EInfoNetmonSupported:
+      aValue=ETrue;
+      break;
     default:
       User::Leave(KErrNotSupported);
       break;
