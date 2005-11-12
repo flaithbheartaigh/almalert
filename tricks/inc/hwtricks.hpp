@@ -131,7 +131,7 @@ class HWLcd
 class HWNetmon
 {
   public:
-    IMPORT_C static void ValueL(TUint8 aUnit,TUint16 aAddress,TDes16& aValue);
+    IMPORT_C static void ValueL(TUint8 aUnit,TUint16 aAddress,TDes16& aValue,TBool aRaw=EFalse);
     IMPORT_C static void Reserved_1(void);
 };
 

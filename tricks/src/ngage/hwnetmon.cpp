@@ -19,10 +19,10 @@
 
 #include "hwtricksnetmon.hpp"
 
-EXPORT_C void HWNetmon::ValueL(TUint8 aUnit,TUint16 aAddress,TDes16& aValue)
+EXPORT_C void HWNetmon::ValueL(TUint8 aUnit,TUint16 aAddress,TDes16& aValue,TBool aRaw)
 {
   CNetmonValue* value=CNetmonValue::NewLC(aUnit,aAddress);
-  value->ValueL(aValue);
+  value->ValueL(aValue,aRaw);
   CleanupStack::PopAndDestroy(); //value
 }
 
@@ -46,7 +46,7 @@ CNetmonValue* CNetmonValue::NewLC(TUint8 aUnit,TUint16 aAddress)
   return self;
 }
 
-void CNetmonValue::ValueL(TDes16& aTarget)
+void CNetmonValue::ValueL(TDes16& aTarget,TBool aRaw)
 {
   CTestGetResp* resp=new(ELeave)CTestGetResp;
   CleanupStack::PushL(resp);
@@ -64,14 +64,14 @@ void CNetmonValue::ValueL(TDes16& aTarget)
     }
   }
   if(!block) User::Leave(KErrNotFound);
-  TInt blockLen=block->Ptr()[2];
-  if(blockLen<4) User::Leave(KErrUnderflow);
-  if(blockLen==4)
+  if(aRaw)
   {
-    aTarget.Num((TUint)block->Ptr()[3]);
+    aTarget.Copy(block->Ptr().Mid(3));
   }
   else
   {
+    TInt blockLen=block->Ptr()[2];
+    if(blockLen<4) User::Leave(KErrUnderflow);
     TInt length=block->Ptr()[3];
     if((length+3)<block->Ptr().Length())
     {
