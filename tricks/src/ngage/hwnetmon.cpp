@@ -72,13 +72,20 @@ void CNetmonValue::ValueL(TDes16& aTarget,TBool aRaw)
   {
     TInt blockLen=block->Ptr()[2];
     if(blockLen<4) User::Leave(KErrUnderflow);
-    TInt length=block->Ptr()[3];
-    if((length+3)<block->Ptr().Length())
+    if(blockLen==4)
     {
-      if(length&&block->Ptr()[3+length]==0) --length;
-      aTarget.Copy(block->Ptr().Mid(4,length));
+      aTarget.Num((TUint)block->Ptr()[3]);
     }
-    else User::Leave(KErrUnderflow);
+    else
+    {
+      TInt length=block->Ptr()[3];
+      if((length+3)<block->Ptr().Length())
+      {
+        if(length&&block->Ptr()[3+length]==0) --length;
+        aTarget.Copy(block->Ptr().Mid(4,length));
+      }
+      else User::Leave(KErrUnderflow);
+    }
   }
   CleanupStack::PopAndDestroy(); //array
 }
