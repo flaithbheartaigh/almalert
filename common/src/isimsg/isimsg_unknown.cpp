@@ -68,8 +68,3 @@ EXPORT_C void* IsiMsg900(TUint8 aTransactionId,TUint8 aParam1,TUint8 aParam2,TUi
 {
   return NULL;
 }
-
-EXPORT_C void* IsiMsg972(TUint8 aTransactionId,TUint8 aParam1,TUint8 aParam2,TUint8 aParam3,TUint8 aParam4,TUint8 aParam5,const TDesC8& aParam6)
-{
-  return NULL;
-}
