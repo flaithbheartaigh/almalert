@@ -132,8 +132,11 @@ class HWLcd
 class HWNetmon
 {
   public:
+    static const TUint16 KOffChannel=3333;
+  public:
     IMPORT_C static void ValueL(TUint8 aUnit,TUint16 aAddress,TDes16& aValue,TBool aRaw=EFalse);
-    IMPORT_C static void Reserved_1(void);
+    IMPORT_C static void SetChannelL(TUint16 aChannel=KOffChannel);
+    IMPORT_C static void Reserved_2(void);
 };
 
 #endif
