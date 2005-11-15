@@ -62,7 +62,7 @@ EXPORT_C CTestRemoveReq* CTestRemoveReq::NewL(TUint8 aTransactionId,TUint8 aUnit
   return self;
 }
 
-EXPORT_C CTestSetReq* CTestSetReq::NewL(TUint8 aTransactionId,TUint8 aUnit,TUint8 aParam1,TUint8 aParam2,TUint16 aParam3,TUint16 aParam4,const TDesC16& aData)
+EXPORT_C CTestSetReq* CTestSetReq::NewL(TUint8 aTransactionId,TUint8 aUnit,TUint8 aParam1,TUint8 aParam2,TUint16 aParam3,TUint16 aParam4,const TDesC8& aData)
 {
   CTestSetReq* self=new(ELeave)CTestSetReq;
   CleanupStack::PushL(self);

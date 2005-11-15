@@ -37,7 +37,7 @@ class CTestRemoveReq: public CIsiMsg
 class CTestSetReq: public CIsiMsg
 {
   public:
-    IMPORT_C static CTestSetReq* NewL(TUint8 aTransactionId,TUint8 aUnit,TUint8 aParam1,TUint8 aParam2,TUint16 aParam3,TUint16 aParam4,const TDesC16& aData); //972
+    IMPORT_C static CTestSetReq* NewL(TUint8 aTransactionId,TUint8 aUnit,TUint8 aParam1,TUint8 aParam2,TUint16 aParam3,TUint16 aParam4,const TDesC8& aData); //972
 };
 
 class CTestGetResp: public CIsiMsg
