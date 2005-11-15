@@ -18,6 +18,7 @@
 */
 
 #include "hwtricksnetmon.hpp"
+#include <isi_units.hpp>
 
 EXPORT_C void HWNetmon::ValueL(TUint8 aUnit,TUint16 aAddress,TDes16& aValue,TBool aRaw)
 {
@@ -26,7 +27,27 @@ EXPORT_C void HWNetmon::ValueL(TUint8 aUnit,TUint16 aAddress,TDes16& aValue,TBoo
   CleanupStack::PopAndDestroy(); //value
 }
 
-EXPORT_C void HWNetmon::Reserved_1(void)
+EXPORT_C void HWNetmon::SetChannelL(TUint16 aChannel)
+{
+  TBuf8<4> data;
+  data.Append(0);
+  data.Append(0);
+  data.Append((TUint8)(aChannel>>8));
+  data.Append((TUint8)aChannel);
+  CHWServer* server=CHWServer::NewLC();
+  CTestSetReq* sendMsg=CTestSetReq::NewL(0,KPhoneNetUnit,6,0,0x1303,0,data);
+  CleanupStack::PushL(sendMsg);
+  server->SendL(*sendMsg);
+  CIsiMsg* recvMsg=CIsiMsg::NewL(500);
+  CleanupStack::PushL(recvMsg);
+  TRequestStatus status;
+  TPnReceiveAllocationLengthPckg pckg;
+  server->ReceiveL(status,*recvMsg,pckg);
+  User::WaitForRequest(status);
+  CleanupStack::PopAndDestroy(3); //sendMsg,recvMsg,server
+}
+
+EXPORT_C void HWNetmon::Reserved_2(void)
 {
 }
 
