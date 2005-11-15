@@ -62,6 +62,33 @@ EXPORT_C CTestRemoveReq* CTestRemoveReq::NewL(TUint8 aTransactionId,TUint8 aUnit
   return self;
 }
 
+EXPORT_C CTestSetReq* CTestSetReq::NewL(TUint8 aTransactionId,TUint8 aUnit,TUint8 aParam1,TUint8 aParam2,TUint16 aParam3,TUint16 aParam4,const TDesC16& aData)
+{
+  CTestSetReq* self=new(ELeave)CTestSetReq;
+  CleanupStack::PushL(self);
+  self->ConstructL(20);
+  TPtr8& ptr=self->iPtr;
+  self->SetUnit(aUnit);
+  ptr.Append(aTransactionId);
+  ptr.Append(0xf0);
+  ptr.Append(aParam1);
+  ptr.Append(aParam2);
+  ptr.Append((TUint8)(aParam3>>8));
+  ptr.Append((TUint8)aParam3);
+  ptr.Append((TUint8)(aParam4>>8));
+  ptr.Append((TUint8)aParam4);
+  if(aData.Length()!=4)
+  {
+    User::Leave(KErrGeneral);
+  }
+  else
+  {
+    self->iPtr.Append(aData);
+  }
+  CleanupStack::Pop(); //self
+  return self;
+}
+
 EXPORT_C CSubBlockArray* CTestGetResp::SubBlocksL()
 {
   TInt countIndex=SubBlockCountIndex();
