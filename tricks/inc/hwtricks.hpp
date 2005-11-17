@@ -45,7 +45,7 @@ class HWVibra
     IMPORT_C static void SwitchL(TBool aState);
     IMPORT_C static void Reserved_1(void);
     IMPORT_C static void SetIntensityL(TUint8 anIntensity);
-    IMPORT_C static void Reserved_3(void);
+    IMPORT_C static void IntensityL(TUint8& anIntensity);
 };
 
 class HWBacklight

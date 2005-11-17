@@ -56,7 +56,7 @@ EXPORT_C void HWVibra::SetIntensityL(TUint8 anIntensity)
   CleanupStack::PopAndDestroy(3); //sendMsg,recvMsg,server
 }
 
-EXPORT_C void HWVibra::Reserved_3(void)
+EXPORT_C void HWVibra::IntensityL(TUint8& anIntensity)
 {
-  User::Leave(KErrNotSupported);
+  anIntensity=KDefaultIntensity;
 }
