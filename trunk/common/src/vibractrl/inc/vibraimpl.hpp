@@ -52,7 +52,7 @@ class CVibraControlImpl: public CVibraControl,public MSharedDataNotifyHandler,pu
   private:
     MVibraControlObserver* iCallback;
     RSharedDataClient iShared;
-    TBool iState;
+    TUint8 iIntensity;
     TVibraModeState iVibraState;
     CVibraTimer* iTimer;
   friend class VibraFactory;

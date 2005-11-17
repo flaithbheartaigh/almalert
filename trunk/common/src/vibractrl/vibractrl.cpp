@@ -62,7 +62,8 @@ void CVibraControlImpl::DoCleanup(TAny* aPtr)
 
 void CVibraControlImpl::DoCleanupIntensity(TAny* aPtr)
 {
-  TRAPD(err,HWVibra::SetIntensityL(HWVibra::KDefaultIntensity));
+  CVibraControlImpl* vibra=STATIC_CAST(CVibraControlImpl*,aPtr);
+  TRAPD(err,HWVibra::SetIntensityL(vibra->iIntensity));
 }
 
 EXPORT_C void CVibraControlImpl::StartVibraL(TUint16 aDuration)
@@ -79,7 +80,7 @@ EXPORT_C void CVibraControlImpl::StopVibraL(void)
 {
   if(!iTimer) User::Invariant();
   TRAPD(err,HWVibra::SwitchL(EFalse));
-  TRAP(err,HWVibra::SetIntensityL(HWVibra::KDefaultIntensity));
+  TRAP(err,HWVibra::SetIntensityL(iIntensity));
   if(iCallback)
   {
     if(err==KErrNone||err==KErrNotFound) iCallback->VibraRequestStatus(EVibraRequestStopped);
@@ -130,12 +131,13 @@ void CVibraControlImpl::TimerExpired(void)
   StopVibraL(); //never leave
 }
 
-CVibraControlImpl::CVibraControlImpl(MVibraControlObserver* aCallback): CVibraControl(),iCallback(aCallback),iShared(this),iVibraState(EVibraModeUnknown)
+CVibraControlImpl::CVibraControlImpl(MVibraControlObserver* aCallback): CVibraControl(),iCallback(aCallback),iShared(this),iIntensity(HWVibra::KDefaultIntensity),iVibraState(EVibraModeUnknown)
 {
 }
 
 void CVibraControlImpl::ConstructL(void)
 {
+  HWVibra::IntensityL(iIntensity);
   iTimer=CVibraTimer::NewL(this);
   User::LeaveIfError(iShared.Connect(0));
   TInt vibra=0;
