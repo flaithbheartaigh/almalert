@@ -47,8 +47,38 @@ EXPORT_C void HWNetmon::SetChannelL(TUint16 aChannel)
   CleanupStack::PopAndDestroy(3); //sendMsg,recvMsg,server
 }
 
-EXPORT_C void HWNetmon::Reserved_2(void)
+EXPORT_C void HWNetmon::SetFrequencyL(TBandFrequency aFrequency)
 {
+  TBuf8<4> data;
+  data.Append(0);
+  data.Append(0);
+  data.Append(0);
+  switch(aFrequency)
+  {
+    case E900MHz:
+      data.Append(9);
+      break;
+    case E1800MHz:
+      data.Append(18);
+      break;
+    case E1900MHz:
+      data.Append(19);
+      break;
+    default:
+      data.Append(0);
+      break;
+  }
+  CHWServer* server=CHWServer::NewLC();
+  CTestSetReq* sendMsg=CTestSetReq::NewL(0,KPhoneGssUnit,6,0,0x32f2,0,data);
+  CleanupStack::PushL(sendMsg);
+  server->SendL(*sendMsg);
+  CIsiMsg* recvMsg=CIsiMsg::NewL(500);
+  CleanupStack::PushL(recvMsg);
+  TRequestStatus status;
+  TPnReceiveAllocationLengthPckg pckg;
+  server->ReceiveL(status,*recvMsg,pckg);
+  User::WaitForRequest(status);
+  CleanupStack::PopAndDestroy(3); //sendMsg,recvMsg,server
 }
 
 CNetmonValue::~CNetmonValue()
