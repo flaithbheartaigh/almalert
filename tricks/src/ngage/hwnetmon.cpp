@@ -130,7 +130,11 @@ void CNetmonValue::ValueL(TDes16& aTarget,TBool aRaw)
     else
     {
       TInt length=block->Ptr()[3];
-      if((length+3)<block->Ptr().Length())
+      if(blockLen==8&&length==0)
+      {
+        aTarget.Num((TUint)(block->Ptr()[4]*256+block->Ptr()[5]));
+      }
+      else if((length+3)<block->Ptr().Length())
       {
         if(length&&block->Ptr()[3+length]==0) --length;
         aTarget.Copy(block->Ptr().Mid(4,length));
