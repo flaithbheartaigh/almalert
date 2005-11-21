@@ -1,0 +1,17 @@
+#include <aiftool.rh>
+
+RESOURCE AIF_DATA
+{
+  app_uid=-1610612269;
+  caption_list=
+  {
+    CAPTION
+    {
+      code=ELangEnglish;
+      caption="Netmon";
+    }
+  };
+  num_icons=1;
+  embeddability=KAppNotEmbeddable;
+  newfile=KAppDoesNotSupportNewFile;
+}
