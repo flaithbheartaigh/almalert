@@ -5,10 +5,9 @@ EXPORTS
 	DoReceiveL__8CGeneral @ 4 NONAME R3UNUSED ; CGeneral::DoReceiveL(void)
 	DoSendL__8CGeneralR6CPnMsg @ 5 NONAME R3UNUSED ; CGeneral::DoSendL(CPnMsg &)
 	DoSendL__8CGeneralUcP6TDesC8UcUcUcUc @ 6 NONAME ; CGeneral::DoSendL(unsigned char, TDesC8 *, unsigned char, unsigned char, unsigned char, unsigned char)
-	Unknown_07__8CGeneral @ 7 NONAME R3UNUSED ; CGeneral::Unknown_07(void)
+	RemoveRoutingByFunction__C8CGeneralUc @ 7 NONAME R3UNUSED ; CGeneral::RemoveRoutingByFunction(unsigned char) const
 	RunL__8CGeneral @ 8 NONAME R3UNUSED ; CGeneral::RunL(void)
 	SendIsiEvent__C8CGeneralR6CPnMsg @ 9 NONAME R3UNUSED ; CGeneral::SendIsiEvent(CPnMsg &) const
-	Unknown_10__8CGeneral @ 10 NONAME R3UNUSED ; CGeneral::Unknown_10(void)
+	SubscribeEvents__C8CGeneralRC6TDesC8 @ 10 NONAME R3UNUSED ; CGeneral::SubscribeEvents(TDesC8 const &) const
 	"_._8CGeneral" @ 11 NONAME R3UNUSED ; CGeneral::~CGeneral(void)
-	Unknown_12__8CGeneral @ 12 NONAME R3UNUSED ; CGeneral::Unknown_12(void)
-
+	AddRoutingByFunction__C8CGeneralUc @ 12 NONAME R3UNUSED ; CGeneral::AddRoutingByFunction(unsigned char) const

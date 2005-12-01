@@ -39,9 +39,9 @@ class CGeneral: public CActive
     IMPORT_C TInt DoSendL(CPnMsg &aMsg); //ordinal 5
     IMPORT_C TInt DoSendL(TUint8 aFunction,TDesC8* aData,TUint8 aUnit,TUint8 aParam4,TUint8 aParam5,TUint8 aTransactionId); //ordinal 6
     IMPORT_C TInt SendIsiEvent(CPnMsg &aMsg) const; //ordinal 9
-    IMPORT_C TInt Unknown_07(void);
-    IMPORT_C TInt Unknown_10(void);
-    IMPORT_C TInt Unknown_12(void);
+    IMPORT_C TInt RemoveRoutingByFunction(const TUint8 aFunction) const; //ordinal 7
+    IMPORT_C TInt SubscribeEvents(const TDesC8& aEvents) const; //ordinal 10
+    IMPORT_C TInt AddRoutingByFunction(const TUint8 aFunction) const; //ordinal 12
   public:
     IMPORT_C CGeneral(); //ordinal 1
     IMPORT_C ~CGeneral(); //ordinal 11
