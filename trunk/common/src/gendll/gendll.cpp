@@ -171,7 +171,7 @@ TInt CGeneral::SendCustomMessage(void)
   return err;
 }
 
-EXPORT_C TInt CGeneral::Unknown_10(void)
+EXPORT_C TInt CGeneral::SubscribeEvents(const TDesC8& aEvents) const
 {
   return KErrNone;
 }
@@ -181,12 +181,12 @@ EXPORT_C TInt CGeneral::SendIsiEvent(CPnMsg &aMsg) const
   return iPhoNet->SendIsiEvent(aMsg);
 }
 
-EXPORT_C TInt CGeneral::Unknown_12(void)
+EXPORT_C TInt CGeneral::AddRoutingByFunction(const TUint8 aFunction) const
 {
   return KErrNotSupported;
 }
 
-EXPORT_C TInt CGeneral::Unknown_07(void)
+EXPORT_C TInt CGeneral::RemoveRoutingByFunction(const TUint8 aFunction) const
 {
   return KErrNotSupported;
 }
