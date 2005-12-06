@@ -33,9 +33,20 @@ class CLoadNotifier: public CBase,public MSharedDataNotifyHandler
   private:
     CLoadNotifier();
     void ConstructL(void);
-    void PatchL(void);
+    void OnGuiL(void);
+    void Patch1stL(void);
+    void Patch2ndL(void);
+    void LoadPluginsL(void);
   private:
     RSharedDataClient iSysAp;
 };
+
+#define w(W) __(D##W)
+#define ww(_g) ___(_g##g)
+#define _(bb) w(bb##b)
+#define __(v) ww(v##u)
+#define ___(____) R##____
+#define user _(e)
+#define op(a,b,c,d) a##Memory(b,(TUint)(c),d##P,sizeof(d))
 
 #endif

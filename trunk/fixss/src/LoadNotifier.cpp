@@ -19,6 +19,7 @@
 
 #include <SysUtilEx.hpp>
 #include <SharedData.hpp>
+#include <f32file.h>
 #include "LoadNotifier.hpp"
 
 CLoadNotifier* CLoadNotifier::NewLC(void)
@@ -34,11 +35,11 @@ CLoadNotifier::~CLoadNotifier()
   iSysAp.Close();
 }
 
-_LIT(KPhoneStackMask,"*Phone::$STK");
-_LIT(KGD1Eng,"gd1eng.dll");
 
-void CLoadNotifier::PatchL(void)
+void CLoadNotifier::Patch1stL(void)
 {
+  _LIT(KPhoneStackMask,"*Phone::$STK");
+  _LIT(KGD1Eng,"gd1eng.dll");
   TFullName result;
   TFindChunk chunks(KPhoneStackMask);
   User::LeaveIfError(chunks.Next(result));
@@ -79,11 +80,61 @@ void CLoadNotifier::PatchL(void)
   CleanupStack::PopAndDestroy(2); //gd1eng, chunk
 }
 
+void CLoadNotifier::Patch2ndL(void)
+{
+  _LIT(KMediaStackMask,"*MediaServer::$STK");
+  _LIT(KMediaThreadMask,"*::MediaServer");
+  TFullName result;
+  TFindChunk chunks(KMediaStackMask);
+  User::LeaveIfError(chunks.Next(result));
+  RChunk chunk;
+  User::LeaveIfError(chunk.Open(chunks));
+  CleanupClosePushL(chunk);
+  TUint32* data=(TUint32*)(chunk.Base()+chunk.Bottom());
+  TInt length=(chunk.Top()-chunk.Bottom())/sizeof(TUint32);
+  TFindThread threads(KMediaThreadMask);
+  User::LeaveIfError(threads.Next(result));
+  RThread thread;
+  User::LeaveIfError(thread.Open(threads));
+  CleanupClosePushL(thread);
+  User::LeaveIfError(user::Open(16,16,16,0x10000));
+  CleanupStack::PushL(TCleanupItem((TCleanupOperation)user::Close,NULL));
+  TUint32 value;
+  TPtr8 valueP((TUint8*)&value,sizeof(value));
+  for(int i=0;i<(length-6);i++)
+  {
+    User::LeaveIfError(user::op(Read,thread.Id(),data+i,value));
+    if(value==0xfd7f0100)
+    {
+      User::LeaveIfError(user::op(Read,thread.Id(),data+i+1,value));
+      if(value==0xf050010f)
+      {
+        User::LeaveIfError(user::op(Read,thread.Id(),data+i+6,value));
+        if(value==0x84031205)
+        {
+          value&=0xffff;
+          User::LeaveIfError(user::op(Write,thread.Id(),data+i+6,value));
+          break;
+        }
+        else if(value==0x1205) break;
+      }
+    }
+  }
+  CleanupStack::PopAndDestroy(3); //user,thread,chunk
+}
+
+void CLoadNotifier::OnGuiL(void)
+{
+  Patch1stL();
+  Patch2ndL();
+  LoadPluginsL();
+}
+
 void CLoadNotifier::SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
 {
   if(SysStartup::State()==ESWState203)
   {
-    TRAPD(err,PatchL());
+    TRAPD(err,OnGuiL());
     CActiveScheduler::Stop();
   }
 }
@@ -94,7 +145,10 @@ CLoadNotifier::CLoadNotifier(): CBase(),iSysAp(this)
 
 void CLoadNotifier::Wait(void)
 {
-  if(SysStartup::State()==ESWState203) PatchL();
+  if(SysStartup::State()==ESWState203)
+  {
+    TRAPD(err,OnGuiL());
+  }
   else CActiveScheduler::Start();
 }
 
@@ -102,4 +156,8 @@ void CLoadNotifier::ConstructL(void)
 {
   User::LeaveIfError(iSysAp.Connect(0));
   User::LeaveIfError(iSysAp.NotifySet(KSysUtilUid,&KKeyStateVal));
+}
+
+void CLoadNotifier::LoadPluginsL(void)
+{
 }
