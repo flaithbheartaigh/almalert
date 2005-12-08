@@ -35,7 +35,6 @@ CLoadNotifier::~CLoadNotifier()
   iSysAp.Close();
 }
 
-
 void CLoadNotifier::Patch1stL(void)
 {
   _LIT(KPhoneStackMask,"*Phone::$STK");
@@ -44,7 +43,7 @@ void CLoadNotifier::Patch1stL(void)
   TFindChunk chunks(KPhoneStackMask);
   User::LeaveIfError(chunks.Next(result));
   RChunk chunk;
-  User::LeaveIfError(chunk.Open(chunks));
+  User::LeaveIfError(chunk.Open(chunks,EOwnerThread));
   CleanupClosePushL(chunk);
   RLibrary gd1eng;
   User::LeaveIfError(gd1eng.Load(KGD1Eng));
@@ -95,7 +94,7 @@ void CLoadNotifier::Patch2ndL(void)
   TFindThread threads(KMediaThreadMask);
   User::LeaveIfError(threads.Next(result));
   RThread thread;
-  User::LeaveIfError(thread.Open(threads));
+  User::LeaveIfError(thread.Open(threads,EOwnerThread));
   CleanupClosePushL(thread);
   User::LeaveIfError(user::Open(16,16,16,0x10000));
   CleanupStack::PushL(TCleanupItem((TCleanupOperation)user::Close,NULL));
@@ -123,20 +122,24 @@ void CLoadNotifier::Patch2ndL(void)
   CleanupStack::PopAndDestroy(3); //user,thread,chunk
 }
 
-void CLoadNotifier::OnGuiL(void)
+void CLoadNotifier::ProcessStateL(TUint8 aState)
 {
-  Patch1stL();
-  Patch2ndL();
-  LoadPluginsL();
+  if(aState==ESWState203)
+  {
+    Patch1stL();
+    Patch2ndL();
+  }
+  LoadPluginsL(aState);
 }
 
 void CLoadNotifier::SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
 {
-  if(SysStartup::State()==ESWState203)
+  TSWState state=SysStartup::State();
+  if(state!=ESWState201)
   {
-    TRAPD(err,OnGuiL());
-    CActiveScheduler::Stop();
+    TRAPD(err,ProcessStateL(state));
   }
+  if(state==ESWState204) CActiveScheduler::Stop();
 }
 
 CLoadNotifier::CLoadNotifier(): CBase(),iSysAp(this)
@@ -145,11 +148,13 @@ CLoadNotifier::CLoadNotifier(): CBase(),iSysAp(this)
 
 void CLoadNotifier::Wait(void)
 {
-  if(SysStartup::State()==ESWState203)
+  TRAPD(err,ProcessStateL(ESWState201));
+  TSWState state=SysStartup::State();
+  if(state!=ESWState201)
   {
-    TRAPD(err,OnGuiL());
+    TRAP(err,ProcessStateL(state));
   }
-  else CActiveScheduler::Start();
+  CActiveScheduler::Start();
 }
 
 void CLoadNotifier::ConstructL(void)
@@ -158,6 +163,64 @@ void CLoadNotifier::ConstructL(void)
   User::LeaveIfError(iSysAp.NotifySet(KSysUtilUid,&KKeyStateVal));
 }
 
-void CLoadNotifier::LoadPluginsL(void)
+_LIT(KMutexName,"fixss.mutex");
+
+void CLoadNotifier::LoadPluginsL(TUint8 aState)
 {
+  _LIT(KFile,"fixss.mdl");
+  _LIT(KPlugins,"fixss\\");
+  _LIT(KMask,"*.");
+  _LIT(KPath,"\\System\\Recogs\\");
+  RFs fs;
+  User::LeaveIfError(fs.Connect());
+  CleanupClosePushL(fs);
+  TFindFile find(fs);
+  User::LeaveIfError(find.FindByDir(KFile,KPath));
+  TParsePtrC parse(find.File());
+  TFileName path,mask;
+  mask.Copy(parse.DriveAndPath());
+  mask.Append(KPlugins);
+  path.Copy(mask);
+  mask.Append(KMask);
+  mask.AppendNum((TUint)aState);
+  RDir dir;
+  User::LeaveIfError(dir.Open(fs,mask,KEntryAttNormal));
+  CleanupClosePushL(dir);
+  RMutex mutex;
+  User::LeaveIfError(mutex.CreateGlobal(KMutexName,EOwnerThread));
+  CleanupClosePushL(mutex);
+  mutex.Wait();
+  TEntry entry;
+  while(dir.Read(entry)==KErrNone)
+  {
+    SThreadData data={entry.iName,path};
+    RThread thread;
+    User::LeaveIfError(thread.Create(entry.iName,LoadPlugin,KDefaultStackSize,KMinHeapSize,KMinHeapSize,&data));
+    thread.Resume();
+    thread.Close();
+    mutex.Wait();
+  }
+  CleanupStack::PopAndDestroy(3); //mutex,dir,fs
+}
+
+TInt CLoadNotifier::LoadPlugin(TAny* aPtr)
+{
+  SThreadData& data=*(SThreadData*)aPtr;
+  RMutex mutex;
+  TInt res=mutex.OpenGlobal(KMutexName,EOwnerThread);
+  if(res==KErrNone)
+  {
+    RLibrary current;
+    res=current.Load(data.iName,data.iPath);
+    mutex.Signal();
+    if(res==KErrNone)
+    {
+      TLibraryFunction func=current.Lookup(1);
+      if(func) res=func();
+      else res=KErrGeneral;
+      current.Close();
+    }
+    mutex.Close();
+  }
+  return res;
 }

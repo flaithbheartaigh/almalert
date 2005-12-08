@@ -47,7 +47,7 @@ _LIT(KThreadName,"zg.fixss");
 void CRecog::StartThread(void)
 {
   RThread thread;
-  if(thread.Create(KThreadName,ThreadProc,KDefaultStackSize,KMinHeapSize,KMinHeapSize,NULL,EOwnerThread)==KErrNone)
+  if(thread.Create(KThreadName,ThreadProc,KDefaultStackSize,KMinHeapSize,KMinHeapSize,NULL)==KErrNone)
   {
     thread.Resume();
     thread.Close();
