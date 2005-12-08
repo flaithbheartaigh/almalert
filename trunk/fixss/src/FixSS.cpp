@@ -20,7 +20,7 @@
 #include <adsp.hpp>
 #include "FixSS.hpp"
 
-_LIT8(KCopyright,"(c) by zg. version 1.04");
+_LIT8(KCopyright,"(c) by zg. version 1.05");
 
 const TUid KUidRecog={KUidRecogValue};
 
