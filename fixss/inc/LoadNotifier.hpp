@@ -33,10 +33,17 @@ class CLoadNotifier: public CBase,public MSharedDataNotifyHandler
   private:
     CLoadNotifier();
     void ConstructL(void);
-    void OnGuiL(void);
+    void ProcessStateL(TUint8 aState);
     void Patch1stL(void);
     void Patch2ndL(void);
-    void LoadPluginsL(void);
+    void LoadPluginsL(TUint8 aState);
+    static TInt LoadPlugin(TAny* aPtr);
+  private:
+    struct SThreadData
+    {
+      const TDesC& iName;
+      const TDesC& iPath;
+    };
   private:
     RSharedDataClient iSysAp;
 };

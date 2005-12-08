@@ -18,3 +18,4 @@ library apmime.lib
 library adsp.lib
 library sysutil.lib
 library commonengine.lib
+library efsrv.lib
