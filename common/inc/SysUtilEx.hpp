@@ -68,7 +68,7 @@ class SysStartup
     static void Shutdown(TUid const&);
     static TSWState State(void);
     static void HiddenReset(void);
-    static void RTCStatus(void);
+    static TInt RTCStatus(void);
 };
 
 class SysEvent
