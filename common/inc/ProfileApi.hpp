@@ -23,7 +23,7 @@
 #include <ProfileDB.hpp>
 #include <bamdesca.h>
 
-class CProfileAPI: public CBase //FIXME: incomplete
+class CProfileAPI: public CBase
 {
   public:
     enum TProErrorCode
@@ -52,21 +52,25 @@ class CProfileAPI: public CBase //FIXME: incomplete
     };
 
     IMPORT_C ~CProfileAPI(void);
-    IMPORT_C static CProfileAPI* NewLC(TBool aIsServerEngine=FALSE);
-    IMPORT_C static CProfileAPI* NewL(TBool aIsServerEngine=FALSE);
+    IMPORT_C static CProfileAPI* NewLC(TBool aIsServerEngine=EFalse);
+    IMPORT_C static CProfileAPI* NewL(TBool aIsServerEngine=EFalse);
 
     IMPORT_C TProErrorCode GetProfileActiveName(TPtr16 aProfileName,TInt* aProfileUId);
-    IMPORT_C TProErrorCode GetProfileAlertFor(CArrayFixFlat<long>*,TInt*,TInt); //FIXME:?
-    IMPORT_C TProErrorCode GetProfileMsgAlertTone(TBuf<256>*,TInt*,TInt); //FIXME:?
-    IMPORT_C TProErrorCode GetProfileMultiData(TDes16& aRingingTone,TDes16& aSms,TInt& aRingType,TInt& aRingVolume,TInt& aVibra,TInt& aKeypadTones,CArrayFixFlat<long>* anAlertFor,TInt& anAlertForCount,TInt aTableId=-1); //FIXME:?
+    IMPORT_C TProErrorCode GetProfileAlertFor(CArrayFixFlat<TContactItemId>* anAlertFor,TInt* aSize,TInt aTableId=-1);
+    IMPORT_C TProErrorCode GetProfileMsgAlertTone(TFileName* aFileName,TInt* aVolume,TInt aTableId=-1);
+    IMPORT_C TProErrorCode GetProfileMultiData(TDes16& aRingingTone,TDes16& aSms,TInt& aRingType,TInt& aRingVolume,TInt& aVibra,TInt& aKeypadTones,CArrayFixFlat<TContactItemId>* anAlertFor,TInt& anAlertForCount,TInt aTableId=-1);
     IMPORT_C TProErrorCode GetProfileNameList(MDesC16Array* aProfileNameArray,CProfileDb::TDbSortType aSortType=CProfileDb::ENoSort);
     IMPORT_C TProErrorCode GetProfileNameList(CArrayFixFlat<CProfileDb::TProfileStruct>* aProfileArray,CProfileDb::TDbSortType aSortType=CProfileDb::ENoSort);
     IMPORT_C TProErrorCode GetProfileNotification(TInt* aOnf,TInt aProfileIndx=-1);
     IMPORT_C TProErrorCode GetProfileSettingList(CArrayFixFlat<CProfileDb::TSettingStruct>* aSettingArray,TInt aTableId=-1);
     IMPORT_C TProErrorCode GetProfileSoundList(CArrayFixFlat<CProfileDb::TSoundStruct>* aSoundArray,TInt aTableId=-1);
-    IMPORT_C TProErrorCode SetProfileName(TInt); //FIXME:?
-    IMPORT_C TProErrorCode SilentIndicator(TInt&); //FIXME:?
-
+    IMPORT_C TProErrorCode SetProfileName(TInt aTableId);
+    IMPORT_C TProErrorCode SilentIndicator(TInt& aSilent);
+  private:
+    CProfileDb *iDb;
+    TBool iGlobalNote;
+    RSAVarChangeNotify iNotify;
+    TBool iNotifyConnect;
 };
 
 #endif
