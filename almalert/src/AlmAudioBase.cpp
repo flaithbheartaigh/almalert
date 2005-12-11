@@ -29,33 +29,20 @@ CAlmAudioBase::~CAlmAudioBase()
 {
   if(iPrepared) iPlayer->Stop();
   delete iPlayer;
-  SetDspState(ETrue);
-  delete iAudio;
+  iSuspend.Close();
 }
 
 void CAlmAudioBase::ConstructL(CSettings* aSettings)
 {
   AlmProfile::SoundParamsL(iRingType,iRingVolume);
-  iAudio=CAudioClient::NewL();
-  SetDspState(EFalse);
-  iPlayer=CMdaAudioPlayerUtility::NewFilePlayerL(FileName(aSettings),*this,Priority(),PriorityPreference());
-}
-
-/*
- aState:
-   EFalse - выключить DSP
-   ETrue - включить DSP
- */
-void CAlmAudioBase::SetDspState(TBool aState)
-{
-  if(iAudio->Connect()==KErrNone) // при невозможности коннекта - продолжаем работать дальше.
+  if(PlayAlways()||iRingType!=CProfileAPI::ERingTypeSilent)
   {
-    iAudio->Session().AudioSendReceive(aState?0x40:0x3f,NULL);
-    iAudio->Close();
+    iSuspend.Open();
+    iPlayer=CMdaAudioPlayerUtility::NewFilePlayerL(FileName(aSettings),*this,Priority(),PriorityPreference());
   }
 }
 
-TInt CAlmAudioBase::UpdateVolume(void)
+void CAlmAudioBase::UpdateVolume(void)
 {
   TInt maxVolume=(iPlayer)?iPlayer->MaxVolume():0;
   TInt volume=maxVolume;
@@ -64,10 +51,8 @@ TInt CAlmAudioBase::UpdateVolume(void)
     volume*=iRingVolume/9U;
     if(volume==0) volume=1;
     if(volume>maxVolume) volume=maxVolume;
-    if(iRingType==CProfileAPI::ERingTypeSilent) volume=0;
   }
   if(iPlayer) iPlayer->SetVolume(volume);
-  return volume;
 }
 
 void CAlmAudioBase::MapcInitComplete(TInt aError,const TTimeIntervalMicroSeconds& aDuration)
@@ -78,11 +63,9 @@ void CAlmAudioBase::MapcInitComplete(TInt aError,const TTimeIntervalMicroSeconds
   }
   else
   {
-    if(UpdateVolume())
-    {
-      PlayInit();
-      iPlayer->Play();
-    }
+    UpdateVolume();
+    PlayInit();
+    iPlayer->Play();
     iPrepared=ETrue;
   }
 }
@@ -90,4 +73,5 @@ void CAlmAudioBase::MapcInitComplete(TInt aError,const TTimeIntervalMicroSeconds
 // aError может быть KErrInUse
 void CAlmAudioBase::MapcPlayComplete(TInt aError)
 {
+  iSuspend.Close();
 }
