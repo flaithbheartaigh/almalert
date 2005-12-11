@@ -23,7 +23,7 @@
 void AlmProfile::SoundParamsL(TInt& aRingType,TInt& aRingVolume)
 {
   CProfileAPI* profiles=CProfileAPI::NewLC();
-  CArrayFixFlat<long>* alertFor=new(ELeave)CArrayFixFlat<long>(5);
+  CArrayFixFlat<TContactItemId>* alertFor=new(ELeave)CArrayFixFlat<long>(5);
   CleanupStack::PushL(alertFor);
   TFileName ringingTone,sms;
   TInt ringType,ringVolume,vibra,keypadTones,alertForCount;

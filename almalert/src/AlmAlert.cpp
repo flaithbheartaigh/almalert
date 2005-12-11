@@ -766,9 +766,7 @@ void CAlm::InitBeeperL(void)
   if(iSettings->IsBeep())
   {
     iActivity=CUserActivityManager::NewL(EPriorityLow);
-    TCallBack inactivity(OnInactivity,this);
-    TCallBack activity(OnInactivity,this);
-    iActivity->Start(10,inactivity,activity);
+    iActivity->Start(10,TCallBack(OnInactivity,this),TCallBack(OnActivity,this));
     iBeeper=CPeriodic::NewL(CActive::EPriorityIdle);
     SetBeeper();
   }
