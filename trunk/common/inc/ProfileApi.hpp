@@ -22,6 +22,7 @@
 
 #include <ProfileDB.hpp>
 #include <bamdesca.h>
+#include <savarset.h>
 
 class CProfileAPI: public CBase
 {
