@@ -27,6 +27,7 @@
 #include <t32alm.h> //TAlarmInfo
 #include <eikimage.h> //CEikImage
 #include <aknconsts.h> //KAvkonBitmapFile
+#include <BtEng.hpp> //CBTMCMSettings
 
 #include <almalert.rsg>
 #include <avkon.rsg>
@@ -774,7 +775,12 @@ void CAlm::DoBeeperTimeout(void)
     TInt hour=dtime.Hour(),minute=dtime.Minute();
     if(!(iAlmFlags&EFlagAlarmActive)&&minute<2&&hour>=iSettings->BeepStart()&&hour<=iSettings->BeepFinish())
     {
-      TRAPD(err,iBeepAudio=CAlmAudioBeep::NewL((CEikonEnv*)(ControlEnv()),iSettings));
+      TBool btState=EFalse;
+      CBTMCMSettings::GetPowerStateL(btState); //never leave. on error btState unchanged.
+      if(!btState)
+      {
+        TRAPD(err,iBeepAudio=CAlmAudioBeep::NewL((CEikonEnv*)(ControlEnv()),iSettings));
+      }
     }
     if(iBeepAudio)
     {
