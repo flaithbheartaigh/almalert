@@ -22,7 +22,7 @@
 
 #include <mdaaudiosampleplayer.h> //MMdaAudioToneObserver
 #include <eikenv.h> //CEikonEnv
-#include <AudioSvrClient.hpp> //CAudioClient
+#include "AlmSuspendDsp.hpp" //RSuspendDsp
 #include "AlarmAlertSettings.hpp" //CSettings
 
 class CAlmAudioBase: public CBase,public MMdaAudioPlayerCallback
@@ -48,10 +48,9 @@ class CAlmAudioBase: public CBase,public MMdaAudioPlayerCallback
   private:
     TBool iPrepared;
     CEikonEnv* iEnv;
-    CAudioClient* iAudio;
+    RSuspendDsp iSuspend;
   private:
-    TInt UpdateVolume(void);
-    void SetDspState(TBool aState);
+    void UpdateVolume(void);
 };
 
 #endif

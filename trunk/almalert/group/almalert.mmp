@@ -36,7 +36,6 @@ library ws32.lib
 library aknnotifyplugin.lib
 library aknlayout.lib
 library mediaclientaudio.lib
-library AudioSvrClient.lib
 library efsrv.lib
 library profileengine.lib
 library fbscli.lib
