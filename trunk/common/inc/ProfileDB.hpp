@@ -22,8 +22,9 @@
 
 #include <cdblen.h>
 #include <e32base.h>
+#include <cntdef.h>
 
-const TInt KMaxProfileNameLength    = 30;  // Maximum length of a profile name
+const TInt KMaxProfileNameLength=30;
 
 class CProfileDb: public CBase
 {
@@ -31,17 +32,14 @@ class CProfileDb: public CBase
     friend class CProfileAPI;
     struct TProfileStruct
     {
-        TInt iTableId;
-        TInt iUID;
-        TInt iRemove;
-        TInt iModify;
-        TInt iActive;
-        TInt iVisible;
-        TInt iRename;
-        TInt iDivertType;
-        TBuf<KCommsDbSvrMaxFieldLength> iDivertData;
-        TBuf<KCommsDbSvrMaxFieldLength> iDivertTelephoneNumber;
-        TBufC<KMaxProfileNameLength> iProfileName;
+      TInt iTableId;
+      TInt iUID;
+      TInt iRemove;
+      TInt iModify;
+      TInt iActive;
+      TInt iVisible;
+      TInt iRename;
+      TBufC<KMaxProfileNameLength> iProfileName;
     };
     struct TSoundStruct
     {
@@ -49,7 +47,6 @@ class CProfileDb: public CBase
       TInt iModify;
       TInt iEnable;
       TInt iVolume;
-      TInt iMaxVolume;
       TFileName iFileName;
     };
     struct TSettingStruct
@@ -80,12 +77,12 @@ class CProfileDb: public CBase
     IMPORT_C static CProfileDb* NewL(void);
 
     IMPORT_C TDbErrorCode LookupQueryL(CArrayFixFlat<CProfileDb::TProfileStruct>* aProfileArray,CProfileDb::TDbSortType aSortType=ENoSort);
-    IMPORT_C TDbErrorCode ProfileAlertForQueryL(CArrayFixFlat<long>*,TInt*,TDes16&,TInt); //FIXME: ?
+    IMPORT_C TDbErrorCode ProfileAlertForQueryL(CArrayFixFlat<TContactItemId>* anAlertFor,TInt* aCount,TDes16& aContactGroupName,TInt aTableId);
     IMPORT_C TDbErrorCode ProfileSettingQueryL(CArrayFixFlat<CProfileDb::TSettingStruct>* aSettingArray,TInt aTableId);
     IMPORT_C TDbErrorCode ProfileSoundQueryL(CArrayFixFlat<CProfileDb::TSoundStruct>* aSoundArray,TInt aTableId);
 
-    IMPORT_C TDbErrorCode ReadProfileL(CArrayFixFlat<CProfileDb::TSettingStruct>* aSettingArray,CArrayFixFlat<CProfileDb::TSoundStruct>* aSoundArray,CArrayFixFlat<long>* aUnknown,TInt*,TDes16&,TInt); //FIXME: ?
-    IMPORT_C TDbErrorCode WriteProfileL(CProfileDb::TProfileStruct* aProfileStruct,TDes16&,CArrayFixFlat<CProfileDb::TSettingStruct>* aSettingArray=NULL,CArrayFixFlat<CProfileDb::TSoundStruct>* aSoundArray=NULL,CArrayFixFlat<long>* aUnknown=NULL,unsigned short=0); //FIXME: ?
+    IMPORT_C TDbErrorCode ReadProfileL(CArrayFixFlat<CProfileDb::TSettingStruct>* aSettingArray,CArrayFixFlat<CProfileDb::TSoundStruct>* aSoundArray,CArrayFixFlat<TContactItemId>* anAlertFor,TInt* aContactGroupSize,TDes16& aContactGroupName,TInt aTableId);
+    IMPORT_C TDbErrorCode WriteProfileL(CProfileDb::TProfileStruct* aProfileStruct,TDes16& aContactGroupName,CArrayFixFlat<CProfileDb::TSettingStruct>* aSettingArray=NULL,CArrayFixFlat<CProfileDb::TSoundStruct>* aSoundArray=NULL,CArrayFixFlat<TContactItemId>* anAlertFor=NULL,TUint16 aChangeFlag=0);
 };
 
 #endif
