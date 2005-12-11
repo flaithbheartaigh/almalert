@@ -31,6 +31,7 @@
 #include <eikbtgpc.h> //CEikButtonGroupContainer
 #include <aknnotecontrol.h> //CAknNoteControl
 #include <EikSrvUi.hpp> //CEikServAppUi
+#include <ActivityManager.hpp> //CUserActivityManager
 
 #include "AlmAudioAlert.hpp"
 #include "AlmAudioBeep.hpp"
@@ -220,6 +221,11 @@ class CAlm: public CEikBorderedControl,public MCoeControlContext,public MAlm,pub
     void InitBirthdayL(void);
     static TInt BirthdayTimeout(TAny* anAlm);
     void DoBirthdayTimeoutL(void);
+  private: //Activity
+    TBool iUserActive;
+    CUserActivityManager* iActivity;
+    static TInt OnActivity(TAny* anAlm);
+    static TInt OnInactivity(TAny* anAlm);
 };
 
 #endif

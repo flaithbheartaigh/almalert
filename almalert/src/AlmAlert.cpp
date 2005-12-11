@@ -51,6 +51,7 @@ CAlm::~CAlm()
   delete iBirthdayAudio;
   delete iBeeper;
   delete iBeepAudio;
+  delete iActivity;
   delete iNoteContainer;
   delete iAudio;
   ((CEikonEnv*)ControlEnv())->RemoveFromStack(this);
@@ -724,6 +725,18 @@ CCoeControl* CAlm::FadedComponent(TInt aIndex) //checked
   return iButtonsCurrent;
 }
 
+TInt CAlm::OnActivity(TAny* anAlm)
+{
+  ((CAlm*)anAlm)->iUserActive=ETrue;
+  return 0;
+}
+
+TInt CAlm::OnInactivity(TAny* anAlm)
+{
+  ((CAlm*)anAlm)->iUserActive=EFalse;
+  return 0;
+}
+
 void CAlm::SetBeeper(void) //устанавливает таймер до следующего часа
 {
   TTime next,curr;
@@ -752,6 +765,10 @@ void CAlm::InitBeeperL(void)
 {
   if(iSettings->IsBeep())
   {
+    iActivity=CUserActivityManager::NewL(EPriorityLow);
+    TCallBack inactivity(OnInactivity,this);
+    TCallBack activity(OnInactivity,this);
+    iActivity->Start(10,inactivity,activity);
     iBeeper=CPeriodic::NewL(CActive::EPriorityIdle);
     SetBeeper();
   }
@@ -768,18 +785,21 @@ void CAlm::DoBeeperTimeout(void)
   }
   else
   {
-    TTime time;
-    time.HomeTime();
-    time.RoundUpToNextMinute();
-    TDateTime dtime=time.DateTime();
-    TInt hour=dtime.Hour(),minute=dtime.Minute();
-    if(!(iAlmFlags&EFlagAlarmActive)&&minute<2&&hour>=iSettings->BeepStart()&&hour<=iSettings->BeepFinish())
+    if(!iUserActive)
     {
-      TBool btState=EFalse;
-      CBTMCMSettings::GetPowerStateL(btState); //never leave. on error btState unchanged.
-      if(!btState)
+      TTime time;
+      time.HomeTime();
+      time.RoundUpToNextMinute();
+      TDateTime dtime=time.DateTime();
+      TInt hour=dtime.Hour(),minute=dtime.Minute();
+      if(!(iAlmFlags&EFlagAlarmActive)&&minute<2&&hour>=iSettings->BeepStart()&&hour<=iSettings->BeepFinish())
       {
-        TRAPD(err,iBeepAudio=CAlmAudioBeep::NewL((CEikonEnv*)(ControlEnv()),iSettings));
+        TBool btState=EFalse;
+        CBTMCMSettings::GetPowerStateL(btState); //never leave. on error btState unchanged.
+        if(!btState)
+        {
+          TRAPD(err,iBeepAudio=CAlmAudioBeep::NewL((CEikonEnv*)(ControlEnv()),iSettings));
+        }
       }
     }
     if(iBeepAudio)
