@@ -15,6 +15,7 @@ source AlmAudioSms.cpp
 source AlmSms.cpp
 source AlmBD.cpp
 source AlmBirthdayTimer.cpp
+source AlmSuspendDsp.cpp
 
 userinclude ..\inc 
 
