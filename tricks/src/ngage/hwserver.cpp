@@ -30,12 +30,21 @@ EXPORT_C CHWServer* CHWServer::NewLC(void)
 {
   CHWServerImpl* self=new(ELeave)CHWServerImpl;
   CleanupStack::PushL(self);
-  self->ConstructL();
+  self->ConstructL(EFalse);
+  return self;
+}
+
+CHWServer* CHWServer::NewLC(TInt aDummy)
+{
+  CHWServerImpl* self=new(ELeave)CHWServerImpl;
+  CleanupStack::PushL(self);
+  self->ConstructL(ETrue);
   return self;
 }
 
 CHWServerImpl::~CHWServerImpl()
 {
+  delete iExtender;
   iPhoNet.Close();
   if(iCaptured) iMutex.Signal();
   iMutex.Close();
@@ -45,7 +54,7 @@ CHWServerImpl::CHWServerImpl(): CHWServer()
 {
 }
 
-void CHWServerImpl::ConstructL(void)
+void CHWServerImpl::ConstructL(TBool anExtended)
 {
   _LIT(KMutexName,"zg0x13nosunit");
   TInt err=iMutex.CreateGlobal(KMutexName);
@@ -70,6 +79,7 @@ void CHWServerImpl::ConstructL(void)
       User::Leave(KErrNotSupported);
       break;
   }
+  if(anExtended) iExtender=CHWExtender::NewL(this);
 }
 
 void CHWServerImpl::SendL(CPnMsg& aMsg)
