@@ -34,6 +34,8 @@ class CHWServer: public CBase
     virtual void SendL(CPnMsg& aMsg)=0;
     virtual void ReceiveL(TRequestStatus& aStatus,CPnMsg& aMsg,TPnReceiveAllocationLengthPckg& aLen)=0;
     virtual void ReceiveCancelL(void)=0;
+  public: //for internal use
+    static CHWServer* NewLC(TInt aDummy);
 };
 
 class HWVibra

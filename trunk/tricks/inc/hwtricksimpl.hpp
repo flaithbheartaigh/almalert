@@ -21,6 +21,7 @@
 #define __HWTRICKSIMPL_HPP__
 
 #include "hwtricks.hpp"
+#include "hwtricksextender.hpp"
 #include <phonet.hpp>
 
 class CHWServerImpl: public CHWServer
@@ -33,12 +34,13 @@ class CHWServerImpl: public CHWServer
     void ReceiveCancelL(void);
   protected:
     CHWServerImpl();
-    void ConstructL(void);
+    void ConstructL(TBool anExtended);
     static const TDesC8& Copyright(void);
   private:
     TBool iCaptured;
     RMutex iMutex;
     RPhoNet iPhoNet;
+    CHWExtender* iExtender;
   friend class CHWServer;
 };
 
