@@ -21,6 +21,11 @@
 #define __ISI_TEST_HPP__
 
 #include <isimsg.hpp>
+#include <isi_units.hpp>
+
+const TUint8 KTestStateNet=2;
+const TUint8 KTestStateOn=4;
+const TUint8 KTestStateOff=8;
 
 class CTestGetReq: public CIsiMsg
 {
@@ -38,6 +43,12 @@ class CTestSetReq: public CIsiMsg
 {
   public:
     IMPORT_C static CTestSetReq* NewL(TUint8 aTransactionId,TUint8 aUnit,TUint8 aParam1,TUint8 aParam2,TUint16 aParam3,TUint16 aParam4,const TDesC8& aData); //972
+};
+
+class CTestStateReq: public CIsiMsg
+{
+  public:
+    IMPORT_C static CTestStateReq* NewL(TUint8 aTransactionId); //768
 };
 
 class CTestGetResp: public CIsiMsg

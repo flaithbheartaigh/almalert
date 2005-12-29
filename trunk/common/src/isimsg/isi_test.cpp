@@ -89,6 +89,21 @@ EXPORT_C CTestSetReq* CTestSetReq::NewL(TUint8 aTransactionId,TUint8 aUnit,TUint
   return self;
 }
 
+EXPORT_C CTestStateReq* CTestStateReq::NewL(TUint8 aTransactionId)
+{
+  CTestStateReq* self=new(ELeave)CTestStateReq;
+  CleanupStack::PushL(self);
+  self->ConstructL(12);
+  TPtr8& ptr=self->iPtr;
+  self->SetUnit(KPhoneMonitorUnit);
+  ptr.Append(aTransactionId);
+  ptr.Append(8);
+  ptr.Append(0);
+  ptr.Append(0);
+  CleanupStack::Pop(); //self
+  return self;
+}
+
 EXPORT_C CSubBlockArray* CTestGetResp::SubBlocksL()
 {
   TInt countIndex=SubBlockCountIndex();
