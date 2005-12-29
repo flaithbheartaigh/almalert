@@ -49,7 +49,6 @@ class CTestStateReq: public CIsiMsg
 {
   public:
     IMPORT_C static CTestStateReq* NewL(TUint8 aTransactionId); //768
-    inline TUint8 State(void) {return iPtr[10];};
 };
 
 class CTestGetResp: public CIsiMsg
