@@ -19,6 +19,7 @@
 
 #include "hwtricks.hpp"
 #include <zg_vibra.hpp>
+#include <isi_units.hpp>
 
 EXPORT_C void HWVibra::SwitchL(TBool aState)
 {
@@ -58,5 +59,8 @@ EXPORT_C void HWVibra::SetIntensityL(TUint8 anIntensity)
 
 EXPORT_C void HWVibra::IntensityL(TUint8& anIntensity)
 {
-  anIntensity=KDefaultIntensity;
+  TBuf<1> buffer;
+  TRAPD(err,HWNetmon::ValueL(KPhoneAccessoryUnit,0x1c,buffer,ETrue,ETrue));
+  if(err==KErrNone&&buffer.Length()) anIntensity=buffer[0];
+  else anIntensity=KDefaultIntensity;
 }
