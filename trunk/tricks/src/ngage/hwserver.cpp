@@ -34,11 +34,11 @@ EXPORT_C CHWServer* CHWServer::NewLC(void)
   return self;
 }
 
-CHWServer* CHWServer::NewLC(TInt aDummy)
+CHWServer* CHWServer::NewLC(TBool anExtended)
 {
   CHWServerImpl* self=new(ELeave)CHWServerImpl;
   CleanupStack::PushL(self);
-  self->ConstructL(ETrue);
+  self->ConstructL(anExtended);
   return self;
 }
 
