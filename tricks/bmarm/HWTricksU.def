@@ -17,6 +17,6 @@ EXPORTS
 	SetContrastL__5HWLcdi @ 16 NONAME R3UNUSED ; HWLcd::SetContrastL(int)
 	ContrastL__5HWLcdRi @ 17 NONAME R3UNUSED ; HWLcd::ContrastL(int &)
 	MaxContrastL__5HWLcdRi @ 18 NONAME R3UNUSED ; HWLcd::MaxContrastL(int &)
-	ValueL__8HWNetmonUcUsR6TDes16i @ 19 NONAME ; HWNetmon::ValueL(unsigned char, unsigned short, TDes16 &, int)
+	ValueL__8HWNetmonUcUsR6TDes16ii @ 19 NONAME ; HWNetmon::ValueL(unsigned char, unsigned short, TDes16 &, int, int)
 	SetChannelL__8HWNetmonUs @ 20 NONAME R3UNUSED ; HWNetmon::SetChannelL(unsigned short)
 	SetFrequencyL__8HWNetmonQ28HWNetmon14TBandFrequency @ 21 NONAME R3UNUSED ; HWNetmon::SetFrequencyL(HWNetmon::TBandFrequency)

@@ -35,7 +35,7 @@ class CHWServer: public CBase
     virtual void ReceiveL(TRequestStatus& aStatus,CPnMsg& aMsg,TPnReceiveAllocationLengthPckg& aLen)=0;
     virtual void ReceiveCancelL(void)=0;
   public: //for internal use
-    static CHWServer* NewLC(TInt aDummy);
+    static CHWServer* NewLC(TBool anExtended);
 };
 
 class HWVibra
@@ -144,7 +144,7 @@ class HWNetmon
   public:
     static const TUint16 KOffChannel=3333;
   public:
-    IMPORT_C static void ValueL(TUint8 aUnit,TUint16 aAddress,TDes16& aValue,TBool aRaw=EFalse);
+    IMPORT_C static void ValueL(TUint8 aUnit,TUint16 anAddress,TDes16& aValue,TBool aRaw=EFalse,TBool anExtended=EFalse);
     IMPORT_C static void SetChannelL(TUint16 aChannel=KOffChannel);
     IMPORT_C static void SetFrequencyL(TBandFrequency aFrequency);
 };

@@ -27,11 +27,11 @@ class CNetmonValue: public CBase
 {
   public:
     ~CNetmonValue();
-    static CNetmonValue* NewLC(TUint8 aUnit,TUint16 aAddress);
+    static CNetmonValue* NewLC(TUint8 aUnit,TUint16 aAddress,TBool anExtended);
     void ValueL(TDes16& aTarget,TBool aRaw);
   private:
     CNetmonValue(TUint8 aUnit,TUint16 aAddress);
-    void ConstructL(void);
+    void ConstructL(TBool anExtended);
     void CleanupL(void);
   private:
     TUint8 iUnit;

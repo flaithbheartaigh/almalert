@@ -20,9 +20,9 @@
 #include "hwtricksnetmon.hpp"
 #include <isi_units.hpp>
 
-EXPORT_C void HWNetmon::ValueL(TUint8 aUnit,TUint16 aAddress,TDes16& aValue,TBool aRaw)
+EXPORT_C void HWNetmon::ValueL(TUint8 aUnit,TUint16 anAddress,TDes16& aValue,TBool aRaw,TBool anExtended)
 {
-  CNetmonValue* value=CNetmonValue::NewLC(aUnit,aAddress);
+  CNetmonValue* value=CNetmonValue::NewLC(aUnit,anAddress,anExtended);
   value->ValueL(aValue,aRaw);
   CleanupStack::PopAndDestroy(); //value
 }
@@ -89,11 +89,11 @@ CNetmonValue::~CNetmonValue()
   delete iServer;
 }
 
-CNetmonValue* CNetmonValue::NewLC(TUint8 aUnit,TUint16 aAddress)
+CNetmonValue* CNetmonValue::NewLC(TUint8 aUnit,TUint16 aAddress,TBool anExtended)
 {
   CNetmonValue* self=new(ELeave)CNetmonValue(aUnit,aAddress);
   CleanupStack::PushL(self);
-  self->ConstructL();
+  self->ConstructL(anExtended);
   return self;
 }
 
@@ -149,9 +149,9 @@ CNetmonValue::CNetmonValue(TUint8 aUnit,TUint16 aAddress): CBase(),iUnit(aUnit),
 {
 }
 
-void CNetmonValue::ConstructL(void)
+void CNetmonValue::ConstructL(TBool anExtended)
 {
-  iServer=CHWServer::NewLC();
+  iServer=CHWServer::NewLC(anExtended);
   CleanupStack::Pop();
   TBuf<1> data;
   data.Append(iAddress);
