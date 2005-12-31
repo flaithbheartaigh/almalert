@@ -132,7 +132,7 @@ void CNetmonValue::ValueL(TDes16& aTarget,TBool aRaw)
       TInt length=block->Ptr()[3];
       if(blockLen==8&&length==0)
       {
-        aTarget.Num((TUint)(block->Ptr()[4]*256+block->Ptr()[5]));
+        aTarget.Num((TInt16)(block->Ptr()[4]*256+block->Ptr()[5]));
       }
       else if((length+3)<block->Ptr().Length())
       {
