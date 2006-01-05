@@ -60,7 +60,7 @@ EXPORT_C void HWVibra::SetIntensityL(TUint8 anIntensity)
 EXPORT_C void HWVibra::IntensityL(TUint8& anIntensity)
 {
   TBuf<1> buffer;
-  TRAPD(err,HWNetmon::ValueL(KPhoneAccessoryUnit,0x1c,buffer,ETrue,ETrue));
+  TRAPD(err,HWNetmon::ValueL(KPhoneAccessoryUnit,0x1c,buffer,HWNetmon::ERaw|HWNetmon::EExt));
   if(err==KErrNone&&buffer.Length()) anIntensity=buffer[0];
   else anIntensity=KDefaultIntensity;
 }

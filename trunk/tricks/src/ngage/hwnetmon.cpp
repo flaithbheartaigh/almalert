@@ -20,10 +20,10 @@
 #include "hwtricksnetmon.hpp"
 #include <isi_units.hpp>
 
-EXPORT_C void HWNetmon::ValueL(TUint8 aUnit,TUint16 anAddress,TDes16& aValue,TBool aRaw,TBool anExtended)
+EXPORT_C void HWNetmon::ValueL(TUint8 aUnit,TUint16 anAddress,TDes16& aValue,TUint32 aFlags)
 {
-  CNetmonValue* value=CNetmonValue::NewLC(aUnit,anAddress,anExtended);
-  value->ValueL(aValue,aRaw);
+  CNetmonValue* value=CNetmonValue::NewLC(aUnit,anAddress,aFlags&EExt);
+  value->ValueL(aValue,aFlags&ERaw);
   CleanupStack::PopAndDestroy(); //value
 }
 
