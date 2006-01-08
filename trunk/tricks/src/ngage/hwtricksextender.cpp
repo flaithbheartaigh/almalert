@@ -53,9 +53,9 @@ TUint CHWExtender::Address(void)
   };
   const SModels KModels[]=
   {
-    {0x503A31D4u,0x800c889cu}, //n-gage classic 4.03
-    {0x503A2DD4u,0x800ca480u}, //n-gage classic 3.30
-    {0x5039E1A4u,0x800c7ea8u}  //n-gage qd 4.00
+    {0x50397d84u,0x800c889cu}, //n-gage classic 4.03
+    {0x50397984u,0x800ca480u}, //n-gage classic 3.30
+    {0x50392d54u,0x800c7ea8u}  //n-gage qd 4.00
   };
   _LIT(KEuserDll,"euser.dll");
 
@@ -63,7 +63,7 @@ TUint CHWExtender::Address(void)
   RLibrary lib;
   if(lib.Load(KEuserDll)==KErrNone)
   {
-    TUint sign=(TUint)lib.Lookup(1);
+    TUint sign=(TUint)lib.EntryPoint();
     if(sign)
       for(TUint i=0;i<sizeofa(KModels);i++)
         if(sign==KModels[i].iSign)
