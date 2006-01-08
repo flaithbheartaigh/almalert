@@ -18,6 +18,7 @@
 */
 
 #include "hwtricks.hpp"
+#include "hwtricksextender.hpp"
 #include <hal.h>
 
 EXPORT_C void HWOther::InfoL(TInfoType aType,TInt& aValue)
@@ -49,6 +50,9 @@ EXPORT_C void HWOther::InfoL(TInfoType aType,TInt& aValue)
       break;
     case EInfoNetmonSupported:
       aValue=ETrue;
+      break;
+    case EInfoNetmonExtendedSupported:
+      aValue=(CHWExtender::IsSupported()!=0);
       break;
     default:
       User::Leave(KErrNotSupported);
