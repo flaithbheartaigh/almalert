@@ -43,6 +43,11 @@ void CHWExtender::ConstructL(CHWServer* aServer)
   CleanupStack::PopAndDestroy(2); //sendMsg,recvMsg
 }
 
+TBool CHWExtender::IsSupported(void)
+{
+  return Address()!=0;
+}
+
 TUint CHWExtender::Address(void)
 {
   // iSign - 1st export from euser.dll (memset)
