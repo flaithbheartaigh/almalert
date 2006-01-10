@@ -61,6 +61,7 @@ TUint CHWExtender::Address(void)
     {0x50397d84u,0x800c889cu}, //n-gage classic 4.03
     {0x50397984u,0x800ca480u}, //n-gage classic 3.30
     {0x50392d54u,0x800c7ea8u}, //n-gage qd 4.00 & 4.10
+    {0x50392c74u,0x800c7ea8u}, //n-gage qd 3.15
     {0x503b2a74u,0x800c78c0u}  //3650 4.17
   };
   _LIT(KEuserDll,"euser.dll");
