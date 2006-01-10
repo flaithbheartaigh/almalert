@@ -63,9 +63,11 @@ class HWBacklight
     {
       ESmoothOn=1,
       ESmoothOff=2,
-      EBlink1=3,
-      EBlink2=4,
-      EOn=5
+      EBlink=3,
+      EBlinkAlways=4,
+      EOn=5,
+      EUnlock=0xa1,
+      ELock=0xa2
     };
     enum TBrightnessBlock
     {
