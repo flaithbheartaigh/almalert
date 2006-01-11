@@ -6,7 +6,7 @@ EXPORTS
 	SetIntensityL__7HWVibraUc @ 5 NONAME R3UNUSED ; HWVibra::SetIntensityL(unsigned char)
 	IntensityL__7HWVibraRUc @ 6 NONAME R3UNUSED ; HWVibra::IntensityL(unsigned char &)
 	SetGameModeL__11HWBacklighti @ 7 NONAME R3UNUSED ; HWBacklight::SetGameModeL(int)
-	SwitchL__11HWBacklightii @ 8 NONAME R3UNUSED ; HWBacklight::SwitchL(int, int)
+	SwitchL__11HWBacklightiiPv @ 8 NONAME R3UNUSED ; HWBacklight::SwitchL(int, int, void *)
 	Reserved_1__11HWBacklight @ 9 NONAME R3UNUSED ; HWBacklight::Reserved_1(void)
 	SetBrightnessL__11HWBacklightQ211HWBacklight15TBrightnessTypeUcUc @ 10 NONAME R3UNUSED ; HWBacklight::SetBrightnessL(HWBacklight::TBrightnessType, unsigned char, unsigned char)
 	BrightnessL__11HWBacklightQ211HWBacklight15TBrightnessTypeRUcT2 @ 11 NONAME R3UNUSED ; HWBacklight::BrightnessL(HWBacklight::TBrightnessType, unsigned char &, unsigned char &)
