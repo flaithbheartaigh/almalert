@@ -23,6 +23,7 @@
 #include <pnmsg.hpp>
 
 class CSubBlock;
+class CSubBlockArray;
 
 class CIsiMsg: public CPnMsg
 {
@@ -35,6 +36,7 @@ class CIsiMsg: public CPnMsg
     IMPORT_C void Move(CIsiMsg* aTarget); //611
     IMPORT_C TUint8 SubBlockCount(void); //990
     IMPORT_C CSubBlock* SubBlock(void); //1413
+    IMPORT_C void Append(CSubBlockArray* aBlocks) {}; //33
     IMPORT_C void Append(CSubBlock* aBlock); //34
   public:
     inline TUint8 Unit(void) {return iPtr[3];};
