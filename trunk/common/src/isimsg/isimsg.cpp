@@ -86,6 +86,15 @@ EXPORT_C CSubBlock* CIsiMsg::SubBlock(void)
   return CSubBlock::NewL(iPtr,offset,Unit());
 }
 
+EXPORT_C void CIsiMsg::Append(CSubBlockArray* aBlocks)
+{
+  TUint8 number=aBlocks->Number();
+  for(TUint8 i=0;i<number;i++)
+  {
+    Append((*aBlocks)[i]);
+  }
+}
+
 EXPORT_C void CIsiMsg::Append(CSubBlock* aBlock)
 {
   iPtr.Append(aBlock->Data());
