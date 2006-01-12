@@ -79,6 +79,38 @@ EXPORT_C CLightBrightnessSetReq* CLightBrightnessSetReq::NewL(TUint8 aTransactio
   return self;
 }
 
+
+EXPORT_C CLightSwitchReq* CLightSwitchReq::NewL(TUint8 aTransactionId,TUint8 aType,TUint8 aState,CSubBlockArray* aSubBlocks)
+{
+  CLightSwitchReq* self=new(ELeave)CLightSwitchReq;
+  CleanupStack::PushL(self);
+  TInt len;
+  if(aSubBlocks)
+    len=aSubBlocks->DataSize()+16;
+  else
+    len=16;
+  self->ConstructL(len);
+  self->SetUnit(KPhoneLightUnit);
+  self->iPtr.Append(aTransactionId);
+  self->iPtr.Append(5);
+  self->iPtr.Append(aType);
+  self->iPtr.Append(aState);
+  self->iPtr.Append(0);
+  self->iPtr.Append(0);
+  self->iPtr.Append(0);
+  if(aSubBlocks)
+  {
+    self->iPtr.Append(aSubBlocks->Number());
+    self->Append(aSubBlocks);
+  }
+  else
+  {
+    self->iPtr.Append(0);
+  }
+  CleanupStack::Pop(); //self
+  return self;
+}
+
 EXPORT_C CLightSwitchReq* CLightSwitchReq::NewL(TUint8 aTransactionId,TUint8 aType,TUint8 aState,CSubBlock* aSubBlock)
 {
   CLightSwitchReq* self=new(ELeave)CLightSwitchReq;
