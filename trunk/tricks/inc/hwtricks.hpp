@@ -53,6 +53,13 @@ class HWVibra
 class HWBacklight
 {
   public:
+    struct SParam
+    {
+      TUint8 iType;
+      TUint8 iValue1;
+      TUint8 iValue2;
+    };
+  public:
     enum TSwitchType
     {
       ESwitchScreen=1,
@@ -98,7 +105,7 @@ class HWBacklight
     static const TUint8 KMaxBrightness=100;
   public:
     IMPORT_C static void SetGameModeL(TBool aState);
-    IMPORT_C static void SwitchL(TInt aType,TInt aState,void* aParams=NULL);
+    IMPORT_C static void SwitchL(TInt aType,TInt aState);
     IMPORT_C static void Reserved_1(void);
     IMPORT_C static void SetBrightnessL(TBrightnessType aType,TUint8 aValue1,TUint8 aValue2=0);
     IMPORT_C static void BrightnessL(TBrightnessType aType,TUint8& aValue1,TUint8& aValue2);

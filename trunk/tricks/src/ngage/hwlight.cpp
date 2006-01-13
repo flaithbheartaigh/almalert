@@ -38,10 +38,10 @@ EXPORT_C void HWBacklight::SetGameModeL(TBool aState)
   CleanupStack::PopAndDestroy(); //sysap
 }
 
-EXPORT_C void HWBacklight::SwitchL(TInt aType,TInt aState,void* aParams=NULL)
+EXPORT_C void HWBacklight::SwitchL(TInt aType,TInt aState)
 {
   CHWServer* server=CHWServer::NewLC();
-  CLightSwitchReq* sendMsg=CLightSwitchReq::NewL(0,aType,aState,NULL);
+  CLightSwitchReq* sendMsg=CLightSwitchReq::NewL(0,aType,aState,(CSubBlockArray*)NULL);
   CleanupStack::PushL(sendMsg);
   server->SendL(*sendMsg);
   CIsiMsg* recvMsg=CIsiMsg::NewL(500);
