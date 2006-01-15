@@ -58,6 +58,7 @@ class HWBacklight
       TUint8 iType;
       TUint8 iValue1;
       TUint8 iValue2;
+      SParam(TUint8 aType,TUint8 aValue1,TUint8 aValue2): iType(aType),iValue1(aValue1),iValue2(aValue2) {};
     };
   public:
     enum TSwitchType
@@ -109,7 +110,7 @@ class HWBacklight
     IMPORT_C static void Reserved_1(void);
     IMPORT_C static void SetBrightnessL(TBrightnessType aType,TUint8 aValue1,TUint8 aValue2=0);
     IMPORT_C static void BrightnessL(TBrightnessType aType,TUint8& aValue1,TUint8& aValue2);
-    IMPORT_C static void Reserved_2(void);
+    IMPORT_C static void SwitchL(TInt aType,TInt aState,RArray<SParam>& aParams);
     IMPORT_C static void Reserved_3(void);
     IMPORT_C static void Reserved_4(void);
     IMPORT_C static void Reserved_5(void);
