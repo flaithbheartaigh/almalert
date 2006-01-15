@@ -10,7 +10,7 @@ EXPORTS
 	Reserved_1__11HWBacklight @ 9 NONAME R3UNUSED ; HWBacklight::Reserved_1(void)
 	SetBrightnessL__11HWBacklightQ211HWBacklight15TBrightnessTypeUcUc @ 10 NONAME R3UNUSED ; HWBacklight::SetBrightnessL(HWBacklight::TBrightnessType, unsigned char, unsigned char)
 	BrightnessL__11HWBacklightQ211HWBacklight15TBrightnessTypeRUcT2 @ 11 NONAME R3UNUSED ; HWBacklight::BrightnessL(HWBacklight::TBrightnessType, unsigned char &, unsigned char &)
-	Reserved_2__11HWBacklight @ 12 NONAME R3UNUSED ; HWBacklight::Reserved_2(void)
+	SwitchL__11HWBacklightiiRt6RArray1ZQ211HWBacklight6SParam @ 12 NONAME R3UNUSED ; HWBacklight::SwitchL(int, int, RArray<HWBacklight::SParam> &)
 	Reserved_3__11HWBacklight @ 13 NONAME R3UNUSED ; HWBacklight::Reserved_3(void)
 	Reserved_4__11HWBacklight @ 14 NONAME R3UNUSED ; HWBacklight::Reserved_4(void)
 	Reserved_5__11HWBacklight @ 15 NONAME R3UNUSED ; HWBacklight::Reserved_5(void)
