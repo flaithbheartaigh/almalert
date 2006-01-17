@@ -1,6 +1,6 @@
 /*
     isi_light.hpp
-    Copyright (C) 2005 zg
+    Copyright (C) 2005-2006 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ class CLightBrightnessGetResp: public CIsiMsg
 class CLightBrightnessSetReq: public CIsiMsg
 {
   public:
+    IMPORT_C static CLightBrightnessSetReq* NewL(TUint8 aTransactionId,CSubBlockArray* aSubBlocks); //927
     IMPORT_C static CLightBrightnessSetReq* NewL(TUint8 aTransactionId,CSubBlock* aSubBlock); //928
 };
 

@@ -1,6 +1,6 @@
 /*
     isi_light.cpp
-    Copyright (C) 2005 zg
+    Copyright (C) 2005-2006 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -50,6 +50,33 @@ EXPORT_C TInt CLightBrightnessGetResp::SubBlockCountIndex(void)
 EXPORT_C TInt CLightBrightnessGetResp::SubBlockStart(void)
 {
   return 12;
+}
+
+EXPORT_C CLightBrightnessSetReq* CLightBrightnessSetReq::NewL(TUint8 aTransactionId,CSubBlockArray* aSubBlocks)
+{
+  CLightBrightnessSetReq* self=new(ELeave)CLightBrightnessSetReq;
+  CleanupStack::PushL(self);
+  TInt len;
+  if(aSubBlocks)
+    len=aSubBlocks->DataSize()+12;
+  else
+    len=12;
+  self->ConstructL(len);
+  self->SetUnit(KPhoneLightUnit);
+  self->iPtr.Append(aTransactionId);
+  self->iPtr.Append(3);
+  self->iPtr.Append(0);
+  if(aSubBlocks)
+  {
+    self->iPtr.Append(aSubBlocks->Number());
+    self->Append(aSubBlocks);
+  }
+  else
+  {
+    self->iPtr.Append(0);
+  }
+  CleanupStack::Pop(); //self
+  return self;
 }
 
 EXPORT_C CLightBrightnessSetReq* CLightBrightnessSetReq::NewL(TUint8 aTransactionId,CSubBlock* aSubBlock)
