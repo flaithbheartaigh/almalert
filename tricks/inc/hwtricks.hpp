@@ -22,20 +22,19 @@
 
 #include <e32base.h>
 
-typedef TPckgBuf<TUint16> TPnReceiveAllocationLengthPckg;
-
-class CPnMsg;
-
+class CIsiMsg;
 class CHWServer: public CBase
 {
   public:
     IMPORT_C static CHWServer* NewLC(void);
   public:
-    virtual void SendL(CPnMsg& aMsg)=0;
-    virtual void ReceiveL(TRequestStatus& aStatus,CPnMsg& aMsg,TPnReceiveAllocationLengthPckg& aLen)=0;
+    virtual void SendL(CIsiMsg& aMsg)=0;
+    virtual void ReceiveL(TRequestStatus& aStatus,CIsiMsg& aMsg,TPckgBuf<TUint16>& aLen)=0;
     virtual void ReceiveCancelL(void)=0;
   public: //for internal use
     static CHWServer* NewLC(TBool anExtended);
+    static CIsiMsg* SendAndReceiveLC(CIsiMsg* aSend);
+    static void SendL(CIsiMsg* aSend);
 };
 
 class HWVibra

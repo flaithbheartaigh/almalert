@@ -41,33 +41,10 @@ EXPORT_C void HWBacklight::SetGameModeL(TBool aState)
   CleanupStack::PopAndDestroy(); //sysap
 }
 
-LOCAL_C CIsiMsg* SendAndReceiveLC(CIsiMsg* aSend)
-{
-  CIsiMsg* recv=CIsiMsg::NewL(500);
-  CleanupStack::PushL(recv);
-  CHWServer* server=CHWServer::NewLC();
-  server->SendL(*aSend);
-  TRequestStatus status;
-  TPnReceiveAllocationLengthPckg pckg;
-  server->ReceiveL(status,*recv,pckg);
-  User::WaitForRequest(status);
-  CleanupStack::PopAndDestroy(); //server
-  User::LeaveIfError(status.Int());
-  return recv;
-}
-
-LOCAL_C void SendL(CIsiMsg* aSend)
-{
-  SendAndReceiveLC(aSend);
-  CleanupStack::PopAndDestroy(); //recv
-}
-
 EXPORT_C void HWBacklight::SwitchL(TInt aType,TInt aState)
 {
   CLightSwitchReq* send=CLightSwitchReq::NewL(0,aType,aState,(CSubBlockArray*)NULL);
-  CleanupStack::PushL(send);
-  SendL(send);
-  CleanupStack::PopAndDestroy(); //send
+  CHWServer::SendL(send);
 }
 
 EXPORT_C void HWBacklight::SwitchL(TInt aType,TInt aState,RArray<SParam>& aParams)
@@ -85,9 +62,8 @@ EXPORT_C void HWBacklight::SwitchL(TInt aType,TInt aState,RArray<SParam>& aParam
     (*array)[i]=CSubBlock::NewL(ptr,ptr.Length()-4,KPhoneLightUnit);
   }
   CLightSwitchReq* send=CLightSwitchReq::NewL(0,aType,aState,array);
-  CleanupStack::PushL(send);
-  SendL(send);
-  CleanupStack::PopAndDestroy(3); //send,array,data
+  CHWServer::SendL(send);
+  CleanupStack::PopAndDestroy(2); //array,data
 }
 
 EXPORT_C void HWBacklight::Reserved_1(void)
@@ -105,9 +81,8 @@ EXPORT_C void HWBacklight::SetBrightnessL(TBrightnessType aType,TUint8 aValue1,T
   CSubBlock* block=CSubBlock::NewL(data,0,KPhoneLightUnit);
   CleanupStack::PushL(block);
   CLightBrightnessSetReq* send=CLightBrightnessSetReq::NewL(0,block);
-  CleanupStack::PushL(send);
-  SendL(send);
-  CleanupStack::PopAndDestroy(2); //send,block
+  CHWServer::SendL(send);
+  CleanupStack::PopAndDestroy(); //block
 }
 
 EXPORT_C void HWBacklight::SetBrightnessL(RArray<SParam>& aParams)
@@ -125,9 +100,8 @@ EXPORT_C void HWBacklight::SetBrightnessL(RArray<SParam>& aParams)
     (*array)[i]=CSubBlock::NewL(ptr,ptr.Length()-4,KPhoneLightUnit);
   }
   CLightBrightnessSetReq* send=CLightBrightnessSetReq::NewL(0,array);
-  CleanupStack::PushL(send);
-  SendL(send);
-  CleanupStack::PopAndDestroy(3); //send,array,data
+  CHWServer::SendL(send);
+  CleanupStack::PopAndDestroy(2); //array,data
 }
 
 EXPORT_C void HWBacklight::BrightnessL(TBrightnessType aType,TUint8& aValue1,TUint8& aValue2)
@@ -144,7 +118,7 @@ EXPORT_C void HWBacklight::BrightnessL(TBrightnessType aType,TUint8& aValue1,TUi
   CIsiMsg* recv=CIsiMsg::NewL(500);
   CleanupStack::PushL(recv);
   TRequestStatus status;
-  TPnReceiveAllocationLengthPckg pckg;
+  TPckgBuf<TUint16> pckg;
   server->ReceiveL(status,*recv,pckg);
   User::WaitForRequest(status);
   if(recv->Ptr()[9]!=2) User::Leave(KErrGeneral);

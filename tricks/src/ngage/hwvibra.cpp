@@ -23,17 +23,8 @@
 
 EXPORT_C void HWVibra::SwitchL(TBool aState)
 {
-  CHWServer* server=CHWServer::NewLC();
-  CVibraReq* sendMsg=CVibraReq::NewL(0,aState?1:0);
-  CleanupStack::PushL(sendMsg);
-  server->SendL(*sendMsg);
-  CIsiMsg* recvMsg=CIsiMsg::NewL(500);
-  CleanupStack::PushL(recvMsg);
-  TRequestStatus status;
-  TPnReceiveAllocationLengthPckg pckg;
-  server->ReceiveL(status,*recvMsg,pckg);
-  User::WaitForRequest(status);
-  CleanupStack::PopAndDestroy(3); //sendMsg,recvMsg,server
+  CVibraReq* send=CVibraReq::NewL(0,aState?1:0);
+  CHWServer::SendL(send);
 }
 
 EXPORT_C void HWVibra::Reserved_1(void)
@@ -44,17 +35,8 @@ EXPORT_C void HWVibra::Reserved_1(void)
 EXPORT_C void HWVibra::SetIntensityL(TUint8 anIntensity)
 {
   if(anIntensity>KMaxIntensity) User::Leave(KErrTooBig);
-  CHWServer* server=CHWServer::NewLC();
-  CVibraIntensityReq* sendMsg=CVibraIntensityReq::NewL(0,anIntensity);
-  CleanupStack::PushL(sendMsg);
-  server->SendL(*sendMsg);
-  CIsiMsg* recvMsg=CIsiMsg::NewL(500);
-  CleanupStack::PushL(recvMsg);
-  TRequestStatus status;
-  TPnReceiveAllocationLengthPckg pckg;
-  server->ReceiveL(status,*recvMsg,pckg);
-  User::WaitForRequest(status);
-  CleanupStack::PopAndDestroy(3); //sendMsg,recvMsg,server
+  CVibraIntensityReq* send=CVibraIntensityReq::NewL(0,anIntensity);
+  CHWServer::SendL(send);
 }
 
 EXPORT_C void HWVibra::IntensityL(TUint8& anIntensity)

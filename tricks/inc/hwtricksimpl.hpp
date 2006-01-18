@@ -1,6 +1,6 @@
 /*
     hwtricks_impl.hpp
-    Copyright (C) 2005 zg
+    Copyright (C) 2005-2006 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,8 +29,8 @@ class CHWServerImpl: public CHWServer
   public:
     ~CHWServerImpl();
   public: //CHWServer
-    void SendL(CPnMsg& aMsg);
-    void ReceiveL(TRequestStatus& aStatus,CPnMsg& aMsg,TPnReceiveAllocationLengthPckg& aLen);
+    void SendL(CIsiMsg& aMsg);
+    void ReceiveL(TRequestStatus& aStatus,CIsiMsg& aMsg,TPckgBuf<TUint16>& aLen);
     void ReceiveCancelL(void);
   protected:
     CHWServerImpl();
