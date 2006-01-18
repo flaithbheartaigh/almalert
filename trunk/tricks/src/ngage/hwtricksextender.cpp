@@ -49,17 +49,17 @@ void CHWExtender::ConstructL(CHWServer* aServer)
   if(!iAddress) User::Leave(KErrNotSupported);
   PatchL(iAddress,0,iOldValue);
   iPatched=ETrue;
-  CTestStateReq* sendMsg=CTestStateReq::NewL(0);
-  CleanupStack::PushL(sendMsg);
-  aServer->SendL(*sendMsg);
-  CIsiMsg* recvMsg=CIsiMsg::NewL(500);
-  CleanupStack::PushL(recvMsg);
+  CTestStateReq* send=CTestStateReq::NewL(0);
+  CleanupStack::PushL(send);
+  aServer->SendL(*send);
+  CIsiMsg* recv=CIsiMsg::NewL(500);
+  CleanupStack::PushL(recv);
   TRequestStatus status;
-  TPnReceiveAllocationLengthPckg pckg;
-  aServer->ReceiveL(status,*recvMsg,pckg);
+  TPckgBuf<TUint16> pckg;
+  aServer->ReceiveL(status,*recv,pckg);
   User::WaitForRequest(status);
-  if(recvMsg->Ptr()[10]!=KTestStateOn) User::Leave(KErrGeneral);
-  CleanupStack::PopAndDestroy(2); //sendMsg,recvMsg
+  if(recv->Ptr()[10]!=KTestStateOn) User::Leave(KErrGeneral);
+  CleanupStack::PopAndDestroy(2); //send,recv
 }
 
 TBool CHWExtender::IsSupported(void)

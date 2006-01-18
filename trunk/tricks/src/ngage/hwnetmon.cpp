@@ -34,17 +34,8 @@ EXPORT_C void HWNetmon::SetChannelL(TUint16 aChannel)
   data.Append(0);
   data.Append((TUint8)(aChannel>>8));
   data.Append((TUint8)aChannel);
-  CHWServer* server=CHWServer::NewLC();
-  CTestSetReq* sendMsg=CTestSetReq::NewL(0,KPhoneNetUnit,6,0,0x1303,0,data);
-  CleanupStack::PushL(sendMsg);
-  server->SendL(*sendMsg);
-  CIsiMsg* recvMsg=CIsiMsg::NewL(500);
-  CleanupStack::PushL(recvMsg);
-  TRequestStatus status;
-  TPnReceiveAllocationLengthPckg pckg;
-  server->ReceiveL(status,*recvMsg,pckg);
-  User::WaitForRequest(status);
-  CleanupStack::PopAndDestroy(3); //sendMsg,recvMsg,server
+  CTestSetReq* send=CTestSetReq::NewL(0,KPhoneNetUnit,6,0,0x1303,0,data);
+  CHWServer::SendL(send);
 }
 
 EXPORT_C void HWNetmon::SetFrequencyL(TBandFrequency aFrequency)
@@ -68,17 +59,8 @@ EXPORT_C void HWNetmon::SetFrequencyL(TBandFrequency aFrequency)
       data.Append(0);
       break;
   }
-  CHWServer* server=CHWServer::NewLC();
-  CTestSetReq* sendMsg=CTestSetReq::NewL(0,KPhoneGssUnit,6,0,0x32f2,0,data);
-  CleanupStack::PushL(sendMsg);
-  server->SendL(*sendMsg);
-  CIsiMsg* recvMsg=CIsiMsg::NewL(500);
-  CleanupStack::PushL(recvMsg);
-  TRequestStatus status;
-  TPnReceiveAllocationLengthPckg pckg;
-  server->ReceiveL(status,*recvMsg,pckg);
-  User::WaitForRequest(status);
-  CleanupStack::PopAndDestroy(3); //sendMsg,recvMsg,server
+  CTestSetReq* send=CTestSetReq::NewL(0,KPhoneGssUnit,6,0,0x32f2,0,data);
+  CHWServer::SendL(send);
 }
 
 CNetmonValue::~CNetmonValue()
@@ -159,7 +141,7 @@ void CNetmonValue::ConstructL(TBool anExtended)
   iServer->SendL(*iSendMsg);
   iRecvMsg=CIsiMsg::NewL(500);
   TRequestStatus status;
-  TPnReceiveAllocationLengthPckg pckg;
+  TPckgBuf<TUint16> pckg;
   iServer->ReceiveL(status,*iRecvMsg,pckg);
   User::WaitForRequest(status);
   if(iRecvMsg->Function()!=0xf0||iRecvMsg->Ptr()[10]!=5) User::Leave(KErrNotSupported);
@@ -176,7 +158,7 @@ void CNetmonValue::CleanupL(void)
   CIsiMsg* recvMsg=CIsiMsg::NewL(500);
   CleanupStack::PushL(recvMsg);
   TRequestStatus status;
-  TPnReceiveAllocationLengthPckg pckg;
+  TPckgBuf<TUint16> pckg;
   iServer->ReceiveL(status,*recvMsg,pckg);
   User::WaitForRequest(status);
   CleanupStack::PopAndDestroy(2); //recvMsg,sendMsg

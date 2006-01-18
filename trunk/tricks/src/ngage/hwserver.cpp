@@ -1,6 +1,6 @@
 /*
     hwserver.cpp
-    Copyright (C) 2005 zg
+    Copyright (C) 2005-2006 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,10 +19,11 @@
 
 #include "hwtricksimpl.hpp"
 #include <hal.h>
+#include <isimsg.hpp>
 
 const TDesC8& CHWServerImpl::Copyright(void)
 {
-  _LIT8(KAppCopyright,"hwtricks. (c) 2005 by zg.");
+  _LIT8(KAppCopyright,"hwtricks. (c) 2005-2006 by zg.");
   return KAppCopyright;
 }
 
@@ -40,6 +41,30 @@ CHWServer* CHWServer::NewLC(TBool anExtended)
   CleanupStack::PushL(self);
   self->ConstructL(anExtended);
   return self;
+}
+
+CIsiMsg* CHWServer::SendAndReceiveLC(CIsiMsg* aSend)
+{
+  CleanupStack::PushL(aSend);
+  CHWServer* server=CHWServer::NewLC();
+  CIsiMsg* recv=CIsiMsg::NewL(500);
+  CleanupStack::PushL(recv);
+  server->SendL(*aSend);
+  TRequestStatus status;
+  TPnReceiveAllocationLengthPckg pckg;
+  server->ReceiveL(status,*recv,pckg);
+  User::WaitForRequest(status);
+  User::LeaveIfError(status.Int());
+  CleanupStack::Pop(); //recv
+  CleanupStack::PopAndDestroy(2); //server,aSend
+  CleanupStack::PushL(recv);
+  return recv;
+}
+
+void CHWServer::SendL(CIsiMsg* aSend)
+{
+  SendAndReceiveLC(aSend);
+  CleanupStack::PopAndDestroy(); //recv
 }
 
 CHWServerImpl::~CHWServerImpl()
@@ -82,12 +107,12 @@ void CHWServerImpl::ConstructL(TBool anExtended)
   if(anExtended) iExtender=CHWExtender::NewL(this);
 }
 
-void CHWServerImpl::SendL(CPnMsg& aMsg)
+void CHWServerImpl::SendL(CIsiMsg& aMsg)
 {
   User::LeaveIfError(iPhoNet.Send(aMsg));
 }
 
-void CHWServerImpl::ReceiveL(TRequestStatus& aStatus,CPnMsg& aMsg,TPnReceiveAllocationLengthPckg& aLen)
+void CHWServerImpl::ReceiveL(TRequestStatus& aStatus,CIsiMsg& aMsg,TPckgBuf<TUint16>& aLen)
 {
   User::LeaveIfError(iPhoNet.Receive(aStatus,aMsg,aLen));
 }
