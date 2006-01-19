@@ -26,7 +26,7 @@ EXPORT_C void HWOther::InfoL(TInfoType aType,TInt& aValue)
   switch(aType)
   {
     case EInfoBuild:
-      aValue=10;
+      aValue=11;
       break;
     case EInfoServerSupported:
       aValue=ETrue;
