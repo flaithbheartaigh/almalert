@@ -38,7 +38,6 @@ class CIsiMsg: public CPnMsg
     IMPORT_C CSubBlock* SubBlock(void); //1413
     IMPORT_C void Append(CSubBlockArray* aBlocks); //33
     IMPORT_C void Append(CSubBlock* aBlock); //34
-    IMPORT_C CSubBlockArray* SubBlocksL(void); //150
   public:
     inline TUint8 Unit(void) {return iPtr[3];};
     inline TUint8 Transaction(void) {return iPtr[8];};
