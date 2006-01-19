@@ -13,7 +13,7 @@ EXPORTS
 	SwitchL__11HWBacklightiiRt6RArray1ZQ211HWBacklight6SParam @ 12 NONAME R3UNUSED ; HWBacklight::SwitchL(int, int, RArray<HWBacklight::SParam> &)
 	Reserved_3__11HWBacklight @ 13 NONAME R3UNUSED ; HWBacklight::Reserved_3(void)
 	SetBrightnessL__11HWBacklightRt6RArray1ZQ211HWBacklight6SParam @ 14 NONAME R3UNUSED ; HWBacklight::SetBrightnessL(RArray<HWBacklight::SParam> &)
-	Reserved_5__11HWBacklight @ 15 NONAME R3UNUSED ; HWBacklight::Reserved_5(void)
+	BrightnessL__11HWBacklightRt6RArray1ZQ211HWBacklight6SParam @ 15 NONAME R3UNUSED ; HWBacklight::BrightnessL(RArray<HWBacklight::SParam> &)
 	SetContrastL__5HWLcdi @ 16 NONAME R3UNUSED ; HWLcd::SetContrastL(int)
 	ContrastL__5HWLcdRi @ 17 NONAME R3UNUSED ; HWLcd::ContrastL(int &)
 	MaxContrastL__5HWLcdRi @ 18 NONAME R3UNUSED ; HWLcd::MaxContrastL(int &)

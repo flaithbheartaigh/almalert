@@ -112,7 +112,7 @@ class HWBacklight
     IMPORT_C static void SwitchL(TInt aType,TInt aState,RArray<SParam>& aParams);
     IMPORT_C static void Reserved_3(void);
     IMPORT_C static void SetBrightnessL(RArray<SParam>& aParams);
-    IMPORT_C static void Reserved_5(void);
+    IMPORT_C static void BrightnessL(RArray<SParam>& aParams);
 };
 
 class HWOther
