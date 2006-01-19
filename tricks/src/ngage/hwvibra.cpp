@@ -27,9 +27,12 @@ EXPORT_C void HWVibra::SwitchL(TBool aState)
   CHWServer::SendL(send);
 }
 
-EXPORT_C void HWVibra::Reserved_1(void)
+EXPORT_C void HWVibra::StateL(TBool& aState)
 {
-  User::Leave(KErrNotSupported);
+  TBuf<1> buffer;
+  TRAPD(err,HWNetmon::ValueL(KPhoneAccessoryUnit,0x1b,buffer,HWNetmon::ERaw|HWNetmon::EExt));
+  if(err==KErrNone&&buffer.Length()) aState=buffer[0];
+  else aState=EFalse;
 }
 
 EXPORT_C void HWVibra::SetIntensityL(TUint8 anIntensity)

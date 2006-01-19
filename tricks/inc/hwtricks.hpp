@@ -44,7 +44,7 @@ class HWVibra
     static const TUint8 KDefaultIntensity=40;
   public:
     IMPORT_C static void SwitchL(TBool aState);
-    IMPORT_C static void Reserved_1(void);
+    IMPORT_C static void StateL(TBool& aState);
     IMPORT_C static void SetIntensityL(TUint8 anIntensity);
     IMPORT_C static void IntensityL(TUint8& anIntensity);
 };
