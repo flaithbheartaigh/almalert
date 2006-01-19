@@ -47,7 +47,7 @@ EXPORT_C void HWBacklight::SwitchL(TInt aType,TInt aState)
   CHWServer::SendL(send);
 }
 
-EXPORT_C void HWBacklight::SwitchL(TInt aType,TInt aState,RArray<SParam>& aParams)
+EXPORT_C void HWBacklight::SwitchL(TInt aType,TInt aState,const RArray<SParam>& aParams)
 {
   HBufC8* data=HBufC8::NewLC(aParams.Count()*4);
   TPtr8 ptr=data->Des();
@@ -85,7 +85,7 @@ EXPORT_C void HWBacklight::SetBrightnessL(TBrightnessType aType,TUint8 aValue1,T
   CleanupStack::PopAndDestroy(); //block
 }
 
-EXPORT_C void HWBacklight::SetBrightnessL(RArray<SParam>& aParams)
+EXPORT_C void HWBacklight::SetBrightnessL(const RArray<SParam>& aParams)
 {
   HBufC8* data=HBufC8::NewLC(aParams.Count()*4);
   TPtr8 ptr=data->Des();
