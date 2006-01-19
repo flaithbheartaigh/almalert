@@ -106,21 +106,13 @@ EXPORT_C void HWBacklight::SetBrightnessL(RArray<SParam>& aParams)
 
 EXPORT_C void HWBacklight::BrightnessL(TBrightnessType aType,TUint8& aValue1,TUint8& aValue2)
 {
-  CHWServer* server=CHWServer::NewLC();
   TBuf8<4> data;
   data.Append(0);
   data.Append(0);
   data.Append(0);
   data.Append(1<<aType);
   CLightBrightnessGetReq* send=CLightBrightnessGetReq::NewL(0,data);
-  CleanupStack::PushL(send);
-  server->SendL(*send);
-  CIsiMsg* recv=CIsiMsg::NewL(500);
-  CleanupStack::PushL(recv);
-  TRequestStatus status;
-  TPckgBuf<TUint16> pckg;
-  server->ReceiveL(status,*recv,pckg);
-  User::WaitForRequest(status);
+  CIsiMsg* recv=CHWServer::SendAndReceiveLC(send);
   if(recv->Ptr()[9]!=2) User::Leave(KErrGeneral);
   CLightBrightnessGetResp* resp=new(ELeave)CLightBrightnessGetResp;
   CleanupStack::PushL(resp);
@@ -134,7 +126,7 @@ EXPORT_C void HWBacklight::BrightnessL(TBrightnessType aType,TUint8& aValue1,TUi
   aValue1=info->Brightness1();
   aValue2=info->Brightness2();
   delete info;
-  CleanupStack::PopAndDestroy(5); //block,resp,recv,send,server
+  CleanupStack::PopAndDestroy(3); //block,resp,recv
 }
 
 EXPORT_C void HWBacklight::Reserved_3(void)
