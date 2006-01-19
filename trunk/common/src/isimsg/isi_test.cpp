@@ -104,6 +104,25 @@ EXPORT_C CTestStateReq* CTestStateReq::NewL(TUint8 aTransactionId)
   return self;
 }
 
+EXPORT_C CSubBlockArray* CTestGetResp::SubBlocksL(void)
+{
+  TInt countIndex=SubBlockCountIndex();
+  if(!countIndex) return NULL;
+  TInt dummy=1;
+  TUint8 count;
+  if(countIndex!=-dummy) count=iPtr[countIndex];
+  else count=dummy;
+  TInt start=SubBlockStart();
+  CSubBlockArray* array=CSubBlockArray::NewL(count);
+  for(TUint8 i=0;i<count;i++)
+  {
+    CSubBlock* block=CSubBlock::NewL0(iPtr,start);
+    (*array)[i]=block;
+    start+=block->Length();
+  }
+  return array;
+}
+
 EXPORT_C TInt CTestGetResp::SubBlockCountIndex(void)
 {
   return 11;
