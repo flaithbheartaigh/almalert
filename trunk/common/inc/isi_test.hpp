@@ -54,7 +54,6 @@ class CTestStateReq: public CIsiMsg
 class CTestGetResp: public CIsiMsg
 {
   public:
-    IMPORT_C CSubBlockArray* SubBlocksL(); //150
     IMPORT_C TInt SubBlockCountIndex(void); //1400
     IMPORT_C TInt SubBlockStart(void); //1499
 };
