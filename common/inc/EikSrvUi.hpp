@@ -50,10 +50,9 @@ class CEikServAppUi: public CEikServAppUiBase //FIXME: incompleted
     TInt iValueData58; //dc
     TInt iValueData59; //e0
     TInt iValueData60; //e4
-    TInt iValueData61; //e8
+    CNotifierDialogController* iNoteController; //e8
     TInt iValueData62; //ec
-    CNotifierDialogController* iNoteController; //f0
-
+    CNotifierDialogController* iNoteController_ngage; //f0
 };
 
 #endif
