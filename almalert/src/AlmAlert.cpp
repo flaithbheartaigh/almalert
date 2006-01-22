@@ -1,6 +1,6 @@
 /*
     AlmAlert.cpp
-    Copyright (C) 2005 zg
+    Copyright (C) 2005-2006 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #include <eikimage.h> //CEikImage
 #include <aknconsts.h> //KAvkonBitmapFile
 #include <BtEng.hpp> //CBTMCMSettings
+#include <hal.h>
 
 #include <almalert.rsg>
 #include <avkon.rsg>
@@ -343,7 +344,12 @@ void CAlm::ConstructAlarmL(CEikAlmControlSupervisor* aSupervisor,CEikServAppUi* 
   SetComponentsToInheritVisibility(ETrue);
   MakeVisible(EFalse);
   iAlmFlags=0;
-  iNoteController=iServerAppUi->iNoteController;
+  TInt machine;
+  User::LeaveIfError(HAL::Get(HALData::EModel,machine));
+  if(machine==0x101F8C19) //n-gage
+    iNoteController=iServerAppUi->iNoteController_ngage;
+  else
+    iNoteController=iServerAppUi->iNoteController;
   iNoteController->SetNoteObserver(this);
   UpdateStartupReason();
   SetDevStateNotification();

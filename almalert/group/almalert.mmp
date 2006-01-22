@@ -43,3 +43,4 @@ library msgs.lib //sms
 library cntmodel.lib //birthdays
 library bteng.lib //birthdays
 library activitymanager.lib
+library hal.lib
