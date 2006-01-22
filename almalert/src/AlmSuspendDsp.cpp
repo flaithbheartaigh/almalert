@@ -18,19 +18,28 @@
 */
 
 #include "AlmSuspendDsp.hpp"
+#include <hal.h>
 
 _LIT(KAudioServer,"AudioServer");
 
 TInt RSuspendDsp::Open(void)
 {
   if(iSuspended) return KErrInUse;
-  TVersion version(0,0,0);
-  TInt err=CreateSession(KAudioServer,version,2);
+  TInt machine,err=HAL::Get(HALData::EModel,machine);
   if(KErrNone==err)
   {
-    err=SendReceive(0x3f,NULL);
-    if(KErrNone==err) iSuspended=ETrue;
-    else RSessionBase::Close();
+    if(machine==0x101F8C19) //n-gage
+    {
+      TVersion version(0,0,0);
+      err=CreateSession(KAudioServer,version,2);
+      if(KErrNone==err)
+      {
+        err=SendReceive(0x3f,NULL);
+        if(KErrNone==err) iSuspended=ETrue;
+        else RSessionBase::Close();
+      }
+    }
+    else err=KErrNotSupported;
   }
   return err;
 }
