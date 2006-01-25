@@ -1,0 +1,17 @@
+target FixQD.mdl
+targettype MDL 
+uid 0x10003a19 0xa0000576
+
+targetpath \system\recogs\
+
+sourcepath ..\src
+source FixQD.cpp
+
+userinclude ..\inc
+systeminclude ..\..\common\inc
+systeminclude \epoc32\include
+
+library euser.lib
+library apmime.lib
+library sysutil.lib
+library commonengine.lib
