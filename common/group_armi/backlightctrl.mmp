@@ -1,7 +1,7 @@
 target backlightctrl.dll
 targettype dll
 
-uid 0x10000079 0x101fec04
+uid 0x1000008d 0x101fec04
 targetpath \system\libs
 
 sourcepath ..\src\backlightctrl
