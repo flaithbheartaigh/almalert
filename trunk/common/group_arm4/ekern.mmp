@@ -9,6 +9,7 @@ source ekernexe.cpp
 source ekern_bad.cpp
 source ekern_logicaldevice.cpp
 source ekern_logicalchannel.cpp
+source ekern_physicaldevice.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
