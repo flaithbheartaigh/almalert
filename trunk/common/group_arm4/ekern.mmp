@@ -1,0 +1,15 @@
+target ekern.exe
+targettype exedll
+
+uid 0x1000008b 0x100058e8
+targetpath \system\libs
+
+sourcepath ..\src\ekern
+source ekernexe.cpp
+source ekern_bad.cpp
+source ekern_logicaldevice.cpp
+
+systeminclude \epoc32\include
+systeminclude \epoc32\include\kernel
+
+library euser.lib
