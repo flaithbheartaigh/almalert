@@ -8,6 +8,7 @@ sourcepath ..\src\ekern
 source ekernexe.cpp
 source ekern_bad.cpp
 source ekern_logicaldevice.cpp
+source ekern_logicalchannel.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
