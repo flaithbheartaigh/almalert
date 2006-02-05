@@ -10,6 +10,7 @@ source ekern_bad.cpp
 source ekern_logicaldevice.cpp
 source ekern_logicalchannel.cpp
 source ekern_physicaldevice.cpp
+source ekern_plat.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
