@@ -31,6 +31,28 @@ EXPORT_C DLogicalChannel::~DLogicalChannel()
   iDevice->iOpenChannels--;
 }
 
+void DThread::RequestComplete(TRequestStatus*& aStatus,TInt aReason) const //FIXME
+{
+}
+
+EXPORT_C void DLogicalChannel::Complete(TInt aReqNo,TInt aReason)
+{
+  iThread->RequestComplete(iRequestStatus[aReqNo],aReason);
+}
+
+EXPORT_C void DLogicalChannel::Complete(TInt aReqNo)
+{
+  Complete(aReqNo,KErrNone);
+}
+
+EXPORT_C void DLogicalChannel::CompleteAll(TInt aReason)
+{
+  for(TInt i=0;i<KMaxRequests;i++)
+  {
+    if(iRequestStatus[i]) iThread->RequestComplete(iRequestStatus[i],aReason);
+  }
+}
+
 EXPORT_C void DLogicalChannel::Close()
 {
   CObject::Close();
@@ -43,4 +65,9 @@ EXPORT_C void DLogicalChannel::DoCreateL(TInt aUnit,CBase* aDriver,const TDesC* 
 EXPORT_C TInt DLogicalChannel::DoControl(TInt aFunction,TAny* a1,TAny* a2)
 {
   return KErrNotSupported;
+}
+
+EXPORT_C void DLogicalChannel::SetBehaviour(TUint aValidRequests)
+{
+  iValidRequests=aValidRequests;
 }
