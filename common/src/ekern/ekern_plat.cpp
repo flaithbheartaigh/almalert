@@ -21,6 +21,29 @@ class TProcessMemoryInfo; //don't exists in symbian 6.1
 #include <k32std.h>
 #include <e32std.h>
 
+EXPORT_C void Plat::DebugInit() //FIXME: NOT IMPLEMENTED
+{
+}
+
+EXPORT_C void Plat::ScreenInfo(TDes8 &anInfo) //FIXME: NOT IMPLEMENTED
+{
+}
+
+EXPORT_C TUint Plat::DebugMask() //FIXME: NOT IMPLEMENTED
+{
+  return 0;
+}
+
+EXPORT_C void Plat::SetDebugger(DDebugger *aDebugger) //FIXME: NOT IMPLEMENTED
+{
+}
+
+EXPORT_C DDebugger* Plat::Debugger() //FIXME: NOT IMPLEMENTED
+{
+  return NULL;
+}
+
+
 EXPORT_C TUint Plat::TickCount()
 {
   TUint* ticks=(TUint*)0x80000488u;
