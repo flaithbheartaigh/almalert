@@ -12,6 +12,7 @@ source ekern_logicalchannel.cpp
 source ekern_physicaldevice.cpp
 source ekern_plat.cpp
 source ekern_imphal.cpp
+source ekern_dtimer.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
