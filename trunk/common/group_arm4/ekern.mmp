@@ -14,6 +14,7 @@ source ekern_plat.cpp
 source ekern_imphal.cpp
 source ekern_dtimer.cpp
 source ekern_dthread.cpp
+source ekern_mmu.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
