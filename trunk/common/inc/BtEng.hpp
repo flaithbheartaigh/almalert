@@ -84,4 +84,10 @@ class CBTMCMSettings: public CBase,public MSharedDataNotifyHandler
     RSharedDataClient iShared;
 };
 
+class RBTDeviceHandler
+{
+  public:
+    IMPORT_C TInt DeleteDevicesWithoutLinkKeyL(void);
+};
+
 #endif
