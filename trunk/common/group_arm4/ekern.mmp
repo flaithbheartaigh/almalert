@@ -18,6 +18,7 @@ source ekern_mmu.cpp
 source ekern_impmmu.cpp
 source ekern_mediadrvdescdata.cpp
 source ekern_internalramdrive.cpp
+source ekern_kern.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
