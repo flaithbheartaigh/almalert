@@ -16,6 +16,7 @@ source ekern_dtimer.cpp
 source ekern_dthread.cpp
 source ekern_mmu.cpp
 source ekern_impmmu.cpp
+source ekern_mediadrvdescdata.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
