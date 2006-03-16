@@ -23,6 +23,7 @@ source ekern_dprocess.cpp
 source ekern_interrupt.cpp
 source ekern_millisecondcallback.cpp
 source ekern_dfc.cpp
+source ekern_dma.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
