@@ -21,6 +21,7 @@ source ekern_internalramdrive.cpp
 source ekern_kern.cpp
 source ekern_dprocess.cpp
 source ekern_interrupt.cpp
+source ekern_millisecondcallback.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
