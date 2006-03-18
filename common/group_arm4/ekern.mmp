@@ -25,6 +25,7 @@ source ekern_millisecondcallback.cpp
 source ekern_dfc.cpp
 source ekern_dma.cpp
 source ekern_exception.cpp
+source ekern_dthread_rc.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
