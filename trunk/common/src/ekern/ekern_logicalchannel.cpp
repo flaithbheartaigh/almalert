@@ -31,10 +31,6 @@ EXPORT_C DLogicalChannel::~DLogicalChannel()
   iDevice->iOpenChannels--;
 }
 
-void DThread::RequestComplete(TRequestStatus*& aStatus,TInt aReason) const //FIXME
-{
-}
-
 EXPORT_C void DLogicalChannel::Complete(TInt aReqNo,TInt aReason)
 {
   iThread->RequestComplete(iRequestStatus[aReqNo],aReason);

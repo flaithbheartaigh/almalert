@@ -325,7 +325,7 @@ Remove__14DLogicalDevice @ 323 NONAME R3UNUSED ; DLogicalDevice::Remove(void)
 Remove__15DPhysicalDevice @ 324 NONAME R3UNUSED ; DPhysicalDevice::Remove(void)
 Rename__7DThreadRC7TDesC16 @ 325 NONAME R3UNUSED ; DThread::Rename(TDesC16 const &)
 Rename__8DProcessRC7TDesC16 @ 326 NONAME R3UNUSED ; DProcess::Rename(TDesC16 const &)
-ekern_327__Fv @ 327 NONAME ; ekern_327(void) 
+RequestComplete__C7DThreadRP14TRequestStatusi @ 327 NONAME R3UNUSED ; DThread::RequestComplete(TRequestStatus *&, int) const
 RequestCount__C7DThread @ 328 NONAME R3UNUSED ; DThread::RequestCount(void) const
 ekern_329__Fv @ 329 NONAME ; ekern_329(void) 
 ekern_330__Fv @ 330 NONAME ; ekern_330(void) 
