@@ -26,8 +26,11 @@ source ekern_dfc.cpp
 source ekern_dma.cpp
 source ekern_exception.cpp
 source ekern_dthread_rc.cpp
+source ekern_dmediadriver.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
+systeminclude ..\inc\kernel
+
 
 library euser.lib
