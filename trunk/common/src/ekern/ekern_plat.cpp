@@ -43,6 +43,10 @@ EXPORT_C DDebugger* Plat::Debugger() //FIXME: NOT IMPLEMENTED
   return NULL;
 }
 
+EXPORT_C TInt Plat::NullThread(TAny *aPtr) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
 
 EXPORT_C TUint Plat::TickCount()
 {
