@@ -1,0 +1,27 @@
+target Batmon.app
+targettype app
+uid 0x100039ce 0xa0000547
+targetpath \system\apps\Batmon
+
+sourcepath ..\src
+source BatmonApp.cpp
+source BatmonContainer.cpp
+
+sourcepath ..\group
+resource Batmon.rss
+
+userinclude ..\inc
+systeminclude \epoc32\include
+systeminclude ..\..\tricks\inc
+systeminclude ..\..\common\inc
+
+library euser.lib
+library apparc.lib
+library cone.lib
+library eikcore.lib
+library avkon.lib
+library gdi.lib
+library hwtricks.lib
+
+
+library efsrv.lib
