@@ -161,3 +161,8 @@ EXPORT_C void DThread::ModifyExceptionMask(TUint aClearMask, TUint aSetMask)
 {
   iExceptionMask=aSetMask|(iExceptionMask&~aClearMask);
 }
+
+EXPORT_C TInt DThread::RaiseException(TExcType aType) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}

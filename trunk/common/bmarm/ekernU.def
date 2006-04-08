@@ -303,7 +303,7 @@ ekern_301__Fv @ 301 NONAME ; ekern_301(void)
 ekern_302__Fv @ 302 NONAME ; ekern_302(void) 
 QueryVersionSupported__C14DLogicalDeviceRC8TVersion @ 303 NONAME R3UNUSED ; DLogicalDevice::QueryVersionSupported(TVersion const &) const
 QueryVersionSupported__C15DPhysicalDeviceRC8TVersion @ 304 NONAME R3UNUSED ; DPhysicalDevice::QueryVersionSupported(TVersion const &) const
-ekern_305__Fv @ 305 NONAME ; ekern_305(void) 
+RaiseException__7DThread8TExcType @ 305 NONAME R3UNUSED ; DThread::RaiseException(TExcType)
 ekern_306__Fv @ 306 NONAME ; ekern_306(void) 
 ekern_307__Fv @ 307 NONAME ; ekern_307(void) 
 RandomSalt__4KernUl @ 308 NONAME R3UNUSED ; Kern::RandomSalt(unsigned long)
