@@ -24,3 +24,29 @@ class TProcessMemoryInfo; //don't exists in symbian 6.1
 DCleanup::DCleanup(TCleanupType aType): CBase(),iType(aType)
 {
 }
+
+void DCleanupObject::NewL(DThread &aThread,CObject *anObject)
+{
+  DCleanupObject* self=new(ELeave)DCleanupObject(anObject);
+  aThread.AddToCleanup(*self);
+}
+
+DCleanupObject::DCleanupObject(CObject *anObject): DCleanup(EObject),iObject(anObject)
+{
+}
+
+DCleanupObject::~DCleanupObject() //FIXME: NOT IMPLEMENTED
+{
+}
+
+TBool DCleanupObject::Remove(CObject *anObject)
+{
+  if(iObject==anObject)
+  {
+    iLink.Deque();
+    iObject=NULL;
+    delete this;
+    return ETrue;
+  }
+  return EFalse;
+}
