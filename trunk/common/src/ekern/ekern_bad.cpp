@@ -19,7 +19,7 @@
 
 #include <e32std.h>
 
-EXPORT_C void ekern_1(void) {}
+//EXPORT_C void ekern_1(void) {}
 //EXPORT_C void ekern_2(void) {}
 //EXPORT_C void ekern_3(void) {}
 EXPORT_C void ekern_4(void) {}
@@ -57,7 +57,7 @@ EXPORT_C void ekern_34(void) {}
 //EXPORT_C void ekern_36(void) {}
 //EXPORT_C void ekern_37(void) {}
 //EXPORT_C void ekern_38(void) {}
-EXPORT_C void ekern_39(void) {}
+//EXPORT_C void ekern_39(void) {}
 EXPORT_C void ekern_40(void) {}
 EXPORT_C void ekern_41(void) {}
 EXPORT_C void ekern_42(void) {}
@@ -224,7 +224,7 @@ EXPORT_C void ekern_202(void) {}
 EXPORT_C void ekern_203(void) {}
 //EXPORT_C void ekern_204(void) {}
 //EXPORT_C void ekern_205(void) {}
-EXPORT_C void ekern_206(void) {}
+//EXPORT_C void ekern_206(void) {}
 //EXPORT_C void ekern_207(void) {}
 //EXPORT_C void ekern_208(void) {}
 //EXPORT_C void ekern_209(void) {}
@@ -274,7 +274,7 @@ EXPORT_C void ekern_251(void) {}
 EXPORT_C void ekern_253(void) {}
 EXPORT_C void ekern_254(void) {}
 EXPORT_C void ekern_255(void) {}
-EXPORT_C void ekern_256(void) {}
+//EXPORT_C void ekern_256(void) {}
 //EXPORT_C void ekern_257(void) {}
 EXPORT_C void ekern_258(void) {}
 //EXPORT_C void ekern_259(void) {}
@@ -282,7 +282,7 @@ EXPORT_C void ekern_260(void) {}
 EXPORT_C void ekern_261(void) {}
 //EXPORT_C void ekern_262(void) {}
 //EXPORT_C void ekern_263(void) {}
-EXPORT_C void ekern_264(void) {}
+//EXPORT_C void ekern_264(void) {}
 EXPORT_C void ekern_265(void) {}
 //EXPORT_C void ekern_266(void) {}
 EXPORT_C void ekern_267(void) {}
