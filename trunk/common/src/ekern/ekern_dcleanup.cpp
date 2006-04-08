@@ -35,8 +35,9 @@ DCleanupObject::DCleanupObject(CObject* anObject): DCleanup(EObject),iObject(anO
 {
 }
 
-DCleanupObject::~DCleanupObject() //FIXME: NOT IMPLEMENTED
+DCleanupObject::~DCleanupObject()
 {
+  S::CheckedClose(iObject);
 }
 
 TBool DCleanupObject::Remove(CObject* anObject)
