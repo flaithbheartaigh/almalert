@@ -145,6 +145,11 @@ EXPORT_C void DThread::FreeTls(TInt aHandle) //FIXME: NOT IMPLEMENTED
 {
 }
 
+void DThread::AddToCleanup(DCleanup &aCleanup)
+{
+  iCleanupQ.AddLast(aCleanup);
+}
+
 EXPORT_C TExceptionHandler* DThread::ExceptionHandler()
 {
   return iExceptionHandler;
