@@ -30,6 +30,7 @@ source ekern_dmediadriver.cpp
 source ekern_dplatchunkhw.cpp
 source ekern_dmedia.cpp
 source ekern_dcleanup.cpp
+source ekern_s.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
