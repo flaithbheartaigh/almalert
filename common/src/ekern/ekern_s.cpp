@@ -21,12 +21,12 @@ class TProcessMemoryInfo; //don't exists in symbian 6.1
 #include <k32std.h>
 #include <e32std.h>
 
-void S::CheckedClose(CObject *anObj)
+void S::CheckedClose(CObject* anObj)
 {
   if(anObj) anObj->Close();
 }
 
-void S::CheckedClose(CObject *anObj,CObject *anOwner)
+void S::CheckedClose(CObject* anObj,CObject* anOwner)
 {
   if(anObj)
   {
