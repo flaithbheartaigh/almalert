@@ -32,6 +32,7 @@ source ekern_dmedia.cpp
 source ekern_dcleanup.cpp
 source ekern_s.cpp
 source ekern_sup.cpp
+source ekern_kern_wait.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
