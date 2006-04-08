@@ -314,7 +314,7 @@ Read__7DThreadPCvR5TDes8 @ 312 NONAME R3UNUSED ; DThread::Read(void const *, TDe
 Read__7DThreadPCvR6TDes16 @ 313 NONAME R3UNUSED ; DThread::Read(void const *, TDes16 &)
 Read__C12DPlatChunkHwiPvi @ 314 NONAME ; DPlatChunkHw::Read(int, void *, int) const
 ekern_315__Fv @ 315 NONAME ; ekern_315(void) 
-ekern_316__Fv @ 316 NONAME ; ekern_316(void) 
+RealTimeThreadCreate__3SupRiRC7TDesC16PFPv_iiiPv @ 316 NONAME ; Sup::RealTimeThreadCreate(int &, TDesC16 const &, int (*)(void *), int, int, void *)
 Receive__4TDmaPUci @ 317 NONAME R3UNUSED ; TDma::Receive(unsigned char *, int)
 ekern_318__Fv @ 318 NONAME ; ekern_318(void) 
 ekern_319__Fv @ 319 NONAME ; ekern_319(void) 
