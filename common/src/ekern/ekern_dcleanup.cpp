@@ -25,13 +25,13 @@ DCleanup::DCleanup(TCleanupType aType): CBase(),iType(aType)
 {
 }
 
-void DCleanupObject::NewL(DThread &aThread,CObject *anObject)
+void DCleanupObject::NewL(DThread& aThread,CObject* anObject)
 {
   DCleanupObject* self=new(ELeave)DCleanupObject(anObject);
   aThread.AddToCleanup(*self);
 }
 
-DCleanupObject::DCleanupObject(CObject *anObject): DCleanup(EObject),iObject(anObject)
+DCleanupObject::DCleanupObject(CObject* anObject): DCleanup(EObject),iObject(anObject)
 {
 }
 
@@ -39,12 +39,32 @@ DCleanupObject::~DCleanupObject() //FIXME: NOT IMPLEMENTED
 {
 }
 
-TBool DCleanupObject::Remove(CObject *anObject)
+TBool DCleanupObject::Remove(CObject* anObject)
 {
   if(iObject==anObject)
   {
     iLink.Deque();
     iObject=NULL;
+    delete this;
+    return ETrue;
+  }
+  return EFalse;
+}
+
+DLogon::DLogon(TRequestStatus* aStatus,DThread* aThread,DThread* aLoggedThread): DCleanup(ELogon),iStatus(aStatus),iThread(aThread),iLoggedThread(aLoggedThread)
+{
+}
+
+DLogon::~DLogon()
+{
+  if(iStatus) iThread->RequestComplete(iStatus,iLoggedThread->iExitReason);
+}
+
+TBool DLogon::Cancel(TRequestStatus* aStatus,DThread* aThread)
+{
+  if(aThread==iThread&&(aStatus==NULL||aStatus==iStatus))
+  {
+    iLink.Deque();
     delete this;
     return ETrue;
   }
