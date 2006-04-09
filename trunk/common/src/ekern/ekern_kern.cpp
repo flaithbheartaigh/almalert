@@ -146,21 +146,6 @@ EXPORT_C TInt Kern::ThreadFind(TInt &aFindHandle,const TDesC &aMatch,TFullName &
   return KErrNone;
 }
 
-EXPORT_C DTimer* Kern::TimerFromHandle(TInt aHandle) //FIXME: NOT IMPLEMENTED
-{
-  return NULL;
-}
-
-EXPORT_C TTime Kern::HomeTime()
-{
-  return Plat::SystemTime()+Kern::HomeTimeOffset();
-}
-
-EXPORT_C TTimeIntervalSeconds Kern::HomeTimeOffset() //FIXME: NOT IMPLEMENTED
-{
-  return TTimeIntervalSeconds(0);
-}
-
 EXPORT_C RHeap& Kern::Heap()
 {
   return *(Plat::CurrentThread().iHeap);

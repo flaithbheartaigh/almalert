@@ -63,8 +63,6 @@ void DMediaDriver61::PartitionInfo(TPartitionInfo& anInfo)
   anInfo=iPartitionInfo;
 }
 
-DPowerModel* K::PowerModel; //0x80006BC4
-
 EXPORT_C void DMediaDriver61::DeltaCurrentConsumptionInMilliAmps(TInt aValue)
 {
   K::PowerModel->iCurrentConsumptionInMilliAmps+=aValue;
@@ -120,8 +118,6 @@ EXPORT_C void DMediaDriver61::PasswordControl(TPBusPasswordFunc aFunc,TPBusPassw
 TDriveChangedFlags::TDriveChangedFlags(DThread* aThread,TInt* aMountStatus,TBool* aChangedFlag,TInt aDriveNum): iOpenReqPending(EFalse),iOwningThread(aThread),iMountStatus(aMountStatus),iChangedFlag(aChangedFlag),iDriveNum(aDriveNum)
 {
 }
-
-CObjectCon* K::Threads; //0x8000039C
 
 TBool TDriveChangedFlags::ThreadIsValid()
 {

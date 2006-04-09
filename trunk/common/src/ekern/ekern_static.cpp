@@ -1,5 +1,5 @@
 /*
-    ekern_dfc.cpp
+    ekern_static.cpp
     Copyright (C) 2006 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -19,38 +19,14 @@
 
 class TProcessMemoryInfo; //don't exists in symbian 6.1
 #include <k32std.h>
-#include <m32std.h>
 #include <e32std.h>
 
-EXPORT_C TDfc::TDfc(const TCallBack &aCallBack): iNext(NULL),iCallBack(aCallBack)
-{
-}
+TUint K::TickCounter; //0x80000488
+TUint K::RtcTickRef; //0x8000048C
+TUint K::TickCountRef; //0x80000490
 
-EXPORT_C void TDfc::Cancel(void)
-{
-  TInt level=ImpHal::DisableIrqsToLevel2();
-  if(iNext)
-  {
-    iNext->iPrev=iPrev;
-    iPrev->iNext=iNext;
-    iNext=NULL;
-  }
-  ImpHal::RestoreIrqs(level);
-}
+CObjectCon* K::Threads; //0x8000039C
+CObjectCon* K::Timers; //0x800003C0
 
-TDfcQue::TDfcQue(): iFirst((TDfc*)this),iLast((TDfc*)this)
-{
-}
-
-EXPORT_C void Kern::Add(TDfc &aDfc)
-{
-  TInt level=ImpHal::DisableIrqsToLevel2();
-  if(aDfc.iNext)
-  {
-    aDfc.iNext=(TDfc*)&K::DfcQ;
-    aDfc.iPrev=K::DfcQ.iLast;
-    aDfc.iPrev->iNext=&aDfc;
-    K::DfcQ.iLast=&aDfc;
-  }
-  ImpHal::RestoreIrqs(level);
-}
+TDfcQue K::DfcQ; //0x80006BB8
+DPowerModel* K::PowerModel; //0x80006BC4

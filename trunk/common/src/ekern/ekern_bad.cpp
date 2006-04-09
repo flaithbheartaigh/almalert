@@ -524,4 +524,4 @@ EXPORT_C void ekern_493(void) {}
 //EXPORT_C void ekern_503(void) {}
 //EXPORT_C void ekern_504(void) {}
 //EXPORT_C void ekern_505(void) {}
-EXPORT_C void ekern_506(void) {}
+//EXPORT_C void ekern_506(void) {}
