@@ -504,4 +504,4 @@ __17TMediaDrvDescDataG22TLocalDriveMessageData @ 502 NONAME ; TMediaDrvDescData:
 __20TMilliSecondCallBackiG9TCallBack @ 503 NONAME ; TMilliSecondCallBack::TMilliSecondCallBack(int, TCallBack)
 __4TDfcRC9TCallBack @ 504 NONAME R3UNUSED ; TDfc::TDfc(TCallBack const &)
 __4TDma @ 505 NONAME R3UNUSED ; TDma::TDma(void)
-ekern_506__Fv @ 506 NONAME ; ekern_506(void) 
+AbortAbsolute__6DTimer @ 506 NONAME R3UNUSED ; DTimer::AbortAbsolute(void)
