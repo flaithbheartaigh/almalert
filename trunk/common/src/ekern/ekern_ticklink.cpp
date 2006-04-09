@@ -99,3 +99,16 @@ TInt TTickQ::GetIdleTime(TBool aIgnoreLocked)
   if(!iter) return KErrNotFound;
   else return res;
 }
+
+EXPORT_C TSecondLink::TSecondLink()
+{
+}
+
+EXPORT_C TInt TSecondLink::At(const TTime& aHomeTime,TSecondCallBack aCallBack,TAny* aPtr) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+EXPORT_C void TSecondLink::Cancel(void) //FIXME: NOT IMPLEMENTED
+{
+}
