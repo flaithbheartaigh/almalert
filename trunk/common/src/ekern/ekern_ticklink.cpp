@@ -45,3 +45,57 @@ TInt TTickLink::GetNextLock(TTimerLockSpec aMark, TInt &aTickCount) const //FIXM
 EXPORT_C void TTickLink::Cancel(void) //FIXME: NOT IMPLEMENTED
 {
 }
+
+TTickQ::TTickQ(): iSecondQueue(NULL)
+{
+}
+
+void TTickQ::StartSecondQueue(TSecondQ* aQueue)
+{
+  iLastTimeInSecs=Plat::SystemTimeInSecondsFrom2000().Int();
+  TInt curr=Kern::HomeTimeOffset().Int()+iLastTimeInSecs;
+  TInt diff=curr/86400*86400;
+  diff=curr-diff;
+  iTomorrowStarts=curr-diff;
+  if(diff>=0) iTomorrowStarts+=86400;
+  iSecondQueue=aQueue;
+}
+
+TBool TTickQ::CheckMidnightCrossover(TInt aSecs)
+{
+  TInt curr=aSecs+Kern::HomeTimeOffset().Int();
+  if(curr>=iTomorrowStarts||curr<(iTomorrowStarts-86400))
+  {
+    TInt diff=curr/86400*86400;
+    diff=curr-diff;
+    iTomorrowStarts=curr-diff;
+    if(diff>=0) iTomorrowStarts+=86400;
+    return ETrue;
+  }
+  return EFalse;
+}
+
+void TTickQ::WakeUp(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void TTickQ::Tick(TInt aBatch) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void TTickQ::SystemTimeChanged(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+TInt TTickQ::GetIdleTime(TBool aIgnoreLocked)
+{
+  TInt res=0;
+  TDblQueIter<TTickLink> iter(*this);
+  for(;iter;iter++)
+  {
+    res+=(*iter).iDelta;
+    if((*iter).iPeriod!=-1||!aIgnoreLocked) break;
+  }
+  if(!iter) return KErrNotFound;
+  else return res;
+}
