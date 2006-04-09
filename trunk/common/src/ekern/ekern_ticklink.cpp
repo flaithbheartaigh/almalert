@@ -137,3 +137,25 @@ EXPORT_C TInt TInactivityLink::Start(TInt aSeconds,TInactivityCallBack aCallBack
 EXPORT_C void TInactivityLink::Cancel(void) //FIXME: NOT IMPLEMENTED
 {
 }
+
+TInactivityQ::TInactivityQ(): TDblQue<TInactivityLink>(0),iPending(0)
+{
+}
+
+void TInactivityQ::Tick(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void TInactivityQ::Reset(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+TInt TInactivityQ::InactiveTime(void) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TBool TInactivityQ::FirstDelta(TInt& aDelta) //FIXME: NOT IMPLEMENTED
+{
+  return EFalse;
+}
