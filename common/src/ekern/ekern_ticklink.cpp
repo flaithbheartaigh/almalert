@@ -112,3 +112,28 @@ EXPORT_C TInt TSecondLink::At(const TTime& aHomeTime,TSecondCallBack aCallBack,T
 EXPORT_C void TSecondLink::Cancel(void) //FIXME: NOT IMPLEMENTED
 {
 }
+
+void TSecondQ::Tick(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void TSecondQ::SystemTimeChanged(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void TSecondQ::SystemTimeChanged(TUint& aChanges) //FIXME: NOT IMPLEMENTED
+{
+}
+
+EXPORT_C TInactivityLink::TInactivityLink(): iTime(0)
+{
+}
+
+EXPORT_C TInt TInactivityLink::Start(TInt aSeconds,TInactivityCallBack aCallBack,TAny* aPtr) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+EXPORT_C void TInactivityLink::Cancel(void) //FIXME: NOT IMPLEMENTED
+{
+}
