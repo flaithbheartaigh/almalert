@@ -229,11 +229,11 @@ EXPORT_C void ekern_203(void) {}
 //EXPORT_C void ekern_208(void) {}
 //EXPORT_C void ekern_209(void) {}
 EXPORT_C void ekern_210(void) {}
-EXPORT_C void ekern_211(void) {}
+//EXPORT_C void ekern_211(void) {}
 //EXPORT_C void ekern_212(void) {}
 //EXPORT_C void ekern_213(void) {}
 EXPORT_C void ekern_214(void) {}
-EXPORT_C void ekern_215(void) {}
+//EXPORT_C void ekern_215(void) {}
 //EXPORT_C void ekern_216(void) {}
 //EXPORT_C void ekern_217(void) {}
 //EXPORT_C void ekern_218(void) {}
@@ -269,7 +269,7 @@ EXPORT_C void ekern_243(void) {}
 EXPORT_C void ekern_248(void) {}
 //EXPORT_C void ekern_249(void) {}
 EXPORT_C void ekern_250(void) {}
-EXPORT_C void ekern_251(void) {}
+//EXPORT_C void ekern_251(void) {}
 //EXPORT_C void ekern_252(void) {}
 //EXPORT_C void ekern_253(void) {}
 //EXPORT_C void ekern_254(void) {}
