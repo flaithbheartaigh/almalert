@@ -204,7 +204,7 @@ EXPORT_C TInt ImpHal61::KeyboardIndex(void)
 
 EXPORT_C TInt ImpHal61::AutoSwitchOffType(TAutoSwitchOffType& aValue)
 {
-  aValue=ECommon;
+  aValue=ESwitchOffHard;
   return KErrNone;
 }
 
