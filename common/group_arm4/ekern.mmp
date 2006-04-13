@@ -35,6 +35,7 @@ source ekern_sup.cpp
 source ekern_kern_wait.cpp
 source ekern_ticklink.cpp
 source ekern_static.cpp
+source ekern_hal.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel

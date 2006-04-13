@@ -22,14 +22,11 @@
 
 class TProcessMemoryInfo; //don't exists in symbian 6.1
 #include <m32std.h>
+#include <e32hal61.hpp>
 
 class ImpHal61
 {
   public:
-    enum TAutoSwitchOffType
-    {
-      ECommon
-    };
     class TMouseProperties
     {
       TUint8 iSpeed;
@@ -63,6 +60,58 @@ class ImpHal61
     IMPORT_C static TInt SetMouseAcceleration(TUint8 anAcceleration);
     IMPORT_C static TInt MouseOn(TBool& aState);
     IMPORT_C static TInt MouseProperties(TMouseProperties& aProperties);
+};
+
+class Hal61
+{
+  public:
+    IMPORT_C static TInt SoundInfo(TSoundInfoV1& aSoundInfo);
+    IMPORT_C static TInt OnOffInfo(TOnOffInfoV1& aOnOffInfo);
+    IMPORT_C static TInt SetKeyClickEnabled(TBool aValue);
+    IMPORT_C static TInt SetKeyClickLoud(TBool aValue);
+    IMPORT_C static TInt KeyClickEnabled(TBool& aValue);
+    IMPORT_C static TInt KeyClickLoud(TBool& aValue);
+    IMPORT_C static TInt SetPointerClickEnabled(TBool aValue);
+    IMPORT_C static TInt SetPointerClickLoud(TBool aValue);
+    IMPORT_C static TInt PointerClickEnabled(TBool& aValue);
+    IMPORT_C static TInt PointerClickLoud(TBool& aValue);
+    IMPORT_C static TInt SetBeepEnabled(TBool aValue);
+    IMPORT_C static TInt SetBeepLoud(TBool aValue);
+    IMPORT_C static TInt SetSoundDriverEnabled(TBool aValue);
+    IMPORT_C static TInt SetSoundDriverLoud(TBool aValue);
+    IMPORT_C static TInt SetSoundEnabled(TBool aValue);
+    IMPORT_C static TInt ModifyLedMask(TUint aSetMask,TUint aClearMask);
+    IMPORT_C static TInt SetBacklightOn(TBool aValue);
+    IMPORT_C static TInt BacklightOn(TBool& aValue);
+    IMPORT_C static TInt BacklightBehavior(TBacklightBehavior& aValue);
+    IMPORT_C static TInt SetBacklightBehavior(TBacklightBehavior aValue);
+    IMPORT_C static TInt BacklightOnTime(TTimeIntervalSeconds& aValue);
+    IMPORT_C static TInt SetBacklightOnTime(TTimeIntervalSeconds aValue);
+    IMPORT_C static TInt AutoSwitchOffBehavior(TAutoSwitchOffBehavior& aValue);
+    IMPORT_C static TInt SetAutoSwitchOffBehavior(TAutoSwitchOffBehavior aValue);
+    IMPORT_C static TInt AutoSwitchOffTime(TTimeIntervalSeconds& aValue);
+    IMPORT_C static TInt SetAutoSwitchOffTime(TTimeIntervalSeconds aValue);
+    IMPORT_C static TInt SetPointerSwitchesOn(TBool aValue);
+    IMPORT_C static TInt PointerSwitchesOn(TBool& aValue);
+    IMPORT_C static TInt SetCaseOpenSwitchesOn(TBool aValue);
+    IMPORT_C static TInt CaseOpenSwitchesOn(TBool& aValue);
+    IMPORT_C static TInt SetCaseCloseSwitchesOff(TBool aValue);
+    IMPORT_C static TInt CaseCloseSwitchesOff(TBool& aValue);
+    IMPORT_C static TInfoName XYInputName(void);
+    IMPORT_C static TInfoName KeyboardName(void);
+    IMPORT_C static TInfoName PsuName(void);
+    IMPORT_C static TInfoName DisplayName(void);
+    IMPORT_C static TInfoName MachineName(void);
+    IMPORT_C static TBool BacklightPresent(void);
+    IMPORT_C static TBool KeyboardPresent(void);
+    IMPORT_C static TSize DisplaySizeInPixels(void);
+    IMPORT_C static TSize PhysicalScreenSize(void);
+    IMPORT_C static TInt KeyboardId(void);
+    IMPORT_C static TInt DisplayId(void);
+    IMPORT_C static TInt64 MachineUniqueId(void);
+    IMPORT_C static TUint LedCapabilities(void);
+    IMPORT_C static void ResetAutoSwitchOffTimer(void);
+    IMPORT_C static void ResetBacklightTimer(void);
 };
 
 #endif
