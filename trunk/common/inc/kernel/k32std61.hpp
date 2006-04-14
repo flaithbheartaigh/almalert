@@ -72,7 +72,8 @@ class KK
   public:
     enum TKernPanic
     {
-      EPanicUnknown0
+      EPanicPowerRequired=33,
+      EPanicPowerModelExists=34
     };
     enum TKernFault
     {
