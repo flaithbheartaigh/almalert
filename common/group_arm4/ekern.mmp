@@ -37,6 +37,7 @@ source ekern_ticklink.cpp
 source ekern_static.cpp
 source ekern_hal.cpp
 source ekern_dchangenotifier.cpp
+source ekern_rheapk.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
