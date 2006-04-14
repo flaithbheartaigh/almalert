@@ -38,6 +38,7 @@ source ekern_static.cpp
 source ekern_hal.cpp
 source ekern_dchangenotifier.cpp
 source ekern_rheapk.cpp
+source ekern_kern_global.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
