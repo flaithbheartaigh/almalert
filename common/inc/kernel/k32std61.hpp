@@ -90,6 +90,13 @@ class K61
     static void Beep(TInt aValue,TTimeIntervalMicroSeconds32 anInterval);
 };
 
+class Kern61
+{
+  public:
+    IMPORT_C static void KeyClick(void);
+    IMPORT_C static void PointerClick(void);
+};
+
 #include <k32std61.inl>
 
 #endif
