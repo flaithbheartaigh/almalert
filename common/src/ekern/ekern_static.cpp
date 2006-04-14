@@ -21,6 +21,9 @@ class TProcessMemoryInfo; //don't exists in symbian 6.1
 #include <k32std.h>
 #include <e32std.h>
 
+DProcess* K::SvProcess; //0x800003DC
+DThread* K::SvThread; //0x800003E0
+
 TUint K::TickCounter; //0x80000488
 TUint K::RtcTickRef; //0x8000048C
 TUint K::TickCountRef; //0x80000490

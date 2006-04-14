@@ -21,6 +21,77 @@ class TProcessMemoryInfo; //don't exists in symbian 6.1
 #include <k32std.h>
 #include <e32std.h>
 
+CObject* S::ObjectFromHandleL(TInt aHandle) //FIXME: NOT IMPLEMENTED
+{
+  return NULL;
+}
+
+CObject* S::ObjectFromHandleL(TInt aHandle,DThread* aThread) //FIXME: NOT IMPLEMENTED
+{
+  return NULL;
+}
+
+CObject* S::ObjectFromHandleL(TInt aHandle,DThread* aThread,CObjectCon* aCon) //FIXME: NOT IMPLEMENTED
+{
+  return NULL;
+}
+
+TInt S::OpenObject(TInt& aHandle,CObject*& anObject,DProcess* anOwningProcess,CObjectCon* aCon,const TDesC& aName) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt S::OpenObject(TInt& aHandle,DProcess* anOwningProcess,CObjectCon* aCon,const TDesC& aName) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt S::OpenObject(TInt& aHandle,CObject*& anObject,DThread* anOwningThread,CObjectCon* aCon,const TDesC& aName) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt S::OpenObject(TInt& aHandle,DThread* anOwningThread,CObjectCon* aCon,const TDesC& aName) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt S::OpenFindHandle(TInt& aHandle,DProcess* anOwningProcess,DThread* anOwningThread,TInt aFindHandle,TOwnerType aType) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt S::MakeHandleAndOpen(CObject* anObj,DProcess* anOwningProcess) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt S::MakeHandleAndOpen(CObject* anObj,DThread* anOwningThread) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt S::MakeHandle(CObject* anObj,DProcess* anOwningProcess)
+{
+  if(anOwningProcess==NULL) anOwningProcess=K::SvProcess;
+  return anOwningProcess->Handles().AddL(anObj);
+}
+
+TInt S::MakeHandle(CObject* anObj,DThread* anOwningThread)
+{
+  if(anOwningThread==NULL) anOwningThread=K::SvThread;
+  return anOwningThread->Handles().AddL(anObj)|0x40000000;
+}
+
+TInt S::DuplicateHandle(DThread* aSrc,TInt aHandle,DThread* aTrg,TInt& aNewHandle,TOwnerType aType) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+void S::Close(TInt aHandle,DProcess* anOwningProcess,DThread* anOwningThread) //FIXME: NOT IMPLEMENTED
+{
+}
+
 void S::CheckedClose(CObject* anObj)
 {
   if(anObj) anObj->Close();
