@@ -21,6 +21,67 @@ class TProcessMemoryInfo; //don't exists in symbian 6.1
 #include <k32std.h>
 #include <e32std.h>
 
+DProcess::DProcess(): iCleanupQ(8) //FIXME: NOT IMPLEMENTED
+{
+}
+
+DProcess::~DProcess() //FIXME: NOT IMPLEMENTED
+{
+}
+
+TName DProcess::Name(void) const //FIXME: NOT IMPLEMENTED
+{
+  return TName();
+}
+
+void DProcess::DoClose(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void DProcess::Create(TBool aFirstProcess,TLoaderInfo& anInfo,HBufC* aCommand) //FIXME: NOT IMPLEMENTED
+{
+}
+
+
+EXPORT_C DProcess* Kern::ProcessFromHandle(TInt aHandle) //FIXME: NOT IMPLEMENTED
+{
+  return NULL;
+}
+
+DProcess& S::ProcessFromHandleL(TInt aHandle,DThread *aThread) //FIXME: NOT IMPLEMENTED
+{
+  return *(DProcess*)0;
+}
+
+DProcess* S::ProcessFromHandle(TInt aHandle,DThread *aThread) //FIXME: NOT IMPLEMENTED
+{
+  return NULL;
+}
+
+void S::ProcessCreateL(DProcess* anOwningProcess,DThread* anOwningThread,TLoaderInfo& anInfo,HBufC* aCommand,DProcess*& aProcess,TOwnerType aType) //FIXME: NOT IMPLEMENTED
+{
+}
+
+TInt S::ProcessCreate(DProcess* anOwningProcess,DThread* anOwningThread,TLoaderInfo& anInfo,HBufC* aCommand,TOwnerType aType) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt S::ProcessOpen(TInt& aHandle,DProcess* anOwningProcess,DThread* anOwningThread,const TDesC& aName,TOwnerType aType) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt S::ProcessOpen(TInt& aHandle,DProcess* anOwningProcess,DThread* anOwningThread,TProcessId aId,TOwnerType aType) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+EXPORT_C TInt Kern::ProcessFind(TInt &aFindHandle,const TDesC &aMatch,TFullName &aName) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
 EXPORT_C TInt DProcess::Rename(const TDesC &aName) //FIXME: NOT IMPLEMENTED
 {
   return KErrNone;
@@ -77,6 +138,10 @@ EXPORT_C void DProcess::SetOwningProcess(TInt aHandle)
   else iOwningProcess=Kern::ProcessFromHandle(aHandle);
 }
 
+void DProcess::Cleanup(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
 EXPORT_C void DProcess::Logon(TRequestStatus* aStatus,DThread* anOwningThread) //FIXME: NOT IMPLEMENTED
 {
 }
@@ -84,4 +149,36 @@ EXPORT_C void DProcess::Logon(TRequestStatus* aStatus,DThread* anOwningThread) /
 EXPORT_C TInt DProcess::LogonCancel(TRequestStatus* aStatus,DThread* anOwningThread) //FIXME: NOT IMPLEMENTED
 {
   return KErrNone;
+}
+
+TBool DProcess::ProtectProcessP(void) //FIXME: NOT IMPLEMENTED
+{
+  return EFalse;
+}
+
+void DProcess::ProtectProcessL(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+DLogonProcess::DLogonProcess(TRequestStatus* aStatus,DThread* aThread,DProcess* aLoggedProcess): DCleanup(ELogon),iStatus(aStatus),iThread(aThread),iLoggedProcess(aLoggedProcess)
+{
+}
+
+DLogonProcess::~DLogonProcess()
+{
+  if(iStatus)
+  {
+    iThread->RequestComplete(iStatus,iLoggedProcess->iExitReason);
+  }
+}
+
+TBool DLogonProcess::Cancel(TRequestStatus* aStatus,DThread* aThread)
+{
+  if(aThread==iThread&&(aStatus==NULL||aStatus==iStatus))
+  {
+    iLink.Deque();
+    delete this;
+    return ETrue;
+  }
+  return EFalse;
 }
