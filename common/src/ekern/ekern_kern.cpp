@@ -17,9 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-class TProcessMemoryInfo; //don't exists in symbian 6.1
-#include <k32std.h>
-#include <e32std.h>
+#include <k32std61.hpp>
 
 EXPORT_C TInt Kern::MessageComplete(TInt aHandle,TInt aReason) //FIXME: NOT IMPLEMENTED
 {
@@ -144,6 +142,51 @@ EXPORT_C DThread* Kern::ThreadFromId(TThreadId aId) //FIXME: NOT IMPLEMENTED
 EXPORT_C TInt Kern::ThreadFind(TInt &aFindHandle,const TDesC &aMatch,TFullName &aName) //FIXME: NOT IMPLEMENTED
 {
   return KErrNone;
+}
+
+void KK::Panic(TKernPanic aValue)
+{
+  Plat::Panic(_L("KERN"),aValue);
+}
+
+void KK::Fault(TKernFault aValue)
+{
+  Plat::Fault(_L("KERN"),aValue);
+}
+
+void K61::BeepComplete(TAny* aPtr,TInt aValue) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void K61::Beep(TInt aValue,TTimeIntervalMicroSeconds32 anInterval) //FIXME: NOT IMPLEMENTED
+{
+}
+
+CObject* K::ObjectFromHandle(TInt aHandle,DThread* aThread) //FIXME: NOT IMPLEMENTED
+{
+  return NULL;
+}
+
+CObject* K::ObjectFromHandle(TInt aHandle,DThread* aThread,CObjectCon* aCon) //FIXME: NOT IMPLEMENTED
+{
+  return NULL;
+}
+
+void K::PanicCurrentThread(TInt aPanic) //FIXME: NOT IMPLEMENTED
+{
+}
+
+EXPORT_C void Kern::PanicCurrentThread(const TDesC& aCategory,TInt aReason) //FIXME: NOT IMPLEMENTED
+{
+}
+
+static void KFormat(TDes16& aBuffer,const TDesC16& aFormat,signed char** aParams) //FIXME: NOT IMPLEMENTED
+{
+}
+
+EXPORT_C void Kern::Printf(TRefByValue<const TDesC> aFmt,...) //FIXME: NOT IMPLEMENTED
+{
+  (void)&KFormat;
 }
 
 EXPORT_C RHeap& Kern::Heap()
