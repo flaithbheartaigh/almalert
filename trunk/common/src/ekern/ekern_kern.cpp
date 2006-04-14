@@ -100,15 +100,6 @@ EXPORT_C TInt Kern::PhysicalDeviceFind(TInt &aFindHandle,const TDesC &aMatch,TFu
   return KErrNone;
 }
 
-EXPORT_C TUint32 Kern::Random() //FIXME: NOT IMPLEMENTED
-{
-  return 0;
-}
-
-EXPORT_C void Kern::RandomSalt(TUint32 aBitOfSalt) //FIXME: NOT IMPLEMENTED
-{
-}
-
 EXPORT_C DSemaphore* Kern::SemaphoreFromHandle(TInt aHandle) //FIXME: NOT IMPLEMENTED
 {
   return NULL;
