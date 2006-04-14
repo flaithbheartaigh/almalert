@@ -67,6 +67,29 @@ class DMediaDriver61: public CBase
     TInt64 iTotalSizeInBytes; //0x80
 };
 
+class KK
+{
+  public:
+    enum TKernPanic
+    {
+      EPanicUnknown0
+    };
+    enum TKernFault
+    {
+      EFaultUnknown0
+    };
+  public:
+    static void Panic(TKernPanic aValue);
+    static void Fault(TKernFault aValue);
+};
+
+class K61
+{
+  public:
+    static void BeepComplete(TAny* aPtr,TInt aValue);
+    static void Beep(TInt aValue,TTimeIntervalMicroSeconds32 anInterval);
+};
+
 #include <k32std61.inl>
 
 #endif
