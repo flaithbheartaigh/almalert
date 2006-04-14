@@ -100,16 +100,6 @@ EXPORT_C TInt Kern::PhysicalDeviceFind(TInt &aFindHandle,const TDesC &aMatch,TFu
   return KErrNone;
 }
 
-EXPORT_C DProcess* Kern::ProcessFromHandle(TInt aHandle) //FIXME: NOT IMPLEMENTED
-{
-  return NULL;
-}
-
-EXPORT_C TInt Kern::ProcessFind(TInt &aFindHandle,const TDesC &aMatch,TFullName &aName) //FIXME: NOT IMPLEMENTED
-{
-  return KErrNone;
-}
-
 EXPORT_C TUint32 Kern::Random() //FIXME: NOT IMPLEMENTED
 {
   return 0;
