@@ -97,7 +97,10 @@ void CHWServerImpl::ConstructL(TBool anExtended)
     case 0x101F8C19: //n-gage
       User::LeaveIfError(iPhoNet.Open(0x58));
       break;
+    case 0x101FB2B0: //n-gage qda
     case 0x101FB2B1: //n-gage qd
+    case 0x101FB2B2: //n-gage qd unknown1
+    case 0x101FB2B3: //n-gage qd unknown2
       User::LeaveIfError(iPhoNet.Open(0x54));
       break;
     default:
