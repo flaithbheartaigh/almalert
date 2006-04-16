@@ -24,7 +24,7 @@ class CBackLightControl: public CBase
   public:
     virtual TInt BackLightOn(TInt aType,TUint16 aDuration)=0;
     virtual TInt BackLightBlink(TInt aType,TUint16 aDuration,TUint16 aOnTime,TUint16 aOffTime)=0;
-    virtual TInt BackLightOff(TInt aType)=0;
+    virtual TInt BackLightOff(TInt aType,TUint16 aDuration)=0;
     virtual TInt BackLightChange(TInt aType,TUint16 aDuration)=0;
     virtual TInt BackLightState(TInt aType)=0;
     virtual TInt SetScreenBrightness(TInt aState,TUint16 aDuration)=0;

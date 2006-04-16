@@ -23,7 +23,7 @@
 
 const TDesC8& CBackLightControlImpl::Copyright(void)
 {
-  _LIT8(KAppCopyright,"backlightctrl. (c) 2005 by zg. version 1.01");
+  _LIT8(KAppCopyright,"backlightctrl. (c) 2005-2006 by zg. version 1.02");
   return KAppCopyright;
 }
 
@@ -221,12 +221,12 @@ EXPORT_C TInt CBackLightControlImpl::BackLightBlink(TInt aType,TUint16 aDuration
   return err;
 }
 
-EXPORT_C TInt CBackLightControlImpl::BackLightOff(TInt aType)
+EXPORT_C TInt CBackLightControlImpl::BackLightOff(TInt aType,TUint16 aDuration)
 {
   SBlink blink={0,0};
-  UpdateState(aType,EBackLightStateOff,0,blink);
+  UpdateState(aType,EBackLightStateOff,aDuration,blink);
   TInt err=Switch();
-  if(err==KErrNone) err=Start(aType,0);
+  if(err==KErrNone) err=Start(aType,aDuration);
   return err;
 }
 

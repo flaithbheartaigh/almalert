@@ -19,7 +19,7 @@ class CBackLightControlImpl: public CBackLightControl,public MCoeForegroundObser
   public:
     TInt BackLightOn(TInt aType,TUint16 aDuration);
     TInt BackLightBlink(TInt aType,TUint16 aDuration,TUint16 aOnTime,TUint16 aOffTime);
-    TInt BackLightOff(TInt aType);
+    TInt BackLightOff(TInt aType,TUint16 aDuration);
     TInt BackLightChange(TInt aType,TUint16 aDuration);
     TInt BackLightState(TInt aType);
     TInt SetScreenBrightness(TInt aState,TUint16 aDuration);
