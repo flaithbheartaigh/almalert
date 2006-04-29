@@ -39,3 +39,13 @@ void TTickInt::InvalidateTickCounter(void) //FIXME: NOT IMPLEMENTED
 void TTickInt::SynchroniseTickCounter(void) //FIXME: NOT IMPLEMENTED
 {
 }
+
+void P::InvalidateTickCounter(void)
+{
+  TTickInt::InvalidateTickCounter();
+}
+
+void P::SynchroniseTickCounter(void)
+{
+  TTickInt::SynchroniseTickCounter();
+}
