@@ -1,5 +1,5 @@
 /*
-    m32tickint.hpp
+    a32tickint.hpp
     Copyright (C) 2006 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -17,8 +17,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#ifndef __M32TICKINT_HPP__
-#define __M32TICKINT_HPP__
+#ifndef __A32TICKINT_HPP__
+#define __A32TICKINT_HPP__
 
 class TProcessMemoryInfo; //don't exists in symbian 6.1
 #include <m32std.h>

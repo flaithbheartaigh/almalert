@@ -17,7 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include <m32tickint.hpp>
+#include <a32tickint.hpp>
 
 TTickInt::TTickInt(): TInterrupt(),iTickDfc(TCallBack(TickComplete)) //FIXME: NOT IMPLEMENTED
 {
