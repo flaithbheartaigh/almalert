@@ -25,12 +25,18 @@
 class TNgage
 {
   public:
+    //common
     IMPORT_C static TUint32 Register32(TUint anAddr);
     IMPORT_C static void SetRegister32(TUint32 aValue,TUint anAddr);
     IMPORT_C static void ModifyRegister32(TUint anAddr,TUint32 aSetMask,TUint32 aClearMask);
     IMPORT_C static TUint16 Register16(TUint anAddr);
     IMPORT_C static void SetRegister16(TUint16 aValue,TUint anAddr);
     IMPORT_C static void ModifyRegister16(TUint anAddr,TUint16 aSetMask,TUint16 aClearMask);
+    //interrupts
+    IMPORT_C static void EnableFiq(TInt anId);
+    IMPORT_C static void DisableFiq(TInt anId);
+    IMPORT_C static void EnableIrq(TInt anId);
+    IMPORT_C static void DisableIrq(TInt anId);
 };
 
 #endif
