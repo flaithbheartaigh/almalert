@@ -43,6 +43,7 @@ source ekern_kern_rand.cpp
 source ekern_power.cpp
 source ekern_tickint.cpp
 source ekern_ngage.cpp
+source ekern_ngage_interrupts.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
