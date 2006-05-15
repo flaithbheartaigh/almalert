@@ -45,6 +45,7 @@ source ekern_tickint.cpp
 source ekern_ngage.cpp
 source ekern_ngage_interrupts.cpp
 source ekern_imppic.cpp
+source ekern_mstimer.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
