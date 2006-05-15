@@ -98,6 +98,20 @@ class Kern61
     IMPORT_C static void PointerClick(void);
 };
 
+class P61
+{
+  public:
+    static void Wait(TInt aValue);
+    static void KeyClick(void);
+    static void PointerClick(void);
+};
+
+class Plat61
+{
+  public:
+    IMPORT_C static void Beep(TInt aValue);
+};
+
 #include <k32std61.inl>
 
 #endif
