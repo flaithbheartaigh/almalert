@@ -57,3 +57,36 @@ TInt TMsTimer::CountFromMilliSeconds(TInt aValue) //FIXME: NOT IMPLEMENTED
 {
   return aValue*26000;
 }
+
+static TMsTimer MsTimer; //0x80000558
+
+void ImpMilliSecondTimer::Init3()
+{
+  MsTimer.Init();
+}
+
+TInt ImpMilliSecondTimer::CountFromMilliSeconds(TInt aMilliSeconds)
+{
+  return MsTimer.CountFromMilliSeconds(aMilliSeconds);
+}
+
+TInt ImpMilliSecondTimer::Count(void)
+{
+  return MsTimer.Count();
+}
+
+void ImpMilliSecondTimer::Stop()
+{
+  MsTimer.Off();
+}
+
+void ImpMilliSecondTimer::Start(TInt aCount)
+{
+  MsTimer.On();
+  MsTimer.SetCount(aCount);
+}
+
+void ImpMilliSecondTimer::Next(TInt aCount)
+{
+  MsTimer.AddToCount(aCount);
+}
