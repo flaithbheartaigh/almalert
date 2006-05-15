@@ -114,4 +114,12 @@ class Hal61
     IMPORT_C static void ResetBacklightTimer(void);
 };
 
+class ImpPsu61
+{
+  public:
+    void BacklightOn(void);
+    void BacklightOff(void);
+    void DisplayOn(void);
+};
+
 #endif
