@@ -36,7 +36,7 @@ TInt RHeapK::ChunkAdjust(TInt aSize)
   return reinterpret_cast<DChunk*>(iChunk.Handle())->Adjust(aSize);
 }
 
-TInt RHeapK::CompressAll() //FIXME: NOT IMPLEMENTED
+TInt RHeapK::CompressAll()
 {
-  return KErrNone;
+  return S::ChunkCompressAll();
 }

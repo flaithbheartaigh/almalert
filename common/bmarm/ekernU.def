@@ -45,8 +45,8 @@ ChannelFind__4KernRiRC7TDesC16Rt4TBuf1i256 @ 43 NONAME R3UNUSED ; Kern::ChannelF
 ChannelFromHandle__4Kerni @ 44 NONAME R3UNUSED ; Kern::ChannelFromHandle(int)
 Channels__4Kern @ 45 NONAME R3UNUSED ; Kern::Channels(void)
 CheckForSlowOpening__15DPhysicalDevicei @ 46 NONAME R3UNUSED ; DPhysicalDevice::CheckForSlowOpening(int)
-ekern_47__Fv @ 47 NONAME ; ekern_47(void) 
-ekern_48__Fv @ 48 NONAME ; ekern_48(void) 
+ChunkCreateDoubleEnded__1SRiP8DProcessP7DThreadPC7TDesC16Rt8TPckgBuf1Z23TDoubleEndedChunkCreate10TOwnerType @ 47 NONAME ; S::ChunkCreateDoubleEnded(int &, DProcess *, DThread *, TDesC16 const *, TPckgBuf<TDoubleEndedChunkCreate> &, TOwnerType)
+ChunkCreate__1SRiP8DProcessP7DThreadPC7TDesC16Rt8TPckgBuf1Z12TChunkCreate10TOwnerType @ 48 NONAME ; S::ChunkCreate(int &, DProcess *, DThread *, TDesC16 const *, TPckgBuf<TChunkCreate> &, TOwnerType)
 ChunkFind__4KernRiRC7TDesC16Rt4TBuf1i256 @ 49 NONAME R3UNUSED ; Kern::ChunkFind(int &, TDesC16 const &, TBuf<256> &)
 ChunkFromHandle__4Kerni @ 50 NONAME R3UNUSED ; Kern::ChunkFromHandle(int)
 Chunks__4Kern @ 51 NONAME R3UNUSED ; Kern::Chunks(void)
@@ -313,7 +313,7 @@ Read__7DThreadPCvP5TDes8ii @ 311 NONAME ; DThread::Read(void const *, TDes8 *, i
 Read__7DThreadPCvR5TDes8 @ 312 NONAME R3UNUSED ; DThread::Read(void const *, TDes8 &)
 Read__7DThreadPCvR6TDes16 @ 313 NONAME R3UNUSED ; DThread::Read(void const *, TDes16 &)
 Read__C12DPlatChunkHwiPvi @ 314 NONAME ; DPlatChunkHw::Read(int, void *, int) const
-ekern_315__Fv @ 315 NONAME ; ekern_315(void) 
+Read__C6DChunkiP5TDes8i @ 315 NONAME ; DChunk::Read(int, TDes8 *, int) const
 RealTimeThreadCreate__3SupRiRC7TDesC16PFPv_iiiPv @ 316 NONAME ; Sup::RealTimeThreadCreate(int &, TDesC16 const &, int (*)(void *), int, int, void *)
 Receive__4TDmaPUci @ 317 NONAME R3UNUSED ; TDma::Receive(unsigned char *, int)
 ekern_318__Fv @ 318 NONAME ; ekern_318(void) 
@@ -475,7 +475,7 @@ WaitForRequest__4KernR14TRequestStatusT1 @ 473 NONAME R3UNUSED ; Kern::WaitForRe
 WaitMilliSeconds__3Hali @ 474 NONAME R3UNUSED ; Hal::WaitMilliSeconds(int)
 WriteNoCheck__7DThreadPCvPC6TDesC8ii @ 475 NONAME ; DThread::WriteNoCheck(void const *, TDesC8 const *, int, int)
 Write__12DPlatChunkHwiPCvi @ 476 NONAME ; DPlatChunkHw::Write(int, void const *, int)
-ekern_477__Fv @ 477 NONAME ; ekern_477(void) 
+Write__6DChunkiPC6TDesC8i @ 477 NONAME ; DChunk::Write(int, TDesC8 const *, int)
 Write__7DThreadPCvPC6TDesC8ii @ 478 NONAME ; DThread::Write(void const *, TDesC8 const *, int, int)
 Write__7DThreadPCvRC6TDesC8 @ 479 NONAME R3UNUSED ; DThread::Write(void const *, TDesC8 const &)
 Write__7DThreadPCvRC7TDesC16 @ 480 NONAME R3UNUSED ; DThread::Write(void const *, TDesC16 const &)

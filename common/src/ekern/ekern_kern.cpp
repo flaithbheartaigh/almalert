@@ -24,16 +24,6 @@ EXPORT_C TInt Kern::MessageComplete(TInt aHandle,TInt aReason) //FIXME: NOT IMPL
   return KErrNone;
 }
 
-EXPORT_C DChunk* Kern::ChunkFromHandle(TInt aHandle) //FIXME: NOT IMPLEMENTED
-{
-  return NULL;
-}
-
-EXPORT_C TInt Kern::ChunkFind(TInt &aFindHandle,const TDesC &aMatch,TFullName &aName) //FIXME: NOT IMPLEMENTED
-{
-  return KErrNone;
-}
-
 EXPORT_C TInt Kern::ChannelFind(TInt &aFindHandle,const TDesC &aMatch,TFullName &aName) //FIXME: NOT IMPLEMENTED
 {
   return KErrNone;
