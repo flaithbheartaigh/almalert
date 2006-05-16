@@ -29,7 +29,9 @@ TUint K::RtcTickRef; //0x8000048C
 TUint K::TickCountRef; //0x80000490
 
 CObjectCon* K::Threads; //0x8000039C
+CObjectCon* K::Chunks; //0x800003A0
 CObjectCon* K::Timers; //0x800003C0
 
 TDfcQue K::DfcQ; //0x80006BB8
 DPowerModel* K::PowerModel; //0x80006BC4
+RHeapK* K::Heap; //0x80006C34
