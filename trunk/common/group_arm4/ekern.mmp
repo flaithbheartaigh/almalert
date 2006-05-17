@@ -49,6 +49,7 @@ source ekern_mstimer.cpp
 source ekern_imppsu.cpp
 source ekern_imphal_time.cpp
 source ekern_dchunk.cpp
+source ekern_trapk.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
