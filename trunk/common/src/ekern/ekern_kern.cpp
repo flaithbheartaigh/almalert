@@ -100,21 +100,6 @@ EXPORT_C TInt Kern::SemaphoreFind(TInt &aFindHandle,const TDesC &aMatch,TFullNam
   return KErrNone;
 }
 
-EXPORT_C DThread* Kern::ThreadFromHandle(TInt aHandle) //FIXME: NOT IMPLEMENTED
-{
-  return NULL;
-}
-
-EXPORT_C DThread* Kern::ThreadFromId(TThreadId aId) //FIXME: NOT IMPLEMENTED
-{
-  return NULL;
-}
-
-EXPORT_C TInt Kern::ThreadFind(TInt &aFindHandle,const TDesC &aMatch,TFullName &aName) //FIXME: NOT IMPLEMENTED
-{
-  return KErrNone;
-}
-
 void KK::Panic(TKernPanic aValue)
 {
   Plat::Panic(_L("KERN"),aValue);
