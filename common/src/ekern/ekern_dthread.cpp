@@ -21,6 +21,120 @@ class TProcessMemoryInfo; //don't exists in symbian 6.1
 #include <k32std.h>
 #include <e32std.h>
 
+TMessageBase::TMessageBase() //FIXME:!!!
+{
+}
+
+TMessageSlot::TMessageSlot(TMessagePool* aPool) //FIXME:!!!
+{
+}
+
+DThread::DThread() //FIXME: NOT IMPLEMENTED
+{
+}
+
+DThread::~DThread() //FIXME: NOT IMPLEMENTED
+{
+}
+
+void DThread::CloseCreatedHeap(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void DThread::DoClose(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void DThread::Create(CObject* anOwner,DProcess* anOwningProcess,TThreadCreateType aType,const TDesC& aName,TThreadFunction aFunction,TInt aStackSize,RHeap* aHeap,TInt aHeapMinSize,TInt aHeapMaxSize,TAny* aPtr,TOwnerType anOwnerType)
+{
+}
+
+void SendReceiveFault(TInt aFunction,TAny* aPtr) //FIXME: NOT IMPLEMENTED
+{
+}
+
+EXPORT_C void Kern::SvSendReceive(TInt aFunction,TAny* aPtr,TRequestStatus& aStatus) //FIXME: NOT IMPLEMENTED
+{
+}
+
+EXPORT_C DThread* Kern::ThreadFromHandle(TInt aHandle)
+{
+  return (DThread*)K::ObjectFromHandle(aHandle,NULL,K::Threads);
+}
+
+EXPORT_C DThread* Kern::ThreadFromId(TThreadId aId)
+{
+  for(TInt i=0;i<K::Threads->Count();i++)
+  {
+    DThread* thread=static_cast<DThread*>((*K::Threads)[i]);
+    if(thread->iId==aId) return thread;
+  }
+  return NULL;
+}
+
+DThread& S::ThreadFromHandleL(TInt aHandle)
+{
+  return *(DThread*)S::ObjectFromHandleL(aHandle,K::SvThread,K::Threads);
+}
+
+DThread* S::ThreadFromHandle(TInt aHandle) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+  //return (DThread*)K::ObjectFromHandleNull(aHandle,NULL,K::Threads);
+}
+
+void S::ThreadCreateL(TInt& aHandle,DProcess* anOwningProcess,DThread* anOwningThread,TInt aLibraryHandle,const TDesC& aName,TThreadFunction aFunction,TInt aStackSize,RHeap* aHeap,TInt aHeapMinSize,TInt aHeapMaxSize,TAny* aPtr,DThread*& aThread,TOwnerType aType) //FIXME: NOT IMPLEMENTED
+{
+}
+
+TInt S::ThreadCreate(TInt& aHandle,DProcess* anOwningProcess,DThread* anOwningThread,TInt aLibraryHandle,const TDesC& aName,TThreadFunction aFunction,TInt aStackSize,RHeap* aHeap,TInt aHeapMinSize,TInt aHeapMaxSize,TAny* aPtr,TOwnerType aType)
+{
+  DThread* thread=NULL;
+  TRAPD(err,ThreadCreateL(aHandle,anOwningProcess,anOwningThread,aLibraryHandle,aName,aFunction,aStackSize,aHeap,aHeapMinSize,aHeapMaxSize,aPtr,thread,aType));
+  if(err!=KErrNone) CheckedClose(thread);
+  return err;
+}
+
+TInt S::ThreadOpen(TInt& aHandle,DProcess* anOwningProcess,DThread* anOwningThread,const TDesC& aFullName,TOwnerType aType)
+{
+  TFullName name;
+  TInt handle=0;
+  TInt err=K::Threads->FindByFullName(handle,aFullName,name);
+  if(err==KErrNone)
+  {
+    err=S::OpenFindHandle(aHandle,anOwningProcess,anOwningThread,handle,aType);
+  }
+  return err;
+}
+
+TInt S::ThreadOpen(TInt& aHandle,DProcess* anOwningProcess,DThread* anOwningThread,TThreadId aId,TOwnerType aType)
+{
+  DThread* thread=Kern::ThreadFromId(aId);
+  if(!thread) return KErrNotFound;
+  TInt err=thread->Open();
+  if(err==KErrNone)
+  {
+    if(aType==EOwnerThread)
+    {
+      TRAP(err,aHandle=MakeHandle(thread,anOwningThread));
+    }
+    else
+    {
+      TRAP(err,aHandle=MakeHandle(thread,anOwningProcess));
+    }
+    if(err!=KErrNone)
+    {
+      thread->Close();
+    }
+  }
+  return err;
+}
+
+EXPORT_C TInt Kern::ThreadFind(TInt &aFindHandle,const TDesC &aMatch,TFullName &aName)
+{
+  return K::Threads->FindByFullName(aFindHandle,aMatch,aName);
+}
+
 EXPORT_C TInt DThread::Rename(const TDesC &aName) //FIXME: NOT IMPLEMENTED
 {
   return KErrNone;
@@ -145,12 +259,62 @@ EXPORT_C void DThread::FreeTls(TInt aHandle) //FIXME: NOT IMPLEMENTED
 {
 }
 
+TBool IsInList(TUint aValue,TUint* aList,TInt aCount)
+{
+  for(TInt i=0;i<aCount;i++)
+  {
+    if(aList[i]==aValue) return ETrue;
+  }
+  return EFalse;
+}
+
+TInt TraverseDllRefTable(TUint,TInt,TInt&,TUint*,TUint*&,TDllRefTable*) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt DThread::StaticCallList(TInt& aCount,TUint*& aCallList) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt DThread::DynamicCallList(DLibrary* aLibrary,TInt& aCount,TUint*& aCallList) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+TInt DThread::DisjointCallList(DLibrary* aLibrary,TInt& aCount,TUint*& aCallList) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
 void DThread::AddToCleanup(DCleanup &aCleanup)
 {
   iCleanupQ.AddLast(aCleanup);
 }
 
-EXPORT_C TExceptionHandler* DThread::ExceptionHandler()
+void DThread::RemoveFromCleanup(CObject *anObject) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void DThread::DoDie(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void DThread::Cleanup(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+TBool DThread::ProtectThreadP(void) //FIXME: NOT IMPLEMENTED
+{
+  return ETrue;
+}
+
+void DThread::ProtectThreadL(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+EXPORT_C TExceptionHandler* DThread::ExceptionHandler(void)
 {
   return iExceptionHandler;
 }
@@ -170,4 +334,22 @@ EXPORT_C void DThread::ModifyExceptionMask(TUint aClearMask, TUint aSetMask)
 EXPORT_C TInt DThread::RaiseException(TExcType aType) //FIXME: NOT IMPLEMENTED
 {
   return KErrNone;
+}
+
+TBool DThread::IsExceptionHandled(TExcType aType) //FIXME: NOT IMPLEMENTED
+{
+  return ETrue;
+}
+
+TInt DThread::GetRamSizes(TInt& aHeapSize,TInt& aStackSize) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+void DThread::AddThread(DThread& aThread) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void DThread::MakeThisMainThread(void) //FIXME: NOT IMPLEMENTED
+{
 }

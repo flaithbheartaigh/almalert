@@ -430,7 +430,7 @@ Start__20TMilliSecondCallBack @ 428 NONAME R3UNUSED ; TMilliSecondCallBack::Star
 Start__6DMedia12TMediaDeviceP7DThreadP14TRequestStatus @ 429 NONAME R3UNUSED ; DMedia::Start(TMediaDevice, DThread *, TRequestStatus *)
 StartupReason__6ImpHalR19TMachineStartupType @ 430 NONAME R3UNUSED ; ImpHal::StartupReason(TMachineStartupType &)
 SupplyInfo__3HalR13TSupplyInfoV1 @ 431 NONAME R3UNUSED ; Hal::SupplyInfo(TSupplyInfoV1 &)
-ekern_432__Fv @ 432 NONAME ; ekern_432(void) 
+SvSendReceive__4KerniPvR14TRequestStatus @ 432 NONAME R3UNUSED ; Kern::SvSendReceive(int, void *, TRequestStatus &)
 SystemTimeInSecondsFrom2000__4Plat @ 433 NONAME R3UNUSED ; Plat::SystemTimeInSecondsFrom2000(void)
 SystemTime__4Plat @ 434 NONAME R3UNUSED ; Plat::SystemTime(void)
 System__C7DThread @ 435 NONAME R3UNUSED ; DThread::System(void) const
