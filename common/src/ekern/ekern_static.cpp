@@ -24,6 +24,10 @@ class TProcessMemoryInfo; //don't exists in symbian 6.1
 
 Custom* A::TheVariant; //0x8000038C
 
+CObjectCon* K::Threads; //0x8000039C
+CObjectCon* K::Chunks; //0x800003A0
+CObjectCon* K::Timers; //0x800003C0
+
 DProcess* K::SvProcess; //0x800003DC
 DThread* K::SvThread; //0x800003E0
 
@@ -31,9 +35,7 @@ TUint K::TickCounter; //0x80000488
 TUint K::RtcTickRef; //0x8000048C
 TUint K::TickCountRef; //0x80000490
 
-CObjectCon* K::Threads; //0x8000039C
-CObjectCon* K::Chunks; //0x800003A0
-CObjectCon* K::Timers; //0x800003C0
+TInt ImpMmu::PageSizeInBytes; //0x8000673C
 
 TDfcQue K::DfcQ; //0x80006BB8
 DPowerModel* K::PowerModel; //0x80006BC4

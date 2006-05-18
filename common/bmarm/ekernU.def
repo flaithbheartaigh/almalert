@@ -256,7 +256,7 @@ OffsetToDisplayInPixels__6ImpHal @ 254 NONAME R3UNUSED ; ImpHal::OffsetToDisplay
 OnOffInfo__5Hal61R12TOnOffInfoV1 @ 255 NONAME R3UNUSED ; Hal61::OnOffInfo(TOnOffInfoV1 &)
 OneShotInMicroSeconds__9TTickLinkG27TTimeIntervalMicroSeconds32PFPvi_vPv @ 256 NONAME ; TTickLink::OneShotInMicroSeconds(TTimeIntervalMicroSeconds32, void (*)(void *, int), void *)
 Open__6DMedia12TMediaDevice @ 257 NONAME R3UNUSED ; DMedia::Open(TMediaDevice)
-ekern_258__Fv @ 258 NONAME ; ekern_258(void) 
+OsSwitchOnScreen__4Plat @ 258 NONAME R3UNUSED ; Plat::OsSwitchOnScreen(void)
 PBusController__4Kerni @ 259 NONAME R3UNUSED ; Kern::PBusController(int)
 PageSizeInBytes__6ImpHalRi @ 260 NONAME R3UNUSED ; ImpHal::PageSizeInBytes(int &)
 PanicCurrentThread__4KernRC7TDesC16i @ 261 NONAME R3UNUSED ; Kern::PanicCurrentThread(TDesC16 const &, int)
@@ -329,7 +329,7 @@ RequestComplete__C7DThreadRP14TRequestStatusi @ 327 NONAME R3UNUSED ; DThread::R
 RequestCount__C7DThread @ 328 NONAME R3UNUSED ; DThread::RequestCount(void) const
 ResetAutoSwitchOffTimer__5Hal61 @ 329 NONAME R3UNUSED ; Hal61::ResetAutoSwitchOffTimer(void)
 ResetBacklightTimer__5Hal61 @ 330 NONAME R3UNUSED ; Hal61::ResetBacklightTimer(void)
-ekern_331__Fv @ 331 NONAME ; ekern_331(void) 
+Reset__4Plat19TMachineStartupType @ 331 NONAME R3UNUSED ; Plat::Reset(TMachineStartupType)
 RestoreIrqs__6ImpHali @ 332 NONAME R3UNUSED ; ImpHal::RestoreIrqs(int)
 RomIsReprogrammable__3Hal @ 333 NONAME R3UNUSED ; Hal::RomIsReprogrammable(void)
 RomVersion__3Hal @ 334 NONAME R3UNUSED ; Hal::RomVersion(void)
