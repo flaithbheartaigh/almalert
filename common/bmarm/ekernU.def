@@ -467,7 +467,7 @@ UpdateLeds__8ImpHal61Ui @ 465 NONAME R3UNUSED ; ImpHal61::UpdateLeds(unsigned in
 ekern_466__Fv @ 466 NONAME ; ekern_466(void) 
 ekern_467__Fv @ 467 NONAME ; ekern_467(void) 
 ekern_468__Fv @ 468 NONAME ; ekern_468(void) 
-ekern_469__Fv @ 469 NONAME ; ekern_469(void) 
+Variant__4Arch @ 469 NONAME R3UNUSED ; Arch::Variant(void)
 WaitAtLeastAMicroSecond__4Plat @ 470 NONAME R3UNUSED ; Plat::WaitAtLeastAMicroSecond(void)
 WaitForAnyRequest__4Kern @ 471 NONAME R3UNUSED ; Kern::WaitForAnyRequest(void)
 WaitForRequest__4KernR14TRequestStatus @ 472 NONAME R3UNUSED ; Kern::WaitForRequest(TRequestStatus &)

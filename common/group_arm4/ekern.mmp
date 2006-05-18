@@ -50,6 +50,7 @@ source ekern_imppsu.cpp
 source ekern_imphal_time.cpp
 source ekern_dchunk.cpp
 source ekern_trapk.cpp
+source ekern_cust.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
