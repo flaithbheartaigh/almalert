@@ -19,6 +19,7 @@
 
 class TProcessMemoryInfo; //don't exists in symbian 6.1
 #include <k32std.h>
+#include <m32std.h>
 #include <e32std.h>
 
 EXPORT_C void Plat::DebugInit() //FIXME: NOT IMPLEMENTED
@@ -48,10 +49,46 @@ EXPORT_C TInt Plat::NullThread(TAny *aPtr) //FIXME: NOT IMPLEMENTED
   return KErrNone;
 }
 
+//*****
+
+void P::BlockThreads(TBlockType aType) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void P::WsRegisterThread(TThreadFunction aFunction) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void P::WsRegisterSwitchOnScreenHandling(TBool aState) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void P::WsSwitchOnScreen() //FIXME: NOT IMPLEMENTED
+{
+}
+
+EXPORT_C void Plat::OsSwitchOnScreen() //FIXME: NOT IMPLEMENTED
+{
+}
+
+TInt P::HalPageSize(void)
+{
+  return ImpMmu::PageSizeInBytes;
+}
+
+void PP::Panic(TPlatPanic aPanic)
+{
+  Plat::Panic(_L("PLAT"),aPanic);
+}
+
+void PP::Fault(TPlatFault aFault)
+{
+  Plat::Fault(_L("PLAT"),aFault);
+}
+
 EXPORT_C TUint Plat::TickCount()
 {
-  TUint* ticks=(TUint*)0x80000488u;
-  return *ticks;
+  return K::TickCounter;
 }
 
 EXPORT_C TTime Plat::SystemTime() //FIXME: NOT IMPLEMENTED
@@ -95,4 +132,9 @@ EXPORT_C void Plat::Panic(const TDesC &aName,TInt aPanicNumber)
 
 EXPORT_C void Plat::Fault(const TDesC &aName,TInt aFaultNumber) //FIXME: NOT IMPLEMENTED
 {
+}
+
+EXPORT_C void Plat::Reset(TMachineStartupType aType)
+{
+  PP::Fault(PP::ESoftwareWarmReset);
 }
