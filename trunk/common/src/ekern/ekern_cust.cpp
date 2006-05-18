@@ -1,5 +1,5 @@
 /*
-    ekern_static.cpp
+    ekern_cust.cpp
     Copyright (C) 2006 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -18,23 +18,9 @@
 */
 
 class TProcessMemoryInfo; //don't exists in symbian 6.1
-#include <k32std.h>
-#include <e32std.h>
 #include <m32std.h>
 
-Custom* A::TheVariant; //0x8000038C
-
-DProcess* K::SvProcess; //0x800003DC
-DThread* K::SvThread; //0x800003E0
-
-TUint K::TickCounter; //0x80000488
-TUint K::RtcTickRef; //0x8000048C
-TUint K::TickCountRef; //0x80000490
-
-CObjectCon* K::Threads; //0x8000039C
-CObjectCon* K::Chunks; //0x800003A0
-CObjectCon* K::Timers; //0x800003C0
-
-TDfcQue K::DfcQ; //0x80006BB8
-DPowerModel* K::PowerModel; //0x80006BC4
-RHeapK* K::Heap; //0x80006C34
+EXPORT_C TAny* Arch::Variant(void)
+{
+  return A::Variant();
+}

@@ -487,7 +487,7 @@ EXPORT_C void ekern_462(void) {}
 EXPORT_C void ekern_466(void) {}
 EXPORT_C void ekern_467(void) {}
 EXPORT_C void ekern_468(void) {}
-EXPORT_C void ekern_469(void) {}
+//EXPORT_C void ekern_469(void) {}
 //EXPORT_C void ekern_470(void) {}
 //EXPORT_C void ekern_471(void) {}
 //EXPORT_C void ekern_472(void) {}
