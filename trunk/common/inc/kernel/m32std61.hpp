@@ -122,4 +122,10 @@ class ImpPsu61
     void DisplayOn(void);
 };
 
+class ImpDma61
+{
+  public:
+    IMPORT_C static TInt GetDmaChannel(TDma* aDma,TInt& aChannel);
+};
+
 #endif

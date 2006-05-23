@@ -6,7 +6,7 @@ targetpath \system\libs
 
 sourcepath ..\src\ekern
 source ekernexe.cpp
-source ekern_bad.cpp
+source ekern_impdma.cpp
 source ekern_logicaldevice.cpp
 source ekern_logicalchannel.cpp
 source ekern_physicaldevice.cpp
@@ -52,6 +52,7 @@ source ekern_dchunk.cpp
 source ekern_trapk.cpp
 source ekern_cust.cpp
 source ekern_pic.cpp
+source ekern_bad.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel

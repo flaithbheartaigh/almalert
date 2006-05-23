@@ -35,6 +35,9 @@ TUint K::TickCounter; //0x80000488
 TUint K::RtcTickRef; //0x8000048C
 TUint K::TickCountRef; //0x80000490
 
+TDma** PP::DmaChannelTable; //0x800066D8
+TInt PP::DmaMaxChannels; //0x800066DC
+
 TInt ImpMmu::PageSizeInBytes; //0x8000673C
 
 TDfcQue K::DfcQ; //0x80006BB8
