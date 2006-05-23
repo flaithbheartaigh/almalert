@@ -7,11 +7,15 @@ targetpath \system\libs
 sourcepath ..\src\ekern
 source ekernexe.cpp
 source ekern_impdma.cpp
+//DDebugger here
+source ekern_imphal.cpp
+source ekern_tickint.cpp
+source ekern_imppic.cpp
+
 source ekern_logicaldevice.cpp
 source ekern_logicalchannel.cpp
 source ekern_physicaldevice.cpp
 source ekern_plat.cpp
-source ekern_imphal.cpp
 source ekern_dtimer.cpp
 source ekern_dthread.cpp
 source ekern_mmu.cpp
@@ -41,10 +45,8 @@ source ekern_rheapk.cpp
 source ekern_kern_global.cpp
 source ekern_kern_rand.cpp
 source ekern_power.cpp
-source ekern_tickint.cpp
 source ekern_ngage.cpp
 source ekern_ngage_interrupts.cpp
-source ekern_imppic.cpp
 source ekern_mstimer.cpp
 source ekern_imppsu.cpp
 source ekern_imphal_time.cpp
@@ -53,6 +55,7 @@ source ekern_trapk.cpp
 source ekern_cust.cpp
 source ekern_pic.cpp
 source ekern_bad.cpp
+source ekern_imphal_ramdrive.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel

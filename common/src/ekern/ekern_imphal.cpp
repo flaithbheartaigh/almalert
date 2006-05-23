@@ -18,7 +18,7 @@
 */
 
 #include <m32std61.hpp>
-#include <k32std.h>
+#include <k32std61.hpp>
 
 EXPORT_C void ImpHal61::UpdateLeds(TUint aLedMask)
 {
@@ -244,6 +244,16 @@ EXPORT_C TInt ImpHal61::MouseProperties(TMouseProperties& aProperties) //FIXME: 
   return KErrNone;
 }
 
+void ImpHal::Init1(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+void ImpHal::Init3(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+//*****
+
 __declspec(naked) void ImpHal::DisableIrqs(void)
 {
   __asm("mrs\tr1, cpsr");
@@ -288,10 +298,16 @@ __declspec(naked) EXPORT_C void ImpHal::RestoreIrqs(TInt aLevel)
   __asm("mov\tpc, lr");
 }
 
-EXPORT_C void ImpHal::UnlockRamDrive() //FIXME: NOT IMPLEMENTED
+void P61::ClearScreen(void) //FIXME: NOT IMPLEMENTED
 {
 }
 
-EXPORT_C void ImpHal::LockRamDrive() //FIXME: NOT IMPLEMENTED
+void ImpHal::Init4(void) //FIXME: NOT IMPLEMENTED
 {
 }
+
+void ImpHal::Init5(void) //FIXME: NOT IMPLEMENTED
+{
+}
+
+//*****
