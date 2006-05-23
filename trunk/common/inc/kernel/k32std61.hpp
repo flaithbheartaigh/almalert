@@ -104,6 +104,7 @@ class P61
     static void Wait(TInt aValue);
     static void KeyClick(void);
     static void PointerClick(void);
+    static void ClearScreen(void);
 };
 
 class Plat61
