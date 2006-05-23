@@ -144,7 +144,7 @@ GetDesInfo__7DThreadPCvRiT2RPUci @ 142 NONAME ; DThread::GetDesInfo(void const *
 GetDesLength__7DThreadPCv @ 143 NONAME R3UNUSED ; DThread::GetDesLength(void const *)
 GetDesMaxLength__7DThreadPCv @ 144 NONAME R3UNUSED ; DThread::GetDesMaxLength(void const *)
 ekern_145__Fv @ 145 NONAME ; ekern_145(void) 
-ekern_146__Fv @ 146 NONAME ; ekern_146(void) 
+GetDmaChannel__8ImpDma61P4TDmaRi @ 146 NONAME R3UNUSED ; ImpDma61::GetDmaChannel(TDma *, int &)
 ekern_147__Fv @ 147 NONAME ; ekern_147(void) 
 HeapSwitch__4KernR5RHeap @ 148 NONAME R3UNUSED ; Kern::HeapSwitch(RHeap &)
 Heap__4Kern @ 149 NONAME R3UNUSED ; Kern::Heap(void)

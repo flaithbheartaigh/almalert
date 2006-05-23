@@ -164,7 +164,7 @@ EXPORT_C void ekern_136(void) {}
 //EXPORT_C void ekern_143(void) {}
 //EXPORT_C void ekern_144(void) {}
 EXPORT_C void ekern_145(void) {}
-EXPORT_C void ekern_146(void) {}
+//EXPORT_C void ekern_146(void) {}
 EXPORT_C void ekern_147(void) {}
 //EXPORT_C void ekern_148(void) {}
 //EXPORT_C void ekern_149(void) {}
