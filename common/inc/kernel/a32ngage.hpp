@@ -224,6 +224,16 @@ class TNgage
     IMPORT_C static void DisableFiq(TInt anId);
     IMPORT_C static void EnableIrq(TInt anId);
     IMPORT_C static void DisableIrq(TInt anId);
+    //timers
+    IMPORT_C static TUint32 TimerMode(TUint anId);
+    IMPORT_C static void SetTimerMode(TUint anId,TUint32 aValue);
+    IMPORT_C static void SetTimerPreScaler(TUint anId,TUint32 aValue);
+    IMPORT_C static TUint32 TimerPostScaler(TUint anId);
+    IMPORT_C static void SetTimerPostScaler(TUint anId,TUint32 aValue);
+    IMPORT_C static TUint32 TimerCounter(TUint anId);
+    IMPORT_C static void SetTimerCounter(TUint anId,TUint32 aValue);
+    IMPORT_C static void SetTimerServed(TUint anId,TUint32 aValue);
+    IMPORT_C static TUint32 TimerServed(TUint anId);
 };
 
 #endif
