@@ -225,6 +225,15 @@ class TNgage
     IMPORT_C static void EnableIrq(TInt anId);
     IMPORT_C static void DisableIrq(TInt anId);
     //timers
+    enum TTimerId
+    {
+      ETimer0=0x00,
+      ETimer1=0x20,
+      ETimer2=0x40,
+      ETimer3=0x60,
+      ETimer4=0x80,
+      ETimer5=0xa0
+    };
     IMPORT_C static TUint32 TimerMode(TUint anId);
     IMPORT_C static void SetTimerMode(TUint anId,TUint32 aValue);
     IMPORT_C static void SetTimerPreScaler(TUint anId,TUint32 aValue);
