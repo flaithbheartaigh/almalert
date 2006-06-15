@@ -24,25 +24,6 @@
 #include <isi_units.hpp>
 #include <hwtricks.hpp>
 
-#include <f32file.h>
-static void Log(const TDesC8& aBuffer,TInt aParam)
-{
-  RFs fs;
-  RFile file;
-  fs.Connect();
-  TInt err=file.Open(fs,_L("e:\\zg_netmon_cl_log.txt"),EFileWrite|EFileShareAny);
-  if(err==KErrNotFound) err=file.Create(fs,_L("e:\\zg_netmon_cl_log.txt"),EFileWrite|EFileShareAny);
-  TInt pos=0;
-  err=file.Seek(ESeekEnd,pos);
-  TBuf8<1024> logBuf;
-  TTime localTime; RThread thread;
-  localTime.HomeTime();
-  logBuf.Format(_L8("0x%08.8d|%02.2d:%02.2d:%02.2d.%06.6d: %S: 0x%x\n"),thread.Id(),localTime.DateTime().Hour(),localTime.DateTime().Minute(),localTime.DateTime().Second(),localTime.DateTime().MicroSecond(),&aBuffer,aParam);
-  file.Write(logBuf);
-  file.Close();
-  fs.Close();
-}
-
 CBatmonContainer* CBatmonContainer::NewL(void)
 {
   CBatmonContainer* self=new(ELeave)CBatmonContainer;
@@ -203,71 +184,6 @@ void CBatmonContainer::Draw(const TRect& aRect) const
   DrawStatus();
   DrawExitMark();
   DrawPage();
-
-
-/*  gc.SetPenStyle(CGraphicsContext::ESolidPen);
-  gc.SetPenColor(TRgb::Color4K(0xf44));
-  gc.SetBrushStyle(CGraphicsContext::ENullBrush);
-  gc.UseFont(LatinPlain12());
-
-  TBuf<32> data;
-  TRect label(2,12,173,24); //52,53
-  TRect value(label);
-
-  gc.DrawText(_L("0x0125"),label,10);
-  Value(KPhoneEmUnit,0x0125,data);
-  gc.DrawText(data,value,10,CGraphicsContext::ERight);
-  label.Move(0,13);
-  value.Move(0,13);
-  gc.DrawText(_L("0x0119"),label,10);
-  Value(KPhoneEmUnit,0x0119,data);
-  gc.DrawText(data,value,10,CGraphicsContext::ERight);
-  label.Move(0,13);
-  value.Move(0,13);
-  gc.DrawText(_L("0x011a"),label,10);
-  Value(KPhoneEmUnit,0x011a,data);
-  gc.DrawText(data,value,10,CGraphicsContext::ERight);
-  label.Move(0,13);
-  value.Move(0,13);
-
-
-  gc.DrawText(_L("Battery current"),label,10);
-  Value(KPhoneEmUnit,0x0112,data);
-  gc.DrawText(data,value,10,CGraphicsContext::ERight);
-  label.Move(0,13);
-  value.Move(0,13);
-  gc.DrawText(_L("Phone current"),label,10);
-  Value(KPhoneEmUnit,0x0113,data);
-  gc.DrawText(data,value,10,CGraphicsContext::ERight);
-  label.Move(0,13);
-  value.Move(0,13);
-  gc.DrawText(_L("Feature current"),label,10);
-  Value(KPhoneEmUnit,0x0114,data);
-  gc.DrawText(data,value,10,CGraphicsContext::ERight);
-  label.Move(0,13);
-  value.Move(0,13);
-  gc.DrawText(_L("Discharge mAs"),label,10);
-  Value(KPhoneEmUnit,0x0115,data);
-  gc.DrawText(data,value,10,CGraphicsContext::ERight);
-  label.Move(0,13);
-  value.Move(0,13);
-  gc.DrawText(_L("Voltage"),label,10);
-  Value(KPhoneEmUnit,0x0103,data);
-  gc.DrawText(data,value,10,CGraphicsContext::ERight);
-  label.Move(0,13);
-  value.Move(0,13);
-  gc.DrawText(_L("Temperature"),label,10);
-  Value(KPhoneEmUnit,0x0102,data);
-  gc.DrawText(data,value,10,CGraphicsContext::ERight);
-  label.Move(0,13);
-  value.Move(0,13);
-  gc.DrawText(_L("Capacity"),label,10);
-  Value(KPhoneEmUnit,0x0104,data);
-  gc.DrawText(data,value,10,CGraphicsContext::ERight);
-  label.Move(0,13);
-  value.Move(0,13);
-
-  gc.DiscardFont();*/
 }
 
 void CBatmonContainer::DrawTitle(void) const
