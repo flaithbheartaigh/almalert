@@ -333,9 +333,13 @@ void CBatmonContainer::DrawPage(void) const
     {4,L"Battery impedance",0x0146,&CBatmonContainer::Impedance},
     {14,L"Standby time",0x0106,&CBatmonContainer::Hour},
     {24,L"Battery type",0x0101,&CBatmonContainer::Common},
+    {24,L"Battery",0x014d,&CBatmonContainer::Battery},
+    {6,L"Backup battery open",0x0122,&CBatmonContainer::Voltage},
+    {6,L"Backup battery close",0x0123,&CBatmonContainer::Voltage},
+    {24,L"Present charging state",0x011d,&CBatmonContainer::Common},
+    {24,L"Present charger type",0x0117,&CBatmonContainer::Common},
     {6,L"Charging voltage",0x0119,&CBatmonContainer::Voltage},
-    {6,L"Charging current",0x011a,&CBatmonContainer::Current},
-    {24,L"Battery",0x014d,&CBatmonContainer::Battery}
+    {6,L"Charging current",0x011a,&CBatmonContainer::Current}
   };
   TRect value(2,18,174,30);
   TBuf<32> data;
