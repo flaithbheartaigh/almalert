@@ -22,6 +22,3 @@ library eikcore.lib
 library avkon.lib
 library gdi.lib
 library hwtricks.lib
-
-
-library efsrv.lib

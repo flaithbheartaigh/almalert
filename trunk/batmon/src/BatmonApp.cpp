@@ -19,6 +19,8 @@
 
 #include "BatmonApp.hpp"
 #include "BatmonContainer.hpp"
+#include <aknnotewrappers.h> //CAknInformationNote
+#include <hwtricks.hpp>
 
 //Batmon global
 GLDEF_C TInt E32Dll(TDllReason)
@@ -87,6 +89,20 @@ void CBatmonAppUi::HandleCommandL(TInt aCommand)
 {
   switch(aCommand)
   {
+    case EAknSoftkeyOk:
+      {
+        TInt build;
+        HWOther::InfoL(HWOther::EInfoBuild,build);
+        TBuf16<128> About;
+        About.Append(_L("Batmon ver. 1.00\n\x00a9 by zg\nhwtricks.dll build "));
+        About.AppendNum(build);
+        About.Append(_L("\nhttp://almalert.sf.net"));
+        CAknInformationNote* dlg=new(ELeave)CAknInformationNote;
+        dlg->SetTimeout(CAknNoteDialog::ENoTimeout);
+        dlg->ExecuteLD(About);
+      }
+      break;
+    case EAknSoftkeyCancel:
     case EEikCmdExit:
     case EAknSoftkeyExit:
       Exit();
