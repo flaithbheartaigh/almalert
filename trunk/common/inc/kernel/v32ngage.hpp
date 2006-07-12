@@ -25,6 +25,20 @@
 class Custom
 {
   public:
+    enum TInterfaces
+    {
+      ECBus,
+      ERtc,
+      EUnknown2,
+      EUnknown3, //gsm stack
+      ELcd,
+      ESit, //infrared
+      EUnknown6, //gsm stack
+      EUnknown7,
+      EProductInfo, //dont' exist on n-gage 3.30
+      ECount
+    };
+  public:
     virtual void Init1(void)=0; //0x008
     virtual void Init2(void)=0; //0x00c
     virtual void Init3(void)=0; //0x010
@@ -86,8 +100,8 @@ class Custom
     virtual void Unknown_0f0(void)=0;
     virtual void Unknown_0f4(void)=0;
     virtual void Unknown_0f8(void)=0;
-    virtual void Unknown_0fc(void)=0;
-    virtual void Unknown_100(void)=0;
+    virtual TBool SetInterface(TInterfaces anId,TAny* anInterface)=0;
+    virtual TAny* Interface(TInterfaces anId)=0;
     virtual void Unknown_104(void)=0;
     virtual void Unknown_108(void)=0;
     virtual void Unknown_10c(void)=0;
@@ -128,6 +142,16 @@ class Variant: public Custom
     void Init4(void); //0x014
     void Init5(void); //0x018
     TBool TestBootSequence(void); //0x01c
+    TBool SetInterface(TInterfaces anId,TAny* anInterface); //0x0fc
+    TAny* Interface(TInterfaces anId); //0x100
+  private:
+    TInt iUnknown01; //0x04
+    TInt iUnknown02; //0x08
+    TInt iUnknown03; //0x0c
+    TInt iUnknown04; //0x10
+    TInt iUnknown05; //0x14
+    TInt iUnknown06; //0x18
+    TAny* iInterfaces[ECount]; //0x1c
 };
 
 #endif
