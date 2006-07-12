@@ -43,3 +43,22 @@ void Variant::Init4(void) //FIXME: NOT IMPLEMENTED
 void Variant::Init5(void) //FIXME: NOT IMPLEMENTED
 {
 }
+
+TBool Variant::SetInterface(Custom::TInterfaces anId,TAny* anInterface)
+{
+  if(anId<Custom::ECount&&anId>=Custom::ECBus)
+  {
+    if(!iInterfaces[anId])
+    {
+      iInterfaces[anId]=anInterface;
+      return ETrue;
+    }
+  }
+  return EFalse;
+}
+
+TAny* Variant::Interface(Custom::TInterfaces anId)
+{
+  if(anId<Custom::ECount&&anId>=Custom::ECBus) return iInterfaces[anId];
+  else return NULL;
+}
