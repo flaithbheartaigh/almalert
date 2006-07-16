@@ -29,12 +29,12 @@ class Custom
     {
       ECBus,
       ERtc,
-      EUnknown2,
+      EKeyboard,
       EUnknown3, //gsm stack
       ELcd,
       ESit, //infrared
       EUnknown6, //gsm stack
-      EUnknown7,
+      EUnused,
       EProductInfo, //dont' exist on n-gage 3.30
       ECount
     };
