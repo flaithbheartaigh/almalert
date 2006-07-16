@@ -25,6 +25,8 @@
 class CCBus: public CBase
 {
   public:
+    CCBus() {};
+  public:
     virtual void Unknown1(void)=0;
     virtual TInt Unknown2(TInt aParam1,TInt aParam2,TInt aParam3,TInt aParam4)=0;
     virtual TInt Unknown3(TInt aParam1,TInt aParam2,TInt aParam3,TInt aParam4,TInt aParam5,TInt aParam6)=0;
