@@ -23,7 +23,7 @@
 EXPORT_C void HWNetmon::ValueL(TUint8 aUnit,TUint16 anAddress,TDes16& aValue,TUint32 aFlags)
 {
   CNetmonValue* value=CNetmonValue::NewLC(aUnit,anAddress,aFlags&EExt);
-  value->ValueL(aValue,aFlags&ERaw);
+  value->ValueL(aValue,aFlags&ERaw,aFlags&ESigned);
   CleanupStack::PopAndDestroy(); //value
 }
 
@@ -79,7 +79,7 @@ CNetmonValue* CNetmonValue::NewLC(TUint8 aUnit,TUint16 aAddress,TBool anExtended
   return self;
 }
 
-void CNetmonValue::ValueL(TDes16& aTarget,TBool aRaw)
+void CNetmonValue::ValueL(TDes16& aTarget,TBool aRaw,TBool aSigned)
 {
   CTestGetResp* resp=new(ELeave)CTestGetResp;
   CleanupStack::PushL(resp);
@@ -107,14 +107,18 @@ void CNetmonValue::ValueL(TDes16& aTarget,TBool aRaw)
     if(blockLen<4) User::Leave(KErrUnderflow);
     if(blockLen==4)
     {
-      aTarget.Num((TUint)block->Ptr()[3]);
+      TUint value=block->Ptr()[3];
+      if(aSigned) aTarget.Num((TInt8)value);
+      else aTarget.Num(value);
     }
     else
     {
       TInt length=block->Ptr()[3];
       if(blockLen==8&&length==0)
       {
-        aTarget.Num((TInt16)(block->Ptr()[4]*256+block->Ptr()[5]));
+        TUint value=(block->Ptr()[4]*256+block->Ptr()[5]);
+        if(aSigned) aTarget.Num((TInt16)value);
+        else aTarget.Num(value);
       }
       else if((length+3)<block->Ptr().Length())
       {
