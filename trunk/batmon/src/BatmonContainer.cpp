@@ -86,7 +86,7 @@ TInt CBatmonContainer::RefreshTimeout(TAny* aContainer)
 
 void CBatmonContainer::Value(TUint8 aUnit,TUint16 aAddress,TDes16& aValue) const
 {
-  TRAPD(err,HWNetmon::ValueL(aUnit,aAddress,aValue,HWNetmon::EExt));
+  TRAPD(err,HWNetmon::ValueL(aUnit,aAddress,aValue,HWNetmon::EExt|HWNetmon::ESigned));
   if(err!=KErrNone)
   {
     aValue.Zero();
