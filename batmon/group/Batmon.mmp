@@ -22,3 +22,5 @@ library eikcore.lib
 library avkon.lib
 library gdi.lib
 library hwtricks.lib
+
+aif batmon.aif ..\aif batmonaif.rss c8 batmon.bmp batmon_m.bmp
