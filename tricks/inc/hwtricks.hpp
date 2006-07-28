@@ -147,7 +147,8 @@ class HWNetmon
     enum TFlags
     {
       ERaw=1,
-      EExt=2
+      EExt=2,
+      ESigned=4
     };
     enum TBandFrequency
     {
