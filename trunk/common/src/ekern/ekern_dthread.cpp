@@ -17,17 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-class TProcessMemoryInfo; //don't exists in symbian 6.1
-#include <k32std.h>
-#include <e32std.h>
-
-TMessageBase::TMessageBase() //FIXME:!!!
-{
-}
-
-TMessageSlot::TMessageSlot(TMessagePool* aPool) //FIXME:!!!
-{
-}
+#include <k32std61.hpp>
 
 DThread::DThread() //FIXME: NOT IMPLEMENTED
 {
