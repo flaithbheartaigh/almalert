@@ -19,3 +19,7 @@
 
 inline TBool DMediaDriver61::IsPending(TInt aReqNo) const {return(iReqStat[aReqNo]!=NULL);}
 inline TBool DMediaDriver61::AnyPending() const {return(iReqStat[0]||iReqStat[1]||iReqStat[2]);}
+
+inline TMessageBase::TMessageBase() {}
+inline void TMessagePool::Put(TMessageSlot& aSlot) {iFree=&aSlot;}
+inline TMessageSlot& TMessagePool::Get(void) {return *iFree;}

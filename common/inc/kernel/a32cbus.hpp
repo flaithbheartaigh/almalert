@@ -28,8 +28,8 @@ class CCBus: public CBase
     CCBus() {};
   public:
     virtual void Unknown1(void)=0;
-    virtual TInt Unknown2(TInt aParam1,TInt aParam2,TInt aParam3,TInt aParam4)=0;
-    virtual TInt Unknown3(TInt aParam1,TInt aParam2,TInt aParam3,TInt aParam4,TInt aParam5,TInt aParam6)=0;
+    virtual TInt Unknown2(TInt aParam1,TInt aParam2,TInt8 aParam3,TUint32& aResult)=0;
+    virtual TInt Unknown3(TInt aParam1,TInt aParam2,TInt8 aParam3,TInt8 aParam4,TUint32 aClearMask,TUint32 aSetMask)=0;
     virtual TInt Unknown4(TInt aParam1,TInt aParam2)=0;
     virtual void Unknown5(TInt aParam1)=0;
     virtual TInt Unknown6(void)=0;

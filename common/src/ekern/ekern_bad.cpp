@@ -359,8 +359,8 @@ EXPORT_C void ekern_337(void) {}
 //EXPORT_C void ekern_338(void) {}
 //EXPORT_C void ekern_339(void) {}
 EXPORT_C void ekern_340(void) {}
-EXPORT_C void ekern_341(void) {}
-EXPORT_C void ekern_342(void) {}
+//EXPORT_C void ekern_341(void) {}
+//EXPORT_C void ekern_342(void) {}
 EXPORT_C void ekern_343(void) {}
 //EXPORT_C void ekern_344(void) {}
 //EXPORT_C void ekern_345(void) {}
