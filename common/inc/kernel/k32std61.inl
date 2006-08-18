@@ -23,3 +23,5 @@ inline TBool DMediaDriver61::AnyPending() const {return(iReqStat[0]||iReqStat[1]
 inline TMessageBase::TMessageBase() {}
 inline void TMessagePool::Put(TMessageSlot& aSlot) {iFree=&aSlot;}
 inline TMessageSlot& TMessagePool::Get(void) {return *iFree;}
+inline void DSessionShare::ThreadExit(void) {iExitHandler=NULL;Close();}
+inline DSessionShare::DSessionShare(DSession& aSession):iSession(&aSession),iClient(NULL),iClientHandle(0),iExitHandler(NULL),iOutstandingQ(_FOFF(TMessageSlot,iOwner)) {}

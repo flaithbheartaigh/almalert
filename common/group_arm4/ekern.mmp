@@ -58,6 +58,7 @@ source ekern_pic.cpp
 source ekern_bad.cpp
 source ekern_imphal_ramdrive.cpp
 source ekern_dserver.cpp
+source ekern_dsessionshare.cpp
 
 systeminclude \epoc32\include
 systeminclude \epoc32\include\kernel
