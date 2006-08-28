@@ -27,6 +27,7 @@ Custom* A::TheVariant; //0x8000038C
 CObjectCon* K::Threads; //0x8000039C
 CObjectCon* K::Chunks; //0x800003A0
 CObjectCon* K::Servers; //0x800003B8
+CObjectCon* K::Sessions; //0x800003BC
 CObjectCon* K::Timers; //0x800003C0
 
 DProcess* K::SvProcess; //0x800003DC
