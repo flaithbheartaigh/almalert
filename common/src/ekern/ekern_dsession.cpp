@@ -160,3 +160,48 @@ void DSession::Close(void) //FIXME: NOT IMPLEMENTED
   }
   CObject::Close();
 }
+
+EXPORT_C DSession* Kern::SessionFromHandle(TInt aHandle)
+{
+  return (DSession*)K::ObjectFromHandle(aHandle,NULL,K::Sessions);
+}
+
+DSession& S::SessionFromHandleL(TInt aHandle)
+{
+  return *(DSession*)S::ObjectFromHandleL(aHandle,K::SvThread,K::Sessions);
+}
+
+DSession* S::SessionFromHandle(TInt aHandle) //FIXME: NOT IMPLEMENTED
+{
+  return NULL;
+}
+
+void S::SessionCreateL(TInt& aHandle,DProcess* anOwningProcess,DThread* anOwningThread,TInt aMessageSlots,DServer* aServer,DSession*& aSession)
+{
+  aSession=new(ELeave)DSession;
+  aSession->Create(aServer,anOwningThread,aMessageSlots);
+  K::Sessions->AddL(aSession);
+  aHandle=S::MakeHandle(aSession,anOwningThread);
+}
+
+TInt S::SessionCreate(TInt& aHandle,DProcess* anOwningProcess,DThread* anOwningThread,const TDesC& aServer,TInt aMessageSlots)
+{
+  TFullName name;
+  TInt handle=0;
+  TInt err=Kern::ServerFind(handle,aServer,name);
+  if(err<KErrNone) return err;
+  DServer* server=(DServer*)K::Servers->At(handle);
+  DSession* session=NULL;
+  TRAP(err,S::SessionCreateL(aHandle,anOwningProcess,anOwningThread,aMessageSlots,server,session));
+  if(err!=KErrNone) S::CheckedClose(session);
+  return err;
+}
+
+TInt S::AllocateMessages(void) //FIXME: NOT IMPLEMENTED
+{
+  return KErrNone;
+}
+
+EXPORT_C void Kern::SetSessionPtr(TInt aHandle,const TAny *aSession,TBool aSharable) //FIXME: NOT IMPLEMENTED
+{
+}
