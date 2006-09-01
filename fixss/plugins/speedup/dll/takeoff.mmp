@@ -1,0 +1,13 @@
+target takeoff.dll
+targettype dll
+uid 0x100039e6 0xa00013bd
+
+sourcepath .
+source takeoff.cpp
+
+systeminclude ..\..\..\..\common\inc\kernel
+systeminclude \epoc32\include
+systeminclude \epoc32\include\kernel
+
+library euser.lib
+library ekern.lib
