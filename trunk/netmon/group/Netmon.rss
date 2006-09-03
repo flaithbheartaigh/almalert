@@ -90,3 +90,48 @@ RESOURCE ARRAY r_freq_query_item
     }
   };
 }
+
+RESOURCE DIALOG r_sms_send
+{
+  flags=EGeneralQueryFlags;
+  buttons=R_AVKON_SOFTKEYS_OK_CANCEL;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtMultilineQuery;
+      id=EMultilineFirstLine;
+      control=AVKON_DATA_QUERY
+      {
+        layout=EMultiDataFirstEdwin;
+        label="To:";
+        control=EDWIN
+        {
+          flags=EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+          width=25;
+          lines=1;
+          maxlength=20;
+          allowed_input_modes=EAknEditorNumericInputMode;
+          default_input_mode=EAknEditorNumericInputMode;
+        };
+      };
+    },
+    DLG_LINE
+    {
+      type=EAknCtMultilineQuery;
+      id=EMultilineSecondLine;
+      control=AVKON_DATA_QUERY
+      {
+        layout=EMultiDataSecondEdwin;
+        label="Body:";
+        control=EDWIN
+        {
+          flags=EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+          width=25;
+          lines=1;
+          maxlength=70;
+        };
+      };
+    }
+  };
+}
