@@ -27,5 +27,4 @@ library etel.lib
 library gsmadv.lib
 library gsmbas.lib
 
-aif netmon.aif ..\aif netmonaif.rss c8 netmon.bmp netmon.bmp
-//AIF netmon.aif ..\aif netmonaif.rss c12 NLights_Icon.bmp NLights_Icon_mask.bmp netmon.bmp NLights_lst_mask.bmp
+aif netmon.aif ..\aif netmonaif.rss c8 netmon.bmp netmon_m.bmp
