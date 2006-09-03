@@ -28,6 +28,7 @@
 #include <hwtricks.hpp>
 #include <netmon.rsg>
 #include "NetmonRefresh.hpp"
+#include "NetmonFlashSms.hpp"
 
 CNetmonContainer* CNetmonContainer::NewL(void)
 {
@@ -42,6 +43,7 @@ CNetmonContainer* CNetmonContainer::NewL(void)
 CNetmonContainer::~CNetmonContainer()
 {
   CCoeEnv::Static()->RemoveForegroundObserver(*this);
+  delete iNetmonFlashSms;
   delete iNetmonRefresh;
   delete iRefresh;
 }
@@ -61,6 +63,7 @@ void CNetmonContainer::ConstructL(void)
   iRefresh=CPeriodic::NewL(CActive::EPriorityStandard);
   InitRefresh();
   iNetmonRefresh=CNetmonRefresh::NewL();
+  iNetmonFlashSms=CNetmonFlashSms::NewL();
   CCoeEnv::Static()->AddForegroundObserverL(*this);
 }
 
@@ -132,13 +135,13 @@ TKeyResponse CNetmonContainer::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventC
         {
           TInt build;
           HWOther::InfoL(HWOther::EInfoBuild,build);
-          TBuf16<128> About;
-          About.Append(_L("Netmon ver. 0.60\n\x00a9 by zg\nhwtricks.dll build "));
-          About.AppendNum(build);
-          About.Append(_L("\nhttp://almalert.sf.net"));
+          TBuf16<128> about;
+          about.Append(_L("Netmon ver. 0.60\n\x00a9 by zg\nhwtricks.dll build "));
+          about.AppendNum(build);
+          about.Append(_L("\nhttp://almalert.sf.net"));
           CAknInformationNote* dlg=new(ELeave)CAknInformationNote;
           dlg->SetTimeout(CAknNoteDialog::ENoTimeout);
-          dlg->ExecuteLD(About);
+          dlg->ExecuteLD(about);
         }
         break;
       case EKeyLeftArrow:
@@ -150,6 +153,17 @@ TKeyResponse CNetmonContainer::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventC
         iTab++;
         if(iTab>=KTabCount) iTab=0;
         DrawNow();
+        return EKeyWasConsumed;
+      case EKeyYes:
+        {
+          TBuf<CNetmonFlashSms::KRawPhoneNumberSize> phone;
+          TBuf<CNetmonFlashSms::KSmsBodySize> body;
+          CAknMultiLineDataQueryDialog* dlg=CAknMultiLineDataQueryDialog::NewL(phone,body);
+          if(dlg->ExecuteLD(R_SMS_SEND)==EAknSoftkeyOk)
+          {
+            iNetmonFlashSms->SendL(phone,body);
+          }
+        }
         return EKeyWasConsumed;
     }
   }
