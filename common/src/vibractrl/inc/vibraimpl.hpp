@@ -23,6 +23,7 @@
 #include <vibractrl.hpp>
 #include <CommonEngine.hpp>
 #include <coemain.h>
+#include <phonet.hpp>
 
 #include "vibratimer.hpp"
 
@@ -50,11 +51,19 @@ class CVibraControlImpl: public CVibraControl,public MSharedDataNotifyHandler,pu
     static void DoCleanup(TAny* aPtr);
     static void DoCleanupIntensity(TAny* aPtr);
   private:
+    void Open(void);
+    void Close(void);
+    void Send(TBool aState);
+    void SendL(TBool aState);
+  private:
     MVibraControlObserver* iCallback;
     RSharedDataClient iShared;
-    TUint8 iIntensity;
     TVibraModeState iVibraState;
     CVibraTimer* iTimer;
+    TBool iCaptured;
+    RMutex iMutex;
+    RPhoNet iPhoNet;
+    TUint8 iObjectNumber;
   friend class VibraFactory;
 };
 
