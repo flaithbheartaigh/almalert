@@ -18,12 +18,13 @@
 */
 
 #include "vibraimpl.hpp"
-#include <hwtricks.hpp>
+#include <hal.h>
 
 const TInt KProfileEngUidValue=0x100058FA;
 const TUid KProfileEngUid={KProfileEngUidValue};
 _LIT(KKeyVibrAlert,"VibrAlert");
 _LIT(KVibraPanic,"VIBRA-CTRL");
+_LIT(KMutexName,"zg0x13nosunit");
 
 GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
 {
@@ -32,7 +33,7 @@ GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
 
 const TDesC8& CVibraControlImpl::Copyright(void)
 {
-  _LIT8(KAppCopyright,"vibractrl. (c) 2005 by zg. version 3.04");
+  _LIT8(KAppCopyright,"vibractrl. (c) 2005 by zg. version 3.05");
   return KAppCopyright;
 }
 
@@ -49,43 +50,19 @@ void Panic(CVibraControl::TVibraCtrlPanic aPanic)
   User::Panic(KVibraPanic,aPanic);
 }
 
-void CVibraControlImpl::DoCleanup(TAny* aPtr)
-{
-  CVibraControlImpl* vibra=STATIC_CAST(CVibraControlImpl*,aPtr);
-  TRAPD(err,HWVibra::SwitchL(EFalse));
-  if(err!=KErrNone)
-  {
-    if(vibra->iCallback) vibra->iCallback->VibraRequestStatus(EVibraRequestUnableToStop);
-    Panic(EPanicVibraGeneral);
-  }
-}
-
-void CVibraControlImpl::DoCleanupIntensity(TAny* aPtr)
-{
-  CVibraControlImpl* vibra=STATIC_CAST(CVibraControlImpl*,aPtr);
-  TRAPD(err,HWVibra::SetIntensityL(vibra->iIntensity));
-}
-
 EXPORT_C void CVibraControlImpl::StartVibraL(TUint16 aDuration)
 {
   if(!iTimer) User::Invariant();
-  HWVibra::SwitchL(ETrue);
-  CleanupStack::PushL(TCleanupItem(DoCleanup,this));
+  Send(ETrue);
   if(iCallback) iCallback->VibraRequestStatus(EVibraRequestOK);
-  User::LeaveIfError(iTimer->Start(aDuration));
-  CleanupStack::Pop();
+  if(iTimer->Start(aDuration)!=KErrNone) Send(EFalse);
 }
 
 EXPORT_C void CVibraControlImpl::StopVibraL(void)
 {
   if(!iTimer) User::Invariant();
-  TRAPD(err,HWVibra::SwitchL(EFalse));
-  TRAP(err,HWVibra::SetIntensityL(iIntensity));
-  if(iCallback)
-  {
-    if(err==KErrNone||err==KErrNotFound) iCallback->VibraRequestStatus(EVibraRequestStopped);
-    else iCallback->VibraRequestStatus(EVibraRequestUnableToStop);
-  }
+  Send(EFalse);
+  if(iCallback) iCallback->VibraRequestStatus(EVibraRequestStopped);
   if(iTimer->IsActive()) iTimer->Cancel();
 }
 
@@ -96,21 +73,17 @@ EXPORT_C CVibraControl::TVibraModeState CVibraControlImpl::VibraSettings(void) c
 
 EXPORT_C void CVibraControlImpl::StartVibraL(TUint16 aDuration,TInt aIntensity)
 {
-  aIntensity=aIntensity*40/100;
-  if(aIntensity<0||aIntensity>HWVibra::KMaxIntensity) aIntensity=0;
-  HWVibra::SetIntensityL(aIntensity);
-  CleanupStack::PushL(TCleanupItem(DoCleanupIntensity,this));
-  StartVibraL(aDuration);
-  CleanupStack::Pop();
 }
 
 void CVibraControlImpl::HandleGainingForeground(void)
 {
+  Open();
 }
 
 void CVibraControlImpl::HandleLosingForeground(void)
 {
   StopVibraL(); //never leave
+  Close();
 }
 
 void CVibraControlImpl::SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
@@ -131,17 +104,40 @@ void CVibraControlImpl::TimerExpired(void)
   StopVibraL(); //never leave
 }
 
-CVibraControlImpl::CVibraControlImpl(MVibraControlObserver* aCallback): CVibraControl(),iCallback(aCallback),iShared(this),iIntensity(HWVibra::KDefaultIntensity),iVibraState(EVibraModeUnknown)
+CVibraControlImpl::CVibraControlImpl(MVibraControlObserver* aCallback): CVibraControl(),iCallback(aCallback),iShared(this),iVibraState(EVibraModeUnknown)
 {
 }
 
 void CVibraControlImpl::ConstructL(void)
 {
-  HWVibra::IntensityL(iIntensity);
+  _LIT(KMutexName,"zg0x13nosunit");
+  TInt err=iMutex.CreateGlobal(KMutexName);
+  if(err==KErrAlreadyExists) err=iMutex.OpenGlobal(KMutexName);
+  User::LeaveIfError(err);
+  TInt machine;
+  User::LeaveIfError(HAL::Get(HALData::EModel,machine));
+  switch(machine)
+  {
+    case 0x101F466A: //3650&3660
+      iObjectNumber=0x51;
+      break;
+    case 0x101F8C19: //n-gage
+      iObjectNumber=0x58;
+      break;
+    case 0x101FB2B0: //n-gage qda
+    case 0x101FB2B1: //n-gage qd
+    case 0x101FB2B2: //n-gage qd unknown1
+    case 0x101FB2B3: //n-gage qd unknown2
+      iObjectNumber=0x54;
+      break;
+    default:
+      User::Leave(KErrNotSupported);
+      break;
+  }
   iTimer=CVibraTimer::NewL(this);
   User::LeaveIfError(iShared.Connect(0));
   TInt vibra=0;
-  TInt err=iShared.Assign(KProfileEngUid);
+  err=iShared.Assign(KProfileEngUid);
   if(err==KErrNone)
   {
     err=iShared.GetInt(KKeyVibrAlert,vibra);
@@ -160,6 +156,7 @@ void CVibraControlImpl::ConstructL(void)
     Panic(EPanicUnableToGetVibraSetting);
   }
   iVibraState=vibra?EVibraModeON:EVibraModeOFF;
+  Open();
   CCoeEnv::Static()->AddForegroundObserverL(*this);
 }
 
@@ -170,6 +167,7 @@ CVibraControlImpl::~CVibraControlImpl()
   delete iTimer;
   iShared.Close();
   CCoeEnv::Static()->RemoveForegroundObserver(*this);
+  Close();
 }
 
 EXPORT_C CVibraControl* VibraFactory::NewL(void)
