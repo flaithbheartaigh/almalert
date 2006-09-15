@@ -43,6 +43,7 @@ class CNetmonDocument: public CAknDocument
 };
 
 class CNetmonContainer;
+class CNetmonFlashSms;
 class CNetmonAppUi: public CAknAppUi
 {
   public:
@@ -53,6 +54,7 @@ class CNetmonAppUi: public CAknAppUi
     void ConstructL(void);
   private:
     CNetmonContainer* iContainer;
+    CNetmonFlashSms* iNetmonFlashSms;
 };
 
 #endif

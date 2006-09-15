@@ -24,7 +24,6 @@
 #include <coemain.h>
 
 class CNetmonRefresh;
-class CNetmonFlashSms;
 class CNetmonContainer: public CCoeControl,public MCoeForegroundObserver
 {
   public:
@@ -53,7 +52,6 @@ class CNetmonContainer: public CCoeControl,public MCoeForegroundObserver
     TInt iTab;
     CPeriodic* iRefresh;
     CNetmonRefresh* iNetmonRefresh;
-    CNetmonFlashSms* iNetmonFlashSms;
 };
 
 const TInt KTabCount=3;

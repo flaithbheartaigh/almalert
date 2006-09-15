@@ -19,6 +19,12 @@
 
 #include "NetmonApp.hpp"
 #include "NetmonContainer.hpp"
+#include "NetmonFlashSms.hpp"
+#include "netmon.hrh"
+
+#include <aknnotewrappers.h> //CAknInformationNote
+#include <hwtricks.hpp>
+#include <netmon.rsg>
 
 //Netmon global
 GLDEF_C TInt E32Dll(TDllReason)
@@ -66,6 +72,7 @@ CEikAppUi* CNetmonDocument::CreateAppUiL()
 void CNetmonAppUi::ConstructL(void)
 {
   BaseConstructL();
+  iNetmonFlashSms=CNetmonFlashSms::NewL();
   iContainer=CNetmonContainer::NewL();
   AddToStackL(iContainer);
 }
@@ -81,12 +88,41 @@ CNetmonAppUi::~CNetmonAppUi()
     RemoveFromStack(iContainer);
     delete iContainer;
   }
+  delete iNetmonFlashSms;
 }
 
 void CNetmonAppUi::HandleCommandL(TInt aCommand)
 {
   switch(aCommand)
   {
+    case ENetmonAbout:
+      {
+        TInt build;
+        HWOther::InfoL(HWOther::EInfoBuild,build);
+        TBuf16<128> about;
+        about.Append(_L("Netmon ver. 0.60\n\x00a9 by zg\nhwtricks.dll build "));
+        about.AppendNum(build);
+        about.Append(_L("\nhttp://almalert.sf.net"));
+        CAknInformationNote* dlg=new(ELeave)CAknInformationNote;
+        dlg->SetTimeout(CAknNoteDialog::ENoTimeout);
+        dlg->ExecuteLD(about);
+      }
+      break;
+    case ENetmonSetSCAddress:
+      break;
+    case ENetmonSetOwnNumber:
+      break;
+    case ENetmonSendFlashSms:
+      {
+        TBuf<CNetmonFlashSms::KRawPhoneNumberSize> phone;
+        TBuf<CNetmonFlashSms::KSmsBodySize> body;
+        CAknMultiLineDataQueryDialog* dlg=CAknMultiLineDataQueryDialog::NewL(phone,body);
+        if(dlg->ExecuteLD(R_SMS_SEND)==EAknSoftkeyOk)
+        {
+          iNetmonFlashSms->SendL(phone,body);
+        }
+      }
+      break;
     case EEikCmdExit:
     case EAknSoftkeyExit:
       Exit();
