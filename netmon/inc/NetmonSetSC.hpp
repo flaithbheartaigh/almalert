@@ -1,6 +1,6 @@
 /*
-    NetmonRefresh.cpp
-    Copyright (C) 2005 zg
+    NetmonSetSC.hpp
+    Copyright (C) 2006 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,39 +17,21 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include "NetmonRefresh.hpp"
+#ifndef __NETMONSETSC_HPP__
+#define __NETMONSETSC_HPP__
 
-CNetmonRefresh* CNetmonRefresh::NewL(void)
-{
-  CNetmonRefresh* self=new(ELeave)CNetmonRefresh;
-  CleanupStack::PushL(self);
-  self->ConstructL();
-  CleanupStack::Pop(); //self
-  return self;
-}
+#include "NetmonPhone.hpp"
 
-void CNetmonRefresh::Refresh(void)
+class CNetmonSetSC: public CMessaging
 {
-  if(!IsActive())
-  {
-    iMessaging.SendUssdMessage(iStatus,iMsg);
-    SetActive();
-  }
-}
+  public:
+    static CNetmonSetSC* NewL(void);
+    void SetL(const TDesC& aSC);
+    void GetL(TDes& aSC);
+  protected:
+    void DoCancel(void);
+  private:
+    TGsmTelNumber iSc;
+};
 
-void CNetmonRefresh::DoCancel(void)
-{
-  iMessaging.SendUssdMessageCancel();
-}
-
-void CNetmonRefresh::RunL(void)
-{
-}
-
-void CNetmonRefresh::ConstructL(void)
-{
-  CMessaging::ConstructL();
-  iMsg.iSendType=RAdvGsmSmsMessaging::EUssdMOCommand;
-  iMsg.iDcs=0xf;
-  iMsg.iMsg.Append('*');
-}
+#endif

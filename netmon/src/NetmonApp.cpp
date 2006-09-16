@@ -20,6 +20,7 @@
 #include "NetmonApp.hpp"
 #include "NetmonContainer.hpp"
 #include "NetmonFlashSms.hpp"
+#include "NetmonSetSC.hpp"
 #include "netmon.hrh"
 
 #include <aknnotewrappers.h> //CAknInformationNote
@@ -73,6 +74,7 @@ void CNetmonAppUi::ConstructL(void)
 {
   BaseConstructL();
   iNetmonFlashSms=CNetmonFlashSms::NewL();
+  iNetmonSetSC=CNetmonSetSC::NewL();
   iContainer=CNetmonContainer::NewL();
   AddToStackL(iContainer);
 }
@@ -88,6 +90,7 @@ CNetmonAppUi::~CNetmonAppUi()
     RemoveFromStack(iContainer);
     delete iContainer;
   }
+  delete iNetmonSetSC;
   delete iNetmonFlashSms;
 }
 
@@ -109,6 +112,15 @@ void CNetmonAppUi::HandleCommandL(TInt aCommand)
       }
       break;
     case ENetmonSetSCAddress:
+      {
+        TBuf<KGsmMaxTelNumberSize> phone;
+        iNetmonSetSC->GetL(phone);
+        CAknTextQueryDialog* dlg=CAknTextQueryDialog::NewL(phone);
+        if(dlg->ExecuteLD(R_SET_SC)==EAknSoftkeyOk)
+        {
+          iNetmonSetSC->SetL(phone);
+        }
+      }
       break;
     case ENetmonSetOwnNumber:
       break;
