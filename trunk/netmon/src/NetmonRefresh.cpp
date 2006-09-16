@@ -30,14 +30,6 @@ CNetmonRefresh* CNetmonRefresh::NewL(void)
   return self;
 }
 
-CNetmonRefresh::~CNetmonRefresh()
-{
-  Cancel();
-  iMessaging.Close();
-  iPhone.Close();
-  iServer.Close();
-}
-
 void CNetmonRefresh::Refresh(void)
 {
   if(!IsActive())
@@ -56,22 +48,9 @@ void CNetmonRefresh::RunL(void)
 {
 }
 
-CNetmonRefresh::CNetmonRefresh(): CActive(EPriorityIdle)
-{
-  CActiveScheduler::Add(this);
-}
-
 void CNetmonRefresh::ConstructL(void)
 {
-  User::LeaveIfError(iServer.Connect());
-  User::LeaveIfError(iServer.LoadPhoneModule(KTsyName));
-  TInt numberPhones;
-  User::LeaveIfError(iServer.EnumeratePhones(numberPhones));
-  if(numberPhones<1) User::Leave(KErrNotFound);
-  RTelServer::TPhoneInfo info;
-  User::LeaveIfError(iServer.GetPhoneInfo(0,info));
-  User::LeaveIfError(iPhone.Open(iServer,info.iName));
-  User::LeaveIfError(iMessaging.Open(iPhone));
+  CMessaging::ConstructL();
   iMsg.iSendType=RAdvGsmSmsMessaging::EUssdMOCommand;
   iMsg.iDcs=0xf;
   iMsg.iMsg.Append('*');

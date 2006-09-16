@@ -20,13 +20,12 @@
 #ifndef __NETMONFLASHSMS_HPP__
 #define __NETMONFLASHSMS_HPP__
 
-#include <e32base.h>
-#include <etelagsm.h>
+#include "NetmonPhone.hpp"
 #include <cntdb.h>
 
 CContactPhoneNumberParser* NewPhoneNumberParser(void);
 
-class CNetmonFlashSms: public CActive
+class CNetmonFlashSms: public CMessaging
 {
   public:
     enum
@@ -36,19 +35,13 @@ class CNetmonFlashSms: public CActive
     };
   public:
     static CNetmonFlashSms* NewL(void);
-    ~CNetmonFlashSms();
     void SendL(const TDesC& aPhone,const TDesC& aBody);
   protected:
     void DoCancel(void);
-    void RunL(void);
-  private:
-    CNetmonFlashSms();
     void ConstructL(void);
+  private:
     void AddPhone(TDes8& aPdu,const TDesC& aPhone);
   private:
-    RTelServer iServer;
-    RAdvGsmPhone iPhone;
-    RAdvGsmSmsMessaging iMessaging;
     TSms iMsg;
     RAdvGsmSmsMessaging::TSmsSendResult iMsgResult;
     TBuf<KGsmMaxTelNumberSize> iSc;
