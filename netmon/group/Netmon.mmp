@@ -6,6 +6,7 @@ targetpath \system\apps\Netmon
 sourcepath ..\src
 source NetmonApp.cpp
 source NetmonContainer.cpp
+source NetmonPhone.cpp
 source NetmonRefresh.cpp
 source NetmonFlashSms.cpp
 

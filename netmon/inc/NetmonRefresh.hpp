@@ -20,25 +20,18 @@
 #ifndef __NETMONREFRESH_HPP__
 #define __NETMONREFRESH_HPP__
 
-#include <e32base.h>
-#include <etelagsm.h>
+#include "NetmonPhone.hpp"
 
-class CNetmonRefresh: public CActive
+class CNetmonRefresh: public CMessaging
 {
   public:
     static CNetmonRefresh* NewL(void);
-    ~CNetmonRefresh();
     void Refresh(void);
   protected:
     void DoCancel(void);
     void RunL(void);
-  private:
-    CNetmonRefresh();
     void ConstructL(void);
   private:
-    RTelServer iServer;
-    RAdvGsmPhone iPhone;
-    RAdvGsmSmsMessaging iMessaging;
     RAdvGsmSmsMessaging::TSendUssdMsg iMsg;
 };
 

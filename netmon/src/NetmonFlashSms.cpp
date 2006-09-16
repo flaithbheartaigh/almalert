@@ -18,7 +18,6 @@
 */
 
 #include "NetmonFlashSms.hpp"
-#include <aknnotewrappers.h> //CAknInformationNote
 
 _LIT(KTsyName,"phonetsy.tsy");
 
@@ -29,14 +28,6 @@ CNetmonFlashSms* CNetmonFlashSms::NewL(void)
   self->ConstructL();
   CleanupStack::Pop(); //self
   return self;
-}
-
-CNetmonFlashSms::~CNetmonFlashSms()
-{
-  Cancel();
-  iMessaging.Close();
-  iPhone.Close();
-  iServer.Close();
 }
 
 void CNetmonFlashSms::SendL(const TDesC& aPhone,const TDesC& aBody)
@@ -72,40 +63,9 @@ void CNetmonFlashSms::DoCancel(void)
   iMessaging.SendMessageCancel();
 }
 
-void CNetmonFlashSms::RunL(void)
-{
-  TBuf16<128> about;
-  if(iStatus==KErrNone)
-  {
-    about.Append(_L("Success."));
-  }
-  else
-  {
-    about.Append(_L("Error ("));
-    about.AppendNum(iStatus.Int());
-    about.Append(_L(")."));
-  }
-  CAknInformationNote* dlg=new(ELeave)CAknInformationNote;
-  dlg->SetTimeout(CAknNoteDialog::ENoTimeout);
-  dlg->ExecuteLD(about);
-}
-
-CNetmonFlashSms::CNetmonFlashSms(): CActive(EPriorityIdle)
-{
-  CActiveScheduler::Add(this);
-}
-
 void CNetmonFlashSms::ConstructL(void)
 {
-  User::LeaveIfError(iServer.Connect());
-  User::LeaveIfError(iServer.LoadPhoneModule(KTsyName));
-  TInt numberPhones;
-  User::LeaveIfError(iServer.EnumeratePhones(numberPhones));
-  if(numberPhones<1) User::Leave(KErrNotFound);
-  RTelServer::TPhoneInfo info;
-  User::LeaveIfError(iServer.GetPhoneInfo(0,info));
-  User::LeaveIfError(iPhone.Open(iServer,info.iName));
-  User::LeaveIfError(iMessaging.Open(iPhone));
+  CMessaging::ConstructL();
   TGsmTelNumber sc;
   User::LeaveIfError(iMessaging.GetDefaultSCAddress(sc));
   iSc.Copy(sc.iTelNumber);
