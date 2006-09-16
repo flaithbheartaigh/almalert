@@ -1,6 +1,6 @@
 /*
-    NetmonRefresh.cpp
-    Copyright (C) 2005 zg
+    NetmonSetSC.cpp
+    Copyright (C) 2006 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,39 +17,36 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include "NetmonRefresh.hpp"
+#include "NetmonSetSC.hpp"
 
-CNetmonRefresh* CNetmonRefresh::NewL(void)
+CNetmonSetSC* CNetmonSetSC::NewL(void)
 {
-  CNetmonRefresh* self=new(ELeave)CNetmonRefresh;
+  CNetmonSetSC* self=new(ELeave)CNetmonSetSC;
   CleanupStack::PushL(self);
   self->ConstructL();
   CleanupStack::Pop(); //self
   return self;
 }
 
-void CNetmonRefresh::Refresh(void)
+void CNetmonSetSC::DoCancel(void)
+{
+  iMessaging.SetDefaultSCAddressCancel();
+}
+
+void CNetmonSetSC::SetL(const TDesC& aSC)
 {
   if(!IsActive())
   {
-    iMessaging.SendUssdMessage(iStatus,iMsg);
+    iSc.iTypeOfNumber=0x91;
+    iSc.iTelNumber=aSC;
+    iMessaging.SetDefaultSCAddress(iStatus,iSc);
     SetActive();
   }
 }
 
-void CNetmonRefresh::DoCancel(void)
+void CNetmonSetSC::GetL(TDes& aSC)
 {
-  iMessaging.SendUssdMessageCancel();
-}
-
-void CNetmonRefresh::RunL(void)
-{
-}
-
-void CNetmonRefresh::ConstructL(void)
-{
-  CMessaging::ConstructL();
-  iMsg.iSendType=RAdvGsmSmsMessaging::EUssdMOCommand;
-  iMsg.iDcs=0xf;
-  iMsg.iMsg.Append('*');
+  TGsmTelNumber sc;
+  User::LeaveIfError(iMessaging.GetDefaultSCAddress(sc));
+  aSC=sc.iTelNumber;
 }

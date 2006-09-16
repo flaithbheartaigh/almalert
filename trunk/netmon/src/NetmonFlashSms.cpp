@@ -19,8 +19,6 @@
 
 #include "NetmonFlashSms.hpp"
 
-_LIT(KTsyName,"phonetsy.tsy");
-
 CNetmonFlashSms* CNetmonFlashSms::NewL(void)
 {
   CNetmonFlashSms* self=new(ELeave)CNetmonFlashSms;

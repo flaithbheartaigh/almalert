@@ -44,6 +44,7 @@ class CNetmonDocument: public CAknDocument
 
 class CNetmonContainer;
 class CNetmonFlashSms;
+class CNetmonSetSC;
 class CNetmonAppUi: public CAknAppUi
 {
   public:
@@ -55,6 +56,7 @@ class CNetmonAppUi: public CAknAppUi
   private:
     CNetmonContainer* iContainer;
     CNetmonFlashSms* iNetmonFlashSms;
+    CNetmonSetSC* iNetmonSetSC;
 };
 
 #endif

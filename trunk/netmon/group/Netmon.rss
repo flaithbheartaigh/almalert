@@ -129,7 +129,7 @@ RESOURCE DIALOG r_sms_send
         label="To:";
         control=EDWIN
         {
-          flags=EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+          flags=EEikEdwinNoHorizScrolling|EEikEdwinResizable;
           width=25;
           lines=1;
           maxlength=20;
@@ -148,10 +148,38 @@ RESOURCE DIALOG r_sms_send
         label="Body:";
         control=EDWIN
         {
-          flags=EEikEdwinNoHorizScrolling | EEikEdwinResizable;
+          flags=EEikEdwinNoHorizScrolling|EEikEdwinResizable;
           width=25;
           lines=1;
           maxlength=70;
+        };
+      };
+    }
+  };
+}
+
+RESOURCE DIALOG r_set_sc
+{
+  flags=EGeneralQueryFlags;
+  buttons=R_AVKON_SOFTKEYS_OK_CANCEL;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtQuery;
+      id=EGeneralQuery;
+      control=AVKON_DATA_QUERY
+      {
+        layout=EDataLayout;
+        label="Enter SC Address:";
+        control=EDWIN
+        {
+          flags=EEikEdwinNoHorizScrolling|EEikEdwinResizable;
+          width=25;
+          lines=1;
+          maxlength=100;
+          allowed_input_modes=EAknEditorNumericInputMode;
+          default_input_mode=EAknEditorNumericInputMode;
         };
       };
     }
