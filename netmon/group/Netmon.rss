@@ -185,3 +185,48 @@ RESOURCE DIALOG r_set_sc
     }
   };
 }
+
+RESOURCE DIALOG r_own_number
+{
+  flags=EGeneralQueryFlags;
+  buttons=R_AVKON_SOFTKEYS_OK_CANCEL;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtMultilineQuery;
+      id=EMultilineFirstLine;
+      control=AVKON_DATA_QUERY
+      {
+        layout=EMultiDataFirstEdwin;
+        label="Name:";
+        control=EDWIN
+        {
+          flags=EEikEdwinNoHorizScrolling|EEikEdwinResizable;
+          width=25;
+          lines=1;
+          maxlength=100;
+        };
+      };
+    },
+    DLG_LINE
+    {
+      type=EAknCtMultilineQuery;
+      id=EMultilineSecondLine;
+      control=AVKON_DATA_QUERY
+      {
+        layout=EMultiDataSecondEdwin;
+        label="Own Number:";
+        control=EDWIN
+        {
+          flags=EEikEdwinNoHorizScrolling|EEikEdwinResizable;
+          width=25;
+          lines=1;
+          maxlength=100;
+          allowed_input_modes=EAknEditorNumericInputMode;
+          default_input_mode=EAknEditorNumericInputMode;
+        };
+      };
+    }
+  };
+}
