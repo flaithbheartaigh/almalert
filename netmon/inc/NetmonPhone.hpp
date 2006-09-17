@@ -27,6 +27,7 @@ class CMobilePhone: public CActive
 {
   public:
     ~CMobilePhone();
+    static void ShowResult(const TDesC& aString);
   protected:
     void RunL(void);
     virtual void Close();

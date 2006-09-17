@@ -1,5 +1,5 @@
 /*
-    netmon.hrh
+    NetmonIMSI.cpp
     Copyright (C) 2006 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -17,16 +17,33 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#ifndef __NETMON_HRH__
-#define __NETMON_HRH__
+#include "NetmonIMSI.hpp"
 
-enum TNetmonMenuIds
+CNetmonIMSI* CNetmonIMSI::NewL(void)
 {
-  ENetmonAbout=1,
-  ENetmonIMSI,
-  ENetmonSetSCAddress,
-  ENetmonSetOwnNumber,
-  ENetmonSendFlashSms
-};
+  CNetmonIMSI* self=new(ELeave)CNetmonIMSI;
+  CleanupStack::PushL(self);
+  self->ConstructL();
+  CleanupStack::Pop(); //self
+  return self;
+}
 
-#endif
+void CNetmonIMSI::DoCancel(void)
+{
+  iPhone.GetSubscriberIdCancel();
+}
+
+void CNetmonIMSI::RunL(void)
+{
+  if(iStatus==KErrNone) ShowResult(iIMSI);
+  else CMobilePhone::RunL();
+}
+
+void CNetmonIMSI::GetL(void)
+{
+  if(!IsActive())
+  {
+    iPhone.GetSubscriberId(iStatus,iIMSI);
+    SetActive();
+  }
+}

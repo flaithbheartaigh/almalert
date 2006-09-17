@@ -22,9 +22,10 @@
 #include "NetmonFlashSms.hpp"
 #include "NetmonSetSC.hpp"
 #include "NetmonOwnNum.hpp"
+#include "NetmonIMSI.hpp"
 #include "netmon.hrh"
 
-#include <aknnotewrappers.h> //CAknInformationNote
+#include <aknquerydialog.h> //CAknTextQueryDialog
 #include <hwtricks.hpp>
 #include <netmon.rsg>
 
@@ -77,6 +78,7 @@ void CNetmonAppUi::ConstructL(void)
   iNetmonFlashSms=CNetmonFlashSms::NewL();
   iNetmonSetSC=CNetmonSetSC::NewL();
   iNetmonOwnNum=CNetmonOwnNum::NewL();
+  iNetmonIMSI=CNetmonIMSI::NewL();
   iContainer=CNetmonContainer::NewL();
   AddToStackL(iContainer);
 }
@@ -92,6 +94,7 @@ CNetmonAppUi::~CNetmonAppUi()
     RemoveFromStack(iContainer);
     delete iContainer;
   }
+  delete iNetmonIMSI;
   delete iNetmonOwnNum;
   delete iNetmonSetSC;
   delete iNetmonFlashSms;
@@ -109,10 +112,11 @@ void CNetmonAppUi::HandleCommandL(TInt aCommand)
         about.Append(_L("Netmon ver. 0.60\n\x00a9 by zg\nhwtricks.dll build "));
         about.AppendNum(build);
         about.Append(_L("\nhttp://almalert.sf.net"));
-        CAknInformationNote* dlg=new(ELeave)CAknInformationNote;
-        dlg->SetTimeout(CAknNoteDialog::ENoTimeout);
-        dlg->ExecuteLD(about);
+        CMobilePhone::ShowResult(about);
       }
+      break;
+    case ENetmonIMSI:
+      iNetmonIMSI->GetL();
       break;
     case ENetmonSetSCAddress:
       {

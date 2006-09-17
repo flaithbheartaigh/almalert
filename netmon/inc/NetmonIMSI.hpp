@@ -1,5 +1,5 @@
 /*
-    netmon.hrh
+    NetmonIMSI.hpp
     Copyright (C) 2006 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -17,16 +17,21 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#ifndef __NETMON_HRH__
-#define __NETMON_HRH__
+#ifndef __NETMONIMSI_HPP__
+#define __NETMONIMSI_HPP__
 
-enum TNetmonMenuIds
+#include "NetmonPhone.hpp"
+
+class CNetmonIMSI: public CMobilePhone
 {
-  ENetmonAbout=1,
-  ENetmonIMSI,
-  ENetmonSetSCAddress,
-  ENetmonSetOwnNumber,
-  ENetmonSendFlashSms
+  public:
+    static CNetmonIMSI* NewL(void);
+    void GetL(void);
+  protected:
+    void RunL(void);
+    void DoCancel(void);
+  private:
+    MAdvGsmPhoneInformation::TSubscriberId iIMSI;
 };
 
 #endif

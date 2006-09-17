@@ -30,20 +30,18 @@ CMobilePhone::~CMobilePhone()
 
 void CMobilePhone::RunL(void)
 {
-  TBuf16<128> about;
+  TBuf16<128> string;
   if(iStatus==KErrNone)
   {
-    about.Append(_L("Success."));
+    string.Append(_L("Success."));
   }
   else
   {
-    about.Append(_L("Error ("));
-    about.AppendNum(iStatus.Int());
-    about.Append(_L(")."));
+    string.Append(_L("Error ("));
+    string.AppendNum(iStatus.Int());
+    string.Append(_L(")."));
   }
-  CAknInformationNote* dlg=new(ELeave)CAknInformationNote;
-  dlg->SetTimeout(CAknNoteDialog::ENoTimeout);
-  dlg->ExecuteLD(about);
+  ShowResult(string);
 }
 
 void CMobilePhone::Close()
@@ -67,6 +65,13 @@ void CMobilePhone::ConstructL(void)
 CMobilePhone::CMobilePhone(): CActive(EPriorityIdle)
 {
   CActiveScheduler::Add(this);
+}
+
+void CMobilePhone::ShowResult(const TDesC& aString)
+{
+  CAknInformationNote* dlg=new(ELeave)CAknInformationNote;
+  dlg->SetTimeout(CAknNoteDialog::ENoTimeout);
+  dlg->ExecuteLD(aString);
 }
 
 void CMessaging::Close()
