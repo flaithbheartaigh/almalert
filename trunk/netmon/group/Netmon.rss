@@ -36,6 +36,7 @@ RESOURCE MENU_PANE r_netmon_menu
     MENU_ITEM {command=ENetmonSendFlashSms; txt="Send Flash Sms";},
     MENU_ITEM {command=ENetmonSetOwnNumber; txt="Set Own Number";},
     MENU_ITEM {command=ENetmonSetSCAddress; txt="Set SC Address";},
+    MENU_ITEM {command=ENetmonIMSI; txt="IMSI";},
     MENU_ITEM {command=ENetmonAbout; txt="About";},
     MENU_ITEM {command=EAknSoftkeyExit; txt="Exit";}
   };

@@ -11,6 +11,7 @@ source NetmonRefresh.cpp
 source NetmonFlashSms.cpp
 source NetmonSetSC.cpp
 source NetmonOwnNum.cpp
+source NetmonIMSI.cpp
 
 sourcepath ..\group
 resource Netmon.rss
