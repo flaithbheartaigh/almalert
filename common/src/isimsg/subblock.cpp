@@ -51,13 +51,13 @@ inline TUint16 Combine(TUint16 aParam1,TUint8 aParam2)
 EXPORT_C CSubBlock* CSubBlock::NewL(TDesC8& aData,TInt anOffset,TUint8 aUnit)
 {
   TInt len;
-  if(aUnit==KPhonePndUnit)
+  if(aUnit==KPhonePhoneBookUnit)
   {
     len=Combine(aData[anOffset+2]<<8,aData[anOffset+3]);
   }
   else
   {
-    if(aData[anOffset]==4&&aUnit==KPhoneUnknown0x58Unit&&aData[anOffset+4]==0x10)
+    if(aData[anOffset]==4&&aUnit==KPhoneEpocTestUnit&&aData[anOffset+4]==0x10)
     {
       len=Combine(aData[anOffset+1]<<8,aData[anOffset+2]);
     }
