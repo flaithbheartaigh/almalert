@@ -38,11 +38,11 @@ class CClkModelBase: public CBase
     IMPORT_C void Start(void);
     IMPORT_C void Stop(void);
   public:
-    virtual void DoNotifyL(TInt aNotification)=0;
+    virtual void ProcessResponderL(TInt aResult)=0;
   protected:
     IMPORT_C CClkModelBase(void);
   private:
-    void HandleUpdateL(TInt aNotification);
+    void DoObserverNotifyL(TInt aResult);
   private:
     TBool iProgress; //0x04
     MClkModelObserver* iObserver; //0x08
@@ -58,7 +58,7 @@ class CClkMdlResponder: public CActive
     IMPORT_C void RunL(void);
     virtual void DoStart(void)=0;
   private:
-    void NotifyL(TInt aNotification);
+    void NotifyModelL(TInt aNotification);
     CClkModelBase* iClkModel; //0x18
 };
 
@@ -92,9 +92,9 @@ class CClkIdleObserver: public CClkIntermediateObserver
     IMPORT_C CClkIdleObserver();
     IMPORT_C void ConstructL(MClkModelObserver* aObserver,TInt aPriority);
   private:
-    void Cancel(void);
-    void Start(void);
-    static TInt IdleTimeout(TAny* aObserver);
+    void CancelIdleRefresh(void);
+    void StartIdleRefresh(void);
+    static TInt IdleCallBackL(TAny* aObserver);
   private:
     TInt iNotification; //0x0c
     CIdle* iIdle; //0x10
@@ -128,7 +128,7 @@ class CClkAlmModel: public CClkModelBase
     IMPORT_C static CClkAlmModel* NewL(MClkModelObserver* aObserver,TInt aPriority);
     IMPORT_C ~CClkAlmModel();
   public:
-    void DoNotifyL(TInt aNotification);
+    void ProcessResponderL(TInt aResult);
   public:
     IMPORT_C TInt ClockAlarmEnable(TInt aAlarmId,TAlarmSetState aState);
     IMPORT_C TInt ClockAlarmInfo(TInt aClockAlarmIndex,SClockAlarmInfo& anInfo) const;
@@ -174,15 +174,15 @@ class CClkNitzModel: public CClkModelBase
     IMPORT_C static CClkNitzModel* NewL(MClkModelObserver* aObserver,TInt aPriority);
     IMPORT_C ~CClkNitzModel();
   public:
-    void DoNotifyL(TInt aNotification);
+    void ProcessResponderL(TInt aResult);
   public:
     IMPORT_C TInt NitzState(TInt& aSetting) const;
     IMPORT_C TInt SetNitzState(TInt aSetting);
     IMPORT_C TInt GetCurrentNITZInfo(MAdvGsmPhoneNitz::TNITZInfo& aInfo);
   private:
     void ConstructL(MClkModelObserver* aObserver,TInt aPriority);
-    void StartServer(void);
-    TInt FindServer(void);
+    void StartNitzSrvL(void);
+    TInt IsNitzSrvRunning(void);
   private:
     RClkNitzMdlServer iServer;
 };
