@@ -44,10 +44,10 @@ EXPORT_C CClkAlmModel::~CClkAlmModel()
   iServer.Close();
 }
 
-void CClkAlmModel::DoNotifyL(TInt aNotification)
+void CClkAlmModel::ProcessResponderL(TInt aResult)
 {
-  if(aNotification!=KErrCancel&&aNotification!=KErrNone)
-    NotifyL(aNotification);
+  if(aResult!=KErrCancel&&aResult!=KErrNone)
+    NotifyL(aResult);
   else
     NotifyL(KErrNone);
 }
@@ -145,11 +145,11 @@ EXPORT_C CClkIdleObserver::~CClkIdleObserver(void)
 EXPORT_C void CClkIdleObserver::ConstructL(MClkModelObserver* aObserver,TInt aPriority)
 {
   iIdle=CIdle::NewL(aPriority);
-  Cancel();
+  CancelIdleRefresh();
   SetClkModelObserver(aObserver);
 }
 
-void CClkIdleObserver::Cancel(void)
+void CClkIdleObserver::CancelIdleRefresh(void)
 {
   if(iIdle) iIdle->Cancel();
   DoIdleCancel();
@@ -159,7 +159,7 @@ EXPORT_C void CClkIdleObserver::HandleUpdateL(TInt aNotification)
 {
   iNotification=aNotification;
   if(iNotification==KErrServerTerminated) DoIdleNotifyL();
-  else Start();
+  else StartIdleRefresh();
 }
 
 EXPORT_C void CClkIdleObserver::DoIdleCancel(void)
@@ -172,17 +172,17 @@ EXPORT_C void CClkIdleObserver::DoIdleNotifyL(void)
   NotifyL(iNotification);
 }
 
-void CClkIdleObserver::Start(void)
+void CClkIdleObserver::StartIdleRefresh(void)
 {
   if(!iIdle) Fault(0);
   if(!iIdle->IsActive())
   {
-    TCallBack callback(IdleTimeout,this);
+    TCallBack callback(IdleCallBackL,this);
     iIdle->Start(callback);
   }
 }
 
-TInt CClkIdleObserver::IdleTimeout(TAny* aObserver)
+TInt CClkIdleObserver::IdleCallBackL(TAny* aObserver)
 {
   STATIC_CAST(CClkIdleObserver*,aObserver)->DoIdleNotifyL();
   return KErrNone;
@@ -230,16 +230,16 @@ EXPORT_C CClkMdlResponder::CClkMdlResponder(CClkModelBase& aClkModel,TInt aPrior
 {
 }
 
-void CClkMdlResponder::NotifyL(TInt aNotification)
+void CClkMdlResponder::NotifyModelL(TInt aNotification)
 {
-  iClkModel->DoNotifyL(aNotification);
+  iClkModel->ProcessResponderL(aNotification);
 }
 
 EXPORT_C void CClkMdlResponder::RunL(void)
 {
   TInt status=iStatus.Int();
   Start();
-  NotifyL(status);
+  NotifyModelL(status);
 }
 
 void CClkMdlResponder::Start(void)
@@ -277,7 +277,7 @@ EXPORT_C void CClkModelBase::SetClkModelObserver(MClkModelObserver* aObserver)
 
 EXPORT_C void CClkModelBase::NotifyL(TInt aNotification)
 {
-  if(!iProgress&&iObserver) HandleUpdateL(aNotification);
+  if(!iProgress&&iObserver) DoObserverNotifyL(aNotification);
 }
 
 EXPORT_C void CClkModelBase::SetResponderActive(CClkMdlResponder* aResponder)
@@ -287,10 +287,10 @@ EXPORT_C void CClkModelBase::SetResponderActive(CClkMdlResponder* aResponder)
 }
 
 
-void CClkModelBase::HandleUpdateL(TInt aNotification)
+void CClkModelBase::DoObserverNotifyL(TInt aResult)
 {
   iProgress=ETrue;
-  iObserver->HandleUpdateL(aNotification);
+  iObserver->HandleUpdateL(aResult);
   iProgress=EFalse;
 }
 
@@ -318,10 +318,10 @@ EXPORT_C CClkNitzModel::~CClkNitzModel()
   iServer.Close();
 }
 
-void CClkNitzModel::DoNotifyL(TInt aNotification)
+void CClkNitzModel::ProcessResponderL(TInt aResult)
 {
-  if(aNotification!=KErrCancel&&aNotification!=KErrNone)
-    NotifyL(aNotification);
+  if(aResult!=KErrCancel&&aResult!=KErrNone)
+    NotifyL(aResult);
   else
     NotifyL(KErrNone);
 }
@@ -343,7 +343,7 @@ EXPORT_C TInt CClkNitzModel::GetCurrentNITZInfo(MAdvGsmPhoneNitz::TNITZInfo& aIn
 
 void CClkNitzModel::ConstructL(MClkModelObserver* aObserver,TInt aPriority)
 {
-  StartServer();
+  StartNitzSrvL();
   SetClkModelObserver(aObserver);
   TInt i=0;
   while(iServer.Connect()!=KErrNone)
@@ -356,7 +356,7 @@ void CClkNitzModel::ConstructL(MClkModelObserver* aObserver,TInt aPriority)
   SetResponderActive(responder);
 }
 
-TInt CClkNitzModel::FindServer(void)
+TInt CClkNitzModel::IsNitzSrvRunning(void)
 {
   TInt err=KErrNone;
   _LIT(KServer,"ClkNitzMdlServer");
@@ -382,10 +382,10 @@ TInt CClkNitzModel::FindServer(void)
   return err;
 }
 
-void CClkNitzModel::StartServer(void)
+void CClkNitzModel::StartNitzSrvL(void)
 {
   _LIT(KExe,"Z:\\System\\programs\\ClkNitzMdls.exe");
-  if(FindServer()!=KErrNone) EikDll::StartExeL(KExe);
+  if(IsNitzSrvRunning()!=KErrNone) EikDll::StartExeL(KExe);
 }
 
 CClkNitzResponder::CClkNitzResponder(RClkNitzMdlServer* aServer,CClkNitzModel* aModel,TInt aPriority): CClkMdlResponder(*aModel,aPriority),iServer(aServer)
