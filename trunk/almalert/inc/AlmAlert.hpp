@@ -1,6 +1,6 @@
 /*
     AlmAlert.hpp
-    Copyright (C) 2005 zg
+    Copyright (C) 2005-2006 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -56,11 +56,11 @@ class CNoteContainer: public CBase
     CNoteContainer();
     ~CNoteContainer();
     void ConstructL(CAlm* anAlm); //FIXME
-    void UpdateRedraw(void);
-    void ConstructAlarmNoteL(const TAlarmInfo& aInfo);
-    void CreateRestartNoteL(void);
-    CAknNoteControl* ActiveNote(void);
-    void DestroyRestartNote(void);
+    void Redraw(void) const;
+    void SetAlarmL(const TAlarmInfo& aInfo);
+    void SetWakeupLabelL(void);
+    CAknNoteControl* NoteControl(void);
+    void ClearWakeupLabel(void);
 };
 
 class TUnknownRecord
@@ -117,11 +117,11 @@ class CAlm: public CEikBorderedControl,public MCoeControlContext,public MAlm,pub
   public: //MEikCommandObserver
     void ProcessCommandL(TInt aCommandId);
   public: //MNotifierDialogObserver
-    void DialogNotify1(void);
-    TBool DialogNotify2(TInt aParam);
-    TBool DialogNotify3(TInt aParam);
+    void NoteCompleted(TInt aNoteId,TInt aCommand);
+    TBool DisplayDialogL(TInt aPriority);
+    TBool CancelDialog(TInt aPriority);
   public: //MSharedDataNotifyHandler
-    void SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue);
+    void HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue);
   public: //MAlm
     void UpdateSoundPauseTimeInterval(TInt aMinutes);
     void Release(void);
@@ -155,59 +155,59 @@ class CAlm: public CEikBorderedControl,public MCoeControlContext,public MAlm,pub
     TBuf16<128> iAlarmMessage; //0x94
     TTime iAlarmTime; //0x19c
     // сторожевой таймер
-    // запускается из обработчика iKeyGuardTimer
+    // запускается из обработчика iDisplayedTimer
     // если через 59 секунд будильник не проинициализируется
     // все закочится
-    CPeriodic* iWatchdogTimer; //0x1a4
+    CPeriodic* iAutoHideTimer; //0x1a4
     // запускается при старте ноутов
     // предотвращает от случайного закрытия пользователем
     // т.е. в первые пол секунды ввод с клавиатуры не воспринимается
-    CPeriodic* iKeyGuardTimer; //0x1b0
-    // делает AcknowledgeAlarm
-    CIdle* iIdle; //0x1b4
+    CPeriodic* iDisplayedTimer; //0x1b0
+    // делает CreateSnooze
+    CIdle* iScancodeIdle; //0x1b4
     RSharedDataClient* iDevStateNotify; //0x1b8
     RSharedDataClient* iSysApNotify; //0x1bc
     CNotifierDialogController* iNoteController; //0x1c0
     TInt iNoteId; //0x1c4
     TAknPopupFader iFader; //0x1c8
     //запускает проигрывание мелодии
-    CPeriodic* iCreateAudioTimer; //0x1cc
+    CPeriodic* iPlayStartTimer; //0x1cc
     //BlinkOff
-    CPeriodic* iBlinkOffTimer; //0x1d0
+    CPeriodic* iKeyguardTimer; //0x1d0
     //настройки
     CSettings* iSettings;
   private:
     void OnGuiL(void);
-    static TInt Idle(TAny* anAlm);
-    TInt DoIdle(void);
-    void AcknowledgeAlarm(void);
-    void SetSnoozeInfo(void);
-    CEikButtonGroupContainer* LoadButtonsL(TInt aResourceId);
-    void UpdateStartupReason(void);
+    static TInt ScancodeCallback(TAny* anAlm);
+    TInt DoScancodeCallback(void);
+    void CreateSnooze(void);
+    void NotifyStateBySnooze(void);
+    CEikButtonGroupContainer* CreateCbaL(TInt aResourceId);
+    void GetStartupReason(void);
     // процедура взвращает тру, если устройство находится в переходном состоянии
     // и фальс - если в окончательном
-    TBool UpdateStartupState(void);
-    void SetDevStateNotification(void);
+    TBool CheckStartupReason(void);
+    void CreateStateHandlerL(void);
     TBool IsSnoozeAlarm(void);
-    void UpdateNoteLayout(const TSize& aSize);
-    static TInt KeyGuardTimeout(TAny* anAlm);
-    TInt DoKeyGuardTimeout(void);
-    void InitializeAudio(void);
-    void ShowRestartNoteL(void);
-    void ActivateNoteL(void);
-    void DeactivateNote(void);
-    void RemoveDevStateNotification(void);
-    static TInt CreateAudioTimeout(TAny* anAlm);
-    static TInt BlinkOffTimeout(TAny* anAlm);
-    void DoCreateAudioTimeout(void);
+    void SetSizeAndPosition(const TSize& aSize);
+    static TInt DisplayedCallBack(TAny* anAlm);
+    TInt DoUpdateFlag(void);
+    void PlayStart(void);
+    void AskWakupPhoneL(void);
+    void DoShowAlarm(void);
+    void DoCancelAlarm(void);
+    void RemoveStateHandler(void);
+    static TInt PlayStartCallback(TAny* anAlm);
+    static TInt KeyguardCallBack(TAny* anAlm);
+    void PlayAlarm(void);
     void FadeBehindPopup(TBool aFade);
-    void Blink(TBool aState);
-    void OrderAlertGroupWin(TBool aState);
-    void HideCurrentButtons(void);
-    TBool SnoozeAllowed(void);
-    void SetCurrentButtonsL(CEikButtonGroupContainer* aButtons);
-    static TInt WatchdogTimeout(TAny* anAlm);
-    TInt DoWatchdogTimeout(void);
+    void NotifyStateToSysApp(TBool aState);
+    void BringAlertGroupWinForwards(TBool aState);
+    void DeactivateCba(void);
+    TBool CanSnooze(void);
+    void ActivateCba(CEikButtonGroupContainer* aButtons);
+    static TInt AutoHideCallBack(TAny* anAlm);
+    TInt DoAutoHide(void);
   private: //Beeper
     CPeriodic* iBeeper;
     CAlmAudioBeep* iBeepAudio;

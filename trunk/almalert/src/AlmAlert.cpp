@@ -60,12 +60,12 @@ CAlm::~CAlm()
   delete iButtonsStopSnooze;
   delete iButtonsYesNo;
   ControlEnv()->DeleteResourceFile(iResourceOffset);
-  delete iWatchdogTimer;
-  delete iKeyGuardTimer;
-  delete iIdle;
-  delete iCreateAudioTimer;
-  delete iBlinkOffTimer;
-  RemoveDevStateNotification();
+  delete iAutoHideTimer;
+  delete iDisplayedTimer;
+  delete iScancodeIdle;
+  delete iPlayStartTimer;
+  delete iKeyguardTimer;
+  RemoveStateHandler();
   if(iSysApNotify)
   {
     iSysApNotify->Close();
@@ -79,25 +79,25 @@ const TDesC8& CAlm::Copyright(void) const
   return KAppCopyright;
 }
 
-void CAlm::ShowRestartNoteL(void) //checked
+void CAlm::AskWakupPhoneL(void) //checked
 {
   iAlmFlags&=~EFlagAlarmKeyAllowed;
-  iCreateAudioTimer->Cancel();
+  iPlayStartTimer->Cancel();
   delete iAudio;
   iAudio=NULL;
   iAlmFlags|=EFlagAlarmRestartNoteActive;
-  HideCurrentButtons();
+  DeactivateCba();
   FadeBehindPopup(EFalse);
-  SetCurrentButtonsL(iButtonsYesNo);
+  ActivateCba(iButtonsYesNo);
   FadeBehindPopup(ETrue);
-  iNoteContainer->CreateRestartNoteL();
-  UpdateNoteLayout(TSize(176,78));
-  iNoteContainer->UpdateRedraw();
+  iNoteContainer->SetWakeupLabelL();
+  SetSizeAndPosition(TSize(176,78));
+  iNoteContainer->Redraw();
   iButtonsYesNo->DrawNow();
-  if(iKeyGuardTimer->IsActive()) iKeyGuardTimer->Cancel();
+  if(iDisplayedTimer->IsActive()) iDisplayedTimer->Cancel();
   iAlmFlags&=~EFlagAlarmAcknowledged;
-  TCallBack callback(KeyGuardTimeout,this);
-  iKeyGuardTimer->Start(500000,500000,callback);
+  TCallBack callback(DisplayedCallBack,this);
+  iDisplayedTimer->Start(500000,500000,callback);
 }
 
 void CAlm::FadeBehindPopup(TBool aFade) //checked
@@ -105,9 +105,9 @@ void CAlm::FadeBehindPopup(TBool aFade) //checked
   iFader.FadeBehindPopup(this,this,aFade);
 }
 
-void CAlm::Blink(TBool aState) //checked
+void CAlm::NotifyStateToSysApp(TBool aState) //checked
 {
-  iBlinkOffTimer->Cancel();
+  iKeyguardTimer->Cancel();
   RSharedDataClient blink;
   TInt err=KErrNone;
   if((err=blink.Connect(0))==KErrNone)
@@ -121,7 +121,7 @@ void CAlm::Blink(TBool aState) //checked
   }
 }
 
-void CAlm::SetSnoozeInfo(void) //checked
+void CAlm::NotifyStateBySnooze(void) //checked
 {
   if(iAlmFlags&EFlagAlarmSnoozeAllowed)
   {
@@ -157,7 +157,7 @@ void CAlm::SetSnoozeInfo(void) //checked
   }
 }
 
-TBool CAlm::UpdateStartupState(void) //checked
+TBool CAlm::CheckStartupReason(void) //checked
 {
   TSWState state=SysStartup::State();
   TBool result=EFalse;
@@ -166,7 +166,7 @@ TBool CAlm::UpdateStartupState(void) //checked
   return result;
 }
 
-void CAlm::UpdateStartupReason(void)
+void CAlm::GetStartupReason(void)
 {
   TWD2StartupReason reason1; TSWStartupReason reason2;
   SysStartup::GetStartupReasons(reason1,reason2);
@@ -174,14 +174,15 @@ void CAlm::UpdateStartupReason(void)
   else iAlmFlags&=~EFlagAlarmStartPhone;
 }
 
-CEikButtonGroupContainer* CAlm::LoadButtonsL(TInt aResourceId) //checked
+CEikButtonGroupContainer* CAlm::CreateCbaL(TInt aResourceId) //checked
 {
   CEikButtonGroupContainer* self=CEikButtonGroupContainer::NewL(CEikButtonGroupContainer::ECba,CEikButtonGroupContainer::EHorizontal,this,aResourceId,iServerAppUi->AlertGroupWin(),CEikButtonGroupContainer::EUseMaxSize);
   self->MakeVisible(EFalse);
   return self;
 }
 
-void CAlm::SetCurrentButtonsL(CEikButtonGroupContainer* aButtons) //checked
+//FIXME: function can leave
+void CAlm::ActivateCba(CEikButtonGroupContainer* aButtons) //checked
 {
   if(iButtonsCurrent) ((CEikonEnv*)ControlEnv())->RemoveFromStack(iButtonsCurrent->ButtonGroup()->AsControl());
   CCoeControl* control=aButtons->ButtonGroup()->AsControl();
@@ -192,7 +193,7 @@ void CAlm::SetCurrentButtonsL(CEikButtonGroupContainer* aButtons) //checked
   control->DrawNow();
 }
 
-void CAlm::HideCurrentButtons(void) //checked
+void CAlm::DeactivateCba(void) //checked
 {
   iButtonsCurrent->MakeVisible(EFalse);
   CCoeControl* control=iButtonsCurrent->ButtonGroup()->AsControl();
@@ -206,7 +207,7 @@ TBool CAlm::IsSnoozeAlarm(void) //checked
   return res;
 }
 
-TBool CAlm::SnoozeAllowed(void) //not checked
+TBool CAlm::CanSnooze(void) //not checked
 {
   RSharedDataClient info;
   if(info.Connect(0)!=KErrNone) return EFalse;
@@ -222,22 +223,22 @@ TBool CAlm::SnoozeAllowed(void) //not checked
   return result;
 }
 
-TInt CAlm::WatchdogTimeout(TAny* anAlm) //checked
+TInt CAlm::AutoHideCallBack(TAny* anAlm) //checked
 {
-  return ((CAlm*)anAlm)->DoWatchdogTimeout();
+  return ((CAlm*)anAlm)->DoAutoHide();
 }
 
-TInt CAlm::DoWatchdogTimeout(void) //checked
+TInt CAlm::DoAutoHide(void) //checked
 {
   if((iAlmFlags&EFlagAlarmAcknowledged)==0)
   {
-    AcknowledgeAlarm();
+    CreateSnooze();
   }
-  iWatchdogTimer->Cancel();
+  iAutoHideTimer->Cancel();
   return 0;
 }
 
-void CAlm::OrderAlertGroupWin(TBool aState) //checked
+void CAlm::BringAlertGroupWinForwards(TBool aState) //checked
 {
   RWindowGroup& alert=iServerAppUi->AlertGroupWin();
   if(aState)
@@ -258,14 +259,14 @@ void CAlm::OrderAlertGroupWin(TBool aState) //checked
   }
 }
 
-void CAlm::AcknowledgeAlarm(void) //checked
+void CAlm::CreateSnooze(void) //checked
 {
   iAlmFlags|=EFlagAlarmAcknowledged;
   if(!(iAlmFlags&EFlagAlarmRestartNoteActive))
   {
     if(iAlarmType==EAlarmTypeClock)
     {
-      SetSnoozeInfo();
+      NotifyStateBySnooze();
       iSupervisor->CmdAcknowledgeAlarm();
       if(iAlmFlags&EFlagAlarmStartPhone) SysStartup::Shutdown(KAlmAlarmUid);
     }
@@ -282,31 +283,31 @@ void CAlm::AcknowledgeAlarm(void) //checked
   }
 }
 
-TInt CAlm::KeyGuardTimeout(TAny* anAlm)
+TInt CAlm::DisplayedCallBack(TAny* anAlm)
 {
-  return ((CAlm*)anAlm)->DoKeyGuardTimeout();
+  return ((CAlm*)anAlm)->DoUpdateFlag();
 }
 
-TInt CAlm::DoKeyGuardTimeout(void)
+TInt CAlm::DoUpdateFlag(void)
 {
   iAlmFlags|=EFlagAlarmKeyAllowed;
-  iKeyGuardTimer->Cancel();
-  if(iWatchdogTimer->IsActive()) iWatchdogTimer->Cancel();
-  TCallBack callback(WatchdogTimeout,this);
-  iWatchdogTimer->Start(59000000,59000000,callback);
+  iDisplayedTimer->Cancel();
+  if(iAutoHideTimer->IsActive()) iAutoHideTimer->Cancel();
+  TCallBack callback(AutoHideCallBack,this);
+  iAutoHideTimer->Start(59000000,59000000,callback);
   return 0;
 }
 
-TInt CAlm::Idle(TAny* anAlm)
+TInt CAlm::ScancodeCallback(TAny* anAlm)
 {
-  return ((CAlm*)anAlm)->DoIdle();
+  return ((CAlm*)anAlm)->DoScancodeCallback();
 }
 
-TInt CAlm::DoIdle(void)
+TInt CAlm::DoScancodeCallback(void)
 {
   if(!(iAlmFlags&EFlagAlarmAcknowledged))
-    if(iAlmFlags&EFlagAlarmKeyAllowed) AcknowledgeAlarm();
-  iIdle->Cancel();
+    if(iAlmFlags&EFlagAlarmKeyAllowed) CreateSnooze();
+  iScancodeIdle->Cancel();
   return 0;
 }
 
@@ -327,17 +328,17 @@ void CAlm::ConstructAlarmL(CEikAlmControlSupervisor* aSupervisor,CEikServAppUi* 
   Window().SetBackgroundColor(0xffffff);
   iNoteContainer=new(ELeave)CNoteContainer();
   iNoteContainer->ConstructL(this);
-  iWatchdogTimer=CPeriodic::NewL(CActive::EPriorityStandard);
-  iKeyGuardTimer=CPeriodic::NewL(CActive::EPriorityStandard);
-  iIdle=CIdle::NewL(CActive::EPriorityIdle);
-  iCreateAudioTimer=CPeriodic::NewL(CActive::EPriorityIdle);
-  iBlinkOffTimer=CPeriodic::NewL(CActive::EPriorityStandard);
+  iAutoHideTimer=CPeriodic::NewL(CActive::EPriorityStandard);
+  iDisplayedTimer=CPeriodic::NewL(CActive::EPriorityStandard);
+  iScancodeIdle=CIdle::NewL(CActive::EPriorityIdle);
+  iPlayStartTimer=CPeriodic::NewL(CActive::EPriorityIdle);
+  iKeyguardTimer=CPeriodic::NewL(CActive::EPriorityStandard);
   iSettings=new(ELeave)CSettings;
   iSysApNotify=new(ELeave)RSharedDataClient(this);
   User::LeaveIfError(iSysApNotify->Connect(0));
   User::LeaveIfError(iSysApNotify->NotifySet(KSysAppUid,NULL));
-  iButtonsStopSnooze=LoadButtonsL(R_ALERT_SOFTKEYS_STOP_SNOOZE);
-  iButtonsYesNo=LoadButtonsL(R_AVKON_SOFTKEYS_YES_NO);
+  iButtonsStopSnooze=CreateCbaL(R_ALERT_SOFTKEYS_STOP_SNOOZE);
+  iButtonsYesNo=CreateCbaL(R_AVKON_SOFTKEYS_YES_NO);
   iButtonsCurrent=iButtonsStopSnooze;
   CCoeControl* buttons=iButtonsCurrent->ButtonGroup()->AsControl();
   ((CCoeAppUi*)ControlEnv()->AppUi())->AddToStackL(buttons,ECoeStackPriorityCba,ECoeStackFlagRefusesAllKeys|ECoeStackFlagRefusesFocus);
@@ -351,24 +352,24 @@ void CAlm::ConstructAlarmL(CEikAlmControlSupervisor* aSupervisor,CEikServAppUi* 
   else
     iNoteController=iServerAppUi->iNoteController;
   iNoteController->SetNoteObserver(this);
-  UpdateStartupReason();
-  SetDevStateNotification();
+  GetStartupReason();
+  CreateStateHandlerL();
 }
 
-void CAlm::ActivateNoteL(void) //checked
+void CAlm::DoShowAlarm(void) //checked
 {
-  Blink(ETrue);
+  NotifyStateToSysApp(ETrue);
   FadeBehindPopup(ETrue);
   RWindowGroup& alert=iServerAppUi->AlertGroupWin();
   iCaptureHandle=alert.CaptureKeyUpAndDowns(EStdKeyDevice6,EModifierFunc|EModifierShift|EModifierCtrl,0);
-  OrderAlertGroupWin(ETrue);
+  BringAlertGroupWinForwards(ETrue);
   DrawableWindow()->SetOrdinalPosition(0);
   alert.SetOrdinalPosition(0);
   ClaimPointerGrab();
   MakeVisible(ETrue);
   ((CEikonEnv*)ControlEnv())->RouseSleepingDialog(this,ETrue);
   TRAPD(err,ActivateL());
-  if(SnoozeAllowed())
+  if(CanSnooze())
   {
     iAlmFlags|=EFlagAlarmSnoozeAllowed;
   }
@@ -377,40 +378,40 @@ void CAlm::ActivateNoteL(void) //checked
     iAlmFlags&=~EFlagAlarmSnoozeAllowed;
   }
   iButtonsStopSnooze->MakeCommandVisible(0x6002,iAlmFlags&EFlagAlarmSnoozeAllowed);
-  SetCurrentButtonsL(iButtonsStopSnooze);
-  if(iKeyGuardTimer->IsActive()) iKeyGuardTimer->Cancel();
-  TCallBack callback(KeyGuardTimeout,this);
-  iKeyGuardTimer->Start(500000,500000,callback);
-  InitializeAudio();
+  ActivateCba(iButtonsStopSnooze);
+  if(iDisplayedTimer->IsActive()) iDisplayedTimer->Cancel();
+  TCallBack callback(DisplayedCallBack,this);
+  iDisplayedTimer->Start(500000,500000,callback);
+  PlayStart();
 }
 
-void CAlm::DeactivateNote(void) //checked
+void CAlm::DoCancelAlarm(void) //checked
 {
-  iCreateAudioTimer->Cancel();
+  iPlayStartTimer->Cancel();
   delete iAudio;
   iAudio=NULL;
   iAlmFlags&=~EFlagAlarmKeyAllowed;
   FadeBehindPopup(EFalse);
-  iKeyGuardTimer->Cancel();
-  iWatchdogTimer->Cancel();
+  iDisplayedTimer->Cancel();
+  iAutoHideTimer->Cancel();
   if(iAlmFlags&EFlagAlarmStartPhone)
   {
-    Blink(EFalse);
+    NotifyStateToSysApp(EFalse);
   }
   else
   {
-    iBlinkOffTimer->Cancel();
-    TCallBack callback(BlinkOffTimeout,this);
-    iBlinkOffTimer->Start(500000,0,callback);
+    iKeyguardTimer->Cancel();
+    TCallBack callback(KeyguardCallBack,this);
+    iKeyguardTimer->Start(500000,0,callback);
   }
   iServerAppUi->AlertGroupWin().CancelCaptureKeyUpAndDowns(iCaptureHandle);
-  OrderAlertGroupWin(EFalse);
+  BringAlertGroupWinForwards(EFalse);
   MakeVisible(EFalse);
-  HideCurrentButtons();
+  DeactivateCba();
   ((CEikonEnv*)ControlEnv())->RouseSleepingDialog(this,EFalse);
 }
 
-void CAlm::SetDevStateNotification(void) //checked
+void CAlm::CreateStateHandlerL(void) //checked
 {
   if(!iDevStateNotify)
   {
@@ -420,39 +421,39 @@ void CAlm::SetDevStateNotification(void) //checked
   }
 }
 
-void CAlm::RemoveDevStateNotification(void) //checked
+void CAlm::RemoveStateHandler(void) //checked
 {
   if(iDevStateNotify) iDevStateNotify->Close();
   delete iDevStateNotify;
   iDevStateNotify=NULL;
 }
 
-void CAlm::DoCreateAudioTimeout(void) //checked
+void CAlm::PlayAlarm(void) //checked
 {
-  iCreateAudioTimer->Cancel();
+  iPlayStartTimer->Cancel();
   TRAPD(err,iAudio=CAlmAudio::NewL((CEikonEnv*)ControlEnv(),iSettings,iAlarmType));
 }
 
-void CAlm::InitializeAudio(void) //checked
+void CAlm::PlayStart(void) //checked
 {
-  iCreateAudioTimer->Cancel();
+  iPlayStartTimer->Cancel();
   if(iAudio)
   {
     delete iAudio;
     iAudio=NULL;
   }
-  iCreateAudioTimer->Start(100000,100000,TCallBack(CreateAudioTimeout,this));
+  iPlayStartTimer->Start(100000,100000,TCallBack(PlayStartCallback,this));
 }
 
-TInt CAlm::CreateAudioTimeout(TAny* anAlm)
+TInt CAlm::PlayStartCallback(TAny* anAlm)
 {
-  ((CAlm*)anAlm)->DoCreateAudioTimeout();
+  ((CAlm*)anAlm)->PlayAlarm();
   return KErrNone;
 }
 
-TInt CAlm::BlinkOffTimeout(TAny* anAlm) //checked
+TInt CAlm::KeyguardCallBack(TAny* anAlm) //checked
 {
-  ((CAlm*)anAlm)->Blink(EFalse);
+  ((CAlm*)anAlm)->NotifyStateToSysApp(EFalse);
   return KErrNone;
 }
 
@@ -465,7 +466,7 @@ void CAlm::ShowAlarm(void)
 {
   if(!(iAlmFlags&EFlagAlarmActive))
   {
-    UpdateStartupState();
+    CheckStartupReason();
     iAlmFlags|=EFlagAlarmActive;
     iNoteId=iNoteController->LaunchNoteL(0,0,3095);
   }
@@ -493,7 +494,7 @@ void CAlm::UpdateForAlarmServerState(TInt aNewAlarmServerState) //checked
 {
   if(aNewAlarmServerState!=iServerState)
   {
-    iNoteContainer->UpdateRedraw();
+    iNoteContainer->Redraw();
     iServerState=aNewAlarmServerState;
   }
 }
@@ -509,7 +510,7 @@ void CAlm::StopPlayAlarm(void) //checked
 void CAlm::UpdateAlarmInfo(const TAlarmInfo& aAlarm,const TFullName& aOwner)
 {
   User::ResetInactivityTime();
-  iBlinkOffTimer->Cancel();
+  iKeyguardTimer->Cancel();
   TAlarmInfo alarm=aAlarm; //???
   iAlarmType=alarm.iType;
   iAlarmMessage=alarm.iMessage;
@@ -527,18 +528,18 @@ void CAlm::UpdateAlarmInfo(const TAlarmInfo& aAlarm,const TFullName& aOwner)
     iAlarmMessage.Zero();
     iCoeEnv->ReadResourceAsDes16(alarm.iMessage,R_EIKALARM_SNOOZEMSG);
   }
-  TRAPD(err,iNoteContainer->ConstructAlarmNoteL(alarm));;
+  TRAPD(err,iNoteContainer->SetAlarmL(alarm));;
   if(err!=KErrNone) iSupervisor->CmdAcknowledgeAlarm();
-  UpdateNoteLayout(TSize(176,78));
-  iNoteContainer->ActiveNote()->Layout();
-  iNoteContainer->UpdateRedraw();
+  SetSizeAndPosition(TSize(176,78));
+  iNoteContainer->NoteControl()->Layout();
+  iNoteContainer->Redraw();
   DrawDeferred();
   iAlmFlags&=~EFlagAlarmAcknowledged;
   if((iAlmFlags&EFlagAlarmActive)&&!(iAlmFlags&EFlagAlarmRestartNoteActive)&&!(iAlmFlags&EFlagAlarmStartPhone))
   {
-    iKeyGuardTimer->Cancel();
-    iKeyGuardTimer->Start(500000,500000,TCallBack(KeyGuardTimeout,this));
-    InitializeAudio();
+    iDisplayedTimer->Cancel();
+    iDisplayedTimer->Start(500000,500000,TCallBack(DisplayedCallBack,this));
+    PlayStart();
   }
 }
 
@@ -547,15 +548,15 @@ TKeyResponse CAlm::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType) /
   if(aKeyEvent.iScanCode<EStdKeyDevice6&&aKeyEvent.iScanCode>EStdKeyDevice3) return EKeyWasNotConsumed;
   if(aType==EEventKeyDown)
   {
-    iIdle->Cancel();
-    iIdle->Start(TCallBack(Idle,this));
+    iScancodeIdle->Cancel();
+    iScancodeIdle->Start(TCallBack(ScancodeCallback,this));
   }
   if(aType==EEventKey)
   {
-    iIdle->Cancel();
+    iScancodeIdle->Cancel();
     if(!(iAlmFlags&EFlagAlarmAcknowledged))
     {
-      if(iAlmFlags&EFlagAlarmKeyAllowed) AcknowledgeAlarm();
+      if(iAlmFlags&EFlagAlarmKeyAllowed) CreateSnooze();
       iAlmFlags|=EFlagAlarmAcknowledged;
     }
   }
@@ -569,7 +570,7 @@ TInt CAlm::CountComponentControls() const
 
 CCoeControl* CAlm::ComponentControl(TInt aIndex) const //checked
 {
-  if(!aIndex) return iNoteContainer->ActiveNote();
+  if(!aIndex) return iNoteContainer->NoteControl();
   return NULL;
 }
 
@@ -582,14 +583,14 @@ void CAlm::SizeChanged() //checked
 {
   TRect rect=Rect();
   rect=iBorder.InnerRect(rect);
-  iNoteContainer->ActiveNote()->SetRect(rect);
+  iNoteContainer->NoteControl()->SetRect(rect);
   iButtonsStopSnooze->SetBoundingRect(TRect(TPoint(0,0),ControlEnv()->ScreenDevice()->SizeInPixels()));
   iButtonsYesNo->SetBoundingRect(TRect(TPoint(0,0),ControlEnv()->ScreenDevice()->SizeInPixels()));
 }
 
-void CAlm::UpdateNoteLayout(const TSize& aSize) //checked
+void CAlm::SetSizeAndPosition(const TSize& aSize) //checked
 {
-  CAknNoteControl* control=iNoteContainer->ActiveNote();
+  CAknNoteControl* control=iNoteContainer->NoteControl();
   if(control)
   {
     TRect rect=iServerAppUi->ApplicationRect();
@@ -622,43 +623,43 @@ void CAlm::ProcessCommandL(TInt aCommandId)
     {
       case 3005: //startup
         iAlmFlags&=~EFlagAlarmRestartNoteActive;
-        iNoteContainer->DestroyRestartNote();
+        iNoteContainer->ClearWakeupLabel();
         iSupervisor->CmdAcknowledgeAlarm();
         SysStartup::SetState(KAlmAlertUid,ESWState207);
         break;
       case 3006: //off
         iAlmFlags&=~EFlagAlarmRestartNoteActive;
-        iNoteContainer->DestroyRestartNote();
+        iNoteContainer->ClearWakeupLabel();
         iSupervisor->CmdAcknowledgeAlarm();
         SysStartup::Shutdown(KAlmAlertUid);
         break;
       case 0x6001: //stop
         if(iAlmFlags&EFlagAlarmStartPhone)
         {
-          ShowRestartNoteL();
+          AskWakupPhoneL();
         }
         else
         {
           iSupervisor->CmdAcknowledgeAlarm();
           iAlmFlags&=~EFlagAlarmKeyAllowed;
-          if(iKeyGuardTimer->IsActive()) iKeyGuardTimer->Cancel();
-          iKeyGuardTimer->Start(500000,500000,TCallBack(KeyGuardTimeout,this));
+          if(iDisplayedTimer->IsActive()) iDisplayedTimer->Cancel();
+          iDisplayedTimer->Start(500000,500000,TCallBack(DisplayedCallBack,this));
         }
         break;
       case 0x6002: //snooze
-        AcknowledgeAlarm();
+        CreateSnooze();
         break;
     }
   }
 }
 
-void CAlm::SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
+void CAlm::HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
 {
   if(anUid==KSysAppUid)
   {
     if(aKey==KKeyHide)
     {
-      if(!(iAlmFlags&EFlagAlarmAcknowledged)&&iAlmFlags&EFlagAlarmActive) AcknowledgeAlarm();
+      if(!(iAlmFlags&EFlagAlarmAcknowledged)&&iAlmFlags&EFlagAlarmActive) CreateSnooze();
     }
     else if(aKey==KKeyToneQuit)
     {
@@ -675,12 +676,12 @@ void CAlm::SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue
     if((iAlmFlags&EFlagAlarmDeviceInInternalState)&&(state==ESWState203||state==ESWState205||state==ESWState206))
     {
       iAlmFlags&=~EFlagAlarmDeviceInInternalState;
-      ActivateNoteL();
+      DoShowAlarm();
     }
     if(state==ESWState203)
     {
       iAlmFlags&=~EFlagAlarmStartPhone;
-      RemoveDevStateNotification();
+      RemoveStateHandler();
       TRAPD(err,OnGuiL());
     }
   }
@@ -692,30 +693,30 @@ void CAlm::OnGuiL(void)
   InitBirthdayL();
 }
 
-void CAlm::DialogNotify1(void) //checked
+void CAlm::NoteCompleted(TInt aNoteId,TInt aCommand) //checked
 {
 }
 
-TBool CAlm::DialogNotify2(TInt aParam) //checked
+TBool CAlm::DisplayDialogL(TInt aPriority) //checked
 {
-  if(aParam!=0xC17) return EFalse;
+  if(aPriority!=0xC17) return EFalse;
   TBool res=ETrue;
   if(IsVisible()) return ETrue;
-  if(!UpdateStartupState()) //показываем ноут, если устройство в окончательном состоянии.
+  if(!CheckStartupReason()) //показываем ноут, если устройство в окончательном состоянии.
   {
-    ActivateNoteL();
+    DoShowAlarm();
     return res;
   }
   else return res;
 }
 
-TBool CAlm::DialogNotify3(TInt aParam) //checked
+TBool CAlm::CancelDialog(TInt aPriority) //checked
 {
-  iCreateAudioTimer->Cancel();
-  iKeyGuardTimer->Cancel();
-  iWatchdogTimer->Cancel();
-  if(aParam!=0xC17) return EFalse;
-  if(IsVisible()) DeactivateNote();
+  iPlayStartTimer->Cancel();
+  iDisplayedTimer->Cancel();
+  iAutoHideTimer->Cancel();
+  if(aPriority!=0xC17) return EFalse;
+  if(IsVisible()) DoCancelAlarm();
   return ETrue;
 }
 
@@ -879,7 +880,7 @@ void CNoteContainer::ConstructL(CAlm* anAlm) //checked
   CleanupStack::PopAndDestroy();
 }
 
-void CNoteContainer::ConstructAlarmNoteL(const TAlarmInfo& aInfo)
+void CNoteContainer::SetAlarmL(const TAlarmInfo& aInfo)
 {
   TInt resourceId=R_EIKALARM_OTHER_ALARM_TYPE;
   CEikImage* image=new(ELeave)CEikImage;
@@ -932,12 +933,12 @@ void CNoteContainer::ConstructAlarmNoteL(const TAlarmInfo& aInfo)
   }
 }
 
-void CNoteContainer::UpdateRedraw(void)
+void CNoteContainer::Redraw(void) const
 {
   iNote->DrawDeferred();
 }
 
-void CNoteContainer::CreateRestartNoteL(void)
+void CNoteContainer::SetWakeupLabelL(void)
 {
   iRestartNoteActive=ETrue;
   iNote->MakeVisible(EFalse);
@@ -953,14 +954,14 @@ void CNoteContainer::CreateRestartNoteL(void)
   iRestartNote->Layout();
 }
 
-void CNoteContainer::DestroyRestartNote(void) //checked
+void CNoteContainer::ClearWakeupLabel(void) //checked
 {
   iRestartNoteActive=EFalse;
   delete iRestartNote;
   iRestartNote=NULL;
 }
 
-CAknNoteControl* CNoteContainer::ActiveNote(void) //checked
+CAknNoteControl* CNoteContainer::NoteControl(void) //checked
 {
   if(!iRestartNoteActive) return iNote;
   else return iRestartNote;
