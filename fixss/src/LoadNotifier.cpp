@@ -132,7 +132,7 @@ void CLoadNotifier::ProcessStateL(TUint8 aState)
   LoadPluginsL(aState);
 }
 
-void CLoadNotifier::SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
+void CLoadNotifier::HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
 {
   TSWState state=SysStartup::State();
   if(state!=ESWState201)
