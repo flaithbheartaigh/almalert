@@ -40,7 +40,7 @@ class CVibraControlImpl: public CVibraControl,public MSharedDataNotifyHandler,pu
     void HandleGainingForeground(void);
     void HandleLosingForeground(void);
   public: //MSharedDataNotifyHandler
-    void SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue);
+    void HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue);
   public: //MTimeOutNotify
     void TimerExpired(void);
   public:

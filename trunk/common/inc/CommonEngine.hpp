@@ -26,7 +26,7 @@
 class MSharedDataNotifyHandler
 {
   public:
-    virtual void SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)=0;
+    virtual void HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)=0;
 };
 
 class RSharedDataClient: public RSessionBase

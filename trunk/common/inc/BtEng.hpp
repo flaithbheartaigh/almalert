@@ -69,7 +69,7 @@ class CBTMCMSettings: public CBase,public MSharedDataNotifyHandler
     IMPORT_C TInt IsWiredAccConnected(TBool& aConnected);
     IMPORT_C TInt IsCallOngoing(TBool& aCallOngoing);
   public: //MSharedDataNotifyHandler
-    void SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue);
+    void HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue);
   private:
     CBTMCMSettings();
     void ConstructL(MBTMCMSettingsCB *aCallback);

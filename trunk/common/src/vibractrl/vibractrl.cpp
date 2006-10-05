@@ -86,7 +86,7 @@ void CVibraControlImpl::HandleLosingForeground(void)
   Close();
 }
 
-void CVibraControlImpl::SharedDataNotify(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
+void CVibraControlImpl::HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
 {
   if(anUid==KProfileEngUid&&aKey==KKeyVibrAlert)
   {
