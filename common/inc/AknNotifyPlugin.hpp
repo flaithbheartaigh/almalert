@@ -24,12 +24,12 @@
 #include <aknnotedialog.h>
 #include <vwsdef.h>
 
-class MNotifierDialogObserver //FIXME: incompleted
+class MNotifierDialogObserver
 {
   public:
-    virtual void DialogNotify1(void)=0; //destroyed
-    virtual TBool DialogNotify2(TInt aParam)=0; //show
-    virtual TBool DialogNotify3(TInt aParam)=0; //hide
+    virtual void NoteCompleted(TInt aNoteId,TInt aCommand)=0;
+    virtual TBool DisplayDialogL(TInt aPriority)=0;
+    virtual TBool CancelDialog(TInt aPriority)=0;
 };
 
 void NotifierArray(void); //FIXME: incompleted
