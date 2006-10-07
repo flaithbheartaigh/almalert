@@ -36,4 +36,11 @@ enum TClockAppMenuCommands
   EClockAppCmdA
 };
 
+enum TClockAppMenuExtraCommands
+{
+  EClockAppExtraStopWatch=0x7000,
+  EClockAppExtraSettings,
+  EClockAppExtraLocale
+};
+
 #endif

@@ -18,3 +18,37 @@ RESOURCE TBUF r_default_document_name
 RESOURCE EIK_APP_INFO
 {
 }
+
+RESOURCE MENU_PANE r_clockapp_extra
+{
+  items=
+  {
+    MENU_ITEM
+    {
+      cascade=r_clockapp_extra_menu;
+      txt="Extra";
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_clockapp_extra_menu
+{
+  items=
+  {
+    MENU_ITEM
+    {
+      command=EClockAppExtraStopWatch;
+      txt="Stop-watch";
+    },
+    MENU_ITEM
+    {
+      command=EClockAppExtraSettings;
+      txt="Settings";
+    },
+    MENU_ITEM
+    {
+      command=EClockAppExtraLocale;
+      txt="Locale";
+    }
+  };
+}
