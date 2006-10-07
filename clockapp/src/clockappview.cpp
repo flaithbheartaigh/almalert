@@ -20,10 +20,12 @@
 #include <aknquerydialog.h>
 #include <stringloader.h> //StringLoader
 #include <aknnotewrappers.h> //CAknConfirmationNote
+#include <clockapp.rsg>
 #include "clockapp.hpp"
+#include "clockapp.hrh"
 
-/*#include <hwtricks.hpp> //FIXME: debug
-#include <f32file.h>
+#include <hwtricks.hpp> //FIXME: debug
+/*#include <f32file.h>
 static void Log(const TDesC8& aBuffer,TInt aParam)
 {
   RFs fs;
@@ -137,6 +139,12 @@ void CClkAlmView::HandleCommandL(TInt aCommand)
     case 0x6005:
       iClkAppUi->CmdExit();
       break;
+    case EClockAppExtraStopWatch:
+      break;
+    case EClockAppExtraSettings:
+      break;
+    case EClockAppExtraLocale:
+      break;
   }
 }
 
@@ -144,6 +152,7 @@ void CClkAlmView::DynInitMenuPaneL(TInt aResourceId,CEikMenuPane* aMenuPane)
 {
   if(aResourceId==0x10931009)
   {
+    aMenuPane->AddMenuItemsL(R_CLOCKAPP_EXTRA,0x6003);
     if(IsSnoozedAlarm()||iAlm->ClockAlarmState(0)==1)
     {
       aMenuPane->DeleteMenuItem(0x6000);
