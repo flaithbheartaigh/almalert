@@ -1,0 +1,20 @@
+NAME CLK2
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.rh>
+#include <avkon.rsg>
+#include "clockapp.hrh"
+
+RESOURCE RSS_SIGNATURE
+{
+}
+
+RESOURCE TBUF r_default_document_name
+{
+  buf="";
+}
+
+RESOURCE EIK_APP_INFO
+{
+}
