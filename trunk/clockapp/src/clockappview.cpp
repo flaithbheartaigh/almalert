@@ -24,7 +24,7 @@
 #include "clockapp.hpp"
 #include "clockapp.hrh"
 
-#include <hwtricks.hpp> //FIXME: debug
+//#include <hwtricks.hpp> //FIXME: debug
 /*#include <f32file.h>
 static void Log(const TDesC8& aBuffer,TInt aParam)
 {
@@ -122,21 +122,21 @@ void CClkAlmView::HandleCommandL(TInt aCommand)
 {
   switch(aCommand)
   {
-    case 0x6000:
-    case 0x6001:
+    case EClockAppSet:
+    case EClockAppReset:
       QueryAlarmTimeL();
       break;
-    case 0x6002:
+    case EClockAppRemove:
       HandleDeleteCmdL(0,0);
       break;
-    case 0x6003:
+    case EClockAppSettings:
       iClkAppUi->CmdSettingsL();
       break;
-    case 0x6004:
+    case EClockAppHelp:
       iClkAppUi->CmdHelpL();
       break;
     case EAknSoftkeyExit:
-    case 0x6005:
+    case EClockAppExit:
       iClkAppUi->CmdExit();
       break;
     case EClockAppExtraStopWatch:
@@ -152,20 +152,20 @@ void CClkAlmView::DynInitMenuPaneL(TInt aResourceId,CEikMenuPane* aMenuPane)
 {
   if(aResourceId==0x10931009)
   {
-    aMenuPane->AddMenuItemsL(R_CLOCKAPP_EXTRA,0x6003);
+    aMenuPane->AddMenuItemsL(R_CLOCKAPP_EXTRA,EClockAppSettings);
     if(IsSnoozedAlarm()||iAlm->ClockAlarmState(0)==1)
     {
-      aMenuPane->DeleteMenuItem(0x6000);
+      aMenuPane->DeleteMenuItem(EClockAppSet);
     }
     else
     {
-      aMenuPane->DeleteMenuItem(0x6001);
-      aMenuPane->DeleteMenuItem(0x6002);
+      aMenuPane->DeleteMenuItem(EClockAppReset);
+      aMenuPane->DeleteMenuItem(EClockAppRemove);
     }
     if(OpenedByOk())
     {
-      aMenuPane->DeleteMenuItem(0x6004);
-      aMenuPane->DeleteMenuItem(0x6005);
+      aMenuPane->DeleteMenuItem(EClockAppHelp);
+      aMenuPane->DeleteMenuItem(EClockAppExit);
       SetOpenedByOk(EFalse);
     }
   }

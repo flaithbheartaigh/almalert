@@ -33,7 +33,7 @@ library eikctl.lib
 library commonengine.lib
 library hlplch.lib
 
-library efsrv.lib
-library hwtricks.lib
+//library efsrv.lib
+//library hwtricks.lib
 
 aif clockapp.aif ..\aif clockappaif.rss c8 clock_b.bmp clock_b_m.bmp clock_s.bmp clock_s_m.bmp

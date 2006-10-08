@@ -24,16 +24,12 @@
 
 enum TClockAppMenuCommands
 {
-  EClockAppCmd1=0x6000,
-  EClockAppCmd2,
-  EClockAppCmd3,
-  EClockAppCmd4,
-  EClockAppCmd5,
-  EClockAppCmd6,
-  EClockAppCmd7,
-  EClockAppCmd8,
-  EClockAppCmd9,
-  EClockAppCmdA
+  EClockAppSet=0x6000,
+  EClockAppReset,
+  EClockAppRemove,
+  EClockAppSettings,
+  EClockAppHelp,
+  EClockAppExit
 };
 
 enum TClockAppMenuExtraCommands
