@@ -1,0 +1,13 @@
+target createdb.exe
+targettype exe
+epocstacksize 65536
+
+sourcepath ..\createdb
+source createdb.cpp
+
+userinclude ..\inc
+systeminclude \epoc32\include    
+
+library euser.lib 
+library edbms.lib
+library efsrv.lib
