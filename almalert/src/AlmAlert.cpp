@@ -311,6 +311,8 @@ TInt CAlm::DoScancodeCallback(void)
   return 0;
 }
 
+void StartAlmSettingsServerL(void);
+
 void CAlm::ConstructAlarmL(CEikAlmControlSupervisor* aSupervisor,CEikServAppUi* aAppUi)
 {
   iSupervisor=aSupervisor;
@@ -333,7 +335,10 @@ void CAlm::ConstructAlarmL(CEikAlmControlSupervisor* aSupervisor,CEikServAppUi* 
   iScancodeIdle=CIdle::NewL(CActive::EPriorityIdle);
   iPlayStartTimer=CPeriodic::NewL(CActive::EPriorityIdle);
   iKeyguardTimer=CPeriodic::NewL(CActive::EPriorityStandard);
+
   iSettings=new(ELeave)CSettings;
+  StartAlmSettingsServerL();
+
   iSysApNotify=new(ELeave)RSharedDataClient(this);
   User::LeaveIfError(iSysApNotify->Connect(0));
   User::LeaveIfError(iSysApNotify->NotifySet(KSysAppUid,NULL));
