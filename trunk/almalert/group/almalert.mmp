@@ -16,6 +16,7 @@ source AlmSms.cpp
 source AlmBD.cpp
 source AlmBirthdayTimer.cpp
 source AlmSuspendDsp.cpp
+source AlmSettingsServer.cpp
 
 userinclude ..\inc 
 
@@ -44,3 +45,5 @@ library cntmodel.lib //birthdays
 library bteng.lib //birthdays
 library activitymanager.lib
 library hal.lib
+library edbms.lib
+library estor.lib

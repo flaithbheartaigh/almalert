@@ -32,9 +32,7 @@ _LIT(KFieldValue,"value");
 
 _LIT(KIndex,"name");
 
-_LIT(KIntTable,"integers");
-_LIT(KStringTable,"strings");
-_LIT(KDateTable,"dates");
+_LIT(KTable,"settings");
 
 const TInt KNameLength=32;
 
@@ -47,54 +45,26 @@ LOCAL_C void DoMainL(void)
   if(db.Create(fs,KDbName)==KErrNone)
   {
     CleanupClosePushL(db);
-    //создаются таблицы
+    //создаётся таблица
     CDbColSet* columns=CDbColSet::NewLC();
 
     TDbCol id(KFieldId,EDbColUint32);
     id.iAttributes=TDbCol::ENotNull|TDbCol::EAutoIncrement;
     columns->AddL(id);
-    {
-      TDbCol name(KFieldName,EDbColText16,KNameLength);
-      name.iAttributes=TDbCol::ENotNull;
-      columns->AddL(name);
-      TDbCol value(KFieldValue,EDbColInt32);
-      value.iAttributes=TDbCol::ENotNull;
-      columns->AddL(value);
-      User::LeaveIfError(db.CreateTable(KIntTable,*columns));
-    }
-    columns->Clear();
-    columns->AddL(id);
-    {
-      TDbCol name(KFieldName,EDbColText16,KNameLength);
-      name.iAttributes=TDbCol::ENotNull;
-      columns->AddL(name);
-      TDbCol value(KFieldValue,EDbColLongText16);
-      value.iAttributes=TDbCol::ENotNull;
-      columns->AddL(value);
-      User::LeaveIfError(db.CreateTable(KStringTable,*columns));
-    }
-    columns->Clear();
-    columns->AddL(id);
-    {
-      TDbCol name(KFieldName,EDbColText16,KNameLength);
-      name.iAttributes=TDbCol::ENotNull;
-      columns->AddL(name);
-      TDbCol value(KFieldValue,EDbColDateTime);
-      value.iAttributes=TDbCol::ENotNull;
-      columns->AddL(value);
-      User::LeaveIfError(db.CreateTable(KDateTable,*columns));
-    }
+    TDbCol name(KFieldName,EDbColText16,KNameLength);
+    name.iAttributes=TDbCol::ENotNull;
+    columns->AddL(name);
+    TDbCol value(KFieldValue,EDbColLongBinary);
+    value.iAttributes=TDbCol::ENotNull;
+    columns->AddL(value);
+    User::LeaveIfError(db.CreateTable(KTable,*columns));
     CleanupStack::PopAndDestroy(); //columns
-    //создаются индексы
+    //создаётся индекс
     CDbKey* key=CDbKey::NewLC();
-    {
-      TDbKeyCol name(KFieldName);
-      key->AddL(name);
-      key->MakeUnique();
-      User::LeaveIfError(db.CreateIndex(KIndex,KIntTable,*key));
-      User::LeaveIfError(db.CreateIndex(KIndex,KStringTable,*key));
-      User::LeaveIfError(db.CreateIndex(KIndex,KDateTable,*key));
-    }
+    TDbKeyCol iname(KFieldName);
+    key->AddL(iname);
+    key->MakeUnique();
+    User::LeaveIfError(db.CreateIndex(KIndex,KTable,*key));
     CleanupStack::PopAndDestroy(); //key
     CleanupStack::PopAndDestroy(); //db
   }
