@@ -152,7 +152,7 @@ void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)
   sql.Format(KSQL,&name);
   User::LeaveIfError(view.Prepare(iServer.Db(),TDbQuery(sql),(func==ESettingsServerRequestSet)?RDbView::EUpdatable:RDbView::EReadOnly));
   CleanupClosePushL(view);
-  view.EvaluateAll();
+  User::LeaveIfError(view.EvaluateAll());
   TBool first=view.FirstL();
   if(func==ESettingsServerRequestSet)
   {
@@ -163,22 +163,24 @@ void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)
     else
     {
       view.InsertL();
-      view.SetColL(1,name);
+      view.SetColL(2,name);
     }
     HBufC8* value=ValueLC(Message().Ptr1());
-    view.SetColL(2,*value);
+    view.SetColL(3,*value);
+    view.PutL();
+    CleanupStack::PopAndDestroy(); //value
   }
   else
   {
     if(!first) User::Leave(KErrNotFound);
     view.GetL();
-    TInt len=view.ColSize(0);
+    TInt len=view.ColSize(3);
     if(func==ESettingsServerRequestGetData)
     {
       HBufC8* data=HBufC8::NewLC(len);
       TPtr8 ptr(data->Des());
       RDbColReadStream stream;
-      stream.OpenLC(view,0);
+      stream.OpenLC(view,3);
       stream.ReadL(ptr,len);
       Message().WriteL(Message().Ptr1(),ptr);
       CleanupStack::PopAndDestroy(2); //stream,data
@@ -207,3 +209,6 @@ void StartAlmSettingsServerL(void)
   semaphore.Wait();
   CleanupStack::PopAndDestroy(2); //thread,semaphore
 }
+
+#include "AlmSettingsClient.hpp"
+#include "AlmSettingsClientImplementation.hpp"

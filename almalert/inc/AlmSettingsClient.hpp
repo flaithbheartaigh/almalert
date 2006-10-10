@@ -20,4 +20,16 @@
 #ifndef __ALMSETTINGSCLIENT_HPP__
 #define __ALMSETTINGSCLIENT_HPP__
 
+#include <e32std.h>
+
+class RAlmSettings: public RSessionBase
+{
+  public:
+    RAlmSettings();
+    TInt Connect(void);
+    TInt Size(const TDesC& aName,TInt& aSize);
+    TInt Get(const TDesC& aName,TDes8& aValue);
+    TInt Set(const TDesC& aName,const TDesC8& aValue);
+};
+
 #endif

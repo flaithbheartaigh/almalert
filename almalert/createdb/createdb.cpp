@@ -30,7 +30,7 @@ _LIT(KFieldId,"id");
 _LIT(KFieldName,"name");
 _LIT(KFieldValue,"value");
 
-_LIT(KIndex,"name");
+_LIT(KIndex,"settings_name");
 
 _LIT(KTable,"settings");
 
