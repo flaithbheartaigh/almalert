@@ -20,6 +20,7 @@
 #include "AlmSettingsServer.hpp"
 #include "AlmSettingsCommon.hpp"
 #include <f32file.h>
+#include <d32dbms_cleanup.hpp>
 
 _LIT(KSettings,"AlmAlert.db");
 _LIT(KLibs,"\\System\\Libs\\");
@@ -143,7 +144,6 @@ void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)
 {
   TInt func=aMessage.Function();
   if(func<0||func>=ESettingsServerRequestLast) User::Leave(KErrNotSupported);
-
   _LIT(KSQL,"select id,name,value from settings where name='%S'");
   RDbView view;
   TBuf<128> sql; //FIXME
@@ -156,18 +156,14 @@ void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)
   TBool first=view.FirstL();
   if(func==ESettingsServerRequestSet)
   {
-    if(first) //update
-    {
-      view.UpdateL();
-    }
-    else
-    {
-      view.InsertL();
-      view.SetColL(2,name);
-    }
+    if(first) view.UpdateL();
+    else view.InsertL();
+    CleanupCancelPushL(view);
+    if(!first) view.SetColL(2,name);
     HBufC8* value=ValueLC(Message().Ptr1());
     view.SetColL(3,*value);
     view.PutL();
+    CleanupStack::Pop(); //view cancel
     CleanupStack::PopAndDestroy(); //value
   }
   else
