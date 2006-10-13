@@ -58,4 +58,11 @@ class CSettingsControl: public CAknSettingItemList
     TFileName iAlarmTone;
 };
 
+class CAknFileSettingItem: public CAknTextSettingItem
+{
+  public:
+    CAknFileSettingItem(TInt aIdentifier,TDes& aText);
+    void EditItemL(TBool aCalledFromMenu);
+};
+
 #endif

@@ -21,6 +21,7 @@
 #include "clockapp.hpp"
 #include "clockapp.hrh"
 #include <clockapp.rsg>
+#include <akntextsettingpage.h>
 
 CSettingsView* CSettingsView::NewLC(void)
 {
@@ -125,4 +126,22 @@ void CSettingsControl::ConstructL(const TRect& aRect)
 {
   ConstructFromResourceL(R_CLOCKAPP_EXTRA_SETTING);
   SetRect(aRect);
+}
+
+inline TInt CAknSettingItem::EditorControlType() const
+{
+  return iEditorControlType;
+}
+
+CAknFileSettingItem::CAknFileSettingItem(TInt aIdentifier,TDes& aText): CAknTextSettingItem(aIdentifier,aText)
+{
+}
+
+void CAknFileSettingItem::EditItemL(TBool aCalledFromMenu)
+{
+  TPtrC name=SettingName();
+  SetSettingPage(new(ELeave)CAknTextSettingPage(&name,SettingNumber(),EditorControlType(),SettingEditorResourceId(),SettingPageResourceId(),InternalTextPtr(),SettingPageFlags()));
+  SettingPage()->SetSettingPageObserver(this);
+  SettingPage()->ExecuteLD(CAknSettingPage::EUpdateWhenChanged);
+  SetSettingPage(NULL);
 }
