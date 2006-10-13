@@ -52,3 +52,81 @@ RESOURCE MENU_PANE r_clockapp_extra_menu
     }
   };
 }
+
+RESOURCE CBA r_softkeys_options_next1
+    {
+    buttons =
+        {
+        CBA_BUTTON 
+            {
+            id = 666; 
+            txt = "aaaa";
+            },
+        CBA_BUTTON 
+            {
+            id = 667; 
+            txt = "bbbb";
+            }
+        };
+    }
+
+RESOURCE AVKON_VIEW r_clockapp_extra_setting_view
+{
+  menubar=r_clockapp_extra_setting_menubar;
+  cba=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+}
+
+RESOURCE MENU_BAR r_clockapp_extra_setting_menubar
+{
+  titles=
+  {
+    MENU_TITLE
+    {
+      menu_pane=r_clockapp_extra_setting_menu;
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_clockapp_extra_setting_menu
+{
+  items=
+  {
+    MENU_ITEM 
+    {
+      command=EClockAppExtraChange;
+      txt="Change";
+    },
+    MENU_ITEM
+    {
+      command=EAknSoftkeyExit;
+      txt="Exit";
+    }
+  };
+}
+
+RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_extra_setting
+{
+  items=
+  {
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingAlarmTone;
+      setting_page_resource=r_clockapp_extra_setting_clock_tone;
+      name="Alarm clock tone";
+    }
+  };
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_clock_tone
+{
+  label="Alarm clock tone";
+  type=EEikCtEdwin;
+  editor_resource_id=r_clockapp_extra_setting_edwin;
+}
+
+RESOURCE EDWIN r_clockapp_extra_setting_edwin
+{
+  width=9;
+  lines=5;
+  maxlength=256;
+}

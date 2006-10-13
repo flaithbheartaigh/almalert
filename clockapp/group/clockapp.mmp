@@ -9,6 +9,7 @@ source clockappview.cpp
 source clockapp.cpp
 source clockappui.cpp
 source clockappdoc.cpp
+source settingsex.cpp
 
 sourcepath ..\group
 resource clockapp.rss

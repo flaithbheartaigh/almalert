@@ -142,6 +142,7 @@ void CClkAlmView::HandleCommandL(TInt aCommand)
     case EClockAppExtraStopWatch:
       break;
     case EClockAppExtraSettings:
+      iClkAppUi->CmdSettingsExL();
       break;
     case EClockAppExtraLocale:
       break;
