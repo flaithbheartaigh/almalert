@@ -76,6 +76,8 @@ class CClkAppUi: public CAknViewAppUi
     void CmdSettingsL(void);
     void CmdHelpL(void);
     void CmdExit(void);
+    void CmdBackL(void);
+    void CmdSettingsExL(void);
   private: //CAknAppUi
     void HandleCommandL(TInt aCommand);
     void ConstructL(void);
@@ -90,6 +92,7 @@ class CClkAppUi: public CAknViewAppUi
 
 const TUid KViewId={1};
 const TUid KClkAlmViewId={3};
+const TUid KSettingsExViewId={4};
 const TUid KSettingsId={10};
 
 class CClkAlmViewContainer;

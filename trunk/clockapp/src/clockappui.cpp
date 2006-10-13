@@ -18,6 +18,7 @@
 */
 
 #include "clockapp.hpp"
+#include "settingsex.hpp"
 #include <hlplch.h>
 
 CClkAppUi::~CClkAppUi()
@@ -40,6 +41,10 @@ void CClkAppUi::ConstructL(void)
 //  CClkDateTimeView* view2=CClkDateTimeView::NewLC(KViewId,ETrue);
   AddViewL(view2);
   CleanupStack::Pop(); //view2
+  CSettingsView* view3=CSettingsView::NewLC();
+  AddViewL(view3);
+  CleanupStack::Pop(); //view3
+
   CEikStatusPane* sp=StatusPane();
   iTitlePane=(CAknTitlePane*)sp->ControlL(TUid::Uid(EEikStatusPaneUidTitle));
   iNaviPane=(CAknNavigationControlContainer*)sp->ControlL(TUid::Uid(EEikStatusPaneUidNavi));
@@ -99,4 +104,16 @@ TInt CClkAppUi::DoNotiferCallbackL(TAny* anAppUi)
     appUi->NotifyEnvChangedL(EClkEnvChanged3);
   }
   return KErrNone;
+}
+
+void CClkAppUi::CmdBackL(void)
+{
+  //ShowTitlePaneL(0x10931015);
+  ActivateLocalViewL(KClkAlmViewId);
+}
+
+void CClkAppUi::CmdSettingsExL(void)
+{
+  //ShowTitlePaneL(0x10931015);
+  ActivateLocalViewL(KSettingsExViewId);
 }
