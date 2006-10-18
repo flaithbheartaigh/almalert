@@ -1,0 +1,14 @@
+target avkon_a.dll
+targettype dll
+
+uid 0x1000008d 0x100056c6
+targetpath \system\libs
+
+sourcepath ..\src\avkon
+source avkon_bad.cpp
+source avkondll.cpp
+
+systeminclude ..\inc
+systeminclude \epoc32\include
+
+library euser.lib
