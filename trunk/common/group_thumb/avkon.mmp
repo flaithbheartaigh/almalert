@@ -8,7 +8,11 @@ sourcepath ..\src\avkon
 source avkon_bad.cpp
 source avkondll.cpp
 
+source avkon_CAknSettingItem.cpp
+source avkon_CAknTextSettingItem.cpp
+
 systeminclude ..\inc
 systeminclude \epoc32\include
 
 library euser.lib
+library avkon.lib
