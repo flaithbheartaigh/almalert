@@ -144,7 +144,7 @@ EXPORT_C void avkon_122(void) {}
 EXPORT_C void avkon_123(void) {}
 EXPORT_C void avkon_124(void) {}
 EXPORT_C void avkon_125(void) {}
-EXPORT_C void avkon_126(void) {}
+//EXPORT_C void avkon_126(void) {}
 EXPORT_C void avkon_127(void) {}
 EXPORT_C void avkon_128(void) {}
 EXPORT_C void avkon_129(void) {}
@@ -686,7 +686,7 @@ EXPORT_C void avkon_664(void) {}
 EXPORT_C void avkon_665(void) {}
 EXPORT_C void avkon_666(void) {}
 EXPORT_C void avkon_667(void) {}
-EXPORT_C void avkon_668(void) {}
+//EXPORT_C void avkon_668(void) {}
 EXPORT_C void avkon_669(void) {}
 EXPORT_C void avkon_670(void) {}
 EXPORT_C void avkon_671(void) {}
@@ -857,7 +857,7 @@ EXPORT_C void avkon_835(void) {}
 EXPORT_C void avkon_836(void) {}
 EXPORT_C void avkon_837(void) {}
 EXPORT_C void avkon_838(void) {}
-EXPORT_C void avkon_839(void) {}
+//EXPORT_C void avkon_839(void) {}
 EXPORT_C void avkon_840(void) {}
 EXPORT_C void avkon_841(void) {}
 EXPORT_C void avkon_842(void) {}
@@ -957,7 +957,7 @@ EXPORT_C void avkon_935(void) {}
 EXPORT_C void avkon_936(void) {}
 EXPORT_C void avkon_937(void) {}
 EXPORT_C void avkon_938(void) {}
-EXPORT_C void avkon_939(void) {}
+//EXPORT_C void avkon_939(void) {}
 EXPORT_C void avkon_940(void) {}
 EXPORT_C void avkon_941(void) {}
 EXPORT_C void avkon_942(void) {}
@@ -1490,7 +1490,7 @@ EXPORT_C void avkon_1468(void) {}
 EXPORT_C void avkon_1469(void) {}
 EXPORT_C void avkon_1470(void) {}
 EXPORT_C void avkon_1471(void) {}
-EXPORT_C void avkon_1472(void) {}
+//EXPORT_C void avkon_1472(void) {}
 EXPORT_C void avkon_1473(void) {}
 EXPORT_C void avkon_1474(void) {}
 EXPORT_C void avkon_1475(void) {}
@@ -1726,7 +1726,7 @@ EXPORT_C void avkon_1704(void) {}
 EXPORT_C void avkon_1705(void) {}
 EXPORT_C void avkon_1706(void) {}
 EXPORT_C void avkon_1707(void) {}
-EXPORT_C void avkon_1708(void) {}
+//EXPORT_C void avkon_1708(void) {}
 EXPORT_C void avkon_1709(void) {}
 EXPORT_C void avkon_1710(void) {}
 EXPORT_C void avkon_1711(void) {}
@@ -1841,7 +1841,7 @@ EXPORT_C void avkon_1819(void) {}
 EXPORT_C void avkon_1820(void) {}
 EXPORT_C void avkon_1821(void) {}
 EXPORT_C void avkon_1822(void) {}
-EXPORT_C void avkon_1823(void) {}
+//EXPORT_C void avkon_1823(void) {}
 EXPORT_C void avkon_1824(void) {}
 EXPORT_C void avkon_1825(void) {}
 EXPORT_C void avkon_1826(void) {}
@@ -2009,7 +2009,7 @@ EXPORT_C void avkon_1987(void) {}
 EXPORT_C void avkon_1988(void) {}
 EXPORT_C void avkon_1989(void) {}
 EXPORT_C void avkon_1990(void) {}
-EXPORT_C void avkon_1991(void) {}
+//EXPORT_C void avkon_1991(void) {}
 EXPORT_C void avkon_1992(void) {}
 EXPORT_C void avkon_1993(void) {}
 EXPORT_C void avkon_1994(void) {}
