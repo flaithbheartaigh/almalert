@@ -20,6 +20,35 @@
 #include <aknsettingitemlist.h>
 #include <akntextsettingpage.h>
 
+EXPORT_C CAknTextSettingItem::CAknTextSettingItem(TInt aIdentifier,TDes& aText): CAknSettingItem(aIdentifier),iExternalText(aText),iInternalTextPtr(NULL,0) //ok
+{
+}
+
+EXPORT_C CAknTextSettingItem::~CAknTextSettingItem()
+{
+  delete iInternalText;
+}
+
+EXPORT_C void CAknTextSettingItem::StoreL(void)
+{
+  iExternalText.Copy(iInternalText->Des());
+}
+
+EXPORT_C void CAknTextSettingItem::LoadL(void)
+{
+  delete iInternalText;
+  iInternalText=NULL;
+  iInternalText=HBufC16::NewL(iExternalText.MaxLength());
+  iInternalTextPtr.Set(iInternalText->Des());
+  iInternalTextPtr.Copy(iExternalText);
+}
+
+EXPORT_C const TDesC& CAknTextSettingItem::SettingTextL(void)
+{
+  if(iInternalText->Length()) return *iInternalText;
+  return EmptyItemText();
+}
+
 EXPORT_C void CAknTextSettingItem::EditItemL(TBool aCalledFromMenu)
 {
   TPtrC name=SettingName();
@@ -29,6 +58,21 @@ EXPORT_C void CAknTextSettingItem::EditItemL(TBool aCalledFromMenu)
   SetSettingPage(NULL);
 }
 
-EXPORT_C CAknTextSettingItem::CAknTextSettingItem(TInt aIdentifier,TDes& aText): CAknSettingItem(aIdentifier),iExternalText(aText),iInternalTextPtr(NULL,0) //ok
+EXPORT_C TPtr& CAknTextSettingItem::InternalTextPtr(void) //ok
+{
+  return iInternalTextPtr;
+}
+
+EXPORT_C TPtrC CAknTextSettingItem::ExternalText(void)
+{
+  return TPtrC(iExternalText);
+}
+
+EXPORT_C void CAknTextSettingItem::SetExternalText(TDesC& aNewExternalText)
+{
+  iExternalText.Copy(aNewExternalText);
+}
+
+EXPORT_C void CAknTextSettingItem::CAknSettingItem_Reserved(void)
 {
 }
