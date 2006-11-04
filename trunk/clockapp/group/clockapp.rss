@@ -4,6 +4,7 @@ NAME CLK2
 #include <eikon.rsg>
 #include <avkon.rh>
 #include <avkon.rsg>
+#include <clockapp.mbg>
 #include "clockapp.hrh"
 
 RESOURCE RSS_SIGNATURE
@@ -120,13 +121,30 @@ RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_extra_setting
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_clock_tone
 {
   label="Alarm clock tone";
-  type=EEikCtEdwin;
-  editor_resource_id=r_clockapp_extra_setting_edwin;
+  type=EAknCtSingleGraphicPopupMenuListBox;
+  editor_resource_id=r_clockapp_extra_setting_listbox;
 }
 
-RESOURCE EDWIN r_clockapp_extra_setting_edwin
+RESOURCE LISTBOX r_clockapp_extra_setting_listbox
 {
-  width=9;
-  lines=5;
-  maxlength=256;
+  flags=EAknListBoxMenuList;
+}
+
+RESOURCE AKN_ICON_ARRAY r_clockapp_extra_setting_icons
+{
+  type=EAknIconArraySimple;
+  bmpfile="\system\apps\clockapp\clockapp.mbm";
+  icons=
+  {
+    AKN_ICON
+    {
+      iconId=EMbmClockappClear;
+      maskId=EMbmClockappClear;
+    },
+    AKN_ICON
+    {
+      iconId=EMbmClockappNote;
+      maskId=EMbmClockappNote_m;
+    }
+  };
 }
