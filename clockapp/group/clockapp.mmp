@@ -18,7 +18,6 @@ userinclude ..\inc
 
 systeminclude \epoc32\include
 systeminclude ..\..\common\inc
-systeminclude ..\..\tricks\inc
 
 library euser.lib
 library avkon.lib
@@ -33,8 +32,16 @@ library bafl.lib
 library eikctl.lib
 library commonengine.lib
 library hlplch.lib
-
-//library efsrv.lib
-//library hwtricks.lib
+library aknlayout.lib
+library efsrv.lib
 
 aif clockapp.aif ..\aif clockappaif.rss c8 clock_b.bmp clock_b_m.bmp clock_s.bmp clock_s_m.bmp
+
+start bitmap clockapp.mbm
+header
+targetpath \system\apps\clockapp
+sourcepath ..\bmp
+source c8 clear.bmp
+source c8 note.bmp
+source c8 note_m.bmp
+end

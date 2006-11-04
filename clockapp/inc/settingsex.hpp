@@ -22,6 +22,7 @@
 
 #include <aknview.h>
 #include <aknsettingitemlist.h>
+#include <aknlists.h>
 
 class CSettingsControl;
 class CSettingsView: public CAknView
@@ -58,11 +59,47 @@ class CSettingsControl: public CAknSettingItemList
     TFileName iAlarmTone;
 };
 
-class CAknFileSettingItem: public CAknTextSettingItem
+class CAknFileSettingItem: public CAknSettingItem
 {
   public:
-    CAknFileSettingItem(TInt aIdentifier,TDes& aText);
+    CAknFileSettingItem(TInt aIdentifier,TFileName& aText);
+    ~CAknFileSettingItem();
+    void StoreL(void);
+    void LoadL(void);
+    const TDesC& SettingTextL(void);
     void EditItemL(TBool aCalledFromMenu);
+  private:
+    IMPORT_C void CAknSettingItem_Reserved();
+  private:
+    TFileName& iExternalText;
+    TFileName iInternalText;
+};
+
+class CAknFileSettingPage: public CAknSettingPage
+{
+  public:
+    CAknFileSettingPage(TInt aResourceID,TFileName& aFileValue);
+    CAknFileSettingPage(const TDesC* aSettingTitleText,TInt aSettingNumber,TInt aControlType,TInt aEditorResourceId,TInt aSettingPageResourceId,TFileName& aFileValue);
+    CAknSingleGraphicPopupMenuStyleListBox* FileControl(void);
+    void ConstructL(void);
+    TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType);
+  protected:
+    void SizeChanged(void);
+    void Draw(const TRect& aRect) const;
+  protected:
+    ~CAknFileSettingPage();
+    void UpdateSettingL(void);
+    void AcceptSettingL(void);
+    void RestoreOriginalSettingL(void);
+    void CheckAndSetDataValidity(void);
+  private:
+    void ReadFilesL(void);
+    void SetFolderL(const TDesC& aFolder);
+    void UpdateFileL(void);
+  private:
+    TFileName& iFileValue;
+    TFileName iBackupFileValue;
+    CDesCArrayFlat* iFiles; //not owned
 };
 
 #endif
