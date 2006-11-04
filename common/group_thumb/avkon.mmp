@@ -11,6 +11,7 @@ source avkondll.cpp
 source avkon_CAknSettingItem.cpp
 source avkon_CAknTextSettingItem.cpp
 source avkon_CAknSliderSettingPage.cpp
+source avkon_CAknEdwinSettingPage.cpp //0x50680C88
 
 systeminclude ..\inc
 systeminclude \epoc32\include
