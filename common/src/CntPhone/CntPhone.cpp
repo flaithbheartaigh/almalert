@@ -19,24 +19,20 @@
 
 #include "CntPhone.hpp"
 
-GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
-{
-  return KErrNone;
-}
-
-EXPORT_C CContactPhoneNumberParser* NewPhoneNumberParser(void)
-{
-  return new(ELeave)CContactPhoneNumberParserImpl;
-}
-
 void CContactPhoneNumberParserImpl::ExtractRawNumber(const TDesC& aTextualNumber,TDes& aRawNumber)
 {
   aRawNumber.Zero();
   TInt length=aTextualNumber.Length();
   if(aTextualNumber.Length())
   {
-    TPtrC ptr(aTextualNumber);
+    TPtrC16 ptr(aTextualNumber);
     TUint16 phChar=ptr[0];
+    while(TChar(phChar).IsSpace())
+    {
+      if(!--length) return;
+      ptr.Set(ptr.Right(length));
+      phChar=ptr[0];
+    }
     if(phChar=='*'||phChar=='#')
     {
       TInt plusPosition=ptr.Locate('+');
@@ -56,13 +52,19 @@ void CContactPhoneNumberParserImpl::ExtractRawNumber(const TDesC& aTextualNumber
       ptr.Set(ptr.Right(length));
       phChar=ptr[0];
     }
+    if(phChar=='(')
+    {
+      length--;
+      ptr.Set(ptr.Right(length));
+      phChar=ptr[0];
+    }
     if(phChar=='+')
     {
       length--;
       ptr.Set(ptr.Right(length));
     }
     if(!length) return;
-    TLex lex(ptr);
+    TLex16 lex(ptr);
     for(;;)
     {
       TChar currChar=lex.Peek();
@@ -84,4 +86,14 @@ void CContactPhoneNumberParserImpl::ExtractRawNumber(const TDesC& aTextualNumber
       lex.Inc();
     }
   }
+}
+
+EXPORT_C CContactPhoneNumberParser* NewPhoneNumberParser(void)
+{
+  return new CContactPhoneNumberParserImpl;
+}
+
+GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
+{
+  return KErrNone;
 }
