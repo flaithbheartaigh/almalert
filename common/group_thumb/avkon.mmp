@@ -8,11 +8,12 @@ sourcepath ..\src\avkon
 source avkon_bad.cpp
 source avkondll.cpp
 
-source avkon_CAknSettingItem.cpp
-source avkon_CAknTextSettingItem.cpp
-source avkon_CAknSliderSettingPage.cpp
+source avkon_CAknSettingItem.cpp //0x50678128
+source avkon_CAknTextSettingItem.cpp //0x50678584
+source avkon_CAknSliderSettingPage.cpp //0x5067DE58
 source avkon_CAknEdwinSettingPage.cpp //0x50680C88
-
+source avkon_CAknTextSettingPage.cpp //0x50680D90
+source avkon_AknTextUtils.cpp //0x50685C78
 systeminclude ..\inc
 systeminclude \epoc32\include
 
@@ -21,3 +22,4 @@ library avkon.lib
 library cone.lib
 library eikcore.lib
 library aknlayout.lib
+library eikcoctl.lib
