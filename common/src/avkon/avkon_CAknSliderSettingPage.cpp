@@ -47,11 +47,15 @@ EXPORT_C void CAknSliderSettingPage::AcceptSettingL(void)
 {
   iSliderValue=SliderControl()->Value();
   if(iSettingPageObserver) iSettingPageObserver->HandleSettingPageEventL(this,MAknSettingPageObserver::EEventSettingChanged);
+  //BUG: must be
+  //if(iSettingPageObserver) iSettingPageObserver->HandleSettingPageEventL(this,MAknSettingPageObserver::EEventSettingOked);
 }
 
 EXPORT_C void CAknSliderSettingPage::RestoreOriginalSettingL(void)
 {
   iSliderValue=iBackupSliderValue;
+  //BUG: lost
+  //if(iSettingPageObserver) iSettingPageObserver->HandleSettingPageEventL(this,MAknSettingPageObserver::EEventSettingCancelled);
 }
 
 EXPORT_C CAknSlider* CAknSliderSettingPage::SliderControl(void)
