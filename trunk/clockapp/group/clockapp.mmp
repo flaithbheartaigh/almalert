@@ -9,6 +9,8 @@ source clockappview.cpp
 source clockapp.cpp
 source clockappui.cpp
 source clockappdoc.cpp
+source aknfilesettingpage.cpp
+source aknsettingitem.cpp
 source settingsex.cpp
 
 sourcepath ..\group
