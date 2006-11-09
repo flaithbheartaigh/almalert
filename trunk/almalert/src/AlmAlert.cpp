@@ -336,8 +336,8 @@ void CAlm::ConstructAlarmL(CEikAlmControlSupervisor* aSupervisor,CEikServAppUi* 
   iPlayStartTimer=CPeriodic::NewL(CActive::EPriorityIdle);
   iKeyguardTimer=CPeriodic::NewL(CActive::EPriorityStandard);
 
-  iSettings=new(ELeave)CSettings;
   StartAlmSettingsServerL();
+  iSettings=new(ELeave)CSettings;
 
   iSysApNotify=new(ELeave)RSharedDataClient(this);
   User::LeaveIfError(iSysApNotify->Connect(0));

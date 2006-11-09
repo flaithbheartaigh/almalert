@@ -140,16 +140,35 @@ HBufC8* CAlmSettingsSession::ValueLC(const TAny* aSrc)
   return result;
 }
 
+TUint32 CAlmSettingsSession::CategoryL(const TAny* aSrc)
+{
+  _LIT(KSQL,"select id from categories where name='%S'");
+  RDbView view;
+  TBuf<128> sql;
+  HBufC8* param0=ValueLC(aSrc);
+  TPtrC name((const TUint16*)param0->Ptr(),param0->Length()/2);
+  sql.Format(KSQL,&name);
+  User::LeaveIfError(view.Prepare(iServer.Db(),TDbQuery(sql),RDbView::EReadOnly));
+  CleanupClosePushL(view);
+  User::LeaveIfError(view.EvaluateAll());
+  if(!view.FirstL()) User::Leave(KErrNotFound);
+  view.GetL();
+  TUint32 cid=view.ColUint32(1);
+  CleanupStack::PopAndDestroy(2); //view,param1
+  return cid;
+}
+
 void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)
 {
   TInt func=aMessage.Function();
   if(func<0||func>=ESettingsServerRequestLast) User::Leave(KErrNotSupported);
-  _LIT(KSQL,"select id,name,value from settings where name='%S'");
+  _LIT(KSQL,"select id,name,cid,value from settings where cid=%u and name='%S'");
   RDbView view;
-  TBuf<128> sql; //FIXME
-  HBufC8* param0=ValueLC(Message().Ptr0());
-  TPtrC name((const TUint16*)param0->Ptr(),param0->Length()/2);
-  sql.Format(KSQL,&name);
+  TBuf<128> sql;
+  TUint32 cid=CategoryL(Message().Ptr0());
+  HBufC8* param1=ValueLC(Message().Ptr1());
+  TPtrC name((const TUint16*)param1->Ptr(),param1->Length()/2);
+  sql.Format(KSQL,cid,&name);
   User::LeaveIfError(view.Prepare(iServer.Db(),TDbQuery(sql),(func==ESettingsServerRequestSet)?RDbView::EUpdatable:RDbView::EReadOnly));
   CleanupClosePushL(view);
   User::LeaveIfError(view.EvaluateAll());
@@ -159,9 +178,13 @@ void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)
     if(first) view.UpdateL();
     else view.InsertL();
     CleanupCancelPushL(view);
-    if(!first) view.SetColL(2,name);
-    HBufC8* value=ValueLC(Message().Ptr1());
-    view.SetColL(3,*value);
+    if(!first)
+    {
+      view.SetColL(2,name);
+      view.SetColL(3,cid);
+    }
+    HBufC8* value=ValueLC(Message().Ptr2());
+    view.SetColL(4,*value);
     view.PutL();
     CleanupStack::Pop(); //view cancel
     CleanupStack::PopAndDestroy(); //value
@@ -170,24 +193,24 @@ void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)
   {
     if(!first) User::Leave(KErrNotFound);
     view.GetL();
-    TInt len=view.ColSize(3);
+    TInt len=view.ColSize(4);
     if(func==ESettingsServerRequestGetData)
     {
       HBufC8* data=HBufC8::NewLC(len);
       TPtr8 ptr(data->Des());
       RDbColReadStream stream;
-      stream.OpenLC(view,3);
+      stream.OpenLC(view,4);
       stream.ReadL(ptr,len);
-      Message().WriteL(Message().Ptr1(),ptr);
+      Message().WriteL(Message().Ptr2(),ptr);
       CleanupStack::PopAndDestroy(2); //stream,data
     }
     else
     {
       TPckgC<TInt> size(len);
-      Message().WriteL(Message().Ptr1(),size);
+      Message().WriteL(Message().Ptr2(),size);
     }
   }
-  CleanupStack::PopAndDestroy(2); //view,param0
+  CleanupStack::PopAndDestroy(2); //view,param1
 }
 
 void StartAlmSettingsServerL(void)
