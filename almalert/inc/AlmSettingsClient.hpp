@@ -27,9 +27,13 @@ class RAlmSettings: public RSessionBase
   public:
     RAlmSettings();
     TInt Connect(void);
-    TInt Size(const TDesC& aName,TInt& aSize);
-    TInt Get(const TDesC& aName,TDes8& aValue);
-    TInt Set(const TDesC& aName,const TDesC8& aValue);
+    TInt Size(const TDesC& aCategory,const TDesC& aName,TInt& aSize);
+    TInt Get(const TDesC& aCategory,const TDesC& aName,TDes8& aValue);
+    TInt Get(const TDesC& aCategory,const TDesC& aName,TDes& aValue);
+    TInt Get(const TDesC& aCategory,const TDesC& aName,TUint32& aValue);
+    TInt Set(const TDesC& aCategory,const TDesC& aName,const TDesC8& aValue);
+    TInt Set(const TDesC& aCategory,const TDesC& aName,const TDesC& aValue);
+    TInt Set(const TDesC& aCategory,const TDesC& aName,const TUint32& aValue);
 };
 
 #endif

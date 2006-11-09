@@ -31,31 +31,87 @@ TInt RAlmSettings::Connect(void)
   return CreateSession(KSettingsServerName,TVersion(KSettingsServerMajorVersionNumber,KSettingsServerMinorVersionNumber,KSettingsServerBuildVersionNumber),KDefaultMessageSlots);
 }
 
-TInt RAlmSettings::Size(const TDesC& aName,TInt& aSize)
+TInt RAlmSettings::Size(const TDesC& aCategory,const TDesC& aName,TInt& aSize)
 {
   TAny* p[KMaxMessageArguments];
+  TPtrC8 category((const TUint8*)aCategory.Ptr(),aCategory.Length()*2);
   TPtrC8 name((const TUint8*)aName.Ptr(),aName.Length()*2);
-  TPckgC<TInt> size(aSize);
-  p[0]=(TAny*)(&name);
-  p[1]=(TAny*)(&size);
+  TPckg<TInt> size(aSize);
+  p[0]=(TAny*)(&category);
+  p[1]=(TAny*)(&name);
+  p[2]=(TAny*)(&size);
+  return SendReceive(ESettingsServerRequestGetLength,&p[0]);
+}
+
+TInt RAlmSettings::Get(const TDesC& aCategory,const TDesC& aName,TDes8& aValue)
+{
+  TAny* p[KMaxMessageArguments];
+  TPtrC8 category((const TUint8*)aCategory.Ptr(),aCategory.Length()*2);
+  TPtrC8 name((const TUint8*)aName.Ptr(),aName.Length()*2);
+  p[0]=(TAny*)(&category);
+  p[1]=(TAny*)(&name);
+  p[2]=(TAny*)(&aValue);
   return SendReceive(ESettingsServerRequestGetData,&p[0]);
 }
 
-TInt RAlmSettings::Get(const TDesC& aName,TDes8& aValue)
+TInt RAlmSettings::Get(const TDesC& aCategory,const TDesC& aName,TDes& aValue)
 {
   TAny* p[KMaxMessageArguments];
+  TPtrC8 category((const TUint8*)aCategory.Ptr(),aCategory.Length()*2);
   TPtrC8 name((const TUint8*)aName.Ptr(),aName.Length()*2);
-  p[0]=(TAny*)(&name);
-  p[1]=(TAny*)(&aValue);
+  TPtr8 value((TUint8*)aValue.Ptr(),aValue.MaxLength()*2);
+  p[0]=(TAny*)(&category);
+  p[1]=(TAny*)(&name);
+  p[2]=(TAny*)(&value);
+  TInt res=SendReceive(ESettingsServerRequestGetData,&p[0]);
+  if(res==KErrNone) aValue.SetLength(value.Length()/2);
+  return res;
+}
+
+TInt RAlmSettings::Get(const TDesC& aCategory,const TDesC& aName,TUint32& aValue)
+{
+  TAny* p[KMaxMessageArguments];
+  TPtrC8 category((const TUint8*)aCategory.Ptr(),aCategory.Length()*2);
+  TPtrC8 name((const TUint8*)aName.Ptr(),aName.Length()*2);
+  TPckg<TUint32> value(aValue);
+  p[0]=(TAny*)(&category);
+  p[1]=(TAny*)(&name);
+  p[2]=(TAny*)(&value);
   return SendReceive(ESettingsServerRequestGetData,&p[0]);
 }
 
-TInt RAlmSettings::Set(const TDesC& aName,const TDesC8& aValue)
+TInt RAlmSettings::Set(const TDesC& aCategory,const TDesC& aName,const TDesC8& aValue)
 {
   TAny* p[KMaxMessageArguments];
+  TPtrC8 category((const TUint8*)aCategory.Ptr(),aCategory.Length()*2);
   TPtrC8 name((const TUint8*)aName.Ptr(),aName.Length()*2);
-  p[0]=(TAny*)(&name);
-  p[1]=(TAny*)(&aValue);
+  p[0]=(TAny*)(&category);
+  p[1]=(TAny*)(&name);
+  p[2]=(TAny*)(&aValue);
+  return SendReceive(ESettingsServerRequestSet,&p[0]);
+}
+
+TInt RAlmSettings::Set(const TDesC& aCategory,const TDesC& aName,const TDesC& aValue)
+{
+  TAny* p[KMaxMessageArguments];
+  TPtrC8 category((const TUint8*)aCategory.Ptr(),aCategory.Length()*2);
+  TPtrC8 name((const TUint8*)aName.Ptr(),aName.Length()*2);
+  TPtrC8 value((const TUint8*)aValue.Ptr(),aValue.Length()*2);
+  p[0]=(TAny*)(&category);
+  p[1]=(TAny*)(&name);
+  p[2]=(TAny*)(&value);
+  return SendReceive(ESettingsServerRequestSet,&p[0]);
+}
+
+TInt RAlmSettings::Set(const TDesC& aCategory,const TDesC& aName,const TUint32& aValue)
+{
+  TAny* p[KMaxMessageArguments];
+  TPtrC8 category((const TUint8*)aCategory.Ptr(),aCategory.Length()*2);
+  TPtrC8 name((const TUint8*)aName.Ptr(),aName.Length()*2);
+  TPckgC<TUint32> value(aValue);
+  p[0]=(TAny*)(&category);
+  p[1]=(TAny*)(&name);
+  p[2]=(TAny*)(&value);
   return SendReceive(ESettingsServerRequestSet,&p[0]);
 }
 

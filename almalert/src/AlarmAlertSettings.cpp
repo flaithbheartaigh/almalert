@@ -39,10 +39,12 @@ CSettings::~CSettings()
   delete iAlarm;
   delete iCalendar;
   delete iBeep;
+  if(iConnected) iSettings.Close();
 }
 
 CSettings::CSettings(): iBeepStart(1),iSnoozeCount(1),iBirthdayHour(12)
 {
+  if(iSettings.Connect()==KErrNone) iConnected=ETrue;
   RFs fs;
   if(fs.Connect()==KErrNone)
   {
@@ -120,6 +122,10 @@ CSettings::CSettings(): iBeepStart(1),iSnoozeCount(1),iBirthdayHour(12)
 const TDesC& CSettings::Alarm(void)
 {
   if(iAlarm&&FileExist(*iAlarm)) return *iAlarm;
+/*  if(iConnected)
+  {
+
+  }*/
   return KDefault;
 }
 

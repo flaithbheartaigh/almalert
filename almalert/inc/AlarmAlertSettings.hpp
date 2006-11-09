@@ -21,6 +21,7 @@
 #define __ALARMALERTSETTINGS_HPP__
 
 #include <e32base.h>
+#include "AlmSettingsClient.hpp"
 
 class CSettings: public CBase
 {
@@ -43,6 +44,9 @@ class CSettings: public CBase
   private:
     TBool FileExist(const TDesC& aFileName);
   private:
+    RAlmSettings iSettings;
+    TBool iConnected;
+//    TFileName iAlarm;
     HBufC* iAlarm;
     HBufC* iCalendar;
     HBufC* iBeep;
