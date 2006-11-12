@@ -1,5 +1,5 @@
 /*
-    clockapp.h
+    clockapp.hrh
     Copyright (C) 2006 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -42,7 +42,18 @@ enum TClockAppMenuExtraCommands
 
 enum TClockAppExtraSettingItems
 {
-  EClockAppExtraSettingAlarmTone
+  EClockAppExtraSettingAlarmTone,
+  EClockAppExtraSettingSnoozeTime,
+  EClockAppExtraSettingSnoozeCount,
+  EClockAppExtraSettingCalendarTone,
+  EClockAppExtraSettingBeepEnabled,
+  EClockAppExtraSettingBeepTone,
+  EClockAppExtraSettingBeepStart,
+  EClockAppExtraSettingBeepFinish,
+  EClockAppExtraSettingBirthdayEnabled,
+  EClockAppExtraSettingBirthdayTone,
+  EClockAppExtraSettingBirthdayStart,
+  EClockAppExtraSettingBirthdayHour
 };
 
 #endif

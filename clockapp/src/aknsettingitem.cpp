@@ -57,3 +57,21 @@ void CAknFileSettingItem::EditItemL(TBool aCalledFromMenu)
   SettingPage()->ExecuteLD(CAknSettingPage::EUpdateWhenChanged);
   SetSettingPage(NULL);
 }
+
+CAknVisibilitySettingItem::CAknVisibilitySettingItem(TInt aIdentifier,TBool& aBinaryValue,CAknSettingItemListEx& aList,RArray<TInt>& anItems): CAknBinaryPopupSettingItem(aIdentifier,aBinaryValue),iList(aList),iItems(anItems)
+{
+  iList.AddTrigger(iList.SettingItemArray()->Count());
+}
+
+void CAknVisibilitySettingItem::EditItemL(TBool aCalledFromMenu)
+{
+  CAknBinaryPopupSettingItem::EditItemL(EFalse);
+  UpdateVisibilityL();
+}
+
+void CAknVisibilitySettingItem::UpdateVisibilityL(void)
+{
+  CAknSettingItemArray& array=*iList.SettingItemArray();
+  for(TInt i=0,count=iItems.Count(),value=InternalValue();i<count;i++) array[iItems[i]]->SetHidden(!value);
+  iList.HandleChangeInItemArrayOrVisibilityL();
+}

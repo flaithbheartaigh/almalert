@@ -22,6 +22,9 @@
 #include "clockapp.hrh"
 #include <clockapp.rsg>
 #include "aknsettingitem.hpp"
+#include <AlmSettingsCommon.hpp>
+#include <AlmSettingsClientImplementation.hpp>
+#include <AlmSettingsNames.hpp>
 
 CSettingsView* CSettingsView::NewLC(void)
 {
@@ -51,9 +54,11 @@ void CSettingsView::HandleCommandL(TInt aCommand)
   switch(aCommand)
   {
     case EAknSoftkeyBack:
+      iControl->StoreSettingsL();
       iClkAppUi->CmdBackL();
       break;
     case EAknSoftkeyExit:
+      iControl->StoreSettingsL();
       iClkAppUi->CmdExit();
       break;
     case EClockAppExtraChange:
@@ -99,6 +104,7 @@ CSettingsControl* CSettingsControl::NewL(const TRect& aRect)
 
 CSettingsControl::~CSettingsControl()
 {
+  iSettings.Close();
 }
 
 CAknSettingItem* CSettingsControl::CreateSettingItemL(TInt aSettingId)
@@ -109,22 +115,112 @@ CAknSettingItem* CSettingsControl::CreateSettingItemL(TInt aSettingId)
     case EClockAppExtraSettingAlarmTone:
       item=new(ELeave)CAknFileSettingItem(aSettingId,iAlarmTone);
       break;
+    case EClockAppExtraSettingSnoozeTime:
+      item=new(ELeave)CAknSliderSettingItem(aSettingId,iSnoozeTime);
+      break;
+    case EClockAppExtraSettingSnoozeCount:
+      item=new(ELeave)CAknSliderSettingItem(aSettingId,iSnoozeCount);
+      break;
+    case EClockAppExtraSettingCalendarTone:
+      item=new(ELeave)CAknFileSettingItem(aSettingId,iCalendarTone);
+      break;
+    case EClockAppExtraSettingBeepEnabled:
+      item=new(ELeave)CAknVisibilitySettingItem(aSettingId,iBeep,*this,iBeepArray);
+      break;
+    case EClockAppExtraSettingBeepTone:
+      item=new(ELeave)CAknFileSettingItem(aSettingId,iBeepTone);
+      break;
+    case EClockAppExtraSettingBeepStart:
+      item=new(ELeave)CAknSliderSettingItem(aSettingId,iBeepStart);
+      break;
+    case EClockAppExtraSettingBeepFinish:
+      item=new(ELeave)CAknSliderSettingItem(aSettingId,iBeepFinish);
+      break;
+    case EClockAppExtraSettingBirthdayEnabled:
+      item=new(ELeave)CAknVisibilitySettingItem(aSettingId,iBirthday,*this,iBirthdayArray);
+      break;
+    case EClockAppExtraSettingBirthdayTone:
+      item=new(ELeave)CAknFileSettingItem(aSettingId,iBirthdayTone);
+      break;
+    case EClockAppExtraSettingBirthdayStart:
+      item=new(ELeave)CAknSliderSettingItem(aSettingId,iBirthdayStart);
+      break;
+    case EClockAppExtraSettingBirthdayHour:
+      item=new(ELeave)CAknSliderSettingItem(aSettingId,iBirthdayHour);
+      break;
   }
   return item;
 }
 
-void CSettingsControl::HandleListBoxEventL(CEikListBox* aListBox,TListBoxEvent aEventType)
+void CSettingsControl::StoreSettingsL(void)
 {
-  CAknSettingItemList::HandleListBoxEventL(aListBox,aEventType);
+  CAknSettingItemList::StoreSettingsL();
+  StoreSettingL(KCategoryAlarm,KTone,iAlarmTone);
+  StoreSettingL(KCategoryAlarm,KSnoozeTime,iSnoozeTime);
+  StoreSettingL(KCategoryAlarm,KSnoozeCount,iSnoozeCount);
+  StoreSettingL(KCategoryCalendar,KTone,iCalendarTone);
+  StoreSettingL(KCategoryBeep,KEnabled,iBeep);
+  StoreSettingL(KCategoryBeep,KTone,iBeepTone);
+  StoreSettingL(KCategoryBeep,KStart,iBeepStart);
+  StoreSettingL(KCategoryBeep,KFinish,iBeepFinish);
+  StoreSettingL(KCategoryBirthday,KEnabled,iBirthday);
+  StoreSettingL(KCategoryBirthday,KTone,iBirthdayTone);
+  StoreSettingL(KCategoryBirthday,KStart,iBirthdayStart);
+  StoreSettingL(KCategoryBirthday,KHour,iBirthdayHour);
 }
 
-CSettingsControl::CSettingsControl(void)
+CSettingsControl::CSettingsControl(void): iSnoozeTime(5),iSnoozeCount(1),iBirthdayHour(12)
 {
-//  iAlarmTone.Copy(_L("z:\\Nokia\\Sounds\\Digital\\Discoid.mid"));
+  for(int i=5;i<8;i++) iBeepArray.Append(i);
+  for(int i=9;i<12;i++) iBirthdayArray.Append(i);
 }
 
 void CSettingsControl::ConstructL(const TRect& aRect)
 {
+  User::LeaveIfError(iSettings.Connect());
+  LoadSettingL(KCategoryAlarm,KTone,iAlarmTone);
+  LoadSettingL(KCategoryAlarm,KSnoozeTime,iSnoozeTime,5,255,5);
+  LoadSettingL(KCategoryAlarm,KSnoozeCount,iSnoozeCount,1,255,6);
+  LoadSettingL(KCategoryCalendar,KTone,iCalendarTone);
+  LoadSettingL(KCategoryBeep,KEnabled,iBeep,EFalse,ETrue,EFalse);
+  LoadSettingL(KCategoryBeep,KTone,iBeepTone);
+  LoadSettingL(KCategoryBeep,KStart,iBeepStart,0,23,0);
+  LoadSettingL(KCategoryBeep,KFinish,iBeepFinish,0,23,0);
+  LoadSettingL(KCategoryBirthday,KEnabled,iBirthday,EFalse,ETrue,EFalse);
+  LoadSettingL(KCategoryBirthday,KTone,iBirthdayTone);
+  LoadSettingL(KCategoryBirthday,KStart,iBirthdayStart,0,10,0);
+  LoadSettingL(KCategoryBirthday,KHour,iBirthdayHour,0,23,12);
   ConstructFromResourceL(R_CLOCKAPP_EXTRA_SETTING);
   SetRect(aRect);
+  CAknSettingItemArray& array=*SettingItemArray();
+  for(TInt i=0,count=iTriggers.Count();i<count;i++) static_cast<CAknVisibilitySettingItem*>(array[iTriggers[i]])->UpdateVisibilityL();
+}
+
+void CSettingsControl::LoadSettingL(const TDesC& aCategory,const TDesC& aName,TFileName& aValue)
+{
+  TInt err=iSettings.Get(aCategory,aName,aValue);
+  if(err!=KErrNotFound) User::LeaveIfError(err);
+}
+
+void CSettingsControl::LoadSettingL(const TDesC& aCategory,const TDesC& aName,TInt& aValue,TInt aLow,TInt aHigh,TInt aDefault)
+{
+  TInt err=iSettings.Get(aCategory,aName,aValue);
+  if(err!=KErrNotFound) User::LeaveIfError(err);
+  if(aValue<aLow||aValue>aHigh) aValue=aDefault;
+}
+
+void CSettingsControl::StoreSettingL(const TDesC& aCategory,const TDesC& aName,const TFileName& aValue)
+{
+  TFileName old;
+  TInt err=iSettings.Get(aCategory,aName,old);
+  if(err!=KErrNotFound) User::LeaveIfError(err);
+  if(err==KErrNotFound||old.CompareF(aValue)) User::LeaveIfError(iSettings.Set(aCategory,aName,aValue));
+}
+
+void CSettingsControl::StoreSettingL(const TDesC& aCategory,const TDesC& aName,const TInt& aValue)
+{
+  TInt old;
+  TInt err=iSettings.Get(aCategory,aName,old);
+  if(err!=KErrNotFound) User::LeaveIfError(err);
+  if(err==KErrNotFound||old!=aValue) User::LeaveIfError(iSettings.Set(aCategory,aName,aValue));
 }

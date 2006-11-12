@@ -20,7 +20,7 @@
 #ifndef __AKNSETTINGITEM_HPP__
 #define __AKNSETTINGITEM_HPP__
 
-#include <aknsettingitemlist.h>
+#include "aknsettingitemlistex.hpp"
 
 class CAknFileSettingItem: public CAknSettingItem
 {
@@ -38,5 +38,17 @@ class CAknFileSettingItem: public CAknSettingItem
     TFileName iInternalText;
 };
 
+class CSettingsControl;
+
+class CAknVisibilitySettingItem: public CAknBinaryPopupSettingItem
+{
+  public:
+    CAknVisibilitySettingItem(TInt aIdentifier,TBool& aBinaryValue,CAknSettingItemListEx& aList,RArray<TInt>& anItems);
+    void EditItemL(TBool aCalledFromMenu);
+    void UpdateVisibilityL(void);
+  private:
+    CAknSettingItemListEx& iList;
+    RArray<TInt>& iItems;
+};
 
 #endif
