@@ -1,5 +1,5 @@
 /*
-    AlmSettingsClient.hpp
+    AlmSettingsNames.hpp
     Copyright (C) 2006 zg
 
     This program is free software; you can redistribute it and/or modify
@@ -17,23 +17,21 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#ifndef __ALMSETTINGSCLIENT_HPP__
-#define __ALMSETTINGSCLIENT_HPP__
+#ifndef __ALMSETTINGSNAMES_HPP__
+#define __ALMSETTINGSNAMES_HPP__
 
 #include <e32std.h>
 
-class RAlmSettings: public RSessionBase
-{
-  public:
-    RAlmSettings();
-    TInt Connect(void);
-    TInt Size(const TDesC& aCategory,const TDesC& aName,TInt& aSize);
-    TInt Get(const TDesC& aCategory,const TDesC& aName,TDes8& aValue);
-    TInt Get(const TDesC& aCategory,const TDesC& aName,TDes& aValue);
-    TInt Get(const TDesC& aCategory,const TDesC& aName,TInt& aValue);
-    TInt Set(const TDesC& aCategory,const TDesC& aName,const TDesC8& aValue);
-    TInt Set(const TDesC& aCategory,const TDesC& aName,const TDesC& aValue);
-    TInt Set(const TDesC& aCategory,const TDesC& aName,const TInt& aValue);
-};
+_LIT(KCategoryAlarm,"Alarm");
+_LIT(KCategoryCalendar,"Calendar");
+_LIT(KCategoryBeep,"Beep");
+_LIT(KCategoryBirthday,"Birthday");
+_LIT(KTone,"Tone");
+_LIT(KSnoozeTime,"SnoozeTime");
+_LIT(KSnoozeCount,"SnoozeCount");
+_LIT(KEnabled,"Enabled");
+_LIT(KStart,"Start");
+_LIT(KFinish,"Finish");
+_LIT(KHour,"Hour");
 
 #endif

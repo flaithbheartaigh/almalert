@@ -18,133 +18,79 @@
 */
 
 #include "AlarmAlertSettings.hpp"
+#include "AlmSettingsNames.hpp"
 #include <f32file.h>
 
-_LIT(KSettings,"AlmAlert.txt");
-_LIT(KLibs,"\\System\\Libs\\");
 _LIT(KDefault,"z:\\Nokia\\Sounds\\Digital\\Nokia tune.mid");
-_LIT(KNameAlarm,"Alarm");
-_LIT(KNameCalendar,"Calendar");
-_LIT(KNameSnoozeTime,"SnoozeTime");
-_LIT(KNameSnoozeCount,"SnoozeCount");
-_LIT(KNameBeep,"Beep");
-_LIT(KNameBeepStart,"BeepStart");
-_LIT(KNameBeepFinish,"BeepFinish");
-_LIT(KNameBirthday,"Birthday");
-_LIT(KNameBirthdayStart,"BirthdayStart");
-_LIT(KNameBirthdayHour,"BirthdayHour");
 
 CSettings::~CSettings()
 {
-  delete iAlarm;
-  delete iCalendar;
-  delete iBeep;
   if(iConnected) iSettings.Close();
 }
 
-CSettings::CSettings(): iBeepStart(1),iSnoozeCount(1),iBirthdayHour(12)
+CSettings::CSettings()
 {
   if(iSettings.Connect()==KErrNone) iConnected=ETrue;
-  RFs fs;
-  if(fs.Connect()==KErrNone)
-  {
-    TFindFile find(fs);
-    if(find.FindByDir(KSettings,KLibs)==KErrNone)
-    {
-      RFile file;
-      if(file.Open(fs,find.File(),EFileShareAny)==KErrNone)
-      {
-        TFileText tfile;
-        tfile.Set(file);
-        TBuf<256> line;
-        while(tfile.Read(line)==KErrNone)
-        {
-          if(line[0]==';') continue;
-          if(!line.Length()) continue;
-          TInt pos=line.Locate('=');
-          if(pos==KErrNotFound) break;
-          TPtrC name=line.Left(pos);
-          TPtrC value=line.Mid(pos+1);
-          if(!name.CompareF(KNameAlarm)&&!iAlarm)
-          {
-            iAlarm=value.Alloc();
-          }
-          else if(!name.CompareF(KNameCalendar)&&!iCalendar)
-          {
-            iCalendar=value.Alloc();
-          }
-          else if(!name.CompareF(KNameBeep)&&!iBeep&&value.Length())
-          {
-            iBeep=value.Alloc();
-          }
-          else if(!name.CompareF(KNameBirthday)&&!iBirthday&&value.Length())
-          {
-            iBirthday=value.Alloc();
-          }
-          else
-          {
-            TLex lex(value);
-            TUint8 ivalue;
-            if(lex.Val(ivalue,EDecimal)!=KErrNone) continue;
-            if(!name.CompareF(KNameSnoozeTime))
-            {
-              if(ivalue>5) iSnoozeTime=ivalue-5;
-            }
-            else if(!name.CompareF(KNameSnoozeCount))
-            {
-              if(ivalue>0) iSnoozeCount=ivalue;
-            }
-            else if(!name.CompareF(KNameBeepStart))
-            {
-              iBeepStart=ivalue;
-            }
-            else if(!name.CompareF(KNameBeepFinish))
-            {
-              iBeepFinish=ivalue;
-            }
-            else if(!name.CompareF(KNameBirthdayStart))
-            {
-              iBirthdayStart=ivalue;
-            }
-            else if(!name.CompareF(KNameBirthdayHour))
-            {
-              iBirthdayHour=ivalue;
-            }
-          }
-        }
-        file.Close();
-      }
-    }
-    fs.Close();
-  }
 }
 
 const TDesC& CSettings::Alarm(void)
 {
-  if(iAlarm&&FileExist(*iAlarm)) return *iAlarm;
-/*  if(iConnected)
-  {
-
-  }*/
-  return KDefault;
+  return Load(KCategoryAlarm,KTone,iAlarm);
 }
 
 const TDesC& CSettings::Calendar(void)
 {
-  if(iCalendar&&FileExist(*iCalendar)) return *iCalendar;
-  return KDefault;
+  return Load(KCategoryCalendar,KTone,iCalendar);
 }
 
 const TDesC& CSettings::Beep(void)
 {
-  if(iBeep&&FileExist(*iBeep)) return *iBeep;
-  return KDefault;
+  return Load(KCategoryBeep,KTone,iBeep);
 }
 
 const TDesC& CSettings::Birthday(void)
 {
-  if(iBirthday&&FileExist(*iBirthday)) return *iBirthday;
-  return KDefault;
+  return Load(KCategoryBirthday,KTone,iBirthday);
+}
+
+TBool CSettings::IsBeep(void)
+{
+  return Load(KCategoryBeep,KEnabled,EFalse,ETrue,EFalse);
+}
+
+TUint8 CSettings::BeepStart(void)
+{
+  return Load(KCategoryBeep,KStart,0,23,0);
+}
+
+TUint8 CSettings::BeepFinish(void)
+{
+  return Load(KCategoryBeep,KFinish,0,23,0);
+}
+
+const TTimeIntervalMinutes CSettings::SnoozeTime(void)
+{
+  return TTimeIntervalMinutes(Load(KCategoryAlarm,KSnoozeTime,5,255,5)-5);
+}
+
+TInt CSettings::SnoozeCount(void)
+{
+  return Load(KCategoryAlarm,KSnoozeCount,1,255,6);
+}
+
+TBool CSettings::IsBirthday(void)
+{
+  return Load(KCategoryBirthday,KEnabled,EFalse,ETrue,EFalse);
+}
+
+const TTimeIntervalDays CSettings::BirthdayStart(void)
+{
+  return TTimeIntervalDays(Load(KCategoryBirthday,KStart,0,10,0));
+}
+
+TUint8 CSettings::BirthdayHour(void)
+{
+  return Load(KCategoryBirthday,KHour,0,23,12);
 }
 
 TBool CSettings::FileExist(const TDesC& aFileName)
@@ -158,4 +104,21 @@ TBool CSettings::FileExist(const TDesC& aFileName)
     fs.Close();
   }
   return res;
+}
+
+const TDesC& CSettings::Load(const TDesC& aCategory,const TDesC& aName,TFileName& aValue)
+{
+  if(iConnected&&iSettings.Get(aCategory,aName,aValue)==KErrNone&&FileExist(aValue)) return aValue;
+  return KDefault;
+}
+
+TInt CSettings::Load(const TDesC& aCategory,const TDesC& aName,TInt aLow,TInt aHigh,TInt aDefault)
+{
+  TInt value=0;
+  if(iSettings.Get(aCategory,aName,value)==KErrNone)
+  {
+    if(value<aLow||value>aHigh) value=aDefault;
+  }
+  else value=aDefault;
+  return value;
 }
