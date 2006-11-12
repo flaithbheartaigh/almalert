@@ -54,23 +54,6 @@ RESOURCE MENU_PANE r_clockapp_extra_menu
   };
 }
 
-RESOURCE CBA r_softkeys_options_next1
-    {
-    buttons =
-        {
-        CBA_BUTTON 
-            {
-            id = 666; 
-            txt = "aaaa";
-            },
-        CBA_BUTTON 
-            {
-            id = 667; 
-            txt = "bbbb";
-            }
-        };
-    }
-
 RESOURCE AVKON_VIEW r_clockapp_extra_setting_view
 {
   menubar=r_clockapp_extra_setting_menubar;
@@ -113,14 +96,101 @@ RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_extra_setting
     {
       identifier=EClockAppExtraSettingAlarmTone;
       setting_page_resource=r_clockapp_extra_setting_clock_tone;
-      name="Alarm clock tone";
+      name="Alarm tone";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingSnoozeTime;
+      setting_page_resource=r_clockapp_extra_setting_snooze_time;
+      name="Snooze Time";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingSnoozeCount;
+      setting_page_resource=r_clockapp_extra_setting_snooze_count;
+      name="Snooze Count";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingCalendarTone;
+      setting_page_resource=r_clockapp_extra_setting_calendar_tone;
+      name="Calendar tone";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBeepEnabled;
+      associated_resource=r_clockapp_extra_setting_binary_texts;
+      name="Beep";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBeepTone;
+      setting_page_resource=r_clockapp_extra_setting_beep_tone;
+      name="Beep tone";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBeepStart;
+      setting_page_resource=r_clockapp_extra_setting_beep_start;
+      name="Beep Start";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBeepFinish;
+      setting_page_resource=r_clockapp_extra_setting_beep_finish;
+      name="Beep Finish";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBirthdayEnabled;
+      associated_resource=r_clockapp_extra_setting_binary_texts;
+      name="Birthday";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBirthdayTone;
+      setting_page_resource=r_clockapp_extra_setting_birthday_tone;
+      name="Birthday tone";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBirthdayStart;
+      setting_page_resource=r_clockapp_extra_setting_birthday_start;
+      name="Birthday Gap";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBirthdayHour;
+      setting_page_resource=r_clockapp_extra_setting_birthday_hour;
+      name="Birthday Hour";
     }
   };
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_clock_tone
 {
-  label="Alarm clock tone";
+  label="Alarm tone";
+  type=EAknCtSingleGraphicPopupMenuListBox;
+  editor_resource_id=r_clockapp_extra_setting_listbox;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_calendar_tone
+{
+  label="Calendar tone";
+  type=EAknCtSingleGraphicPopupMenuListBox;
+  editor_resource_id=r_clockapp_extra_setting_listbox;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_beep_tone
+{
+  label="Beep tone";
+  type=EAknCtSingleGraphicPopupMenuListBox;
+  editor_resource_id=r_clockapp_extra_setting_listbox;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_birthday_tone
+{
+  label="Birthday tone";
   type=EAknCtSingleGraphicPopupMenuListBox;
   editor_resource_id=r_clockapp_extra_setting_listbox;
 }
@@ -145,6 +215,114 @@ RESOURCE AKN_ICON_ARRAY r_clockapp_extra_setting_icons
     {
       iconId=EMbmClockappNote;
       maskId=EMbmClockappNote_m;
+    }
+  };
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_snooze_time
+{
+  label="Snooze Time";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_snooze_time_slider;
+}
+
+RESOURCE SLIDER r_clockapp_extra_setting_snooze_time_slider
+{
+  layout=EAknSettingsItemSliderLayout;
+  minvalue=5;
+  maxvalue=255;
+  step=1;
+  valuetype=EAknSliderValueDecimal;
+  minlabel="Min";
+  maxlabel="Max";
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_snooze_count
+{
+  label="Snooze Count";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_snooze_count_slider;
+}
+
+RESOURCE SLIDER r_clockapp_extra_setting_snooze_count_slider
+{
+  layout=EAknSettingsItemSliderLayout;
+  minvalue=1;
+  maxvalue=255;
+  step=1;
+  valuetype=EAknSliderValueDecimal;
+  minlabel="Min";
+  maxlabel="Max";
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_beep_start
+{
+  label="Beep Start";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_hour_slider;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_beep_finish
+{
+  label="Beep Finish";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_hour_slider;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_birthday_hour
+{
+  label="Birthday Hour";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_hour_slider;
+}
+
+RESOURCE SLIDER r_clockapp_extra_setting_hour_slider
+{
+  layout=EAknSettingsItemSliderLayout;
+  minvalue=0;
+  maxvalue=23;
+  step=1;
+  valuetype=EAknSliderValueDecimal;
+  minlabel="0";
+  maxlabel="23";
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_birthday_start
+{
+  label="Birthday Gap";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_birthday_start_slider;
+}
+
+RESOURCE SLIDER r_clockapp_extra_setting_birthday_start_slider
+{
+  layout=EAknSettingsItemSliderLayout;
+  minvalue=0;
+  maxvalue=10;
+  step=1;
+  valuetype=EAknSliderValueDecimal;
+  minlabel="0";
+  maxlabel="10";
+}
+
+RESOURCE AVKON_POPUP_SETTING_TEXTS r_clockapp_extra_setting_binary_texts
+{
+  setting_texts_resource=r_clockapp_extra_setting_binary_texts_menu;
+}
+
+RESOURCE ARRAY r_clockapp_extra_setting_binary_texts_menu
+{
+  items=
+  {
+    AVKON_ENUMERATED_TEXT
+    {
+      value=1;
+      text="Enabled";
+    },
+    AVKON_ENUMERATED_TEXT
+    {
+      value=0;
+      text="Disabled";
     }
   };
 }

@@ -24,35 +24,6 @@
 #include "clockapp.hpp"
 #include "clockapp.hrh"
 
-//#include <hwtricks.hpp> //FIXME: debug
-/*#include <f32file.h>
-static void Log(const TDesC8& aBuffer,TInt aParam)
-{
-  RFs fs;
-  RFile file;
-  fs.Connect();
-  TInt err=file.Open(fs,_L("e:\\zg_netmon_log.txt"),EFileWrite|EFileShareAny);
-  if(err==KErrNotFound) err=file.Create(fs,_L("e:\\zg_netmon_log.txt"),EFileWrite|EFileShareAny);
-  TInt pos=0;
-  err=file.Seek(ESeekEnd,pos);
-  TBuf8<1024> logBuf;
-  TTime localTime; RThread thread;
-  localTime.HomeTime();
-  logBuf.Format(_L8("0x%08.8d|%02.2d:%02.2d:%02.2d.%06.6d: %S: 0x%x\n"),thread.Id(),localTime.DateTime().Hour(),localTime.DateTime().Minute(),localTime.DateTime().Second(),localTime.DateTime().MicroSecond(),&aBuffer,aParam);
-  file.Write(logBuf);
-  file.Close();
-  fs.Close();
-}
-
-static void Log(const TDesC& aBuffer,TInt aParam)
-{
-  TBuf8<1024> cnvBuf;
-  cnvBuf.Copy(aBuffer);
-  Log(cnvBuf,aParam);
-}*/
-
-
-
 _LIT(KAlarmSound,"a");
 
 CClkAlmView* CClkAlmView::NewLC(CClkAlmModel* anAlm,CClkNitzModel* aNitz)

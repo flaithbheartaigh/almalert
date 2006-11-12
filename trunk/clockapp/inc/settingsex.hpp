@@ -21,7 +21,8 @@
 #define __SETTINGSEX_HPP__
 
 #include <aknview.h>
-#include <aknsettingitemlist.h>
+#include <AlmSettingsClient.hpp>
+#include "aknsettingitemlistex.hpp"
 
 class CSettingsControl;
 class CSettingsView: public CAknView
@@ -42,7 +43,7 @@ class CSettingsView: public CAknView
     CSettingsControl* iControl;
 };
 
-class CSettingsControl: public CAknSettingItemList
+class CSettingsControl: public CAknSettingItemListEx
 {
   public:
     static CSettingsControl* NewL(const TRect& aRect);
@@ -50,12 +51,31 @@ class CSettingsControl: public CAknSettingItemList
   protected: //CAknSettingItemList
     CAknSettingItem* CreateSettingItemL(TInt aSettingId);
   public: //CAknSettingItemList
-    void HandleListBoxEventL(CEikListBox* aListBox,TListBoxEvent aEventType);
+    void StoreSettingsL(void);
   private:
     CSettingsControl(void);
     void ConstructL(const TRect& aRect);
+    void LoadSettingL(const TDesC& aCategory,const TDesC& aName,TFileName& aValue);
+    void LoadSettingL(const TDesC& aCategory,const TDesC& aName,TInt& aValue,TInt aLow,TInt aHigh,TInt aDefault);
+    void StoreSettingL(const TDesC& aCategory,const TDesC& aName,const TFileName& aValue);
+    void StoreSettingL(const TDesC& aCategory,const TDesC& aName,const TInt& aValue);
+    void UpdateVisibility(void);
   private:
+    RAlmSettings iSettings;
     TFileName iAlarmTone;
+    TInt iSnoozeTime;
+    TInt iSnoozeCount;
+    TFileName iCalendarTone;
+    RArray<TInt> iBeepArray;
+    TInt iBeep;
+    TFileName iBeepTone;
+    TInt iBeepStart;
+    TInt iBeepFinish;
+    RArray<TInt> iBirthdayArray;
+    TInt iBirthday;
+    TFileName iBirthdayTone;
+    TInt iBirthdayStart;
+    TInt iBirthdayHour;
 };
 
 #endif
