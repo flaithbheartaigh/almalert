@@ -76,7 +76,6 @@ LOCAL_C void DoMainL(void)
     cid.iAttributes=TDbCol::ENotNull;
     columns->AddL(cid);
     TDbCol value(KFieldValue,EDbColLongBinary);
-    value.iAttributes=TDbCol::ENotNull;
     columns->AddL(value);
     User::LeaveIfError(db.CreateTable(KTableSettings,*columns));
     CleanupStack::PopAndDestroy(); //columns
@@ -89,6 +88,7 @@ LOCAL_C void DoMainL(void)
     key->Clear();
     TDbKeyCol icid(KFieldCid);
     key->AddL(icid);
+    key->AddL(iname);
     key->MakeUnique();
     User::LeaveIfError(db.CreateIndex(KIndexSettings,KTableSettings,*key));
     CleanupStack::PopAndDestroy(); //key

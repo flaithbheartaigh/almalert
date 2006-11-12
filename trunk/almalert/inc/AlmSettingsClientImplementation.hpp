@@ -68,12 +68,12 @@ TInt RAlmSettings::Get(const TDesC& aCategory,const TDesC& aName,TDes& aValue)
   return res;
 }
 
-TInt RAlmSettings::Get(const TDesC& aCategory,const TDesC& aName,TUint32& aValue)
+TInt RAlmSettings::Get(const TDesC& aCategory,const TDesC& aName,TInt& aValue)
 {
   TAny* p[KMaxMessageArguments];
   TPtrC8 category((const TUint8*)aCategory.Ptr(),aCategory.Length()*2);
   TPtrC8 name((const TUint8*)aName.Ptr(),aName.Length()*2);
-  TPckg<TUint32> value(aValue);
+  TPckg<TInt> value(aValue);
   p[0]=(TAny*)(&category);
   p[1]=(TAny*)(&name);
   p[2]=(TAny*)(&value);
@@ -103,12 +103,12 @@ TInt RAlmSettings::Set(const TDesC& aCategory,const TDesC& aName,const TDesC& aV
   return SendReceive(ESettingsServerRequestSet,&p[0]);
 }
 
-TInt RAlmSettings::Set(const TDesC& aCategory,const TDesC& aName,const TUint32& aValue)
+TInt RAlmSettings::Set(const TDesC& aCategory,const TDesC& aName,const TInt& aValue)
 {
   TAny* p[KMaxMessageArguments];
   TPtrC8 category((const TUint8*)aCategory.Ptr(),aCategory.Length()*2);
   TPtrC8 name((const TUint8*)aName.Ptr(),aName.Length()*2);
-  TPckgC<TUint32> value(aValue);
+  TPckgC<TInt> value(aValue);
   p[0]=(TAny*)(&category);
   p[1]=(TAny*)(&name);
   p[2]=(TAny*)(&value);
