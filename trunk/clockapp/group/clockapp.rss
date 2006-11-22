@@ -88,6 +88,34 @@ RESOURCE MENU_PANE r_clockapp_extra_setting_menu
   };
 }
 
+RESOURCE TAB_GROUP r_clockapp_extra_setting_tabs
+{
+  tab_width=EAknTabWidthWithThreeLongTabs;
+  tabs=
+  {
+    TAB
+    {
+      id=EClockAppExtraSettingTabAlarm;
+      txt="alarm";
+    },
+    TAB
+    {
+      id=EClockAppExtraSettingTabCalendar;
+      txt="calendar";
+    },
+    TAB
+    {
+      id=EClockAppExtraSettingTabBeep;
+      txt="beep";
+    },
+    TAB
+    {
+      id=EClockAppExtraSettingTabBirthday;
+      txt="birthday";
+    }
+  };
+}
+
 RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_extra_setting
 {
   items=
