@@ -40,6 +40,15 @@ enum TClockAppMenuExtraCommands
   EClockAppExtraChange=0x7100
 };
 
+enum TClockAppExtraSetting
+{
+  EClockAppExtraSettingTabAlarm,
+  EClockAppExtraSettingTabCalendar,
+  EClockAppExtraSettingTabBeep,
+  EClockAppExtraSettingTabBirthday,
+  EClockAppExtraSettingTabLast
+};
+
 enum TClockAppExtraSettingItems
 {
   EClockAppExtraSettingAlarmTone,

@@ -21,6 +21,8 @@
 #define __SETTINGSEX_HPP__
 
 #include <aknview.h>
+#include <aknnavide.h>
+#include <akntabgrp.h>
 #include <AlmSettingsClient.hpp>
 #include "aknsettingitemlistex.hpp"
 
@@ -48,6 +50,7 @@ class CSettingsControl: public CAknSettingItemListEx
   public:
     static CSettingsControl* NewL(const TRect& aRect);
     ~CSettingsControl();
+    TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType);
   protected: //CAknSettingItemList
     CAknSettingItem* CreateSettingItemL(TInt aSettingId);
   public: //CAknSettingItemList
@@ -59,8 +62,12 @@ class CSettingsControl: public CAknSettingItemListEx
     void LoadSettingL(const TDesC& aCategory,const TDesC& aName,TInt& aValue,TInt aLow,TInt aHigh,TInt aDefault);
     void StoreSettingL(const TDesC& aCategory,const TDesC& aName,const TFileName& aValue);
     void StoreSettingL(const TDesC& aCategory,const TDesC& aName,const TInt& aValue);
-    void UpdateVisibility(void);
+    void UpdateVisibilityL(void);
   private:
+    CAknNavigationControlContainer* iNaviPane;
+    CAknNavigationDecorator* iNaviDecorator;
+    CAknTabGroup* iTabGroup;
+    RArray<TInt> iItemsArray;
     RAlmSettings iSettings;
     TFileName iAlarmTone;
     TInt iSnoozeTime;
@@ -77,5 +84,7 @@ class CSettingsControl: public CAknSettingItemListEx
     TInt iBirthdayStart;
     TInt iBirthdayHour;
 };
+
+#define sizeofa(array) (sizeof(array)/sizeof(array[0]))
 
 #endif

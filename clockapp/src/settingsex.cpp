@@ -25,6 +25,7 @@
 #include <AlmSettingsCommon.hpp>
 #include <AlmSettingsClientImplementation.hpp>
 #include <AlmSettingsNames.hpp>
+#include <barsread.h>
 
 CSettingsView* CSettingsView::NewLC(void)
 {
@@ -104,6 +105,8 @@ CSettingsControl* CSettingsControl::NewL(const TRect& aRect)
 
 CSettingsControl::~CSettingsControl()
 {
+  if(iNaviPane) iNaviPane->Pop(iNaviDecorator);
+  delete iNaviDecorator;
   iSettings.Close();
 }
 
@@ -171,8 +174,12 @@ void CSettingsControl::StoreSettingsL(void)
 
 CSettingsControl::CSettingsControl(void): iSnoozeTime(5),iSnoozeCount(1),iBirthdayHour(12)
 {
-  for(int i=5;i<8;i++) iBeepArray.Append(i);
-  for(int i=9;i<12;i++) iBirthdayArray.Append(i);
+  const TInt sizes[]={3,1,4,4};
+  for(TUint i=0;i<sizeofa(sizes);i++)
+    for(TInt j=0;j<sizes[i];j++)
+      iItemsArray.Append(i);
+  for(TInt i=5;i<8;i++) iBeepArray.Append(i);
+  for(TInt i=9;i<12;i++) iBirthdayArray.Append(i);
 }
 
 void CSettingsControl::ConstructL(const TRect& aRect)
@@ -190,10 +197,16 @@ void CSettingsControl::ConstructL(const TRect& aRect)
   LoadSettingL(KCategoryBirthday,KTone,iBirthdayTone);
   LoadSettingL(KCategoryBirthday,KStart,iBirthdayStart,0,10,0);
   LoadSettingL(KCategoryBirthday,KHour,iBirthdayHour,0,23,12);
+  iNaviPane=(CAknNavigationControlContainer*)iAvkonAppUi->StatusPane()->ControlL(TUid::Uid(EEikStatusPaneUidNavi));
+  TResourceReader reader;
+  iCoeEnv->CreateResourceReaderLC(reader,R_CLOCKAPP_EXTRA_SETTING_TABS);
+  iNaviDecorator=iNaviPane->CreateTabGroupL(reader);
+  CleanupStack::PopAndDestroy(); //reader
+  iNaviPane->PushL(*iNaviDecorator);
+  iTabGroup=static_cast<CAknTabGroup*>(iNaviDecorator->DecoratedControl());
   ConstructFromResourceL(R_CLOCKAPP_EXTRA_SETTING);
   SetRect(aRect);
-  CAknSettingItemArray& array=*SettingItemArray();
-  for(TInt i=0,count=iTriggers.Count();i<count;i++) static_cast<CAknVisibilitySettingItem*>(array[iTriggers[i]])->UpdateVisibilityL();
+  UpdateVisibilityL();
 }
 
 void CSettingsControl::LoadSettingL(const TDesC& aCategory,const TDesC& aName,TFileName& aValue)
@@ -223,4 +236,36 @@ void CSettingsControl::StoreSettingL(const TDesC& aCategory,const TDesC& aName,c
   TInt err=iSettings.Get(aCategory,aName,old);
   if(err!=KErrNotFound) User::LeaveIfError(err);
   if(err==KErrNotFound||old!=aValue) User::LeaveIfError(iSettings.Set(aCategory,aName,aValue));
+}
+
+TKeyResponse CSettingsControl::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType)
+{
+  if(iTabGroup->OfferKeyEventL(aKeyEvent,aType)==EKeyWasConsumed)
+  {
+    UpdateVisibilityL();
+    return EKeyWasConsumed;
+  }
+  return CAknSettingItemListEx::OfferKeyEventL(aKeyEvent,aType);
+}
+
+void CSettingsControl::UpdateVisibilityL(void)
+{
+  CListBoxView& view=*ListBox()->View();
+  TBool redraw=view.RedrawDisabled();
+  view.SetDisableRedraw(ETrue);
+  CAknSettingItemArray& array=*SettingItemArray();
+  for(TInt i=0;i<array.Count();i++)
+  {
+    if(iItemsArray[i]==iTabGroup->ActiveTabIndex()) array[i]->SetHidden(EFalse);
+    else array[i]->SetHidden(ETrue);
+  }
+  for(TInt i=0,count=iTriggers.Count();i<count;i++)
+  {
+    CAknVisibilitySettingItem& item=*static_cast<CAknVisibilitySettingItem*>(array[iTriggers[i]]);
+    if(!item.IsHidden()) item.UpdateVisibilityL();
+  }
+  HandleChangeInItemArrayOrVisibilityL();
+  view.SetDisableRedraw(redraw);
+  ListBox()->SetCurrentItemIndex(0);
+  ListBox()->DrawDeferred();
 }
