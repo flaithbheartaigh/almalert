@@ -19,6 +19,7 @@
 
 #include "clockapp.hpp"
 #include "settingsex.hpp"
+#include "stopwatch.hpp"
 #include <hlplch.h>
 
 CClkAppUi::~CClkAppUi()
@@ -44,6 +45,9 @@ void CClkAppUi::ConstructL(void)
   CSettingsView* view3=CSettingsView::NewLC();
   AddViewL(view3);
   CleanupStack::Pop(); //view3
+  CStopWatchView* view4=CStopWatchView::NewLC();
+  AddViewL(view4);
+  CleanupStack::Pop(); //view4
 
   CEikStatusPane* sp=StatusPane();
   iTitlePane=(CAknTitlePane*)sp->ControlL(TUid::Uid(EEikStatusPaneUidTitle));
@@ -116,4 +120,10 @@ void CClkAppUi::CmdSettingsExL(void)
 {
   //ShowTitlePaneL(0x10931015);
   ActivateLocalViewL(KSettingsExViewId);
+}
+
+void CClkAppUi::CmdStopWatchL(void)
+{
+  //ShowTitlePaneL(0x10931015);
+  ActivateLocalViewL(KStopWatchViewId);
 }

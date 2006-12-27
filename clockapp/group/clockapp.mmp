@@ -13,6 +13,7 @@ source aknsettingitemlistex.cpp
 source aknfilesettingpage.cpp
 source aknsettingitem.cpp
 source settingsex.cpp
+source stopwatch.cpp
 
 sourcepath ..\group
 resource clockapp.rss
