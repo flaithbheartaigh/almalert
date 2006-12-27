@@ -111,6 +111,7 @@ void CClkAlmView::HandleCommandL(TInt aCommand)
       iClkAppUi->CmdExit();
       break;
     case EClockAppExtraStopWatch:
+      iClkAppUi->CmdStopWatchL();
       break;
     case EClockAppExtraSettings:
       iClkAppUi->CmdSettingsExL();

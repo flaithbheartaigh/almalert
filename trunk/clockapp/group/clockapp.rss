@@ -88,6 +88,45 @@ RESOURCE MENU_PANE r_clockapp_extra_setting_menu
   };
 }
 
+RESOURCE AVKON_VIEW r_clockapp_stop_watch_view
+{
+  menubar=r_clockapp_stop_watch_menubar;
+  cba=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+}
+
+RESOURCE MENU_BAR r_clockapp_stop_watch_menubar
+{
+  titles=
+  {
+    MENU_TITLE
+    {
+      menu_pane=r_clockapp_stop_watch_menu;
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_clockapp_stop_watch_menu
+{
+  items=
+  {
+    MENU_ITEM 
+    {
+      command=EClockAppExtraStopWatchStartStop;
+      txt="Start/Stop";
+    },
+    MENU_ITEM 
+    {
+      command=EClockAppExtraStopWatchLapReset;
+      txt="Lap/Reset";
+    },
+    MENU_ITEM
+    {
+      command=EAknSoftkeyExit;
+      txt="Exit";
+    }
+  };
+}
+
 RESOURCE TAB_GROUP r_clockapp_extra_setting_tabs
 {
   tab_width=EAknTabWidthWithThreeLongTabs;
