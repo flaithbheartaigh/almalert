@@ -56,8 +56,10 @@ void CStopWatchView::HandleCommandL(TInt aCommand)
       iClkAppUi->CmdExit();
       break;
     case EClockAppExtraStopWatchStartStop:
+      iControl->ProcessSignal(CStopWatchControl::ESignalStop);
       break;
     case EClockAppExtraStopWatchLapReset:
+      iControl->ProcessSignal(CStopWatchControl::ESignalReset);
       break;
   }
 }
@@ -99,6 +101,7 @@ CStopWatchControl* CStopWatchControl::NewL(const TRect& aRect)
 
 CStopWatchControl::~CStopWatchControl()
 {
+  delete iRefresh;
 }
 
 CStopWatchControl::CStopWatchControl(void)
@@ -111,30 +114,146 @@ void CStopWatchControl::ConstructL(const TRect& aRect)
   SetRect(aRect);
   DrawNow(); //FIXME: needed?
   ActivateL();
+  iRefresh=CPeriodic::NewL(CActive::EPriorityStandard);
+  InitRefresh();
 }
 
 void CStopWatchControl::HandleGainingForeground(void)
 {
-  //FIXME
+  InitRefresh();
 }
 
 void CStopWatchControl::HandleLosingForeground(void)
 {
-  //FIXME
+  iRefresh->Cancel();
+}
+
+void CStopWatchControl::InitRefresh(void)
+{
+  iRefresh->Cancel();
+  iRefresh->Start(100000,100000,TCallBack(RefreshTimeout,this));
+}
+
+TInt CStopWatchControl::RefreshTimeout(TAny* aContainer)
+{
+  STATIC_CAST(CStopWatchControl*,aContainer)->DrawNow();
+  return 0;
 }
 
 void CStopWatchControl::Draw(const TRect& aRect) const
 {
   CWindowGc& gc=SystemGc();
-  //gc.SetPenStyle(CGraphicsContext::ENullPen);
+  gc.SetPenStyle(CGraphicsContext::ESolidPen);
+  gc.SetPenColor(AKN_LAF_COLOR_STATIC(KBlackColor));
   gc.SetBrushColor(AKN_LAF_COLOR_STATIC(KWhiteColor));
   gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
   TRect rect=Rect();
   gc.Clear(rect);
+  TBuf<11> time;
+  CurrentTime(time);
+  gc.UseFont(ClockBold30());
+  TRect value(0,40,176,70);
+  gc.DrawText(time,value,30,CGraphicsContext::ECenter);
+  gc.DiscardFont();
 }
-
 
 TKeyResponse CStopWatchControl::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType)
 {
+  if(aType==EEventKey)
+  {
+    switch(aKeyEvent.iCode)
+    {
+      case '5':
+        ProcessSignal(ESignalStop);
+        break;
+      case '7':
+        ProcessSignal(ESignalReset);
+        break;
+    }
+  }
   return EKeyWasNotConsumed;
+}
+
+
+void CStopWatchControl::ProcessSignal(TSignal aSignal)
+{
+  typedef void (CStopWatchControl::*TStateFunction)(void);
+  const struct SStates
+  {
+    TStates iNew[ESignalLast];
+    TStateFunction iFunc[ESignalLast];
+  } states[EStateLast]=
+  {
+    {{EStateStart,EStateClear},{&ProcessStart,&ProcessNothing}},//EStateClear
+    {{EStateStop,EStateLap1},{&ProcessStop,&ProcessLap}},//EStateStart
+    {{EStateStart,EStateClear},{&ProcessRestart,&ProcessNothing}},//EStateStop
+    {{EStateLap2,EStateStart},{&ProcessStop,&ProcessNothing}},//EStateLap1
+    {{EStateStart,EStateLap2Visible},{&ProcessRestart,&ProcessNothing}},//EStateLap2
+    {{EStateStart,EStateClear},{&ProcessRestart,&ProcessNothing}}//EStateLap2Visible
+  };
+  (this->*states[iState].iFunc[aSignal])();
+  iState=states[iState].iNew[aSignal];
+}
+
+void CStopWatchControl::ProcessNothing(void)
+{
+}
+
+void CStopWatchControl::ProcessStart(void)
+{
+  iStart.HomeTime();
+  iPause=0;
+}
+
+void CStopWatchControl::ProcessStop(void)
+{
+  iStop.HomeTime();
+}
+
+void CStopWatchControl::ProcessRestart(void)
+{
+  TTime current;
+  current.HomeTime();
+  iPause+=current.MicroSecondsFrom(iStop).Int64();
+}
+
+void CStopWatchControl::ProcessLap(void)
+{
+  iLap.HomeTime();
+}
+
+_LIT(KZero,"00:00:00.00");
+_LIT(KFormat,"%02.2d:%02.2d:%02.2d.%02.2d");
+
+void CStopWatchControl::CurrentTime(TDes& aTime) const
+{
+  TTime current;
+  current.HomeTime();
+  TInt64 diff=0;
+  switch(iState)
+  {
+    case EStateStart:
+      diff=current.MicroSecondsFrom(iStart).Int64()-iPause;
+      break;
+    case EStateStop:
+    case EStateLap2Visible:
+      diff=iStop.MicroSecondsFrom(iStart).Int64()-iPause;
+      break;
+    case EStateLap1:
+    case EStateLap2:
+      diff=iLap.MicroSecondsFrom(iStart).Int64()-iPause;
+      break;
+    default:
+      aTime.Copy(KZero);
+      return;
+  }
+  diff=(diff+5000)/10000;
+  TInt msec=(diff%100).GetTInt();
+  diff/=100;
+  TInt sec=(diff%60).GetTInt();
+  diff/=60;
+  TInt min=(diff%60).GetTInt();
+  diff/=60;
+  TInt hour=(diff%60).GetTInt();
+  aTime.Format(KFormat,hour,min,sec,msec);
 }

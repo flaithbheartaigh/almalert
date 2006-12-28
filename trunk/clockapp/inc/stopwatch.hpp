@@ -56,6 +56,15 @@ class CStopWatchControl: public CCoeControl,public MCoeForegroundObserver
   public: //MCoeForegroundObserver
     void HandleGainingForeground(void);
     void HandleLosingForeground(void);
+  public:
+    enum TSignal
+    {
+      ESignalStop,
+      ESignalReset,
+      ESignalLast
+    };
+  public:
+    void ProcessSignal(TSignal aSignal);
   private:
     enum TStates
     {
@@ -64,20 +73,24 @@ class CStopWatchControl: public CCoeControl,public MCoeForegroundObserver
       EStateStop,
       EStateLap1,
       EStateLap2,
-      EStateLap2Visible
-    };
-    enum TSignal
-    {
-      ESignalStop,
-      ESignalReset
+      EStateLap2Visible,
+      EStateLast
     };
   private:
-    void ProcessSignal(TSignal aSignal);
+    void ProcessNothing(void);
+    void ProcessStart(void);
+    void ProcessStop(void);
+    void ProcessRestart(void);
+    void ProcessLap(void);
+    void CurrentTime(TDes& aTime) const;
+    void InitRefresh(void);
+    static TInt RefreshTimeout(TAny* aContainer);
   private:
     TStates iState;
     TTime iStart;
     TTime iStop;
-    TTimeIntervalMicroSeconds iPause;
+    TTime iLap;
+    TInt64 iPause;
     CPeriodic* iRefresh;
 };
 
