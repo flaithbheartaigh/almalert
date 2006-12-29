@@ -54,6 +54,11 @@ RESOURCE MENU_PANE r_clockapp_extra_menu
   };
 }
 
+RESOURCE TBUF32 r_clockapp_extra_setting_title
+{
+  buf="Settings";
+}
+
 RESOURCE AVKON_VIEW r_clockapp_extra_setting_view
 {
   menubar=r_clockapp_extra_setting_menubar;
@@ -86,6 +91,11 @@ RESOURCE MENU_PANE r_clockapp_extra_setting_menu
       txt="Exit";
     }
   };
+}
+
+RESOURCE TBUF32 r_clockapp_stop_watch_title
+{
+  buf="Stop-watch";
 }
 
 RESOURCE AVKON_VIEW r_clockapp_stop_watch_view

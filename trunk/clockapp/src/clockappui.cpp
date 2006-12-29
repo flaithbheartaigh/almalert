@@ -21,6 +21,7 @@
 #include "settingsex.hpp"
 #include "stopwatch.hpp"
 #include <hlplch.h>
+#include <clockapp.rsg>
 
 CClkAppUi::~CClkAppUi()
 {
@@ -112,18 +113,17 @@ TInt CClkAppUi::DoNotiferCallbackL(TAny* anAppUi)
 
 void CClkAppUi::CmdBackL(void)
 {
-  //ShowTitlePaneL(0x10931015);
   ActivateLocalViewL(KClkAlmViewId);
 }
 
 void CClkAppUi::CmdSettingsExL(void)
 {
-  //ShowTitlePaneL(0x10931015);
+  ShowTitlePaneL(R_CLOCKAPP_EXTRA_SETTING_TITLE);
   ActivateLocalViewL(KSettingsExViewId);
 }
 
 void CClkAppUi::CmdStopWatchL(void)
 {
-  //ShowTitlePaneL(0x10931015);
+  ShowTitlePaneL(R_CLOCKAPP_STOP_WATCH_TITLE);
   ActivateLocalViewL(KStopWatchViewId);
 }
