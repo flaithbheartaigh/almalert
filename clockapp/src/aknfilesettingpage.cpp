@@ -20,6 +20,7 @@
 #include "aknfilesettingpage.hpp"
 #include <akniconarray.h>
 #include <clockapp.rsg>
+#include <bautils.h> //BaflUtils
 
 CAknFileSettingPage::CAknFileSettingPage(TInt aResourceID,TFileName& aFileValue): CAknSettingPage(aResourceID),iFs(CCoeEnv::Static()->FsSession()),iFileValue(aFileValue),iBackupFileValue(aFileValue)
 {
@@ -49,8 +50,14 @@ void CAknFileSettingPage::ConstructL(void)
   model->SetOwnershipType(ELbmOwnsItemArray); //transfer ownership
   TParse parse;
   parse.SetNoWild(iFileValue,NULL,NULL);
-  TPtrC ptr=parse.NameAndExt();
-  ReadFilesL(&ptr);
+  TPtrC name=parse.NameAndExt(),path=parse.DriveAndPath();
+  TDesC* pos=&name;
+  if(!BaflUtils::PathExists(iFs,path))
+  {
+    pos=NULL;
+    iFileValue.Zero();
+  }
+  ReadFilesL(pos);
 }
 
 void CAknFileSettingPage::DynamicInitL(void)
