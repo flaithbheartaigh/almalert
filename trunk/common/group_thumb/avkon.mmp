@@ -8,6 +8,7 @@ sourcepath ..\src\avkon
 source avkon_bad.cpp
 source avkondll.cpp
 
+source avkon_CAknDurationSettingPage.cpp //50664EC4
 source avkon_CAknSettingItem.cpp //0x50678128
 source avkon_CAknTextSettingItem.cpp //0x50678584
 source avkon_CAknTimeOrDateSettingItem.cpp //0x50678D0C
@@ -24,3 +25,4 @@ library cone.lib
 library eikcore.lib
 library aknlayout.lib
 library eikcoctl.lib
+library eikctl.lib
