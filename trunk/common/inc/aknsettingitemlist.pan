@@ -1,6 +1,6 @@
 /*
-    avkon_CAknSettingItem.cpp
-    Copyright (C) 2006 zg
+    aknsettingitemlist.pan
+    Copyright (C) 2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,16 +17,16 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include <aknsettingitemlist.h>
-#include <aknsettingitemlist.pan>
+#ifndef __AKNSETTINGITEMLIST_PAN__
+#define __AKNSETTINGITEMLIST_PAN__
 
-void Panic(TAknSettingItemListPanic aPanic)
-{
-  _LIT(KPanic,"Setting Item List");
-  User::Panic(KPanic,aPanic);
-}
+#include <e32base.h>
 
-TInt CAknSettingItem::EditorControlType() const
+enum TAknSettingItemListPanic
 {
-  return iEditorControlType;
-}
+  EAknSettingItemListInvatidDateOrTimeMode=5
+};
+
+void Panic(TAknSettingItemListPanic aPanic);
+
+#endif
