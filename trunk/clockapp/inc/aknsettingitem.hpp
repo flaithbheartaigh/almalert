@@ -32,8 +32,6 @@ class CAknFileSettingItem: public CAknSettingItem
     const TDesC& SettingTextL(void);
     void EditItemL(TBool aCalledFromMenu);
   private:
-    IMPORT_C void CAknSettingItem_Reserved();
-  private:
     TFileName& iExternalText;
     TFileName iInternalText;
 };
@@ -49,6 +47,29 @@ class CAknVisibilitySettingItem: public CAknBinaryPopupSettingItem
   private:
     CAknSettingItemListEx& iList;
     RArray<TInt>& iItems;
+};
+
+class CAknTimeOffsetSettingItem: public CAknSettingItem
+{
+  public:
+    CAknTimeOffsetSettingItem(TInt aIdentifier,TTimeIntervalSeconds& aInterval);
+    ~CAknTimeOffsetSettingItem();
+    void CompleteConstructionL(void);
+    void StoreL(void);
+    void LoadL(void);
+    const TDesC& SettingTextL(void);
+    void EditItemL(TBool aCalledFromMenu);
+    void SetTimeFormatStringL(const TDesC& aTimeFormat);
+    const TPtrC TimeFormatString(void);
+  private:
+    TTime Convert(TInt aInterval);
+  private:
+    TTimeIntervalSeconds& iExternalInterval;
+    TTimeIntervalSeconds iInternalInterval;
+    HBufC* iInternalText; // Owned
+    TPtr iInternalTextPtr;
+    HBufC* iTimeFormat;
+    TPtr iTimeFormatPtr;
 };
 
 #endif
