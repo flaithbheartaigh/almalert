@@ -1,6 +1,6 @@
 /*
     clockappui.cpp
-    Copyright (C) 2006 zg
+    Copyright (C) 2006-2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 #include "clockapp.hpp"
 #include "settingsex.hpp"
 #include "stopwatch.hpp"
+#include "locale.hpp"
 #include <hlplch.h>
 #include <clockapp.rsg>
 
@@ -49,6 +50,9 @@ void CClkAppUi::ConstructL(void)
   CStopWatchView* view4=CStopWatchView::NewLC();
   AddViewL(view4);
   CleanupStack::Pop(); //view4
+  CLocaleView* view5=CLocaleView::NewLC();
+  AddViewL(view5);
+  CleanupStack::Pop(); //view5
 
   CEikStatusPane* sp=StatusPane();
   iTitlePane=(CAknTitlePane*)sp->ControlL(TUid::Uid(EEikStatusPaneUidTitle));
@@ -126,4 +130,9 @@ void CClkAppUi::CmdStopWatchL(void)
 {
   ShowTitlePaneL(R_CLOCKAPP_STOP_WATCH_TITLE);
   ActivateLocalViewL(KStopWatchViewId);
+}
+
+void CClkAppUi::CmdLocaleL(void)
+{
+  ActivateLocalViewL(KLocaleViewId);
 }

@@ -1,6 +1,6 @@
 /*
     clockappview.cpp
-    Copyright (C) 2006 zg
+    Copyright (C) 2006-2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -117,6 +117,7 @@ void CClkAlmView::HandleCommandL(TInt aCommand)
       iClkAppUi->CmdSettingsExL();
       break;
     case EClockAppExtraLocale:
+      iClkAppUi->CmdLocaleL();
       break;
   }
 }

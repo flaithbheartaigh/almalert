@@ -1,6 +1,6 @@
 /*
     clockapp.hpp
-    Copyright (C) 2005-2006 zg
+    Copyright (C) 2005-2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -79,6 +79,7 @@ class CClkAppUi: public CAknViewAppUi
     void CmdBackL(void);
     void CmdSettingsExL(void);
     void CmdStopWatchL(void);
+    void CmdLocaleL(void);
   private: //CAknAppUi
     void HandleCommandL(TInt aCommand);
     void ConstructL(void);
@@ -95,6 +96,7 @@ const TUid KViewId={1};
 const TUid KClkAlmViewId={3};
 const TUid KSettingsExViewId={4};
 const TUid KStopWatchViewId={5};
+const TUid KLocaleViewId={6};
 const TUid KSettingsId={10};
 
 class CClkAlmViewContainer;

@@ -19,6 +19,7 @@
 
 #include "aknsettingitem.hpp"
 #include "aknfilesettingpage.hpp"
+#include "akntimeoffsetsettingpage.hpp"
 
 inline TInt CAknSettingItem::EditorControlType() const
 {
@@ -74,4 +75,85 @@ void CAknVisibilitySettingItem::UpdateVisibilityL(void)
   CAknSettingItemArray& array=*iList.SettingItemArray();
   for(TInt i=0,count=iItems.Count(),value=InternalValue();i<count;i++) array[iItems[i]]->SetHidden(!value);
   iList.HandleChangeInItemArrayOrVisibilityL();
+}
+
+CAknTimeOffsetSettingItem::CAknTimeOffsetSettingItem(TInt aIdentifier,TTimeIntervalSeconds& aInterval): CAknSettingItem(aIdentifier),iExternalInterval(aInterval),iInternalTextPtr(NULL,0),iTimeFormatPtr(NULL,0)
+{
+}
+
+CAknTimeOffsetSettingItem::~CAknTimeOffsetSettingItem()
+{
+  delete iTimeFormat;
+  delete iInternalText;
+}
+
+void CAknTimeOffsetSettingItem::CompleteConstructionL(void)
+{
+  iInternalText=HBufC16::NewL(30);
+  delete iTimeFormat;
+  iTimeFormat=CCoeEnv::Static()->AllocReadResourceAsDes16L(R_QTN_TIME_LONG);
+  iTimeFormatPtr.Set(iTimeFormat->Des());
+}
+
+void CAknTimeOffsetSettingItem::StoreL(void)
+{
+  iExternalInterval=iInternalInterval;
+}
+
+void CAknTimeOffsetSettingItem::LoadL(void)
+{
+  iInternalInterval=iExternalInterval;
+}
+
+const TDesC& CAknTimeOffsetSettingItem::SettingTextL(void)
+{
+  iInternalTextPtr.Set(iInternalText->Des());
+  iInternalTextPtr.Zero();
+  TInt interval=iInternalInterval.Int();
+  if(interval<0)
+  {
+    interval=-interval;
+    iInternalTextPtr.Append('-');
+  }
+  else if(interval>0)
+    iInternalTextPtr.Append('+');
+  else
+    iInternalTextPtr.Append(' ');
+  TTime time=Convert(interval);
+  TBuf<29> buffer;
+  time.FormatL(buffer,TimeFormatString());
+  iInternalTextPtr.Append(buffer);
+  return iInternalTextPtr;
+}
+
+void CAknTimeOffsetSettingItem::SetTimeFormatStringL(const TDesC& aTimeFormat)
+{
+  delete iTimeFormat;
+  iTimeFormat=NULL;
+  iTimeFormat=aTimeFormat.AllocL();
+  iTimeFormatPtr.Set(iTimeFormat->Des());
+}
+
+const TPtrC CAknTimeOffsetSettingItem::TimeFormatString(void)
+{
+  return iTimeFormatPtr;
+}
+
+void CAknTimeOffsetSettingItem::EditItemL(TBool aCalledFromMenu)
+{
+  TPtrC name=SettingName();
+  SetSettingPage(new(ELeave)CAknTimeOffsetSettingPage(&name,SettingNumber(),EditorControlType(),SettingEditorResourceId(),SettingPageResourceId(),iInternalInterval));
+  SettingPage()->SetSettingPageObserver(this);
+  SettingPage()->ExecuteLD(CAknSettingPage::EUpdateWhenChanged);
+  SetSettingPage(NULL);
+}
+
+TTime CAknTimeOffsetSettingItem::Convert(TInt aInterval)
+{
+  TInt second=aInterval%60;
+  aInterval/=60;
+  TInt minute=aInterval%60;
+  aInterval/=60;
+  TInt hour=aInterval%24;
+  return TTime(TDateTime(0,EJanuary,0,hour,minute,second,0));
 }

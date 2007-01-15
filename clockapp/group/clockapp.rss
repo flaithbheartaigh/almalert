@@ -403,3 +403,35 @@ RESOURCE ARRAY r_clockapp_extra_setting_binary_texts_menu
     }
   };
 }
+
+RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_locale
+{
+  items=
+  {
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppLocaleTimeOffset;
+      setting_page_resource=r_clockapp_locale_time_offset;
+      name="Time Offset";
+    }
+  };
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_locale_time_offset
+{
+  label="Time Offset";
+  type=EEikCtTimeOffsetEditor;
+  editor_resource_id=r_clockapp_locale_time_offset_editor;
+}
+
+RESOURCE TIME_OFFSET_EDITOR r_clockapp_locale_time_offset_editor
+{
+  minTimeOffset=TIME_OFFSET
+  {
+    seconds=-43200;
+  };
+  maxTimeOffset=TIME_OFFSET
+  {
+    seconds=43200;
+  };
+}

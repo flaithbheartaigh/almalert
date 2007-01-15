@@ -22,7 +22,6 @@
 
 #include <aknsettingitemlist.h>
 
-
 class CAknSettingItemListEx: public CAknSettingItemList
 {
   public:
