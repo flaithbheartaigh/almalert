@@ -110,6 +110,10 @@ CAknSettingItem* CLocaleControl::CreateSettingItemL(TInt aSettingId)
   {
     case EClockAppLocaleTimeOffset:
       item=new(ELeave)CAknTimeOffsetSettingItem(aSettingId,iTimeOffset);
+      break;
+    case EClockAppLocaleWorkDays:
+      item=new(ELeave)CAknWorkDaysSettingItem(aSettingId,iWorkDays);
+      break;
   }
   return item;
 }
@@ -119,6 +123,7 @@ void CLocaleControl::StoreSettingsL(void)
   CAknSettingItemList::StoreSettingsL();
   TLocale locale;
   locale.SetUniversalTimeOffset(iTimeOffset);
+  locale.SetWorkDays(iWorkDays);
   locale.Set();
 }
 
@@ -130,6 +135,7 @@ void CLocaleControl::ConstructL(const TRect& aRect)
 {
   TLocale locale;
   iTimeOffset=locale.UniversalTimeOffset();
+  iWorkDays=locale.WorkDays();
   ConstructFromResourceL(R_CLOCKAPP_LOCALE);
   SetRect(aRect);
 }

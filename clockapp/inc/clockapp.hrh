@@ -69,7 +69,8 @@ enum TClockAppExtraSettingItems
 
 enum TClockAppLocaleItems
 {
-  EClockAppLocaleTimeOffset
+  EClockAppLocaleTimeOffset,
+  EClockAppLocaleWorkDays
 };
 
 #endif

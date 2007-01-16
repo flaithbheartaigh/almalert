@@ -26,7 +26,7 @@ inline TInt CAknSettingItem::EditorControlType() const
   return iEditorControlType;
 }
 
-CAknFileSettingItem::CAknFileSettingItem(TInt aIdentifier,TFileName& aText): CAknSettingItem(aIdentifier),iExternalText(aText),iInternalText(aText)
+CAknFileSettingItem::CAknFileSettingItem(TInt aIdentifier,TFileName& aText): CAknSettingItem(aIdentifier),iExternalText(aText)
 {
 }
 
@@ -156,4 +156,77 @@ TTime CAknTimeOffsetSettingItem::Convert(TInt aInterval)
   aInterval/=60;
   TInt hour=aInterval%24;
   return TTime(TDateTime(0,EJanuary,0,hour,minute,second,0));
+}
+
+CAknWorkDaysSettingItem::CAknWorkDaysSettingItem(TInt aIdentifier,TUint& aWorkDays): CAknSettingItem(aIdentifier),iExternalWorkDays(aWorkDays)
+{
+  iCoeEnv=CCoeEnv::Static();
+}
+
+CAknWorkDaysSettingItem::~CAknWorkDaysSettingItem()
+{
+  if(iList)
+  {
+    iList->ResetAndDestroy();
+    delete iList;
+  }
+}
+
+void CAknWorkDaysSettingItem::CompleteConstructionL(void)
+{
+  iList=new(ELeave)CSelectionItemList(7);
+  for(TInt i=0;i<7;i++)
+  {
+    HBufC* str=iCoeEnv->AllocReadResourceAsDes16LC(R_QTN_WEEK_LONG_MONDAY+i);
+    CSelectableItem* item=new(ELeave)CSelectableItem(*str,EFalse);
+    CleanupStack::PushL(item);
+    item->ConstructL();
+    iList->AppendL(item);
+    CleanupStack::Pop(); //item
+    CleanupStack::PopAndDestroy(); //str
+  }
+}
+
+void CAknWorkDaysSettingItem::StoreL(void)
+{
+  iExternalWorkDays=0;
+  for(TInt i=0;i<iList->Count();i++)
+  {
+    if((*iList)[i]->SelectionStatus()) iExternalWorkDays|=(1<<i);
+  }
+}
+
+void CAknWorkDaysSettingItem::LoadL(void)
+{
+  for(TInt i=0;i<iList->Count();i++)
+  {
+    (*iList)[i]->SetSelectionStatus(iExternalWorkDays&(1<<i));
+  }
+}
+
+const TDesC& CAknWorkDaysSettingItem::SettingTextL(void)
+{
+  TBuf<16> name;
+  iInternalText.Zero();
+  for(TInt i=0;i<7;i++)
+  {
+    if(iExternalWorkDays&(1<<i))
+    {
+      if(iInternalText.Length()) iInternalText.Append(' ');
+      iCoeEnv->ReadResourceAsDes16(name,R_QTN_WEEK_TWO_CHARS_MO+i);
+      iInternalText.Append(name);
+    }
+  }
+  return iInternalText;
+}
+
+void CAknWorkDaysSettingItem::EditItemL(TBool aCalledFromMenu)
+{
+  TPtrC name=SettingName();
+  SetSettingPage(new(ELeave)CAknCheckBoxSettingPage(&name,SettingNumber(),EditorControlType(),SettingEditorResourceId(),SettingPageResourceId(),iList));
+  SettingPage()->SetSettingPageObserver(this);
+  if(SettingPage()->ExecuteLD(CAknSettingPage::EUpdateWhenChanged)) StoreL();
+  else LoadL();
+  UpdateListBoxTextL();
+  SetSettingPage(NULL);
 }
