@@ -413,6 +413,12 @@ RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_locale
       identifier=EClockAppLocaleTimeOffset;
       setting_page_resource=r_clockapp_locale_time_offset;
       name="Time Offset";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppLocaleWorkDays;
+      setting_page_resource=r_clockapp_locale_work_days;
+      name="Work Days";
     }
   };
 }
@@ -434,4 +440,15 @@ RESOURCE TIME_OFFSET_EDITOR r_clockapp_locale_time_offset_editor
   {
     seconds=43200;
   };
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_locale_work_days
+{
+  label="Work Days";
+  type=EAknCtPopupSettingList;
+  editor_resource_id=r_clockapp_locale_work_days_editor;
+}
+
+RESOURCE POPUP_SETTING_LIST r_clockapp_locale_work_days_editor
+{
 }

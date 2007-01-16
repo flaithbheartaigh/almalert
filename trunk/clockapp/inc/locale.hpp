@@ -56,6 +56,7 @@ class CLocaleControl: public CAknSettingItemList
     void ConstructL(const TRect& aRect);
   private:
     TTimeIntervalSeconds iTimeOffset;
+    TUint iWorkDays;
 };
 
 #endif

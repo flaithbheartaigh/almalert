@@ -21,6 +21,7 @@
 #define __AKNSETTINGITEM_HPP__
 
 #include "aknsettingitemlistex.hpp"
+#include <akncheckboxsettingpage.h>
 
 class CAknFileSettingItem: public CAknSettingItem
 {
@@ -70,6 +71,23 @@ class CAknTimeOffsetSettingItem: public CAknSettingItem
     TPtr iInternalTextPtr;
     HBufC* iTimeFormat;
     TPtr iTimeFormatPtr;
+};
+
+class CAknWorkDaysSettingItem: public CAknSettingItem
+{
+  public:
+    CAknWorkDaysSettingItem(TInt aIdentifier,TUint& aWorkDays);
+    ~CAknWorkDaysSettingItem();
+    void CompleteConstructionL(void);
+    void StoreL(void);
+    void LoadL(void);
+    const TDesC& SettingTextL(void);
+    void EditItemL(TBool aCalledFromMenu);
+  private:
+    TUint& iExternalWorkDays;
+    TBuf<64> iInternalText;
+    CSelectionItemList* iList;
+    CCoeEnv* iCoeEnv;
 };
 
 #endif
