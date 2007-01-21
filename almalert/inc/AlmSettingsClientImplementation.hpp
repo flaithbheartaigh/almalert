@@ -115,4 +115,9 @@ TInt RAlmSettings::Set(const TDesC& aCategory,const TDesC& aName,const TInt& aVa
   return SendReceive(ESettingsServerRequestSet,&p[0]);
 }
 
+TInt RAlmSettings::Compact(void)
+{
+  return SendReceive(ESettingsServerRequestCompact,NULL);
+}
+
 #endif

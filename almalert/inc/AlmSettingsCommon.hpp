@@ -34,6 +34,7 @@ enum TSettingsServerRequest
   ESettingsServerRequestGetData,
   ESettingsServerRequestGetLength,
   ESettingsServerRequestSet,
+  ESettingsServerRequestCompact,
   ESettingsServerRequestLast
 };
 

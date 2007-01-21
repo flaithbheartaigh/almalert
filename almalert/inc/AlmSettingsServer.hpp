@@ -57,8 +57,10 @@ class CAlmSettingsSession: public CSession
     CAlmSettingsSession(RThread& aClient,CAlmSettingsServer& aServer);
     void ConstructL(void);
     void DispatchMessageL(const RMessage& aMessage);
+    void ProcessDataL(void);
     HBufC8* ValueLC(const TAny* aSrc);
     TUint32 CategoryL(const TAny* aSrc);
+    void ProcessCompactL(void);
   private:
     CAlmSettingsServer& iServer;
 };
