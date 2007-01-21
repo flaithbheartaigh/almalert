@@ -158,10 +158,9 @@ TUint32 CAlmSettingsSession::CategoryL(const TAny* aSrc)
   return cid;
 }
 
-void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)
+void CAlmSettingsSession::ProcessDataL(void)
 {
-  TInt func=aMessage.Function();
-  if(func<0||func>=ESettingsServerRequestLast) User::Leave(KErrNotSupported);
+  TInt func=Message().Function();
   _LIT(KSQL,"select id,name,cid,value from settings where cid=%u and name='%S'");
   RDbView view;
   TBuf<128> sql;
@@ -211,6 +210,29 @@ void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)
     }
   }
   CleanupStack::PopAndDestroy(2); //view,param1
+
+}
+
+void CAlmSettingsSession::ProcessCompactL(void)
+{
+  User::LeaveIfError(iServer.Db().Compact());
+}
+
+void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)
+{
+  switch(aMessage.Function())
+  {
+    case ESettingsServerRequestGetData:
+    case ESettingsServerRequestGetLength:
+    case ESettingsServerRequestSet:
+      ProcessDataL();
+      break;
+    case ESettingsServerRequestCompact:
+      ProcessCompactL();
+      break;
+    default:
+      User::Leave(KErrNotSupported);
+  }
 }
 
 void StartAlmSettingsServerL(void)

@@ -34,6 +34,7 @@ class RAlmSettings: public RSessionBase
     TInt Set(const TDesC& aCategory,const TDesC& aName,const TDesC8& aValue);
     TInt Set(const TDesC& aCategory,const TDesC& aName,const TDesC& aValue);
     TInt Set(const TDesC& aCategory,const TDesC& aName,const TInt& aValue);
+    TInt Compact(void);
 };
 
 #endif
