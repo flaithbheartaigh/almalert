@@ -119,6 +119,9 @@ void CClkAlmView::HandleCommandL(TInt aCommand)
     case EClockAppExtraLocale:
       iClkAppUi->CmdLocaleL();
       break;
+    case EClockAppExtraCompactDB:
+      iClkAppUi->CmdCompactDBL();
+      break;
   }
 }
 

@@ -269,3 +269,12 @@ void CSettingsControl::UpdateVisibilityL(void)
   ListBox()->SetCurrentItemIndex(0);
   ListBox()->DrawDeferred();
 }
+
+void CSettingsControl::CompactL(void)
+{
+  RAlmSettings settings;
+  User::LeaveIfError(settings.Connect());
+  CleanupClosePushL(settings);
+  User::LeaveIfError(settings.Compact());
+  CleanupStack::PopAndDestroy(); //settings;
+}
