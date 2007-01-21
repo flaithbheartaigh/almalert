@@ -51,6 +51,7 @@ class CSettingsControl: public CAknSettingItemListEx
     static CSettingsControl* NewL(const TRect& aRect);
     ~CSettingsControl();
     TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType);
+    static void CompactL(void);
   protected: //CAknSettingItemList
     CAknSettingItem* CreateSettingItemL(TInt aSettingId);
   public: //CAknSettingItemList

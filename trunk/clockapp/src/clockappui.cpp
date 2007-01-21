@@ -136,3 +136,8 @@ void CClkAppUi::CmdLocaleL(void)
 {
   ActivateLocalViewL(KLocaleViewId);
 }
+
+void CClkAppUi::CmdCompactDBL(void)
+{
+  CSettingsControl::CompactL();
+}

@@ -50,6 +50,11 @@ RESOURCE MENU_PANE r_clockapp_extra_menu
     {
       command=EClockAppExtraLocale;
       txt="Locale";
+    },
+    MENU_ITEM
+    {
+      command=EClockAppExtraCompactDB;
+      txt="Compact DB";
     }
   };
 }

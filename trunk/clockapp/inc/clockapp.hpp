@@ -80,6 +80,7 @@ class CClkAppUi: public CAknViewAppUi
     void CmdSettingsExL(void);
     void CmdStopWatchL(void);
     void CmdLocaleL(void);
+    void CmdCompactDBL(void);
   private: //CAknAppUi
     void HandleCommandL(TInt aCommand);
     void ConstructL(void);
