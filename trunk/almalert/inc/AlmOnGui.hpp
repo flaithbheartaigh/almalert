@@ -55,6 +55,7 @@ class CAlmOnGui: public CActive
     void CancelBeeper(void);
   private: //Birthday
     TBool iBirthdayActive;
+    TInt iBirthdayHour;
     CBirthdayTimer* iBirthday;
     CAlmAudioSms* iBirthdayAudio;
     void InitBirthdayL(void);

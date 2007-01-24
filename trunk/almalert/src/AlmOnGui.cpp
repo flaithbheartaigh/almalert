@@ -59,6 +59,7 @@ void CAlmOnGui::ConstructL(void)
 void CAlmOnGui::NotifyL(void)
 {
   TBool beep=iSettings.IsBeep(),birthday=iSettings.IsBirthday();
+  TInt hour=iSettings.BirthdayHour();
   if(beep!=iBeepActive)
   {
     if(beep) InitBeeperL();
@@ -70,6 +71,11 @@ void CAlmOnGui::NotifyL(void)
     if(birthday) InitBirthdayL();
     else CancelBirthday();
     iBirthdayActive=birthday;
+  }
+  else if(iBirthdayActive&&hour!=iBirthdayHour)
+  {
+    CancelBirthday();
+    InitBirthdayL();
   }
   iSettings.Notify(iStatus);
   SetActive();
@@ -174,8 +180,9 @@ void CAlmOnGui::CancelBeeper(void)
 
 void CAlmOnGui::InitBirthdayL(void)
 {
+  iBirthdayHour=iSettings.BirthdayHour();
   TCallBack callback(BirthdayTimeout,this);
-  iBirthday=CBirthdayTimer::NewL(iSettings.BirthdayHour(),callback);
+  iBirthday=CBirthdayTimer::NewL(iBirthdayHour,callback);
 }
 
 void CAlmOnGui::DoBirthdayTimeoutL(void)
