@@ -1,6 +1,6 @@
 /*
     AlmSettingsClientImplementation.hpp
-    Copyright (C) 2006 zg
+    Copyright (C) 2006-2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -118,6 +118,16 @@ TInt RAlmSettings::Set(const TDesC& aCategory,const TDesC& aName,const TInt& aVa
 TInt RAlmSettings::Compact(void)
 {
   return SendReceive(ESettingsServerRequestCompact,NULL);
+}
+
+void RAlmSettings::Notify(TRequestStatus& aStatus)
+{
+  SendReceive(ESettingsServerRequestNotify,NULL,aStatus);
+}
+
+void RAlmSettings::NotifyCancel(void)
+{
+  SendReceive(ESettingsServerRequestNotifyCancel,NULL);
 }
 
 #endif

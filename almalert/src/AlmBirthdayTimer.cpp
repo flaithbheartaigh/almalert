@@ -1,6 +1,6 @@
 /*
     AlmBirthdayTimer.cpp
-    Copyright (C) 2005 zg
+    Copyright (C) 2005-2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ CBirthdayTimer* CBirthdayTimer::NewL(TUint8 aHour,TCallBack aCallback)
   CBirthdayTimer* self=new(ELeave)CBirthdayTimer(aHour,aCallback);
   CleanupStack::PushL(self);
   self->ConstructL();
-  CleanupStack::Pop(self);
+  CleanupStack::Pop(); //self
   return self;
 }
 

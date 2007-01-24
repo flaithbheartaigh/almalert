@@ -1,6 +1,6 @@
 /*
     AlarmAlertSettings.cpp
-    Copyright (C) 2005 zg
+    Copyright (C) 2005-2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -91,6 +91,16 @@ const TTimeIntervalDays CSettings::BirthdayStart(void)
 TUint8 CSettings::BirthdayHour(void)
 {
   return Load(KCategoryBirthday,KHour,0,23,12);
+}
+
+void CSettings::Notify(TRequestStatus& aStatus)
+{
+  iSettings.Notify(aStatus);
+}
+
+void CSettings::NotifyCancel(void)
+{
+  iSettings.NotifyCancel();
 }
 
 TBool CSettings::FileExist(const TDesC& aFileName)

@@ -1,6 +1,6 @@
 /*
-    AlmSettingsCommon.hpp
-    Copyright (C) 2006-2007 zg
+    AlmInterface.hpp
+    Copyright (C) 2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,27 +17,15 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#ifndef __ALMSETTINGSCOMMON_HPP__
-#define __ALMSETTINGSCOMMON_HPP__
+#ifndef __ALMINTERFACE_HPP__
+#define __ALMINTERFACE_HPP__
 
-#include <e32base.h>
+#include <e32std.h>
 
-_LIT(KSettingsServerName,"AlmSettingsServer");
-_LIT(KSettingsServerSemaphoreName,"AlmSettingsServerSemaphore");
-
-const TUint KSettingsServerMajorVersionNumber=1;
-const TUint KSettingsServerMinorVersionNumber=0;
-const TUint KSettingsServerBuildVersionNumber=1;
-
-enum TSettingsServerRequest
+class MAlmInterface
 {
-  ESettingsServerRequestGetData,
-  ESettingsServerRequestGetLength,
-  ESettingsServerRequestSet,
-  ESettingsServerRequestCompact,
-  ESettingsServerRequestNotify,
-  ESettingsServerRequestNotifyCancel,
-  ESettingsServerRequestLast
+  public:
+    virtual TBool AlarmActive(void)=0;
 };
 
 #endif

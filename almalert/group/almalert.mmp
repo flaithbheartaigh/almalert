@@ -17,6 +17,7 @@ source AlmBD.cpp
 source AlmBirthdayTimer.cpp
 source AlmSuspendDsp.cpp
 source AlmSettingsServer.cpp
+source AlmOnGui.cpp
 
 userinclude ..\inc 
 

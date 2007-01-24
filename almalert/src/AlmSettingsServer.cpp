@@ -1,6 +1,6 @@
 /*
     AlmSettingsServer.cpp
-    Copyright (C) 2006 zg
+    Copyright (C) 2006-2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -76,6 +76,14 @@ void CAlmSettingsServer::DecrementSessions(void)
   if(iSessionCount<=0) CActiveScheduler::Stop();
 }
 
+void CAlmSettingsServer::Notify(void)
+{
+  CAlmSettingsSession* session;
+  iSessionIter.SetToFirst();
+  while((session=static_cast<CAlmSettingsSession*>(iSessionIter++)))
+    session->Notify();
+}
+
 void CAlmSettingsServer::ThreadFunctionL(void)
 {
   CActiveScheduler* scheduler=new(ELeave)CActiveScheduler;
@@ -113,22 +121,33 @@ CAlmSettingsSession* CAlmSettingsSession::NewL(RThread& aClient,CAlmSettingsServ
 
 CAlmSettingsSession::~CAlmSettingsSession()
 {
+  CancelNotyfy();
   iServer.DecrementSessions();
 }
 
 void CAlmSettingsSession::ServiceL(const RMessage& aMessage)
 {
+  iComplete=ETrue;
   TRAPD(err,DispatchMessageL(aMessage));
-  aMessage.Complete(err);
+  if(iComplete) aMessage.Complete(err);
 }
 
 CAlmSettingsSession::CAlmSettingsSession(RThread& aClient,CAlmSettingsServer& aServer): CSession(aClient),iServer(aServer)
 {
+  iServer.IncrementSessions();
 }
 
 void CAlmSettingsSession::ConstructL(void)
 {
-  iServer.IncrementSessions();
+}
+
+void CAlmSettingsSession::Notify(void)
+{
+  if(iActive)
+  {
+    iActive=EFalse;
+    iMsgPtr.Complete(KErrNone);
+  }
 }
 
 HBufC8* CAlmSettingsSession::ValueLC(const TAny* aSrc)
@@ -187,6 +206,7 @@ void CAlmSettingsSession::ProcessDataL(void)
     view.PutL();
     CleanupStack::Pop(); //view cancel
     CleanupStack::PopAndDestroy(); //value
+    iServer.Notify();
   }
   else
   {
@@ -230,8 +250,28 @@ void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)
     case ESettingsServerRequestCompact:
       ProcessCompactL();
       break;
+    case ESettingsServerRequestNotify:
+      if(!iActive)
+      {
+        iMsgPtr=aMessage.MessagePtr();
+        iActive=ETrue;
+        iComplete=EFalse;
+      }
+      break;
+    case ESettingsServerRequestNotifyCancel:
+      CancelNotyfy();
+      break;
     default:
       User::Leave(KErrNotSupported);
+  }
+}
+
+void CAlmSettingsSession::CancelNotyfy(void)
+{
+  if(iActive)
+  {
+    iActive=EFalse;
+    iMsgPtr.Complete(KErrCancel);
   }
 }
 

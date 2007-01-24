@@ -1,6 +1,6 @@
 /*
     AlmAlert.hpp
-    Copyright (C) 2005-2006 zg
+    Copyright (C) 2005-2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,13 +31,11 @@
 #include <eikbtgpc.h> //CEikButtonGroupContainer
 #include <aknnotecontrol.h> //CAknNoteControl
 #include <EikSrvUi.hpp> //CEikServAppUi
-#include <ActivityManager.hpp> //CUserActivityManager
 
 #include "AlmAudioAlert.hpp"
-#include "AlmAudioBeep.hpp"
-#include "AlmAudioSms.hpp"
 #include "AlarmAlertSettings.hpp"
-#include "AlmBirthdayTimer.hpp"
+#include "AlmInterface.hpp"
+#include "AlmOnGui.hpp"
 
 const TInt KAlmAlarmUidValue=0x1000599E;
 const TUid KAlmAlarmUid={KAlmAlarmUidValue};
@@ -86,7 +84,7 @@ class MAlm
     virtual void ConstructAlarmL(CEikAlmControlSupervisor* aSupervisor,CEikServAppUi* aAppUi)=0;
 };
 
-class CAlm: public CEikBorderedControl,public MCoeControlContext,public MAlm,public MEikCommandObserver,public MSharedDataNotifyHandler,public MNotifierDialogObserver,public MAknFadedComponent
+class CAlm: public CEikBorderedControl,public MCoeControlContext,public MAlm,public MEikCommandObserver,public MSharedDataNotifyHandler,public MNotifierDialogObserver,public MAknFadedComponent,public MAlmInterface
 {
   public:
     enum TAlarmFlags
@@ -138,6 +136,8 @@ class CAlm: public CEikBorderedControl,public MCoeControlContext,public MAlm,pub
   public: //MAknFadedComponent
     TInt CountFadedComponents();
     CCoeControl* FadedComponent(TInt aIndex);
+  public: //MAlmInterface
+    TBool AlarmActive(void);
   private:
     CNoteContainer* iNoteContainer; //0x4c
     TInt iServerState; //0x50
@@ -176,6 +176,7 @@ class CAlm: public CEikBorderedControl,public MCoeControlContext,public MAlm,pub
     CPeriodic* iKeyguardTimer; //0x1d0
     //настройки
     CSettings* iSettings;
+    CAlmOnGui* iOnGui;
   private:
     void OnGuiL(void);
     static TInt ScancodeCallback(TAny* anAlm);
@@ -208,24 +209,6 @@ class CAlm: public CEikBorderedControl,public MCoeControlContext,public MAlm,pub
     void ActivateCba(CEikButtonGroupContainer* aButtons);
     static TInt AutoHideCallBack(TAny* anAlm);
     TInt DoAutoHide(void);
-  private: //Beeper
-    CPeriodic* iBeeper;
-    CAlmAudioBeep* iBeepAudio;
-    static TInt BeeperTimeout(TAny* anAlm);
-    void DoBeeperTimeout(void);
-    void InitBeeperL(void);
-    void SetBeeper(void);
-  private: //Birthday
-    CBirthdayTimer* iBirthday;
-    CAlmAudioSms* iBirthdayAudio;
-    void InitBirthdayL(void);
-    static TInt BirthdayTimeout(TAny* anAlm);
-    void DoBirthdayTimeoutL(void);
-  private: //Activity
-    TBool iUserActive;
-    CUserActivityManager* iActivity;
-    static TInt OnActivity(TAny* anAlm);
-    static TInt OnInactivity(TAny* anAlm);
 };
 
 #endif
