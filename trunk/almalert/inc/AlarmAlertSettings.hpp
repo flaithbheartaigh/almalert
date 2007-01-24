@@ -1,6 +1,6 @@
 /*
     AlarmAlertSettings.hpp
-    Copyright (C) 2005 zg
+    Copyright (C) 2005-2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -41,6 +41,8 @@ class CSettings: public CBase
     TBool IsBirthday(void);
     const TTimeIntervalDays BirthdayStart(void);
     TUint8 BirthdayHour(void);
+    void Notify(TRequestStatus& aStatus);
+    void NotifyCancel(void);
   private:
     TBool FileExist(const TDesC& aFileName);
     const TDesC& Load(const TDesC& aCategory,const TDesC& aName,TFileName& aValue);

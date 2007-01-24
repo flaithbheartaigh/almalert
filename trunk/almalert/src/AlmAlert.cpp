@@ -1,6 +1,6 @@
 /*
     AlmAlert.cpp
-    Copyright (C) 2005-2006 zg
+    Copyright (C) 2005-2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
 */
 
 #include "AlmAlert.hpp"
-#include "AlmUtils.hpp"
 #include <SharedData.hpp>
 
 #include <bautils.h> //BaflUtils
@@ -27,7 +26,6 @@
 #include <t32alm.h> //TAlarmInfo
 #include <eikimage.h> //CEikImage
 #include <aknconsts.h> //KAvkonBitmapFile
-#include <BtEng.hpp> //CBTMCMSettings
 #include <hal.h>
 
 #include <almalert.rsg>
@@ -48,11 +46,6 @@ CAlm::CAlm(): iAlmFlags(0)
 
 CAlm::~CAlm()
 {
-  delete iBirthday;
-  delete iBirthdayAudio;
-  delete iBeeper;
-  delete iBeepAudio;
-  delete iActivity;
   delete iNoteContainer;
   delete iAudio;
   ((CEikonEnv*)ControlEnv())->RemoveFromStack(this);
@@ -668,10 +661,9 @@ void CAlm::HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
     }
     else if(aKey==KKeyToneQuit)
     {
-      if(aValue[0]==0x30)
+      if(aValue[0]==0x30&&iOnGui)
       {
-        delete iBirthdayAudio;
-        iBirthdayAudio=NULL;
+        iOnGui->CancelBirthdayAudio();
       }
     }
   }
@@ -694,8 +686,7 @@ void CAlm::HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
 
 void CAlm::OnGuiL(void)
 {
-  InitBeeperL();
-  InitBirthdayL();
+  iOnGui=CAlmOnGui::NewL(*iSettings,*this,(CEikonEnv*)ControlEnv());
 }
 
 void CAlm::NoteCompleted(TInt aNoteId,TInt aCommand) //checked
@@ -737,121 +728,9 @@ CCoeControl* CAlm::FadedComponent(TInt aIndex) //checked
   return iButtonsCurrent;
 }
 
-TInt CAlm::OnActivity(TAny* anAlm)
+TBool CAlm::AlarmActive(void)
 {
-  ((CAlm*)anAlm)->iUserActive=ETrue;
-  return 0;
-}
-
-TInt CAlm::OnInactivity(TAny* anAlm)
-{
-  ((CAlm*)anAlm)->iUserActive=EFalse;
-  return 0;
-}
-
-void CAlm::SetBeeper(void) //устанавливает таймер до следующего часа
-{
-  TTime next,curr;
-  TCallBack callback(BeeperTimeout,this);
-  TTimeIntervalMicroSeconds32 diff;
-  next.HomeTime();
-  if(next>TTime(0))
-  {
-    next+=TTimeIntervalMicroSeconds(1799999999);
-  }
-  next-=next.Int64()%TInt64(1800000000);
-  curr.HomeTime();
-  diff=next.MicroSecondsFrom(curr).Int64().GetTInt();
-  if(diff>TTimeIntervalMicroSeconds32(0))
-  {
-    iBeeper->Start(diff,0,callback);
-  }
-  else
-  {
-    User::After(100000);
-    SetBeeper();
-  }
-}
-
-void CAlm::InitBeeperL(void)
-{
-  if(iSettings->IsBeep())
-  {
-    iActivity=CUserActivityManager::NewL(EPriorityLow);
-    iActivity->Start(10,TCallBack(OnInactivity,this),TCallBack(OnActivity,this));
-    iBeeper=CPeriodic::NewL(CActive::EPriorityIdle);
-    SetBeeper();
-  }
-}
-
-void CAlm::DoBeeperTimeout(void)
-{
-  iBeeper->Cancel();
-  if(iBeepAudio)
-  {
-    delete iBeepAudio;
-    iBeepAudio=NULL;
-    SetBeeper();
-  }
-  else
-  {
-    if(!iUserActive)
-    {
-      TTime time;
-      time.HomeTime();
-      time.RoundUpToNextMinute();
-      TDateTime dtime=time.DateTime();
-      TInt hour=dtime.Hour(),minute=dtime.Minute();
-      if(!(iAlmFlags&EFlagAlarmActive)&&minute<2&&hour>=iSettings->BeepStart()&&hour<=iSettings->BeepFinish())
-      {
-        TBool btState=EFalse;
-        CBTMCMSettings::GetPowerStateL(btState); //never leave. on error btState unchanged.
-        if(!btState)
-        {
-          TRAPD(err,iBeepAudio=CAlmAudioBeep::NewL((CEikonEnv*)(ControlEnv()),iSettings));
-        }
-      }
-    }
-    if(iBeepAudio)
-    {
-      TCallBack callback(BeeperTimeout,this);
-      iBeeper->Start(5000000,0,callback);
-    }
-    else SetBeeper();
-  }
-}
-
-TInt CAlm::BeeperTimeout(TAny* anAlm)
-{
-  ((CAlm*)anAlm)->DoBeeperTimeout();
-  return 0;
-}
-
-void CAlm::InitBirthdayL(void)
-{
-  if(iSettings->IsBirthday())
-  {
-    TCallBack callback(BirthdayTimeout,this);
-    iBirthday=CBirthdayTimer::NewL(iSettings->BirthdayHour(),callback);
-  }
-}
-
-void CAlm::DoBirthdayTimeoutL(void)
-{
-  delete iBirthdayAudio;
-  iBirthdayAudio=NULL;
-  TInt count;
-  AlmUtils::ProcessBirthdaysL(iSettings->BirthdayStart(),count);
-  if(count)
-  {
-    iBirthdayAudio=CAlmAudioSms::NewL((CEikonEnv*)(ControlEnv()),iSettings);
-  }
-}
-
-TInt CAlm::BirthdayTimeout(TAny* anAlm)
-{
-  TRAPD(err,((CAlm*)anAlm)->DoBirthdayTimeoutL());
-  return 0;
+  return iAlmFlags&EFlagAlarmActive;
 }
 
 EXPORT_C MAlm* NewAlarm(void) //checked

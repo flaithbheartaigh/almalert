@@ -1,6 +1,6 @@
 /*
     AlmSettingsServer.hpp
-    Copyright (C) 2006 zg
+    Copyright (C) 2006-2007 zg
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ class CAlmSettingsServer: public CServer
     void IncrementSessions(void);
     void DecrementSessions(void);
     inline RDbDatabase& Db(void) {return iBase;};
+    void Notify(void);
   private:
     CAlmSettingsServer(TInt aPriority);
     void ConstructL(void);
@@ -51,6 +52,7 @@ class CAlmSettingsSession: public CSession
   public:
     static CAlmSettingsSession* NewL(RThread& aClient,CAlmSettingsServer& aServer);
     ~CAlmSettingsSession();
+    void Notify(void);
   public: //CSession
     void ServiceL(const RMessage& aMessage);
   private:
@@ -61,8 +63,12 @@ class CAlmSettingsSession: public CSession
     HBufC8* ValueLC(const TAny* aSrc);
     TUint32 CategoryL(const TAny* aSrc);
     void ProcessCompactL(void);
+    void CancelNotyfy(void);
   private:
     CAlmSettingsServer& iServer;
+    RMessagePtr iMsgPtr;
+    TBool iActive;
+    TBool iComplete;
 };
 
 #endif
