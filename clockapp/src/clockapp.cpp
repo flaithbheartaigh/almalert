@@ -20,6 +20,7 @@
 #include "clockapp.hpp"
 #include <eikctl.rsg>
 #include <barsread.h>
+#include "clockapp.hrh"
 
 static const TUid KUidClockApp={0x10005903};
 
@@ -164,6 +165,11 @@ TKeyResponse CClkAlmViewContainer::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEv
   {
     iView->SetOpenedByOk(ETrue);
     iView->MenuBar()->TryDisplayMenuBarL();
+    res=EKeyWasConsumed;
+  }
+  else if(aType==EEventKey&&aKeyEvent.iCode=='#')
+  {
+    iView->HandleCommandL(EClockAppExtraStopWatch);
     res=EKeyWasConsumed;
   }
   return res;
