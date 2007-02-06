@@ -19,8 +19,11 @@
 
 #include "clockapp.hpp"
 #include <s32file.h>
+#include <AlmSettingsClient.hpp>
 
-_LIT(KConfig,"c:\\system\\data\\CLOCKAPP.dat");
+_LIT(KCategoryCommon,"Common");
+_LIT(KLastLow,"LastLow");
+_LIT(KLastHigh,"LastHigh");
 
 CClkDocument* CClkDocument::NewL(CEikApplication& aApp)
 {
@@ -39,24 +42,31 @@ CClkDocument::~CClkDocument()
 
 void CClkDocument::StoreDataL(void)
 {
-  RFileWriteStream stream;
-  CleanupReleasePushL(stream);
-  User::LeaveIfError(stream.Replace(Process()->FsSession(),KConfig,EFileShareExclusive));
-  stream.WriteUint32L(iDate.High());
-  stream.WriteUint32L(iDate.Low());
-  stream.CommitL();
-  CleanupStack::PopAndDestroy();
+  RAlmSettings settings;
+  User::LeaveIfError(settings.Connect());
+  CleanupClosePushL(settings);
+  TInt old;
+  TInt err=settings.Get(KCategoryCommon,KLastHigh,old);
+  if(err!=KErrNotFound) User::LeaveIfError(err);
+  if(err==KErrNotFound||(TUint)old!=iDate.High()) User::LeaveIfError(settings.Set(KCategoryCommon,KLastHigh,iDate.High()));
+  err=settings.Get(KCategoryCommon,KLastLow,old);
+  if(err!=KErrNotFound) User::LeaveIfError(err);
+  if(err==KErrNotFound||(TUint)old!=iDate.Low()) User::LeaveIfError(settings.Set(KCategoryCommon,KLastLow,iDate.Low()));
+  CleanupStack::PopAndDestroy(); //settings;
 }
 
 void CClkDocument::RestoreDataL(void)
 {
-  RFileReadStream stream;
-  CleanupReleasePushL(stream);
-  User::LeaveIfError(stream.Open(Process()->FsSession(),KConfig,EFileShareReadersOnly));
-  TUint32 high;
-  high=stream.ReadUint32L();
-  iDate.Set(high,stream.ReadUint32L());
-  CleanupStack::PopAndDestroy();
+  TInt high,low;
+  RAlmSettings settings;
+  User::LeaveIfError(settings.Connect());
+  CleanupClosePushL(settings);
+  TInt err=settings.Get(KCategoryCommon,KLastHigh,high);
+  if(err!=KErrNotFound) User::LeaveIfError(err);
+  err=settings.Get(KCategoryCommon,KLastLow,low);
+  if(err!=KErrNotFound) User::LeaveIfError(err);
+  CleanupStack::PopAndDestroy(); //settings;
+  iDate.Set(high,low);
 }
 
 TTime CClkDocument::GetLastAlarmTime(void)
