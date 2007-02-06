@@ -37,6 +37,7 @@ class CAlmSettingsServer: public CServer
     CAlmSettingsServer(TInt aPriority);
     void ConstructL(void);
     static void ThreadFunctionL(void);
+    static void SignalL(void);
   private: //CServer
     CSharableSession* NewSessionL(const TVersion& aVersion) const;
   private:

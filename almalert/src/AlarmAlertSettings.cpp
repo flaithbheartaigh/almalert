@@ -95,12 +95,12 @@ TUint8 CSettings::BirthdayHour(void)
 
 void CSettings::Notify(TRequestStatus& aStatus)
 {
-  iSettings.Notify(aStatus);
+  if(iConnected) iSettings.Notify(aStatus);
 }
 
 void CSettings::NotifyCancel(void)
 {
-  iSettings.NotifyCancel();
+  if(iConnected) iSettings.NotifyCancel();
 }
 
 TBool CSettings::FileExist(const TDesC& aFileName)
@@ -125,7 +125,7 @@ const TDesC& CSettings::Load(const TDesC& aCategory,const TDesC& aName,TFileName
 TInt CSettings::Load(const TDesC& aCategory,const TDesC& aName,TInt aLow,TInt aHigh,TInt aDefault)
 {
   TInt value=0;
-  if(iSettings.Get(aCategory,aName,value)==KErrNone)
+  if(iConnected&&iSettings.Get(aCategory,aName,value)==KErrNone)
   {
     if(value<aLow||value>aHigh) value=aDefault;
   }
