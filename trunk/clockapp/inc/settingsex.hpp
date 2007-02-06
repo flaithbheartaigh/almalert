@@ -34,6 +34,7 @@ class CSettingsView: public CAknView
     ~CSettingsView();
   private:
     void ConstructL(void);
+    void CheckAlmAlertL(void);
   public: //CAknView
     TUid Id(void) const;
     void HandleCommandL(TInt aCommand);
