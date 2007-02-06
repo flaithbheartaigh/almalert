@@ -121,10 +121,18 @@ CAknSettingItem* CLocaleControl::CreateSettingItemL(TInt aSettingId)
 void CLocaleControl::StoreSettingsL(void)
 {
   CAknSettingItemList::StoreSettingsL();
-  TLocale locale;
-  locale.SetUniversalTimeOffset(iTimeOffset);
-  locale.SetWorkDays(iWorkDays);
-  locale.Set();
+  TLocale locale; TBool update=EFalse;
+  if(iTimeOffset!=locale.UniversalTimeOffset())
+  {
+    locale.SetUniversalTimeOffset(iTimeOffset);
+    update=ETrue;
+  }
+  if(iWorkDays!=locale.WorkDays())
+  {
+    locale.SetWorkDays(iWorkDays);
+    update=ETrue;
+  }
+  if(update) locale.Set();
 }
 
 CLocaleControl::CLocaleControl(void)
