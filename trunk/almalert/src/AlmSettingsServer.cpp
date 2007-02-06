@@ -35,7 +35,6 @@ CAlmSettingsServer* CAlmSettingsServer::NewLC(void)
 
 CAlmSettingsServer::~CAlmSettingsServer()
 {
-  if(iBase.InTransaction()) iBase.Rollback();
   iBase.Close();
   iSession.Close();
 }
@@ -90,12 +89,17 @@ void CAlmSettingsServer::ThreadFunctionL(void)
   CleanupStack::PushL(scheduler);
   CActiveScheduler::Install(scheduler);
   CAlmSettingsServer::NewLC();
+  SignalL();
+  CActiveScheduler::Start();
+  CleanupStack::PopAndDestroy(2); //CAlmSettingsServer,scheduler
+}
+
+void CAlmSettingsServer::SignalL(void)
+{
   RSemaphore semaphore;
   User::LeaveIfError(semaphore.OpenGlobal(KSettingsServerSemaphoreName));
   semaphore.Signal();
   semaphore.Close();
-  CActiveScheduler::Start();
-  CleanupStack::PopAndDestroy(2); //CAlmSettingsServer,scheduler
 }
 
 TInt CAlmSettingsServer::ThreadFunction(TAny* aNone)
@@ -104,6 +108,10 @@ TInt CAlmSettingsServer::ThreadFunction(TAny* aNone)
   if(cleanup)
   {
     TRAPD(err,ThreadFunctionL());
+    if(err!=KErrNone)
+    {
+      TRAP(err,SignalL());
+    }
     delete cleanup;
     return err;
   }

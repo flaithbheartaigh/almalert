@@ -64,6 +64,7 @@ CAlm::~CAlm()
     iSysApNotify->Close();
     delete iSysApNotify;
   }
+  delete iSettings;
 }
 
 const TDesC8& CAlm::Copyright(void) const
