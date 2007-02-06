@@ -134,6 +134,7 @@ void CClkAppUi::CmdStopWatchL(void)
 
 void CClkAppUi::CmdLocaleL(void)
 {
+  ShowTitlePaneL(R_CLOCKAPP_LOCALE_TITLE);
   ActivateLocalViewL(KLocaleViewId);
 }
 

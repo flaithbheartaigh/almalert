@@ -409,6 +409,11 @@ RESOURCE ARRAY r_clockapp_extra_setting_binary_texts_menu
   };
 }
 
+RESOURCE TBUF32 r_clockapp_locale_title
+{
+  buf="Locale";
+}
+
 RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_locale
 {
   items=
