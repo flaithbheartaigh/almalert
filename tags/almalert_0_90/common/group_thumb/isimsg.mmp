@@ -1,0 +1,21 @@
+target isimsg.dll
+targettype dll
+
+uid 0x1000008d 0x1000595c
+targetpath \system\libs
+
+sourcepath ..\src\isimsg
+source isimsg.cpp
+source isimsg_unknown.cpp
+source isimsg_bad.cpp
+source subblock.cpp
+source subblockarray.cpp
+source isi_light.cpp
+source isi_test.cpp
+source isi_utils.cpp
+
+systeminclude ..\inc
+systeminclude \epoc32\include
+
+library euser.lib
+library pnmsg.lib

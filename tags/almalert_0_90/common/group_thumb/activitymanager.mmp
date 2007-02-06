@@ -1,0 +1,13 @@
+target activitymanager_a.dll
+targettype dll
+
+uid 0x1000008d 0x100056e4
+targetpath \system\libs
+
+sourcepath ..\src\activitymanager
+source activitymanager.cpp
+
+systeminclude ..\inc
+systeminclude \epoc32\include
+
+library euser.lib

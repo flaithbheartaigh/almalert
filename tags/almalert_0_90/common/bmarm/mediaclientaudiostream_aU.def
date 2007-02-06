@@ -1,0 +1,2 @@
+EXPORTS
+	NewL__25CMdaAudioOutputStreamImplR29MMdaAudioOutputStreamCallbackP10CMdaServer @ 1 NONAME R3UNUSED ; CMdaAudioOutputStreamImpl::NewL(MMdaAudioOutputStreamCallback &, CMdaServer *)

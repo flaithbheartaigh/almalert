@@ -1,0 +1,13 @@
+target phonet.dll
+targettype dll
+
+uid 0x1000008d 0x10005949
+targetpath \system\libs
+
+sourcepath ..\src\phonet
+source phonet.cpp
+
+systeminclude ..\inc 
+systeminclude \epoc32\include
+
+library euser.lib

@@ -1,0 +1,13 @@
+target CntPhone_a.dll
+targettype dll
+
+uid 0x101f3d58 0x101f3d59
+targetpath \system\libs
+
+sourcepath ..\src\CntPhone
+source CntPhone.cpp
+
+userinclude ..\src\CntPhone\inc
+systeminclude \epoc32\include
+
+library euser.lib
