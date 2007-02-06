@@ -20,6 +20,11 @@ RESOURCE EIK_APP_INFO
 {
 }
 
+RESOURCE TBUF64 r_clockapp_almalert_not_found
+{
+  buf="AlmAlert server not found!";
+}
+
 RESOURCE MENU_PANE r_clockapp_extra
 {
   items=

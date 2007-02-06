@@ -26,6 +26,7 @@
 #include <AlmSettingsClientImplementation.hpp>
 #include <AlmSettingsNames.hpp>
 #include <barsread.h>
+#include <aknglobalnote.h> //CAknGlobalNote
 
 CSettingsView* CSettingsView::NewLC(void)
 {
@@ -43,6 +44,24 @@ CSettingsView::~CSettingsView()
 void CSettingsView::ConstructL(void)
 {
   BaseConstructL(R_CLOCKAPP_EXTRA_SETTING_VIEW);
+  CheckAlmAlertL();
+}
+
+void CSettingsView::CheckAlmAlertL(void)
+{
+  RAlmSettings settings;
+  if(settings.Connect()==KErrNone)
+  {
+    settings.Close();
+  }
+  else
+  {
+    TBuf<64> string;
+    iCoeEnv->ReadResourceAsDes16(string,R_CLOCKAPP_ALMALERT_NOT_FOUND);
+    CAknGlobalNote* note=CAknGlobalNote::NewLC();
+    note->ShowNoteL(EAknGlobalInformationNote,string);
+    CleanupStack::PopAndDestroy(); //note
+  }
 }
 
 TUid CSettingsView::Id(void) const

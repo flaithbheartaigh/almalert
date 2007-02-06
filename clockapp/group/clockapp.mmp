@@ -25,7 +25,6 @@ userinclude ..\inc
 systeminclude \epoc32\include
 systeminclude ..\..\common\inc
 systeminclude ..\..\almalert\inc
-systeminclude ..\..\tricks\inc
 
 library euser.lib
 library avkon.lib
@@ -42,8 +41,7 @@ library commonengine.lib
 library hlplch.lib
 library aknlayout.lib
 library efsrv.lib
-
-library hwtricks.lib
+library aknnotify.lib
 
 aif clockapp.aif ..\aif clockappaif.rss c8 clock_b.bmp clock_b_m.bmp clock_s.bmp clock_s_m.bmp
 
