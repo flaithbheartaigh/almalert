@@ -73,6 +73,7 @@ EXPORT_C CVibraControl::TVibraModeState CVibraControlImpl::VibraSettings(void) c
 
 EXPORT_C void CVibraControlImpl::StartVibraL(TUint16 aDuration,TInt aIntensity)
 {
+  StartVibraL(aDuration);
 }
 
 void CVibraControlImpl::HandleGainingForeground(void)
