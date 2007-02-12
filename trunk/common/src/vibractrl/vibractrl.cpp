@@ -33,7 +33,7 @@ GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
 
 const TDesC8& CVibraControlImpl::Copyright(void)
 {
-  _LIT8(KAppCopyright,"vibractrl. (c) 2005 by zg. version 3.05");
+  _LIT8(KAppCopyright,"vibractrl. (c) 2005-2007 by zg. version 3.10");
   return KAppCopyright;
 }
 
