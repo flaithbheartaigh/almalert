@@ -80,7 +80,10 @@ class CMicroDialog: public CBase
         CBitmapContext& Context(void);
         CFont& Font(void);
       private:
+        TUint32 Handle(void);
+      private:
         CMicroDialog* iOwner;
+        TUint32 iHandle;
         RWsSession iWsSession;
         RWindowGroup iRootWin;
         RBackedUpWindow iWindow;
