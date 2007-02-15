@@ -95,7 +95,7 @@ void CMicroDialog::CMicroDialogInt::ConstructL(void)
 {
   User::LeaveIfError(iWsSession.Connect());
   iRootWin=RWindowGroup(iWsSession);
-  User::LeaveIfError(iRootWin.Construct((TUint32)this,EFalse));
+  User::LeaveIfError(iRootWin.Construct(Handle(),EFalse));
 
   CApaWindowGroupName* groupName=CApaWindowGroupName::NewLC(iWsSession);
   groupName->SetHidden(ETrue);
@@ -103,7 +103,7 @@ void CMicroDialog::CMicroDialogInt::ConstructL(void)
   CleanupStack::PopAndDestroy(); //groupName
 
   iWindow=RBackedUpWindow(iWsSession);
-  User::LeaveIfError(iWindow.Construct(iRootWin,EColor4K,(TUint32)this));
+  User::LeaveIfError(iWindow.Construct(iRootWin,EColor4K,Handle()));
   User::LeaveIfError(iWindow.SetExtentErr(TPoint((KScreenWidth-iOwner->iSize.iWidth)/2,(KScreenHeight-iOwner->iSize.iHeight)/2),iOwner->iSize));
   iWindow.MaintainBackup();
   iBitmap=new(ELeave)CFbsBitmap;
@@ -206,4 +206,9 @@ CBitmapContext& CMicroDialog::CMicroDialogInt::Context(void)
 CFont& CMicroDialog::CMicroDialogInt::Font(void)
 {
   return *iFont;
+}
+
+TUint32 CMicroDialog::CMicroDialogInt::Handle(void)
+{
+  return iHandle++;
 }
