@@ -5,7 +5,6 @@ epocstacksize 65536
 sourcepath ..\createdb
 source createdb.cpp
 source ..\..\common\src\microdialog\microdialog.cpp
-source ..\..\common\src\microdialog\microdialoginterface.cpp
 
 userinclude ..\inc
 userinclude .
