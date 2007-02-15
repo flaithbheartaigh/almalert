@@ -77,8 +77,8 @@ class CMicroDialog: public CBase
       private: //MMicroDialogInterface
         void MicroDialogRefresh(void);
         void MicroDialogClose(void);
-        CBitmapContext& Context(void) {return *iBitmapContext;};
-        CFont& Font(void) {return *iFont;};
+        CBitmapContext& Context(void);
+        CFont& Font(void);
       private:
         CMicroDialog* iOwner;
         RWsSession iWsSession;
@@ -90,8 +90,6 @@ class CMicroDialog: public CBase
         CFbsFont* iFont;
         RTimer iTimer;
         TBool iDoLoop;
-      private:
-        TRect iClient;
     };
   friend class CMicroDialogInt;
 };
