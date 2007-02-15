@@ -116,8 +116,6 @@ void CMicroDialog::CMicroDialogInt::ConstructL(void)
   User::LeaveIfError(iBitmapDevice->GetFontById(iFont,TUid::Uid(KScreenFontUidAlp12),style));
   iBitmapContext->UseFont(iFont);
 
-  iClient.SetRect(TPoint(0,0),iOwner->iSize);
-
   iWindow.Activate();
   iTimer.CreateLocal();
 
@@ -187,4 +185,25 @@ void CMicroDialog::CMicroDialogInt::EventLoopL(void)
   }
   iTimer.Cancel();
   iWsSession.EventReadyCancel();
+}
+
+void CMicroDialog::CMicroDialogInt::MicroDialogRefresh(void)
+{
+  iWindow.UpdateScreen();
+  iWsSession.Flush();
+}
+
+void CMicroDialog::CMicroDialogInt::MicroDialogClose(void)
+{
+  iDoLoop=EFalse;
+}
+
+CBitmapContext& CMicroDialog::CMicroDialogInt::Context(void)
+{
+  return *iBitmapContext;
+}
+
+CFont& CMicroDialog::CMicroDialogInt::Font(void)
+{
+  return *iFont;
 }
