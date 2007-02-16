@@ -110,6 +110,7 @@ CStopWatchControl::CStopWatchControl(void)
 
 void CStopWatchControl::ConstructL(const TRect& aRect)
 {
+  iCoeEnv->ReadResourceAsDes16(iLapLabel,R_CLOCKAPP_STOP_WATCH_LAP);
   CreateWindowL();
   SetRect(aRect);
   DrawNow(); //FIXME: needed?
@@ -149,11 +150,15 @@ void CStopWatchControl::Draw(const TRect& aRect) const
   gc.SetBrushStyle(CGraphicsContext::ESolidBrush);
   TRect rect=Rect();
   gc.Clear(rect);
-  TBuf<11> time;
-  CurrentTime(time);
+  TBuf<11> time; TBuf<32> lap;
+  CurrentTime(time,lap);
   gc.UseFont(ClockBold30());
-  TRect value(0,40,176,70);
-  gc.DrawText(time,value,30,CGraphicsContext::ECenter);
+  TRect rectTime(0,40,176,70);
+  gc.DrawText(time,rectTime,30,CGraphicsContext::ECenter);
+  gc.DiscardFont();
+  gc.UseFont(LatinPlain12());
+  TRect rectLap(0,72,176,84);
+  gc.DrawText(lap,rectLap,10,CGraphicsContext::ECenter);
   gc.DiscardFont();
 }
 
@@ -225,7 +230,7 @@ void CStopWatchControl::ProcessLap(void)
 _LIT(KZero,"00:00:00.00");
 _LIT(KFormat,"%02.2d:%02.2d:%02.2d.%02.2d");
 
-void CStopWatchControl::CurrentTime(TDes& aTime) const
+void CStopWatchControl::CurrentTime(TDes& aTime,TDes& aLap) const
 {
   TTime current;
   current.HomeTime();
@@ -256,4 +261,9 @@ void CStopWatchControl::CurrentTime(TDes& aTime) const
   diff/=60;
   TInt hour=(diff%60).GetTInt();
   aTime.Format(KFormat,hour,min,sec,msec);
+  aLap.Zero();
+  if((iState==EStateLap1&&current.DateTime().MicroSecond()>500000)||iState==EStateLap2)
+  {
+    aLap.Copy(iLapLabel);
+  }
 }
