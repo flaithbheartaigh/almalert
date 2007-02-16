@@ -82,7 +82,7 @@ class CStopWatchControl: public CCoeControl,public MCoeForegroundObserver
     void ProcessStop(void);
     void ProcessRestart(void);
     void ProcessLap(void);
-    void CurrentTime(TDes& aTime) const;
+    void CurrentTime(TDes& aTime,TDes& aLap) const;
     void InitRefresh(void);
     static TInt RefreshTimeout(TAny* aContainer);
   private:
@@ -92,6 +92,7 @@ class CStopWatchControl: public CCoeControl,public MCoeForegroundObserver
     TTime iLap;
     TInt64 iPause;
     CPeriodic* iRefresh;
+    TBuf<32> iLapLabel;
 };
 
 const TInt KWhiteColor=0;

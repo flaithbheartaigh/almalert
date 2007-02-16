@@ -108,6 +108,11 @@ RESOURCE TBUF32 r_clockapp_stop_watch_title
   buf="Stop-watch";
 }
 
+RESOURCE TBUF32 r_clockapp_stop_watch_lap
+{
+  buf="lap";
+}
+
 RESOURCE AVKON_VIEW r_clockapp_stop_watch_view
 {
   menubar=r_clockapp_stop_watch_menubar;
