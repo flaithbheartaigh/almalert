@@ -687,7 +687,7 @@ void CAlm::HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
 
 void CAlm::OnGuiL(void)
 {
-  iOnGui=CAlmOnGui::NewL(*iSettings,*this,(CEikonEnv*)ControlEnv());
+  if(iSettings->Connected()) iOnGui=CAlmOnGui::NewL(*iSettings,*this,(CEikonEnv*)ControlEnv());
 }
 
 void CAlm::NoteCompleted(TInt aNoteId,TInt aCommand) //checked

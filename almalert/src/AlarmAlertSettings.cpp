@@ -33,6 +33,11 @@ CSettings::CSettings()
   if(iSettings.Connect()==KErrNone) iConnected=ETrue;
 }
 
+TBool CSettings::Connected(void)
+{
+  return iConnected;
+}
+
 const TDesC& CSettings::Alarm(void)
 {
   return Load(KCategoryAlarm,KTone,iAlarm);
