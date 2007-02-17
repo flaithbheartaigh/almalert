@@ -28,6 +28,7 @@ class CSettings: public CBase
   public:
     CSettings();
     ~CSettings();
+    TBool Connected(void);
   public:
     const TDesC& Alarm(void);
     const TDesC& Calendar(void);
