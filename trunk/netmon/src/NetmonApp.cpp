@@ -109,7 +109,7 @@ void CNetmonAppUi::HandleCommandL(TInt aCommand)
         TInt build;
         HWOther::InfoL(HWOther::EInfoBuild,build);
         TBuf16<128> about;
-        about.Append(_L("Netmon ver. 0.60\n\x00a9 by zg\nhwtricks.dll build "));
+        about.Append(_L("Netmon ver. 0.90\n\x00a9 by zg\nhwtricks.dll build "));
         about.AppendNum(build);
         about.Append(_L("\nhttp://almalert.sf.net"));
         CMobilePhone::ShowResult(about);

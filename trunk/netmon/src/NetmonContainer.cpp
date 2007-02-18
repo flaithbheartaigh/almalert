@@ -224,7 +224,7 @@ void CNetmonContainer::DrawCellId(void) const
   gc.SetPenStyle(CGraphicsContext::ESolidPen);
   gc.UseFont(LatinPlain12());
   TRect value(14,194,38,206);
-  Value(KPhoneNetUnit,0x1304,data);
+  Value(KPhoneNetworkUnit,0x1304,data);
   if(data.Length()>4) data.Copy(data.Mid(4));
   gc.DrawText(data,value,10,CGraphicsContext::ELeft);
   value.SetRect(51,194,71,206);
@@ -390,7 +390,7 @@ void CNetmonContainer::DrawPage0(void) const
       TPtrC ptr((TUint16*)labels[index]);
       gc.DrawText(ptr,label,10);
       TUint8 unit=KPhoneGssUnit;
-      if(addresses[index]==0x1304) unit=KPhoneNetUnit;
+      if(addresses[index]==0x1304) unit=KPhoneNetworkUnit;
       Value(unit,addresses[index],data);
       if(addresses[index]==0x3201)
       {
