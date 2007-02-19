@@ -1,0 +1,8 @@
+EXPORTS
+	NewL__20CUserActivityManageri @ 1 NONAME R3UNUSED ; CUserActivityManager::NewL(int)
+	RunL__20CUserActivityManager @ 2 NONAME R3UNUSED ; CUserActivityManager::RunL(void)
+	SetInactivityTimeout__20CUserActivityManagerG20TTimeIntervalSeconds @ 3 NONAME R3UNUSED ; CUserActivityManager::SetInactivityTimeout(TTimeIntervalSeconds)
+	Start__20CUserActivityManagerG20TTimeIntervalSecondsG9TCallBackT2 @ 4 NONAME ; CUserActivityManager::Start(TTimeIntervalSeconds, TCallBack, TCallBack)
+	"_._20CUserActivityManager" @ 5 NONAME R3UNUSED ; CUserActivityManager::~CUserActivityManager(void)
+	__20CUserActivityManageri @ 6 NONAME R3UNUSED ; CUserActivityManager::CUserActivityManager(int)
+

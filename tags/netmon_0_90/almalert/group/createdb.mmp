@@ -1,0 +1,23 @@
+target createdb.exe
+targettype exe
+epocstacksize 65536
+
+sourcepath ..\createdb
+source createdb.cpp
+source ..\..\common\src\microdialog\microdialog.cpp
+
+userinclude ..\inc
+userinclude .
+systeminclude \epoc32\include    
+systeminclude ..\..\common\inc
+
+library euser.lib 
+library edbms.lib
+library efsrv.lib
+library gdi.lib
+//microdialog
+library ws32.lib
+library apgrfx.lib
+library bitgdi.lib
+library fbscli.lib
+library fntstr.lib

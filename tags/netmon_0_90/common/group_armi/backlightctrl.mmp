@@ -1,0 +1,20 @@
+target backlightctrl.dll
+targettype dll
+
+uid 0x1000008d 0x101fec04
+targetpath \system\libs
+
+sourcepath ..\src\backlightctrl
+source backlightctrl.cpp
+source backlightdll.cpp
+source backlightimpl.cpp
+source backlighttimer.cpp
+
+userinclude ..\src\backlightctrl\inc
+systeminclude ..\inc
+systeminclude \epoc32\include
+systeminclude ..\..\tricks\inc
+
+library euser.lib
+library cone.lib
+library hwtricks.lib

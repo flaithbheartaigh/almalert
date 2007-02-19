@@ -1,0 +1,13 @@
+target lcddev.dll
+targettype dll
+
+uid 0x10005a33 0x0
+targetpath \system\libs
+
+sourcepath ..\src\lcddev
+source lcddev.cpp
+
+systeminclude \epoc32\include
+systeminclude ..\inc
+
+library euser.lib

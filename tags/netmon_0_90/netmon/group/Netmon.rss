@@ -1,0 +1,233 @@
+NAME NMON
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.rh>
+#include <avkon.rsg>
+#include "netmon.hrh"
+
+RESOURCE RSS_SIGNATURE
+{
+}
+
+RESOURCE TBUF r_default_document_name
+{
+  buf="";
+}
+
+RESOURCE EIK_APP_INFO
+{
+  menubar=r_netmon_menubar;
+  cba=R_AVKON_SOFTKEYS_OPTIONS_EXIT;
+}
+
+RESOURCE MENU_BAR r_netmon_menubar
+{
+  titles=
+  {
+    MENU_TITLE {menu_pane=r_netmon_menu;}
+  };
+}
+
+RESOURCE MENU_PANE r_netmon_menu
+{
+  items= 
+  {
+    MENU_ITEM {command=ENetmonSendFlashSms; txt="Send Flash Sms";},
+    MENU_ITEM {command=ENetmonSetOwnNumber; txt="Set Own Number";},
+    MENU_ITEM {command=ENetmonSetSCAddress; txt="Set SC Address";},
+    MENU_ITEM {command=ENetmonIMSI; txt="IMSI";},
+    MENU_ITEM {command=ENetmonAbout; txt="About";},
+    MENU_ITEM {command=EAknSoftkeyExit; txt="Exit";}
+  };
+}
+
+RESOURCE DIALOG r_chanel_query
+{
+  flags=EGeneralQueryFlags;
+  buttons=R_AVKON_SOFTKEYS_OK_CANCEL;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtQuery;
+      id=EGeneralQuery;
+      control=AVKON_DATA_QUERY
+      {
+        layout=ENumberLayout;
+        label="Enter chanel:";
+        control=AVKON_INTEGER_EDWIN
+        {
+          min=0;
+          max=9999;
+        };
+      };
+    }
+  };
+}
+
+RESOURCE DIALOG r_freq_query
+{
+  flags=EGeneralQueryFlags;
+  buttons=R_AVKON_SOFTKEYS_OK_CANCEL;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtListQueryControl;
+      id=EListQueryControl;
+      control=AVKON_LIST_QUERY_CONTROL
+      {
+        listtype=EAknCtSinglePopupMenuListBox;
+        listbox=LISTBOX
+        {
+          flags=EAknListBoxMenuList;
+          height=4;
+          array_id=r_freq_query_item;
+        };
+        heading="Last used band:";
+      };
+    }
+  };
+}
+
+RESOURCE ARRAY r_freq_query_item
+{
+  items=
+  {
+    LBUF
+    {
+      txt="Clear";
+    },
+    LBUF
+    {
+      txt="900 MHz";
+    },
+    LBUF
+    {
+      txt="1800 MHz";
+    },
+    LBUF
+    {
+      txt="1900 MHz";
+    }
+  };
+}
+
+RESOURCE DIALOG r_sms_send
+{
+  flags=EGeneralQueryFlags;
+  buttons=R_AVKON_SOFTKEYS_OK_CANCEL;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtMultilineQuery;
+      id=EMultilineFirstLine;
+      control=AVKON_DATA_QUERY
+      {
+        layout=EMultiDataFirstEdwin;
+        label="To:";
+        control=EDWIN
+        {
+          flags=EEikEdwinNoHorizScrolling|EEikEdwinResizable;
+          width=25;
+          lines=1;
+          maxlength=20;
+          allowed_input_modes=EAknEditorNumericInputMode;
+          default_input_mode=EAknEditorNumericInputMode;
+        };
+      };
+    },
+    DLG_LINE
+    {
+      type=EAknCtMultilineQuery;
+      id=EMultilineSecondLine;
+      control=AVKON_DATA_QUERY
+      {
+        layout=EMultiDataSecondEdwin;
+        label="Body:";
+        control=EDWIN
+        {
+          flags=EEikEdwinNoHorizScrolling|EEikEdwinResizable;
+          width=25;
+          lines=1;
+          maxlength=70;
+        };
+      };
+    }
+  };
+}
+
+RESOURCE DIALOG r_set_sc
+{
+  flags=EGeneralQueryFlags;
+  buttons=R_AVKON_SOFTKEYS_OK_CANCEL;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtQuery;
+      id=EGeneralQuery;
+      control=AVKON_DATA_QUERY
+      {
+        layout=EDataLayout;
+        label="Enter SC Address:";
+        control=EDWIN
+        {
+          flags=EEikEdwinNoHorizScrolling|EEikEdwinResizable;
+          width=25;
+          lines=1;
+          maxlength=100;
+          allowed_input_modes=EAknEditorNumericInputMode;
+          default_input_mode=EAknEditorNumericInputMode;
+        };
+      };
+    }
+  };
+}
+
+RESOURCE DIALOG r_own_number
+{
+  flags=EGeneralQueryFlags;
+  buttons=R_AVKON_SOFTKEYS_OK_CANCEL;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtMultilineQuery;
+      id=EMultilineFirstLine;
+      control=AVKON_DATA_QUERY
+      {
+        layout=EMultiDataFirstEdwin;
+        label="Name:";
+        control=EDWIN
+        {
+          flags=EEikEdwinNoHorizScrolling|EEikEdwinResizable;
+          width=25;
+          lines=1;
+          maxlength=100;
+        };
+      };
+    },
+    DLG_LINE
+    {
+      type=EAknCtMultilineQuery;
+      id=EMultilineSecondLine;
+      control=AVKON_DATA_QUERY
+      {
+        layout=EMultiDataSecondEdwin;
+        label="Own Number:";
+        control=EDWIN
+        {
+          flags=EEikEdwinNoHorizScrolling|EEikEdwinResizable;
+          width=25;
+          lines=1;
+          maxlength=100;
+          allowed_input_modes=EAknEditorNumericInputMode;
+          default_input_mode=EAknEditorNumericInputMode;
+        };
+      };
+    }
+  };
+}

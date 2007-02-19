@@ -1,0 +1,474 @@
+NAME CLK2
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.rh>
+#include <avkon.rsg>
+#include <clockapp.mbg>
+#include "clockapp.hrh"
+
+RESOURCE RSS_SIGNATURE
+{
+}
+
+RESOURCE TBUF r_default_document_name
+{
+  buf="";
+}
+
+RESOURCE EIK_APP_INFO
+{
+}
+
+RESOURCE TBUF64 r_clockapp_almalert_not_found
+{
+  buf="AlmAlert server not found!";
+}
+
+RESOURCE MENU_PANE r_clockapp_extra
+{
+  items=
+  {
+    MENU_ITEM
+    {
+      cascade=r_clockapp_extra_menu;
+      txt="Extra";
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_clockapp_extra_menu
+{
+  items=
+  {
+    MENU_ITEM
+    {
+      command=EClockAppExtraStopWatch;
+      txt="Stop-watch";
+    },
+    MENU_ITEM
+    {
+      command=EClockAppExtraSettings;
+      txt="Settings";
+    },
+    MENU_ITEM
+    {
+      command=EClockAppExtraLocale;
+      txt="Locale";
+    },
+    MENU_ITEM
+    {
+      command=EClockAppExtraCompactDB;
+      txt="Compact DB";
+    }
+  };
+}
+
+RESOURCE TBUF32 r_clockapp_extra_setting_title
+{
+  buf="Settings";
+}
+
+RESOURCE AVKON_VIEW r_clockapp_extra_setting_view
+{
+  menubar=r_clockapp_extra_setting_menubar;
+  cba=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+}
+
+RESOURCE MENU_BAR r_clockapp_extra_setting_menubar
+{
+  titles=
+  {
+    MENU_TITLE
+    {
+      menu_pane=r_clockapp_extra_setting_menu;
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_clockapp_extra_setting_menu
+{
+  items=
+  {
+    MENU_ITEM 
+    {
+      command=EClockAppExtraChange;
+      txt="Change";
+    },
+    MENU_ITEM
+    {
+      command=EAknSoftkeyExit;
+      txt="Exit";
+    }
+  };
+}
+
+RESOURCE TBUF32 r_clockapp_stop_watch_title
+{
+  buf="Stop-watch";
+}
+
+RESOURCE TBUF32 r_clockapp_stop_watch_lap
+{
+  buf="lap";
+}
+
+RESOURCE AVKON_VIEW r_clockapp_stop_watch_view
+{
+  menubar=r_clockapp_stop_watch_menubar;
+  cba=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+}
+
+RESOURCE MENU_BAR r_clockapp_stop_watch_menubar
+{
+  titles=
+  {
+    MENU_TITLE
+    {
+      menu_pane=r_clockapp_stop_watch_menu;
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_clockapp_stop_watch_menu
+{
+  items=
+  {
+    MENU_ITEM 
+    {
+      command=EClockAppExtraStopWatchStartStop;
+      txt="Start/Stop";
+    },
+    MENU_ITEM 
+    {
+      command=EClockAppExtraStopWatchLapReset;
+      txt="Lap/Reset";
+    },
+    MENU_ITEM
+    {
+      command=EAknSoftkeyExit;
+      txt="Exit";
+    }
+  };
+}
+
+RESOURCE TAB_GROUP r_clockapp_extra_setting_tabs
+{
+  tab_width=EAknTabWidthWithThreeLongTabs;
+  tabs=
+  {
+    TAB
+    {
+      id=EClockAppExtraSettingTabAlarm;
+      txt="alarm";
+    },
+    TAB
+    {
+      id=EClockAppExtraSettingTabCalendar;
+      txt="calendar";
+    },
+    TAB
+    {
+      id=EClockAppExtraSettingTabBeep;
+      txt="beep";
+    },
+    TAB
+    {
+      id=EClockAppExtraSettingTabBirthday;
+      txt="birthday";
+    }
+  };
+}
+
+RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_extra_setting
+{
+  items=
+  {
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingAlarmTone;
+      setting_page_resource=r_clockapp_extra_setting_clock_tone;
+      name="Alarm tone";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingSnoozeTime;
+      setting_page_resource=r_clockapp_extra_setting_snooze_time;
+      name="Snooze Time";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingSnoozeCount;
+      setting_page_resource=r_clockapp_extra_setting_snooze_count;
+      name="Snooze Count";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingCalendarTone;
+      setting_page_resource=r_clockapp_extra_setting_calendar_tone;
+      name="Calendar tone";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBeepEnabled;
+      associated_resource=r_clockapp_extra_setting_binary_texts;
+      name="Beep";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBeepTone;
+      setting_page_resource=r_clockapp_extra_setting_beep_tone;
+      name="Beep tone";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBeepStart;
+      setting_page_resource=r_clockapp_extra_setting_beep_start;
+      name="Beep Start";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBeepFinish;
+      setting_page_resource=r_clockapp_extra_setting_beep_finish;
+      name="Beep Finish";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBirthdayEnabled;
+      associated_resource=r_clockapp_extra_setting_binary_texts;
+      name="Birthday";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBirthdayTone;
+      setting_page_resource=r_clockapp_extra_setting_birthday_tone;
+      name="Birthday tone";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBirthdayStart;
+      setting_page_resource=r_clockapp_extra_setting_birthday_start;
+      name="Birthday Gap";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppExtraSettingBirthdayHour;
+      setting_page_resource=r_clockapp_extra_setting_birthday_hour;
+      name="Birthday Hour";
+    }
+  };
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_clock_tone
+{
+  label="Alarm tone";
+  type=EAknCtSingleGraphicPopupMenuListBox;
+  editor_resource_id=r_clockapp_extra_setting_listbox;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_calendar_tone
+{
+  label="Calendar tone";
+  type=EAknCtSingleGraphicPopupMenuListBox;
+  editor_resource_id=r_clockapp_extra_setting_listbox;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_beep_tone
+{
+  label="Beep tone";
+  type=EAknCtSingleGraphicPopupMenuListBox;
+  editor_resource_id=r_clockapp_extra_setting_listbox;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_birthday_tone
+{
+  label="Birthday tone";
+  type=EAknCtSingleGraphicPopupMenuListBox;
+  editor_resource_id=r_clockapp_extra_setting_listbox;
+}
+
+RESOURCE LISTBOX r_clockapp_extra_setting_listbox
+{
+  flags=EAknListBoxMenuList;
+}
+
+RESOURCE AKN_ICON_ARRAY r_clockapp_extra_setting_icons
+{
+  type=EAknIconArraySimple;
+  bmpfile="\system\apps\clockapp\clockapp.mbm";
+  icons=
+  {
+    AKN_ICON
+    {
+      iconId=EMbmClockappClear;
+      maskId=EMbmClockappClear;
+    },
+    AKN_ICON
+    {
+      iconId=EMbmClockappNote;
+      maskId=EMbmClockappNote_m;
+    }
+  };
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_snooze_time
+{
+  label="Snooze Time";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_snooze_time_slider;
+}
+
+RESOURCE SLIDER r_clockapp_extra_setting_snooze_time_slider
+{
+  layout=EAknSettingsItemSliderLayout;
+  minvalue=5;
+  maxvalue=255;
+  step=1;
+  valuetype=EAknSliderValueDecimal;
+  minlabel="Min";
+  maxlabel="Max";
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_snooze_count
+{
+  label="Snooze Count";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_snooze_count_slider;
+}
+
+RESOURCE SLIDER r_clockapp_extra_setting_snooze_count_slider
+{
+  layout=EAknSettingsItemSliderLayout;
+  minvalue=1;
+  maxvalue=255;
+  step=1;
+  valuetype=EAknSliderValueDecimal;
+  minlabel="Min";
+  maxlabel="Max";
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_beep_start
+{
+  label="Beep Start";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_hour_slider;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_beep_finish
+{
+  label="Beep Finish";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_hour_slider;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_birthday_hour
+{
+  label="Birthday Hour";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_hour_slider;
+}
+
+RESOURCE SLIDER r_clockapp_extra_setting_hour_slider
+{
+  layout=EAknSettingsItemSliderLayout;
+  minvalue=0;
+  maxvalue=23;
+  step=1;
+  valuetype=EAknSliderValueDecimal;
+  minlabel="0";
+  maxlabel="23";
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_birthday_start
+{
+  label="Birthday Gap";
+  type=EAknCtSlider;
+  editor_resource_id=r_clockapp_extra_setting_birthday_start_slider;
+}
+
+RESOURCE SLIDER r_clockapp_extra_setting_birthday_start_slider
+{
+  layout=EAknSettingsItemSliderLayout;
+  minvalue=0;
+  maxvalue=10;
+  step=1;
+  valuetype=EAknSliderValueDecimal;
+  minlabel="0";
+  maxlabel="10";
+}
+
+RESOURCE AVKON_POPUP_SETTING_TEXTS r_clockapp_extra_setting_binary_texts
+{
+  setting_texts_resource=r_clockapp_extra_setting_binary_texts_menu;
+}
+
+RESOURCE ARRAY r_clockapp_extra_setting_binary_texts_menu
+{
+  items=
+  {
+    AVKON_ENUMERATED_TEXT
+    {
+      value=1;
+      text="Enabled";
+    },
+    AVKON_ENUMERATED_TEXT
+    {
+      value=0;
+      text="Disabled";
+    }
+  };
+}
+
+RESOURCE TBUF32 r_clockapp_locale_title
+{
+  buf="Locale";
+}
+
+RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_locale
+{
+  items=
+  {
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppLocaleTimeOffset;
+      setting_page_resource=r_clockapp_locale_time_offset;
+      name="Time Offset";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppLocaleWorkDays;
+      setting_page_resource=r_clockapp_locale_work_days;
+      name="Work Days";
+    }
+  };
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_locale_time_offset
+{
+  label="Time Offset";
+  type=EEikCtTimeOffsetEditor;
+  editor_resource_id=r_clockapp_locale_time_offset_editor;
+}
+
+RESOURCE TIME_OFFSET_EDITOR r_clockapp_locale_time_offset_editor
+{
+  minTimeOffset=TIME_OFFSET
+  {
+    seconds=-43200;
+  };
+  maxTimeOffset=TIME_OFFSET
+  {
+    seconds=43200;
+  };
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_locale_work_days
+{
+  label="Work Days";
+  type=EAknCtPopupSettingList;
+  editor_resource_id=r_clockapp_locale_work_days_editor;
+}
+
+RESOURCE POPUP_SETTING_LIST r_clockapp_locale_work_days_editor
+{
+}
