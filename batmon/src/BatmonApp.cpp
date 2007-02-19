@@ -94,7 +94,7 @@ void CBatmonAppUi::HandleCommandL(TInt aCommand)
         TInt build;
         HWOther::InfoL(HWOther::EInfoBuild,build);
         TBuf16<128> About;
-        About.Append(_L("Batmon ver. 1.00\n\x00a9 by zg\nhwtricks.dll build "));
+        About.Append(_L("Batmon ver. 1.01\n\x00a9 by zg\nhwtricks.dll build "));
         About.AppendNum(build);
         About.Append(_L("\nhttp://almalert.sf.net"));
         CAknInformationNote* dlg=new(ELeave)CAknInformationNote;

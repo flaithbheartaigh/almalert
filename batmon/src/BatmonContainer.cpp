@@ -96,7 +96,7 @@ void CBatmonContainer::Value(TUint8 aUnit,TUint16 aAddress,TDes16& aValue) const
 
 void CBatmonContainer::Temperature(TDes16& aValue,TUint16 aAddress) const
 {
-  TRAPD(err,HWNetmon::ValueL(KPhoneEmUnit,aAddress,aValue,HWNetmon::EExt|HWNetmon::ERaw));
+  TRAPD(err,HWNetmon::ValueL(KPhoneEnergyUnit,aAddress,aValue,HWNetmon::EExt|HWNetmon::ERaw));
   if(err==KErrNone&&aValue.Length()>2)
   {
     TInt value=aValue[1]*256+aValue[2]-273;
@@ -113,39 +113,39 @@ void CBatmonContainer::Temperature(TDes16& aValue,TUint16 aAddress) const
 
 void CBatmonContainer::Voltage(TDes16& aValue,TUint16 aAddress) const
 {
-  Value(KPhoneEmUnit,aAddress,aValue);
+  Value(KPhoneEnergyUnit,aAddress,aValue);
   aValue.Append(_L(" mV"));
 }
 
 void CBatmonContainer::Current(TDes16& aValue,TUint16 aAddress) const
 {
-  Value(KPhoneEmUnit,aAddress,aValue);
+  Value(KPhoneEnergyUnit,aAddress,aValue);
   aValue.Append(_L(" mA"));
 }
 
 void CBatmonContainer::Capacity(TDes16& aValue,TUint16 aAddress) const
 {
-  Value(KPhoneEmUnit,aAddress,aValue);
+  Value(KPhoneEnergyUnit,aAddress,aValue);
   aValue.Append(_L(" mAh"));
 }
 
 void CBatmonContainer::Impedance(TDes16& aValue,TUint16 aAddress) const
 {
-  Value(KPhoneEmUnit,aAddress,aValue);
+  Value(KPhoneEnergyUnit,aAddress,aValue);
   aValue.Append(_L(" m"));
   aValue.Append(0x3a9);
 }
 
 void CBatmonContainer::Hour(TDes16& aValue,TUint16 aAddress) const
 {
-  Value(KPhoneEmUnit,aAddress,aValue);
+  Value(KPhoneEnergyUnit,aAddress,aValue);
   aValue.Append(_L(" h"));
 }
 
 void CBatmonContainer::Battery(TDes16& aValue,TUint16 aAddress) const
 {
   TInt value=0;
-  TRAPD(err,HWNetmon::ValueL(KPhoneEmUnit,aAddress,aValue,HWNetmon::EExt|HWNetmon::ERaw));
+  TRAPD(err,HWNetmon::ValueL(KPhoneEnergyUnit,aAddress,aValue,HWNetmon::EExt|HWNetmon::ERaw));
   if(err==KErrNone&&aValue.Length()>0) value=aValue[0];
   aValue.Zero();
   switch(value)
@@ -167,7 +167,7 @@ void CBatmonContainer::Battery(TDes16& aValue,TUint16 aAddress) const
 
 void CBatmonContainer::Common(TDes16& aValue,TUint16 aAddress) const
 {
-  Value(KPhoneEmUnit,aAddress,aValue);
+  Value(KPhoneEnergyUnit,aAddress,aValue);
 }
 
 void CBatmonContainer::Draw(const TRect& aRect) const
