@@ -69,7 +69,7 @@ TBool CSettings::IsBeep(void)
 
 TUint8 CSettings::BeepStart(void)
 {
-  return Load(KCategoryBeep,KStart,0,23,0);
+  return Load(KCategoryBeep,KStart,0,23,1);
 }
 
 TUint8 CSettings::BeepFinish(void)
