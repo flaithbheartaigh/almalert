@@ -20,8 +20,10 @@
 #include "AlarmAlertSettings.hpp"
 #include "AlmSettingsNames.hpp"
 #include <f32file.h>
+#include <hal.h>
 
 _LIT(KDefault,"z:\\Nokia\\Sounds\\Digital\\Nokia tune.mid");
+_LIT(KDefaultSx1,"z:\\nokia\\sounds\\digital\\alarm.mid");
 
 CSettings::~CSettings()
 {
@@ -31,6 +33,8 @@ CSettings::~CSettings()
 CSettings::CSettings()
 {
   if(iSettings.Connect()==KErrNone) iConnected=ETrue;
+  TInt machine;
+  if(HAL::Get(HALData::EModel,machine)==KErrNone&&machine==0x101f9071) iIsSx1=ETrue;
 }
 
 TBool CSettings::Connected(void)
@@ -124,6 +128,7 @@ TBool CSettings::FileExist(const TDesC& aFileName)
 const TDesC& CSettings::Load(const TDesC& aCategory,const TDesC& aName,TFileName& aValue)
 {
   if(iConnected&&iSettings.Get(aCategory,aName,aValue)==KErrNone&&FileExist(aValue)) return aValue;
+  if(iIsSx1) return KDefaultSx1;
   return KDefault;
 }
 
