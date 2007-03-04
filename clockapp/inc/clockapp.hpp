@@ -143,6 +143,7 @@ class CClkAlmView: public CAknView,public MClkModelObserver
     TBool iOpenedByOk; //0x1ac
     TInt iNitzSettings; //0x1b0
     TInt iSnoozed; //0x1b4
+    TBool iIsSx1;
 };
 
 class CClkAlmViewContainer: public CCoeControl
