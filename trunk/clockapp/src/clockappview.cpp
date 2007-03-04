@@ -23,6 +23,7 @@
 #include <clockapp.rsg>
 #include "clockapp.hpp"
 #include "clockapp.hrh"
+#include <hal.h>
 
 _LIT(KAlarmSound,"a");
 
@@ -104,7 +105,8 @@ void CClkAlmView::HandleCommandL(TInt aCommand)
       iClkAppUi->CmdSettingsL();
       break;
     case EClockAppHelp:
-      iClkAppUi->CmdHelpL();
+      if(iIsSx1) iClkAppUi->CmdExit();
+      else iClkAppUi->CmdHelpL();
       break;
     case EAknSoftkeyExit:
     case EClockAppExit:
@@ -142,7 +144,7 @@ void CClkAlmView::DynInitMenuPaneL(TInt aResourceId,CEikMenuPane* aMenuPane)
     if(OpenedByOk())
     {
       aMenuPane->DeleteMenuItem(EClockAppHelp);
-      aMenuPane->DeleteMenuItem(EClockAppExit);
+      if(!iIsSx1) aMenuPane->DeleteMenuItem(EClockAppExit);
       SetOpenedByOk(EFalse);
     }
   }
@@ -214,6 +216,8 @@ void CClkAlmView::ConstructL(CClkAlmModel* anAlm,CClkNitzModel* aNitz)
   BaseConstructL(0x10931007);
   iAlm=anAlm;
   iNitz=aNitz;
+  TInt machine;
+  if(HAL::Get(HALData::EModel,machine)==KErrNone&&machine==0x101f9071) iIsSx1=ETrue;
 }
 
 void CClkAlmView::ShowTitlePaneL(void)

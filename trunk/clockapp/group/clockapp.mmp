@@ -42,6 +42,7 @@ library hlplch.lib
 library aknlayout.lib
 library efsrv.lib
 library aknnotify.lib
+library hal.lib
 
 aif clockapp.aif ..\aif clockappaif.rss c8 clock_b.bmp clock_b_m.bmp clock_s.bmp clock_s_m.bmp
 
