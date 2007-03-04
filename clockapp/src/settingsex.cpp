@@ -210,7 +210,7 @@ void CSettingsControl::ConstructL(const TRect& aRect)
   LoadSettingL(KCategoryCalendar,KTone,iCalendarTone);
   LoadSettingL(KCategoryBeep,KEnabled,iBeep,EFalse,ETrue,EFalse);
   LoadSettingL(KCategoryBeep,KTone,iBeepTone);
-  LoadSettingL(KCategoryBeep,KStart,iBeepStart,0,23,0);
+  LoadSettingL(KCategoryBeep,KStart,iBeepStart,0,23,1);
   LoadSettingL(KCategoryBeep,KFinish,iBeepFinish,0,23,0);
   LoadSettingL(KCategoryBirthday,KEnabled,iBirthday,EFalse,ETrue,EFalse);
   LoadSettingL(KCategoryBirthday,KTone,iBirthdayTone);
