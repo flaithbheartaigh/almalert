@@ -55,6 +55,7 @@ class CSettings: public CBase
     TFileName iCalendar;
     TFileName iBeep;
     TFileName iBirthday;
+    TBool iIsSx1;
 };
 
 #endif
