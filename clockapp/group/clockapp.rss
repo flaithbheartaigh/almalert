@@ -60,6 +60,11 @@ RESOURCE MENU_PANE r_clockapp_extra_menu
     {
       command=EClockAppExtraCompactDB;
       txt="Compact DB";
+    },
+    MENU_ITEM
+    {
+      command=EClockAppExtraInternetTime;
+      txt="Internet Time";
     }
   };
 }

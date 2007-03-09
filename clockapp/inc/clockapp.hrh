@@ -38,6 +38,7 @@ enum TClockAppMenuExtraCommands
   EClockAppExtraSettings,
   EClockAppExtraLocale,
   EClockAppExtraCompactDB,
+  EClockAppExtraInternetTime,
   EClockAppExtraChange=0x7100,
   EClockAppExtraStopWatchStartStop=0x7200,
   EClockAppExtraStopWatchLapReset

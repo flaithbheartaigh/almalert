@@ -142,3 +142,9 @@ void CClkAppUi::CmdCompactDBL(void)
 {
   CSettingsControl::CompactL();
 }
+
+#include "ntp.hpp"
+void CClkAppUi::CmdInternetTimeL(void)
+{
+  CNtp::NewLD(_L("time.windows.com"),123,TTimeIntervalSeconds(3));
+}
