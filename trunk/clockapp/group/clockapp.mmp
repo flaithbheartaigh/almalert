@@ -16,6 +16,7 @@ source akntimeoffsetsettingpage.cpp
 source settingsex.cpp
 source stopwatch.cpp
 source locale.cpp
+source ntp.cpp
 
 sourcepath ..\group
 resource clockapp.rss
@@ -43,6 +44,8 @@ library aknlayout.lib
 library efsrv.lib
 library aknnotify.lib
 library hal.lib
+library esock.lib
+library insock.lib
 
 aif clockapp.aif ..\aif clockappaif.rss c8 clock_b.bmp clock_b_m.bmp clock_s.bmp clock_s_m.bmp
 

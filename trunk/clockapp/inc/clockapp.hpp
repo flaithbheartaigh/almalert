@@ -81,6 +81,7 @@ class CClkAppUi: public CAknViewAppUi
     void CmdStopWatchL(void);
     void CmdLocaleL(void);
     void CmdCompactDBL(void);
+    void CmdInternetTimeL(void);
   private: //CAknAppUi
     void HandleCommandL(TInt aCommand);
     void ConstructL(void);

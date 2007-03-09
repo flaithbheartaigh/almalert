@@ -124,6 +124,9 @@ void CClkAlmView::HandleCommandL(TInt aCommand)
     case EClockAppExtraCompactDB:
       iClkAppUi->CmdCompactDBL();
       break;
+    case EClockAppExtraInternetTime:
+      iClkAppUi->CmdInternetTimeL();
+      break;
   }
 }
 
