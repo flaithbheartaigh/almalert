@@ -500,3 +500,13 @@ RESOURCE DIALOG r_clockapp_wait_note_softkey_cancel
     }
   };
 }
+
+RESOURCE TBUF64 r_clockapp_ntp_ok
+{
+  buf="%S, before\n%S, after";
+}
+
+RESOURCE TBUF64 r_clockapp_ntp_error
+{
+  buf="Error (%d)";
+}
