@@ -23,13 +23,7 @@
 #include <in_sock.h>
 #include <aknwaitdialog.h>
 
-class MTimeOutNotify
-{
-  public:
-    virtual void TimerExpired(void)=0;
-};
-
-class CNtp: public CActive,public MTimeOutNotify
+class CNtp: public CActive,public MProgressDialogCallback
 {
   public:
     enum
@@ -43,8 +37,8 @@ class CNtp: public CActive,public MTimeOutNotify
   public:
     static void NewLD(const TDesC& aServer,TInt aPort,TTimeIntervalSeconds aCorrection);
     ~CNtp();
-  public: //MTimeOutNotify
-    void TimerExpired(void);
+  public: //MProgressDialogCallback
+    void DialogDismissedL(TInt aButtonId);
   protected: //CActive
     void DoCancel(void);
     void RunL(void);
@@ -54,13 +48,12 @@ class CNtp: public CActive,public MTimeOutNotify
       EIdle,
       ELookingUp,
       ESending,
-      EReceiving,
-      ESending2,
-      EReceiving2
+      EReceiving
     };
   private:
     CNtp(const TDesC& aServer,TInt aPort,TTimeIntervalSeconds aCorrection);
     void ConstructL(void);
+    void CleanupL(void);
   private:
     TState iNtpState;
     TBuf<KMaxServerNameLength> iServerName;
@@ -74,6 +67,7 @@ class CNtp: public CActive,public MTimeOutNotify
     TBuf8<KNtpPacketMax> iReceiveBuffer;
     TTime iSendStamp;
     TTime iReceiveStamp;
+    TTime iNewStamp;
     TTimeIntervalSeconds iTimeOffset;
     TTimeIntervalSeconds iCorrection;
     CAknWaitDialog* iWaitDialog;

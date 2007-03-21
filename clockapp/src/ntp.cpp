@@ -19,6 +19,7 @@
 
 #include "ntp.hpp"
 #include <clockapp.rsg>
+#include <aknnotewrappers.h>
 
 void CNtp::NewLD(const TDesC& aServer,TInt aPort,TTimeIntervalSeconds aCorrection)
 {
@@ -30,17 +31,22 @@ void CNtp::NewLD(const TDesC& aServer,TInt aPort,TTimeIntervalSeconds aCorrectio
 
 CNtp::~CNtp()
 {
-  if(iWaitDialog)
-  {
-    TRAPD(err,iWaitDialog->ProcessFinishedL());
-  }
+  TRAPD(err,CleanupL());
+  Cancel();
   iResolver.Close();
   iSocket.Close();
   iSocketServ.Close();
 }
 
-void CNtp::TimerExpired(void)
+void CNtp::DialogDismissedL(TInt aButtonId)
 {
+  if(IsActive())
+  {
+    iWaitDialog=NULL; //dont' call ProcessFinishedL in in CleanupL
+    Cancel();
+    iStatus=KErrCancel;
+    delete this;
+  }
 }
 
 void CNtp::DoCancel(void)
@@ -51,14 +57,14 @@ void CNtp::DoCancel(void)
       iResolver.Cancel();
       break;
     case ESending:
-      break;
     case EReceiving:
+      iSocket.CancelAll();
       break;
     default:
       User::Invariant();
       break;
   }
-  delete this;
+  iNtpState=EIdle;
 }
 
 void CNtp::RunL(void)
@@ -100,16 +106,17 @@ void CNtp::RunL(void)
           stamp=stamp*256+(TUint)iReceiveBuffer[i+32];
         }
         stamp=stamp*1000000+base;
-        TTime time(stamp);
-        time+=iTimeOffset;
-        time+=iCorrection;
+        iNewStamp=stamp;
+        iNewStamp+=iTimeOffset;
+        iNewStamp+=iCorrection;
         TTimeIntervalSeconds way;
         if(iReceiveStamp.SecondsFrom(iSendStamp,way)==KErrNone)
         {
           way=way.Int()/2;
-          time+=way;
+          iNewStamp+=way;
         }
-        User::SetHomeTime(time);
+        User::SetHomeTime(iNewStamp);
+        iNtpState=EIdle;
       }
       break;
     default:
@@ -136,5 +143,33 @@ void CNtp::ConstructL(void)
   SetActive();
   iWaitDialog=new(ELeave)CAknWaitDialog(reinterpret_cast<CEikDialog**>(&iWaitDialog),ETrue);
   iWaitDialog->SetTone(CAknNoteDialog::ENoTone);
+  iWaitDialog->SetCallback(this);
   iWaitDialog->ExecuteLD(R_CLOCKAPP_WAIT_NOTE_SOFTKEY_CANCEL);
+}
+
+void CNtp::CleanupL(void)
+{
+  if(iWaitDialog) iWaitDialog->ProcessFinishedL();
+  CCoeEnv* env=CCoeEnv::Static();
+  TBuf<128> message;
+  if(iStatus==KErrNone)
+  {
+    HBufC* format=env->AllocReadResourceAsDes16LC(R_QTN_TIME_LONG_WITH_ZERO);
+    TBuf<64> title;
+    env->ReadResourceAsDes16(title,R_CLOCKAPP_NTP_OK);
+    TBuf<29> before,after;
+    iReceiveStamp.FormatL(before,*format);
+    iNewStamp.FormatL(after,*format);
+    message.Format(title,&before,&after);
+    CleanupStack::PopAndDestroy(); //format
+  }
+  else
+  {
+    TBuf<64> title;
+    env->ReadResourceAsDes16(title,R_CLOCKAPP_NTP_ERROR);
+    message.Format(title,iStatus.Int());
+  }
+  CAknInformationNote* dlg=new(ELeave)CAknInformationNote;
+  dlg->SetTimeout(CAknNoteDialog::ENoTimeout);
+  dlg->ExecuteLD(message);
 }
