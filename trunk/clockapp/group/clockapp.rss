@@ -5,6 +5,7 @@ NAME CLK2
 #include <avkon.rh>
 #include <avkon.rsg>
 #include <clockapp.mbg>
+#include <avkon.mbg>
 #include "clockapp.hrh"
 
 RESOURCE RSS_SIGNATURE
@@ -476,4 +477,26 @@ RESOURCE AVKON_SETTING_PAGE r_clockapp_locale_work_days
 
 RESOURCE POPUP_SETTING_LIST r_clockapp_locale_work_days_editor
 {
+}
+
+RESOURCE DIALOG r_clockapp_wait_note_softkey_cancel
+{
+  flags=EAknWaitNoteFlags;
+  buttons=R_AVKON_SOFTKEYS_CANCEL;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtNote;
+      control=AVKON_NOTE 
+      { 
+        layout=EWaitLayout;
+        singular_label="Synchronizing, please wait.";
+        imagefile="z:\\system\\data\\avkon.mbm";
+        imageid=EMbmAvkonQgn_note_alarm_clock;
+        imagemask=EMbmAvkonQgn_note_alarm_clock_mask;
+        animation=R_QGN_GRAF_WAIT_BAR_ANIM;
+      };
+    }
+  };
 }

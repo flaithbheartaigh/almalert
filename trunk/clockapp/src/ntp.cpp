@@ -18,6 +18,7 @@
 */
 
 #include "ntp.hpp"
+#include <clockapp.rsg>
 
 void CNtp::NewLD(const TDesC& aServer,TInt aPort,TTimeIntervalSeconds aCorrection)
 {
@@ -29,6 +30,10 @@ void CNtp::NewLD(const TDesC& aServer,TInt aPort,TTimeIntervalSeconds aCorrectio
 
 CNtp::~CNtp()
 {
+  if(iWaitDialog)
+  {
+    TRAPD(err,iWaitDialog->ProcessFinishedL());
+  }
   iResolver.Close();
   iSocket.Close();
   iSocketServ.Close();
@@ -129,4 +134,7 @@ void CNtp::ConstructL(void)
   iResolver.GetByName(iServerName,iNameEntry,iStatus);
   iNtpState=ELookingUp;
   SetActive();
+  iWaitDialog=new(ELeave)CAknWaitDialog(reinterpret_cast<CEikDialog**>(&iWaitDialog),ETrue);
+  iWaitDialog->SetTone(CAknNoteDialog::ENoTone);
+  iWaitDialog->ExecuteLD(R_CLOCKAPP_WAIT_NOTE_SOFTKEY_CANCEL);
 }
