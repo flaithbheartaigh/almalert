@@ -21,6 +21,7 @@
 #define __NTP_HPP__
 
 #include <in_sock.h>
+#include <aknwaitdialog.h>
 
 class MTimeOutNotify
 {
@@ -75,6 +76,7 @@ class CNtp: public CActive,public MTimeOutNotify
     TTime iReceiveStamp;
     TTimeIntervalSeconds iTimeOffset;
     TTimeIntervalSeconds iCorrection;
+    CAknWaitDialog* iWaitDialog;
 };
 
 #endif
