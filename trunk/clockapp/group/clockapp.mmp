@@ -17,6 +17,7 @@ source settingsex.cpp
 source stopwatch.cpp
 source locale.cpp
 source ntp.cpp
+source settingsclient.cpp
 
 sourcepath ..\group
 resource clockapp.rss

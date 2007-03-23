@@ -23,7 +23,6 @@
 #include <aknview.h>
 #include <aknnavide.h>
 #include <akntabgrp.h>
-#include <AlmSettingsClient.hpp>
 #include "aknsettingitemlistex.hpp"
 
 class CSettingsControl;
@@ -34,7 +33,6 @@ class CSettingsView: public CAknView
     ~CSettingsView();
   private:
     void ConstructL(void);
-    void CheckAlmAlertL(void);
   public: //CAknView
     TUid Id(void) const;
     void HandleCommandL(TInt aCommand);
@@ -52,7 +50,6 @@ class CSettingsControl: public CAknSettingItemListEx
     static CSettingsControl* NewL(const TRect& aRect);
     ~CSettingsControl();
     TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType);
-    static void CompactL(void);
   protected: //CAknSettingItemList
     CAknSettingItem* CreateSettingItemL(TInt aSettingId);
   public: //CAknSettingItemList
@@ -60,17 +57,12 @@ class CSettingsControl: public CAknSettingItemListEx
   private:
     CSettingsControl(void);
     void ConstructL(const TRect& aRect);
-    void LoadSettingL(const TDesC& aCategory,const TDesC& aName,TFileName& aValue);
-    void LoadSettingL(const TDesC& aCategory,const TDesC& aName,TInt& aValue,TInt aLow,TInt aHigh,TInt aDefault);
-    void StoreSettingL(const TDesC& aCategory,const TDesC& aName,const TFileName& aValue);
-    void StoreSettingL(const TDesC& aCategory,const TDesC& aName,const TInt& aValue);
     void UpdateVisibilityL(void);
   private:
     CAknNavigationControlContainer* iNaviPane;
     CAknNavigationDecorator* iNaviDecorator;
     CAknTabGroup* iTabGroup;
     RArray<TInt> iItemsArray;
-    RAlmSettings iSettings;
     TFileName iAlarmTone;
     TInt iSnoozeTime;
     TInt iSnoozeCount;
