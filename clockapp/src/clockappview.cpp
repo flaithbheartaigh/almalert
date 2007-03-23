@@ -151,6 +151,15 @@ void CClkAlmView::DynInitMenuPaneL(TInt aResourceId,CEikMenuPane* aMenuPane)
       SetOpenedByOk(EFalse);
     }
   }
+  else if(aResourceId==R_CLOCKAPP_EXTRA_MENU)
+  {
+    if(!iClkAppUi->IsSettingsOk())
+    {
+      aMenuPane->DeleteMenuItem(EClockAppExtraSettings);
+      aMenuPane->DeleteMenuItem(EClockAppExtraCompactDB);
+      aMenuPane->DeleteMenuItem(EClockAppExtraInternetTime);
+    }
+  }
 }
 
 void CClkAlmView::HandleUpdateL(TInt aNotification)
@@ -258,7 +267,7 @@ TBool CClkAlmView::UpdateAlarmStateL(TInt aParam)
 
 void CClkAlmView::QueryAlarmTimeL(void) //ok
 {
-  CClkDocument* document=(CClkDocument*)(AppUi()->Document());
+  CClkAppUi* appui=iClkAppUi;
   TTime alarm,alarmOld;
   if(iAlarmInfo.iState==EAlarmSet)
   {
@@ -266,7 +275,7 @@ void CClkAlmView::QueryAlarmTimeL(void) //ok
   }
   else
   {
-    alarm=document->GetLastAlarmTime();
+    alarm=appui->GetLastAlarmTime();
   }
   alarmOld=alarm;
   CAknTimeQueryDialog* dialog=new(ELeave)CAknTimeQueryDialog(alarm/*,tone*/);
@@ -284,8 +293,8 @@ void CClkAlmView::QueryAlarmTimeL(void) //ok
     info.iSound.Copy(KAlarmSound);
     iAlm->ClockAlarmSet(0,info);
     User::LeaveIfError(iAlm->ClockAlarmEnable(0,EAlarmSet));
-    document->SetLastAlarmTime(alarm);
-    TRAPD(err,document->StoreDataL());
+    appui->SetLastAlarmTime(alarm);
+    TRAPD(err,appui->StoreDataL());
     ShowRemainTimeL(info.iAlarmTime);
   }
 }

@@ -22,11 +22,9 @@
 #include "clockapp.hrh"
 #include <clockapp.rsg>
 #include "aknsettingitem.hpp"
-#include <AlmSettingsCommon.hpp>
-#include <AlmSettingsClientImplementation.hpp>
 #include <AlmSettingsNames.hpp>
 #include <barsread.h>
-#include <aknglobalnote.h> //CAknGlobalNote
+#include "settingsclient.hpp"
 
 CSettingsView* CSettingsView::NewLC(void)
 {
@@ -44,24 +42,6 @@ CSettingsView::~CSettingsView()
 void CSettingsView::ConstructL(void)
 {
   BaseConstructL(R_CLOCKAPP_EXTRA_SETTING_VIEW);
-  CheckAlmAlertL();
-}
-
-void CSettingsView::CheckAlmAlertL(void)
-{
-  RAlmSettings settings;
-  if(settings.Connect()==KErrNone)
-  {
-    settings.Close();
-  }
-  else
-  {
-    TBuf<64> string;
-    iCoeEnv->ReadResourceAsDes16(string,R_CLOCKAPP_ALMALERT_NOT_FOUND);
-    CAknGlobalNote* note=CAknGlobalNote::NewLC();
-    note->ShowNoteL(EAknGlobalInformationNote,string);
-    CleanupStack::PopAndDestroy(); //note
-  }
 }
 
 TUid CSettingsView::Id(void) const
@@ -126,7 +106,6 @@ CSettingsControl::~CSettingsControl()
 {
   if(iNaviPane) iNaviPane->Pop(iNaviDecorator);
   delete iNaviDecorator;
-  iSettings.Close();
 }
 
 CAknSettingItem* CSettingsControl::CreateSettingItemL(TInt aSettingId)
@@ -177,18 +156,19 @@ CAknSettingItem* CSettingsControl::CreateSettingItemL(TInt aSettingId)
 void CSettingsControl::StoreSettingsL(void)
 {
   CAknSettingItemList::StoreSettingsL();
-  StoreSettingL(KCategoryAlarm,KTone,iAlarmTone);
-  StoreSettingL(KCategoryAlarm,KSnoozeTime,iSnoozeTime);
-  StoreSettingL(KCategoryAlarm,KSnoozeCount,iSnoozeCount);
-  StoreSettingL(KCategoryCalendar,KTone,iCalendarTone);
-  StoreSettingL(KCategoryBeep,KEnabled,iBeep);
-  StoreSettingL(KCategoryBeep,KTone,iBeepTone);
-  StoreSettingL(KCategoryBeep,KStart,iBeepStart);
-  StoreSettingL(KCategoryBeep,KFinish,iBeepFinish);
-  StoreSettingL(KCategoryBirthday,KEnabled,iBirthday);
-  StoreSettingL(KCategoryBirthday,KTone,iBirthdayTone);
-  StoreSettingL(KCategoryBirthday,KStart,iBirthdayStart);
-  StoreSettingL(KCategoryBirthday,KHour,iBirthdayHour);
+  CSettingsClient& settings=static_cast<CClkAppUi*>(CCoeEnv::Static()->AppUi())->Settings();
+  settings.StoreSettingL(KCategoryAlarm,KTone,iAlarmTone);
+  settings.StoreSettingL(KCategoryAlarm,KSnoozeTime,iSnoozeTime);
+  settings.StoreSettingL(KCategoryAlarm,KSnoozeCount,iSnoozeCount);
+  settings.StoreSettingL(KCategoryCalendar,KTone,iCalendarTone);
+  settings.StoreSettingL(KCategoryBeep,KEnabled,iBeep);
+  settings.StoreSettingL(KCategoryBeep,KTone,iBeepTone);
+  settings.StoreSettingL(KCategoryBeep,KStart,iBeepStart);
+  settings.StoreSettingL(KCategoryBeep,KFinish,iBeepFinish);
+  settings.StoreSettingL(KCategoryBirthday,KEnabled,iBirthday);
+  settings.StoreSettingL(KCategoryBirthday,KTone,iBirthdayTone);
+  settings.StoreSettingL(KCategoryBirthday,KStart,iBirthdayStart);
+  settings.StoreSettingL(KCategoryBirthday,KHour,iBirthdayHour);
 }
 
 CSettingsControl::CSettingsControl(void): iSnoozeTime(5),iSnoozeCount(1),iBirthdayHour(12)
@@ -203,19 +183,19 @@ CSettingsControl::CSettingsControl(void): iSnoozeTime(5),iSnoozeCount(1),iBirthd
 
 void CSettingsControl::ConstructL(const TRect& aRect)
 {
-  User::LeaveIfError(iSettings.Connect());
-  LoadSettingL(KCategoryAlarm,KTone,iAlarmTone);
-  LoadSettingL(KCategoryAlarm,KSnoozeTime,iSnoozeTime,5,255,5);
-  LoadSettingL(KCategoryAlarm,KSnoozeCount,iSnoozeCount,1,255,6);
-  LoadSettingL(KCategoryCalendar,KTone,iCalendarTone);
-  LoadSettingL(KCategoryBeep,KEnabled,iBeep,EFalse,ETrue,EFalse);
-  LoadSettingL(KCategoryBeep,KTone,iBeepTone);
-  LoadSettingL(KCategoryBeep,KStart,iBeepStart,0,23,1);
-  LoadSettingL(KCategoryBeep,KFinish,iBeepFinish,0,23,0);
-  LoadSettingL(KCategoryBirthday,KEnabled,iBirthday,EFalse,ETrue,EFalse);
-  LoadSettingL(KCategoryBirthday,KTone,iBirthdayTone);
-  LoadSettingL(KCategoryBirthday,KStart,iBirthdayStart,0,10,0);
-  LoadSettingL(KCategoryBirthday,KHour,iBirthdayHour,0,23,12);
+  CSettingsClient& settings=static_cast<CClkAppUi*>(CCoeEnv::Static()->AppUi())->Settings();
+  settings.LoadSettingL(KCategoryAlarm,KTone,iAlarmTone);
+  settings.LoadSettingL(KCategoryAlarm,KSnoozeTime,iSnoozeTime,5,255,5);
+  settings.LoadSettingL(KCategoryAlarm,KSnoozeCount,iSnoozeCount,1,255,6);
+  settings.LoadSettingL(KCategoryCalendar,KTone,iCalendarTone);
+  settings.LoadSettingL(KCategoryBeep,KEnabled,iBeep,EFalse,ETrue,EFalse);
+  settings.LoadSettingL(KCategoryBeep,KTone,iBeepTone);
+  settings.LoadSettingL(KCategoryBeep,KStart,iBeepStart,0,23,1);
+  settings.LoadSettingL(KCategoryBeep,KFinish,iBeepFinish,0,23,0);
+  settings.LoadSettingL(KCategoryBirthday,KEnabled,iBirthday,EFalse,ETrue,EFalse);
+  settings.LoadSettingL(KCategoryBirthday,KTone,iBirthdayTone);
+  settings.LoadSettingL(KCategoryBirthday,KStart,iBirthdayStart,0,10,0);
+  settings.LoadSettingL(KCategoryBirthday,KHour,iBirthdayHour,0,23,12);
   iNaviPane=(CAknNavigationControlContainer*)iAvkonAppUi->StatusPane()->ControlL(TUid::Uid(EEikStatusPaneUidNavi));
   TResourceReader reader;
   iCoeEnv->CreateResourceReaderLC(reader,R_CLOCKAPP_EXTRA_SETTING_TABS);
@@ -226,35 +206,6 @@ void CSettingsControl::ConstructL(const TRect& aRect)
   ConstructFromResourceL(R_CLOCKAPP_EXTRA_SETTING);
   SetRect(aRect);
   UpdateVisibilityL();
-}
-
-void CSettingsControl::LoadSettingL(const TDesC& aCategory,const TDesC& aName,TFileName& aValue)
-{
-  TInt err=iSettings.Get(aCategory,aName,aValue);
-  if(err!=KErrNotFound) User::LeaveIfError(err);
-}
-
-void CSettingsControl::LoadSettingL(const TDesC& aCategory,const TDesC& aName,TInt& aValue,TInt aLow,TInt aHigh,TInt aDefault)
-{
-  TInt err=iSettings.Get(aCategory,aName,aValue);
-  if(err!=KErrNotFound) User::LeaveIfError(err);
-  if(aValue<aLow||aValue>aHigh) aValue=aDefault;
-}
-
-void CSettingsControl::StoreSettingL(const TDesC& aCategory,const TDesC& aName,const TFileName& aValue)
-{
-  TFileName old;
-  TInt err=iSettings.Get(aCategory,aName,old);
-  if(err!=KErrNotFound) User::LeaveIfError(err);
-  if(err==KErrNotFound||old.CompareF(aValue)) User::LeaveIfError(iSettings.Set(aCategory,aName,aValue));
-}
-
-void CSettingsControl::StoreSettingL(const TDesC& aCategory,const TDesC& aName,const TInt& aValue)
-{
-  TInt old;
-  TInt err=iSettings.Get(aCategory,aName,old);
-  if(err!=KErrNotFound) User::LeaveIfError(err);
-  if(err==KErrNotFound||old!=aValue) User::LeaveIfError(iSettings.Set(aCategory,aName,aValue));
 }
 
 TKeyResponse CSettingsControl::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType)
@@ -287,13 +238,4 @@ void CSettingsControl::UpdateVisibilityL(void)
   view.SetDisableRedraw(redraw);
   ListBox()->SetCurrentItemIndex(0);
   ListBox()->DrawDeferred();
-}
-
-void CSettingsControl::CompactL(void)
-{
-  RAlmSettings settings;
-  User::LeaveIfError(settings.Connect());
-  CleanupClosePushL(settings);
-  User::LeaveIfError(settings.Compact());
-  CleanupStack::PopAndDestroy(); //settings;
 }

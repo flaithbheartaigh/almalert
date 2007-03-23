@@ -23,6 +23,12 @@
 #include "locale.hpp"
 #include <hlplch.h>
 #include <clockapp.rsg>
+#include "settingsclient.hpp"
+#include <aknglobalnote.h> //CAknGlobalNote
+
+_LIT(KCategoryCommon,"Common");
+_LIT(KLastLow,"LastLow");
+_LIT(KLastHigh,"LastHigh");
 
 CClkAppUi::~CClkAppUi()
 {
@@ -32,6 +38,10 @@ CClkAppUi::~CClkAppUi()
 void CClkAppUi::ConstructL(void)
 {
   BaseConstructL();
+  TRAPD(err,iSettings=CSettingsClient::NewL());
+  CheckAlmAlertL();
+  TRAP(err,RestoreDataL());
+
   //need here to load original resources
   CClkDateTimeView* view2=CClkDateTimeView::NewLC(KViewId,ETrue); //FIXME
 
@@ -63,9 +73,27 @@ void CClkAppUi::ConstructL(void)
   iEnvNotifier->Start();
 }
 
+void CClkAppUi::CheckAlmAlertL(void)
+{
+  if(!iSettings)
+  {
+    TBuf<64> string;
+    iCoeEnv->ReadResourceAsDes16(string,R_CLOCKAPP_ALMALERT_NOT_FOUND);
+    CAknGlobalNote* note=CAknGlobalNote::NewLC();
+    note->ShowNoteL(EAknGlobalInformationNote,string);
+    CleanupStack::PopAndDestroy(); //note
+  }
+}
+
 void CClkAppUi::NotifyEnvChangedL(TClkEnvChanged anEvent)
 {
   ((CClkAlmView*)View(KClkAlmViewId))->HandleSettingsChangeL(anEvent);
+}
+
+CSettingsClient& CClkAppUi::Settings(void)
+{
+  if(!iSettings) User::Invariant();
+  return *iSettings;
 }
 
 void CClkAppUi::CmdSettingsL(void)
@@ -115,6 +143,26 @@ TInt CClkAppUi::DoNotiferCallbackL(TAny* anAppUi)
   return KErrNone;
 }
 
+void CClkAppUi::StoreDataL(void)
+{
+  if(IsSettingsOk()) Settings().StoreSettingL(KCategoryCommon,KLastHigh,KLastLow,iDate);
+}
+
+void CClkAppUi::RestoreDataL(void)
+{
+  if(IsSettingsOk()) Settings().LoadSettingL(KCategoryCommon,KLastHigh,KLastLow,iDate);
+}
+
+TTime CClkAppUi::GetLastAlarmTime(void)
+{
+  return iDate;
+}
+
+void CClkAppUi::SetLastAlarmTime(TTime& anAlarm)
+{
+  iDate=anAlarm.Int64();
+}
+
 void CClkAppUi::CmdBackL(void)
 {
   ActivateLocalViewL(KClkAlmViewId);
@@ -140,7 +188,7 @@ void CClkAppUi::CmdLocaleL(void)
 
 void CClkAppUi::CmdCompactDBL(void)
 {
-  CSettingsControl::CompactL();
+  Settings().CompactL();
 }
 
 #include "ntp.hpp"

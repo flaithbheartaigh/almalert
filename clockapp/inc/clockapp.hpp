@@ -49,17 +49,12 @@ class CClkDocument: public CAknDocument
   public:
     inline CClkAlmModel* Alm(void) {return iAlm;};
     inline CClkNitzModel* Nitz(void) {return iNitz;};
-    TTime GetLastAlarmTime(void);
-    void SetLastAlarmTime(TTime& anAlarm);
-    void RestoreDataL(void);
-    void StoreDataL(void);
   private:
     CClkDocument(CEikApplication& aApp);
     void ConstructL(void);
   private:
     CClkAlmModel* iAlm; //0x24
     CClkNitzModel* iNitz; //0x28
-    TInt64 iDate; //0x2c
 };
 
 enum TClkEnvChanged
@@ -67,12 +62,16 @@ enum TClkEnvChanged
   EClkEnvChanged3=3
 };
 
+class CSettingsClient;
+
 class CClkAppUi: public CAknViewAppUi
 {
   public:
     ~CClkAppUi();
   public:
     void ShowTitlePaneL(TInt aResId);
+    CSettingsClient& Settings(void);
+    TBool IsSettingsOk(void) {return (iSettings!=NULL);};
     void CmdSettingsL(void);
     void CmdHelpL(void);
     void CmdExit(void);
@@ -82,9 +81,15 @@ class CClkAppUi: public CAknViewAppUi
     void CmdLocaleL(void);
     void CmdCompactDBL(void);
     void CmdInternetTimeL(void);
+  public:
+    TTime GetLastAlarmTime(void);
+    void SetLastAlarmTime(TTime& anAlarm);
+    void RestoreDataL(void);
+    void StoreDataL(void);
   private: //CAknAppUi
     void HandleCommandL(TInt aCommand);
     void ConstructL(void);
+    void CheckAlmAlertL(void);
   private:
     static TInt DoNotiferCallbackL(TAny* anAppUi);
     void NotifyEnvChangedL(TClkEnvChanged anEvent);
@@ -92,6 +97,8 @@ class CClkAppUi: public CAknViewAppUi
     CEnvironmentChangeNotifier* iEnvNotifier; //0x7c
     CAknNavigationControlContainer* iNaviPane; //0x80
     CAknTitlePane* iTitlePane; //0x84
+    CSettingsClient* iSettings;
+    TInt64 iDate;
 };
 
 const TUid KViewId={1};
