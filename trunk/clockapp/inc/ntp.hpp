@@ -32,7 +32,10 @@ class CNtp: public CActive,public MProgressDialogCallback
       KNtpPacketMin=48,
       KNtpPacketMax=68,
       KNtpModeClient=3,
-      KNtpVersion=1
+      KNtpVersion=1,
+      KNtpErrorBase=-30000,
+      KNtpStatusAlarm=3,
+      KNtpModeServer=4
     };
   public:
     static void NewLD(const TDesC& aServer,TInt aPort,TTimeIntervalSeconds aCorrection);

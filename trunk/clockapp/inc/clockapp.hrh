@@ -41,7 +41,8 @@ enum TClockAppMenuExtraCommands
   EClockAppExtraInternetTime,
   EClockAppExtraChange=0x7100,
   EClockAppExtraStopWatchStartStop=0x7200,
-  EClockAppExtraStopWatchLapReset
+  EClockAppExtraStopWatchLapReset,
+  EClockAppExtraSynchronize=0x7300
 };
 
 enum TClockAppExtraSetting
@@ -73,6 +74,13 @@ enum TClockAppLocaleItems
 {
   EClockAppLocaleTimeOffset,
   EClockAppLocaleWorkDays
+};
+
+enum TClockAppInternetTimeItems
+{
+  EClockAppInternetTimeServer,
+  EClockAppInternetTimePort,
+  EClockAppInternetTimeCorrection
 };
 
 #endif
