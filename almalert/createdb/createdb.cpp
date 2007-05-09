@@ -234,6 +234,7 @@ void CInstallDialog::ThreadFunctionL(void)
   _LIT(KCategory3,"Beep");
   _LIT(KCategory4,"Birthday");
   _LIT(KCategory5,"Common");
+  _LIT(KCategory6,"Synchronization");
   User::LeaveIfError(db.Begin());
   CleanupRollbackPushL(db);
   InsertL(db,KCategory1);
@@ -241,6 +242,7 @@ void CInstallDialog::ThreadFunctionL(void)
   InsertL(db,KCategory3);
   InsertL(db,KCategory4);
   InsertL(db,KCategory5);
+  InsertL(db,KCategory6);
   User::LeaveIfError(db.Commit());
   CleanupStack::Pop(); //db rollback
   CleanupStack::PopAndDestroy(); //db
