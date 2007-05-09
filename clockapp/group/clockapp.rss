@@ -479,6 +479,108 @@ RESOURCE POPUP_SETTING_LIST r_clockapp_locale_work_days_editor
 {
 }
 
+RESOURCE AVKON_VIEW r_clockapp_internet_time_view
+{
+  menubar=r_clockapp_internet_time_menubar;
+  cba=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+}
+
+RESOURCE MENU_BAR r_clockapp_internet_time_menubar
+{
+  titles=
+  {
+    MENU_TITLE
+    {
+      menu_pane=r_clockapp_internet_time_menu;
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_clockapp_internet_time_menu
+{
+  items=
+  {
+    MENU_ITEM 
+    {
+      command=EClockAppExtraSynchronize;
+      txt="Synchronize";
+    },
+    MENU_ITEM 
+    {
+      command=EClockAppExtraChange;
+      txt="Change";
+    },
+    MENU_ITEM
+    {
+      command=EAknSoftkeyExit;
+      txt="Exit";
+    }
+  };
+}
+
+RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_internet_time
+{
+  items=
+  {
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppInternetTimeServer;
+      setting_page_resource=r_clockapp_internet_time_server;
+      name="Server";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppInternetTimePort;
+      setting_page_resource=r_clockapp_internet_time_port;
+      name="Port";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppInternetTimeCorrection;
+      setting_page_resource=r_clockapp_internet_time_correction;
+      name="Correction";
+    }
+  };
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_internet_time_server
+{
+  label="Server";
+  type=EEikCtEdwin;
+  editor_resource_id=r_clockapp_internet_time_server_edwin;
+}
+
+RESOURCE EDWIN r_clockapp_internet_time_server_edwin
+{
+  width=9;
+  lines=5;
+  maxlength=256;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_internet_time_port
+{
+  label="Port";
+  type=EEikCtEdwin;
+  editor_resource_id=r_clockapp_internet_time_port_edwin;
+}
+
+RESOURCE EDWIN r_clockapp_internet_time_port_edwin
+{
+  width=9;
+  lines=1;
+  maxlength=6;
+  numeric_keymap=EAknEditorPlainNumberModeKeymap;
+  allowed_input_modes=EAknEditorNumericInputMode;
+  default_input_mode=EAknEditorNumericInputMode;
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_internet_time_correction
+{
+  label="Correction";
+  type=EEikCtTimeOffsetEditor;
+  editor_resource_id=r_clockapp_locale_time_offset_editor;
+}
+
 RESOURCE DIALOG r_clockapp_wait_note_softkey_cancel
 {
   flags=EAknWaitNoteFlags;
@@ -509,4 +611,24 @@ RESOURCE TBUF64 r_clockapp_ntp_ok
 RESOURCE TBUF64 r_clockapp_ntp_error
 {
   buf="Error (%d)";
+}
+
+RESOURCE TBUF64 r_clockapp_ntp_error1
+{
+  buf="Last Minute Has 61 Seconds";
+}
+
+RESOURCE TBUF64 r_clockapp_ntp_error2
+{
+  buf="Last Minute Has 59 Seconds";
+}
+
+RESOURCE TBUF64 r_clockapp_ntp_error3
+{
+  buf="Server Clock Not Synchronized";
+}
+
+RESOURCE TBUF64 r_clockapp_ntp_error4
+{
+  buf="Invalid NTP server mode";
 }

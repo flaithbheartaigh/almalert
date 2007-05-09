@@ -100,30 +100,42 @@ void CNtp::RunL(void)
       if(iStatus==KErrNone&&iReceiveBuffer.Length()>=KNtpPacketMin)
       {
         iReceiveStamp.HomeTime();
-        TInt64 stamp(0),base(0xd504a2,0xc672e000);
-        for(TInt i=0;i<4;i++)
+        TInt status=(iReceiveBuffer[0]>>6)&KNtpStatusAlarm,mode=(iReceiveBuffer[0]&0x07);
+        if(status||mode!=KNtpModeServer)
         {
-          stamp=stamp*256+(TUint)iReceiveBuffer[i+32];
+          if(!status) status=KNtpModeServer;
+          iStatus=KNtpErrorBase-status;
         }
-        stamp=stamp*1000000+base;
-        iNewStamp=stamp;
-        iNewStamp+=iTimeOffset;
-        iNewStamp+=iCorrection;
-        TTimeIntervalSeconds way;
-        if(iReceiveStamp.SecondsFrom(iSendStamp,way)==KErrNone)
+        else
         {
-          way=way.Int()/2;
-          iNewStamp+=way;
+          TInt64 stamp(0),base(0xd504a2,0xc672e000);
+          for(TInt i=0;i<4;i++)
+          {
+            stamp=stamp*256+(TUint)iReceiveBuffer[i+32];
+          }
+          stamp=stamp*1000000+base;
+          iNewStamp=stamp;
+          iNewStamp+=iTimeOffset;
+          iNewStamp+=iCorrection;
+          TTimeIntervalSeconds way;
+          if(iReceiveStamp.SecondsFrom(iSendStamp,way)==KErrNone)
+          {
+            way=way.Int()/2;
+            iNewStamp+=way;
+          }
+          User::SetHomeTime(iNewStamp);
         }
-        User::SetHomeTime(iNewStamp);
-        iNtpState=EIdle;
       }
       break;
     default:
       User::Invariant();
       break;
   }
-  if(stop) delete this;
+  if(stop)
+  {
+    iNtpState=EIdle;
+    delete this;
+  }
 }
 
 CNtp::CNtp(const TDesC& aServer,TInt aPort,TTimeIntervalSeconds aCorrection): CActive(EPriorityStandard),iServerName(aServer),iPort(aPort),iCorrection(aCorrection)
@@ -149,6 +161,7 @@ void CNtp::ConstructL(void)
 
 void CNtp::CleanupL(void)
 {
+  const TInt KNtpErrors[]={R_CLOCKAPP_NTP_ERROR1,R_CLOCKAPP_NTP_ERROR2,R_CLOCKAPP_NTP_ERROR3,R_CLOCKAPP_NTP_ERROR4};
   if(iWaitDialog) iWaitDialog->ProcessFinishedL();
   CCoeEnv* env=CCoeEnv::Static();
   TBuf<128> message;
@@ -165,9 +178,17 @@ void CNtp::CleanupL(void)
   }
   else
   {
-    TBuf<64> title;
-    env->ReadResourceAsDes16(title,R_CLOCKAPP_NTP_ERROR);
-    message.Format(title,iStatus.Int());
+    TInt status=KNtpErrorBase-iStatus.Int();
+    if(status>0&&status<=KNtpModeServer)
+    {
+      env->ReadResourceAsDes16(message,KNtpErrors[status-1]);
+    }
+    else
+    {
+      TBuf<64> title;
+      env->ReadResourceAsDes16(title,R_CLOCKAPP_NTP_ERROR);
+      message.Format(title,iStatus.Int());
+    }
   }
   CAknInformationNote* dlg=new(ELeave)CAknInformationNote;
   dlg->SetTimeout(CAknNoteDialog::ENoTimeout);

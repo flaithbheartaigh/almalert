@@ -18,6 +18,7 @@ source stopwatch.cpp
 source locale.cpp
 source ntp.cpp
 source settingsclient.cpp
+source ntpview.cpp
 
 sourcepath ..\group
 resource clockapp.rss

@@ -106,6 +106,7 @@ const TUid KClkAlmViewId={3};
 const TUid KSettingsExViewId={4};
 const TUid KStopWatchViewId={5};
 const TUid KLocaleViewId={6};
+const TUid KInternetTimeViewId={7};
 const TUid KSettingsId={10};
 
 class CClkAlmViewContainer;

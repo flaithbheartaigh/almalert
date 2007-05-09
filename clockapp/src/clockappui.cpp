@@ -21,6 +21,7 @@
 #include "settingsex.hpp"
 #include "stopwatch.hpp"
 #include "locale.hpp"
+#include "ntpview.hpp"
 #include <hlplch.h>
 #include <clockapp.rsg>
 #include "settingsclient.hpp"
@@ -63,6 +64,9 @@ void CClkAppUi::ConstructL(void)
   CLocaleView* view5=CLocaleView::NewLC();
   AddViewL(view5);
   CleanupStack::Pop(); //view5
+  CNtpView* view6=CNtpView::NewLC();
+  AddViewL(view6);
+  CleanupStack::Pop(); //view6
 
   CEikStatusPane* sp=StatusPane();
   iTitlePane=(CAknTitlePane*)sp->ControlL(TUid::Uid(EEikStatusPaneUidTitle));
@@ -191,8 +195,8 @@ void CClkAppUi::CmdCompactDBL(void)
   Settings().CompactL();
 }
 
-#include "ntp.hpp"
 void CClkAppUi::CmdInternetTimeL(void)
 {
-  CNtp::NewLD(_L("time.windows.com"),123,TTimeIntervalSeconds(3));
+  //ShowTitlePaneL(R_CLOCKAPP_LOCALE_TITLE);
+  ActivateLocalViewL(KInternetTimeViewId);
 }
