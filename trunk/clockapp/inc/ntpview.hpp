@@ -49,16 +49,18 @@ class CNtpView: public CAknView
 class CNtpControl: public CAknSettingItemList
 {
   public:
-    static CNtpControl* NewL(const TRect& aRect,TFileName& aServer,TInt& aPort,TTimeIntervalSeconds& aCorrection);
+    static CNtpControl* NewL(const TRect& aRect,CNtpView& aView,TFileName& aServer,TInt& aPort,TTimeIntervalSeconds& aCorrection);
     ~CNtpControl();
+    TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType);
   protected: //CAknSettingItemList
     CAknSettingItem* CreateSettingItemL(TInt aSettingId);
   public: //CAknSettingItemList
     void StoreSettingsL(void);
   private:
     CNtpControl(TFileName& aServer,TInt& aPort,TTimeIntervalSeconds& aCorrection);
-    void ConstructL(const TRect& aRect);
+    void ConstructL(const TRect& aRect,CNtpView& aView);
   private:
+    CNtpView* iView;
     TFileName& iServer;
     TInt& iPort;
     TBuf<16> iPortStr;

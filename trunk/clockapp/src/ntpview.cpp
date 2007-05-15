@@ -90,7 +90,7 @@ void CNtpView::DoActivateL(const TVwsViewId& aPrevViewId,TUid aCustomMessageId,c
 {
   if(!iControl)
   {
-    iControl=CNtpControl::NewL(ClientRect(),iServer,iPort,iCorrection);
+    iControl=CNtpControl::NewL(ClientRect(),*this,iServer,iPort,iCorrection);
     iControl->SetMopParent(this);
     iClkAppUi->AddToStackL(*this,iControl);
   }
@@ -107,11 +107,11 @@ void CNtpView::DoDeactivate(void)
   }
 }
 
-CNtpControl* CNtpControl::NewL(const TRect& aRect,TFileName& aServer,TInt& aPort,TTimeIntervalSeconds& aCorrection)
+CNtpControl* CNtpControl::NewL(const TRect& aRect,CNtpView& aView,TFileName& aServer,TInt& aPort,TTimeIntervalSeconds& aCorrection)
 {
   CNtpControl* self=new(ELeave)CNtpControl(aServer,aPort,aCorrection);
   CleanupStack::PushL(self);
-  self->ConstructL(aRect);
+  self->ConstructL(aRect,aView);
   CleanupStack::Pop(); //self
   return(self);
 }
@@ -153,8 +153,9 @@ CNtpControl::CNtpControl(TFileName& aServer,TInt& aPort,TTimeIntervalSeconds& aC
 {
 }
 
-void CNtpControl::ConstructL(const TRect& aRect)
+void CNtpControl::ConstructL(const TRect& aRect,CNtpView& aView)
 {
+  iView=&aView;
   CSettingsClient& settings=static_cast<CClkAppUi*>(CCoeEnv::Static()->AppUi())->Settings();
   settings.LoadSettingL(KCategorySynchro,KServer,iServer);
   settings.LoadSettingL(KCategorySynchro,KPort,iPort,0,65536,iPort);
@@ -164,4 +165,14 @@ void CNtpControl::ConstructL(const TRect& aRect)
   iCorrection=correction;
   ConstructFromResourceL(R_CLOCKAPP_INTERNET_TIME);
   SetRect(aRect);
+}
+
+TKeyResponse CNtpControl::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType)
+{
+  if(aType==EEventKey&&aKeyEvent.iCode=='0')
+  {
+    iView->HandleCommandL(EClockAppExtraSynchronize);
+    return EKeyWasConsumed;
+  }
+  return CAknSettingItemList::OfferKeyEventL(aKeyEvent,aType);
 }
