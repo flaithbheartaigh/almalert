@@ -445,6 +445,13 @@ RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_locale
       identifier=EClockAppLocaleWorkDays;
       setting_page_resource=r_clockapp_locale_work_days;
       name="Work Days";
+    },
+    AVKON_SETTING_ITEM
+    {
+      identifier=EClockAppLocaleStartOfWeek;
+      setting_page_resource=r_clockapp_locale_start_of_week;
+      associated_resource=r_clockapp_locale_start_of_week_list;
+      name="Start Of Week";
     }
   };
 }
@@ -476,6 +483,31 @@ RESOURCE AVKON_SETTING_PAGE r_clockapp_locale_work_days
 }
 
 RESOURCE POPUP_SETTING_LIST r_clockapp_locale_work_days_editor
+{
+}
+
+RESOURCE AVKON_SETTING_PAGE r_clockapp_locale_start_of_week
+{   
+  label="Start Of Week";
+  type=EAknCtPopupSettingList;
+  editor_resource_id=r_clockapp_locale_start_of_week_editor;
+}
+
+RESOURCE POPUP_SETTING_LIST r_clockapp_locale_start_of_week_editor
+{
+}
+
+RESOURCE AVKON_POPUP_SETTING_TEXTS r_clockapp_locale_start_of_week_list
+{
+  setting_texts_resource=r_clockapp_locale_start_of_week_list_enum;
+  popped_up_texts_resource=r_clockapp_locale_start_of_week_list_popup;
+}
+
+RESOURCE ARRAY r_clockapp_locale_start_of_week_list_enum
+{
+}
+
+RESOURCE ARRAY r_clockapp_locale_start_of_week_list_popup
 {
 }
 
@@ -555,6 +587,9 @@ RESOURCE EDWIN r_clockapp_internet_time_server_edwin
   width=9;
   lines=5;
   maxlength=256;
+  default_case=EAknEditorLowerCase;
+  allowed_case_modes=EAknEditorUpperCase|EAknEditorLowerCase;
+  special_character_table=R_AVKON_URL_SPECIAL_CHARACTER_TABLE_DIALOG;
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_internet_time_port

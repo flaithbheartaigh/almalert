@@ -175,9 +175,11 @@ CAknWorkDaysSettingItem::~CAknWorkDaysSettingItem()
 void CAknWorkDaysSettingItem::CompleteConstructionL(void)
 {
   iList=new(ELeave)CSelectionItemList(7);
-  for(TInt i=0;i<7;i++)
+  TDayName name;
+  for(TInt i=EMonday;i<=ESunday;i++)
   {
-    HBufC* str=iCoeEnv->AllocReadResourceAsDes16LC(R_QTN_WEEK_LONG_MONDAY+i);
+    name.Set((TDay)i);
+    HBufC* str=name.AllocLC();
     CSelectableItem* item=new(ELeave)CSelectableItem(*str,EFalse);
     CleanupStack::PushL(item);
     item->ConstructL();
@@ -229,4 +231,26 @@ void CAknWorkDaysSettingItem::EditItemL(TBool aCalledFromMenu)
   else LoadL();
   UpdateListBoxTextL();
   SetSettingPage(NULL);
+}
+
+CAknStartOfWeekSettingItem::CAknStartOfWeekSettingItem(TInt aResourceId,TInt& aStartOfWeek): CAknEnumeratedTextPopupSettingItem(aResourceId,aStartOfWeek)
+{
+}
+
+void CAknStartOfWeekSettingItem::CompleteConstructionL(void)
+{
+  CAknEnumeratedTextPopupSettingItem::CompleteConstructionL();
+  CArrayPtr<CAknEnumeratedText>* array=EnumeratedTextArray();
+  array->ResetAndDestroy();
+  TDayName name;
+  for(TInt i=EMonday;i<=ESunday;i++)
+  {
+    name.Set((TDay)i);
+    HBufC* str=name.AllocLC();
+    CAknEnumeratedText* item=new(ELeave)CAknEnumeratedText(i,str);
+    CleanupStack::Pop(); //str
+    CleanupStack::PushL(item);
+    array->AppendL(item);
+    CleanupStack::Pop(); //item
+  }
 }
