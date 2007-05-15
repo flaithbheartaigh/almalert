@@ -1,0 +1,62 @@
+target ClockApp.app
+targettype app
+
+uid 0x100039ce 0x10005903
+targetpath \system\libs\ClockApp
+
+sourcepath ..\src
+source clockappview.cpp
+source clockapp.cpp
+source clockappui.cpp
+source clockappdoc.cpp
+source aknsettingitemlistex.cpp
+source aknfilesettingpage.cpp
+source aknsettingitem.cpp
+source akntimeoffsetsettingpage.cpp
+source settingsex.cpp
+source stopwatch.cpp
+source locale.cpp
+source ntp.cpp
+source settingsclient.cpp
+source ntpview.cpp
+
+sourcepath ..\group
+resource clockappen.rss
+resource clockappru.rss
+
+userinclude ..\inc 
+
+systeminclude \epoc32\include
+systeminclude ..\..\common\inc
+systeminclude ..\..\almalert\inc
+
+library euser.lib
+library avkon.lib
+library eikcore.lib
+library cone.lib
+library apparc.lib
+library estor.lib
+library clkwldalmmdl.lib
+library eikcoctl.lib
+library clkdatetimeview.lib
+library bafl.lib
+library eikctl.lib
+library commonengine.lib
+library hlplch.lib
+library aknlayout.lib
+library efsrv.lib
+library aknnotify.lib
+library hal.lib
+library esock.lib
+library insock.lib
+
+aif clockapp.aif ..\aif clockappaif.rss c8 clock_b.bmp clock_b_m.bmp clock_s.bmp clock_s_m.bmp
+
+start bitmap clockapp.mbm
+header
+targetpath \system\apps\clockapp
+sourcepath ..\bmp
+source c8 clear.bmp
+source c8 note.bmp
+source c8 note_m.bmp
+end

@@ -1,0 +1,57 @@
+/*
+    d32dbms_cleanup.inl
+    Copyright (C) 2005 zg
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*/
+
+template<class T> inline void CleanupRollback<T>::PushL(T& aRef)
+{
+  CleanupStack::PushL(TCleanupItem(&Rollback,&aRef));
+}
+template<class T> void CleanupRollback<T>::Rollback(TAny *aPtr)
+{
+  (STATIC_CAST(T*,aPtr))->Rollback();
+}
+template<class T> inline void CleanupRollbackPushL(T& aRef)
+{
+  CleanupRollback<T>::PushL(aRef);
+}
+
+template<class T> inline void CleanupCommit<T>::PushL(T& aRef)
+{
+  CleanupStack::PushL(TCleanupItem(&Commit,&aRef));
+}
+template<class T> void CleanupCommit<T>::Commit(TAny *aPtr)
+{
+  (STATIC_CAST(T*,aPtr))->Commit();
+}
+template<class T> inline void CleanupCommitPushL(T& aRef)
+{
+  CleanupCommit<T>::PushL(aRef);
+}
+
+template<class T> inline void CleanupCancel<T>::PushL(T& aRef)
+{
+  CleanupStack::PushL(TCleanupItem(&Cancel,&aRef));
+}
+template<class T> void CleanupCancel<T>::Cancel(TAny *aPtr)
+{
+  (STATIC_CAST(T*,aPtr))->Cancel();
+}
+template<class T> inline void CleanupCancelPushL(T& aRef)
+{
+  CleanupCancel<T>::PushL(aRef);
+}

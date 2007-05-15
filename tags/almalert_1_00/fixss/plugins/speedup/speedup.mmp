@@ -1,0 +1,13 @@
+target speedup.203
+targettype dll
+
+uid 0x1000008d 0xa00013bc
+targetpath \system\recogs\fixss
+
+sourcepath .
+source speedup.cpp
+
+userinclude .
+systeminclude \epoc32\include
+
+library euser.lib

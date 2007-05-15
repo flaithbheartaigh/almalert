@@ -1,0 +1,24 @@
+target vibractrl.dll
+targettype dll
+
+uid 0x1000008d 0x101fb429
+targetpath \system\libs
+
+sourcepath ..\src\vibractrl
+source vibractrl.cpp
+source vibratimer.cpp
+source vibrahw.cpp
+source ..\zg_vibra\zg_vibra.cpp
+
+userinclude ..\src\vibractrl\inc
+systeminclude \epoc32\include
+systeminclude ..\inc
+systeminclude ..\..\tricks\inc
+
+library euser.lib
+library cone.lib
+library commonengine.lib
+library phonet.lib
+library isimsg.lib
+library hal.lib
+library pnmsg.lib
