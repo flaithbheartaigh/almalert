@@ -160,17 +160,23 @@ void CClkAlmViewContainer::ShowSnoozedAlarmL(const TTime& anAlarm)
 
 TKeyResponse CClkAlmViewContainer::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType)
 {
-  TKeyResponse res=EKeyWasNotConsumed;
+  TKeyResponse res=EKeyWasConsumed;
   if(aType==EEventKey&&aKeyEvent.iCode==EKeyDevice3)
   {
     iView->SetOpenedByOk(ETrue);
     iView->MenuBar()->TryDisplayMenuBarL();
-    res=EKeyWasConsumed;
   }
   else if(aType==EEventKey&&aKeyEvent.iCode=='#')
   {
     iView->HandleCommandL(EClockAppExtraStopWatch);
-    res=EKeyWasConsumed;
+  }
+  else if(aType==EEventKey&&aKeyEvent.iCode=='0')
+  {
+    iView->HandleCommandL(EClockAppExtraInternetTime);
+  }
+  else
+  {
+    res=EKeyWasNotConsumed;
   }
   return res;
 }
