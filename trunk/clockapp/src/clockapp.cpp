@@ -20,6 +20,7 @@
 #include "clockapp.hpp"
 #include <eikctl.rsg>
 #include <barsread.h>
+#include <aknnotewrappers.h>
 #include "clockapp.hrh"
 
 static const TUid KUidClockApp={0x10005903};
@@ -173,6 +174,13 @@ TKeyResponse CClkAlmViewContainer::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEv
   else if(aType==EEventKey&&aKeyEvent.iCode=='0')
   {
     iView->HandleCommandL(EClockAppExtraInternetTime);
+  }
+  else if(aType==EEventKey&&aKeyEvent.iCode=='*')
+  {
+    _LIT(KAppCopyright,"\x00a9 by zg\nversion 1.00");
+    CAknInformationNote* dlg=new(ELeave)CAknInformationNote;
+    dlg->SetTimeout(CAknNoteDialog::ENoTimeout);
+    dlg->ExecuteLD(KAppCopyright);
   }
   else
   {
