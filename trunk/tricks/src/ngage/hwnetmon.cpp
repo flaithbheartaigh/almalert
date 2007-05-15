@@ -34,7 +34,7 @@ EXPORT_C void HWNetmon::SetChannelL(TUint16 aChannel)
   data.Append(0);
   data.Append((TUint8)(aChannel>>8));
   data.Append((TUint8)aChannel);
-  CTestSetReq* send=CTestSetReq::NewL(0,KPhoneNetUnit,6,0,0x1303,0,data);
+  CTestSetReq* send=CTestSetReq::NewL(0,KPhoneNetworkUnit,6,0,0x1303,0,data);
   CHWServer::SendL(send);
 }
 
