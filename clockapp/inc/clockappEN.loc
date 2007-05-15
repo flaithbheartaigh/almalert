@@ -1,0 +1,67 @@
+/*
+    clockappEN.loc
+    Copyright (C) 2007 zg
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*/
+
+#ifndef __CLOCKAPPEN_LOC__
+#define __CLOCKAPPEN_LOC__
+
+#define qtn_clockapp_almalert_not_found "AlmAlert server not found!"
+#define qtn_clockapp_extra "Extra"
+#define qtn_clockapp_stop_watch "Stop-watch"
+#define qtn_clockapp_settings "Settings"
+#define qtn_clockapp_locale "Locale"
+#define qtn_clockapp_compact_db "Compact DB"
+#define qtn_clockapp_internet_time "Internet Time"
+#define qtn_clockapp_change "Change"
+#define qtn_clockapp_exit "Exit"
+#define qtn_clockapp_lap "lap"
+#define qtn_clockapp_start_stop "Start/Stop"
+#define qtn_clockapp_lap_reset "Lap/Reset"
+#define qtn_clockapp_tab_alarm "alarm"
+#define qtn_clockapp_tab_calendar "calendar"
+#define qtn_clockapp_tab_beep "beep"
+#define qtn_clockapp_tab_birthday "birthday"
+#define qtn_clockapp_tone "Tone"
+#define qtn_clockapp_snooze_time "Snooze Time"
+#define qtn_clockapp_snooze_count "Snooze Count"
+#define qtn_clockapp_beep "Beep"
+#define qtn_clockapp_beep_start "Start"
+#define qtn_clockapp_beep_finish "Finish"
+#define qtn_clockapp_birthday "Birthday"
+#define qtn_clockapp_birthday_gap "Birthday Gap"
+#define qtn_clockapp_birthday_hour "Birthday Hour"
+#define qtn_clockapp_min "Min"
+#define qtn_clockapp_max "Max"
+#define qtn_clockapp_enabled "Enabled"
+#define qtn_clockapp_disabled "Disabled"
+#define qtn_clockapp_time_offset "Time Offset"
+#define qtn_clockapp_work_days "Work Days"
+#define qtn_clockapp_start_of_week "Start Of Week"
+#define qtn_clockapp_synchronize "Synchronize"
+#define qtn_clockapp_server "Server"
+#define qtn_clockapp_port "Port"
+#define qtn_clockapp_correction "Correction"
+#define qtn_clockapp_synchronize_wait "Synchronizing, please wait."
+#define qtn_clockapp_ntp_ok "%S, before\n%S, after"
+#define qtn_clockapp_ntp_error "Error (%d)"
+#define qtn_clockapp_ntp_error1 "Last Minute Has 61 Seconds"
+#define qtn_clockapp_ntp_error2 "Last Minute Has 59 Seconds"
+#define qtn_clockapp_ntp_error3 "Server Clock Not Synchronized"
+#define qtn_clockapp_ntp_error4 "Invalid NTP server mode"
+
+#endif

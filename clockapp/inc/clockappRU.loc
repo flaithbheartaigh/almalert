@@ -1,0 +1,67 @@
+/*
+    clockappRU.loc
+    Copyright (C) 2007 zg
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+*/
+
+#ifndef __CLOCKAPPRU_LOC__
+#define __CLOCKAPPRU_LOC__
+
+#define qtn_clockapp_almalert_not_found "Сервер AlmAlert не найден!"
+#define qtn_clockapp_extra "Дополнительно"
+#define qtn_clockapp_stop_watch "Секундомер"
+#define qtn_clockapp_settings "Настройки"
+#define qtn_clockapp_locale "Локаль"
+#define qtn_clockapp_compact_db "Ужать БД"
+#define qtn_clockapp_internet_time "Интернет время"
+#define qtn_clockapp_change "Изменить"
+#define qtn_clockapp_exit "Выйти"
+#define qtn_clockapp_lap "круг"
+#define qtn_clockapp_start_stop "Старт/Стоп"
+#define qtn_clockapp_lap_reset "Круг/Сброс"
+#define qtn_clockapp_tab_alarm "будильник"
+#define qtn_clockapp_tab_calendar "календарь"
+#define qtn_clockapp_tab_beep "сигнал"
+#define qtn_clockapp_tab_birthday "дни рождения"
+#define qtn_clockapp_tone "Мелодия"
+#define qtn_clockapp_snooze_time "Период дрёмы"
+#define qtn_clockapp_snooze_count "Количество дрём"
+#define qtn_clockapp_beep "Сигнал"
+#define qtn_clockapp_beep_start "Начало"
+#define qtn_clockapp_beep_finish "Конец"
+#define qtn_clockapp_birthday "Дни рождения"
+#define qtn_clockapp_birthday_gap "Сообщать за "<0x2026>" дней"
+#define qtn_clockapp_birthday_hour "Час сообщения"
+#define qtn_clockapp_min "Мин"
+#define qtn_clockapp_max "Макс"
+#define qtn_clockapp_enabled "Вкл."
+#define qtn_clockapp_disabled "Откл."
+#define qtn_clockapp_time_offset "Часовой пояс"
+#define qtn_clockapp_work_days "Рабочие дни"
+#define qtn_clockapp_start_of_week "Начало недели"
+#define qtn_clockapp_synchronize "Синхронизация"
+#define qtn_clockapp_server "Сервер"
+#define qtn_clockapp_port "Порт"
+#define qtn_clockapp_correction "Коррекция"
+#define qtn_clockapp_synchronize_wait "Синхронизация, пожалуйста подождите."
+#define qtn_clockapp_ntp_ok "%S, до\n%S, после"
+#define qtn_clockapp_ntp_error "Ошибка (%d)"
+#define qtn_clockapp_ntp_error1 "В последней минуте 61 секунда"
+#define qtn_clockapp_ntp_error2 "В последней минуте 59 секунд"
+#define qtn_clockapp_ntp_error3 "Часы на сервере не синхронизированы"
+#define qtn_clockapp_ntp_error4 "неправильный режим NTP сервера"
+
+#endif

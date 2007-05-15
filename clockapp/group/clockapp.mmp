@@ -21,7 +21,8 @@ source settingsclient.cpp
 source ntpview.cpp
 
 sourcepath ..\group
-resource clockapp.rss
+resource clockappen.rss
+resource clockappru.rss
 
 userinclude ..\inc 
 

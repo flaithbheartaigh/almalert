@@ -1,5 +1,7 @@
 #include <aiftool.rh>
 
+CHARACTER_SET UTF8
+
 RESOURCE AIF_DATA
 {
   app_uid=268458243;
@@ -9,6 +11,11 @@ RESOURCE AIF_DATA
     {
       code=ELangEnglish;
       caption="Clock";
+    },
+    CAPTION
+    {
+      code=ELangRussian;
+      caption="Часы";
     }
   };
   num_icons=2;

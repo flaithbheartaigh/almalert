@@ -1,4 +1,5 @@
 NAME CLK2
+CHARACTER_SET UTF8
 
 #include <eikon.rh>
 #include <eikon.rsg>
@@ -23,7 +24,7 @@ RESOURCE EIK_APP_INFO
 
 RESOURCE TBUF64 r_clockapp_almalert_not_found
 {
-  buf="AlmAlert server not found!";
+  buf=qtn_clockapp_almalert_not_found;
 }
 
 RESOURCE MENU_PANE r_clockapp_extra
@@ -33,7 +34,7 @@ RESOURCE MENU_PANE r_clockapp_extra
     MENU_ITEM
     {
       cascade=r_clockapp_extra_menu;
-      txt="Extra";
+      txt=qtn_clockapp_extra;
     }
   };
 }
@@ -45,34 +46,34 @@ RESOURCE MENU_PANE r_clockapp_extra_menu
     MENU_ITEM
     {
       command=EClockAppExtraStopWatch;
-      txt="Stop-watch";
+      txt=qtn_clockapp_stop_watch;
     },
     MENU_ITEM
     {
       command=EClockAppExtraSettings;
-      txt="Settings";
+      txt=qtn_clockapp_settings;
     },
     MENU_ITEM
     {
       command=EClockAppExtraLocale;
-      txt="Locale";
+      txt=qtn_clockapp_locale;
     },
     MENU_ITEM
     {
       command=EClockAppExtraCompactDB;
-      txt="Compact DB";
+      txt=qtn_clockapp_compact_db;
     },
     MENU_ITEM
     {
       command=EClockAppExtraInternetTime;
-      txt="Internet Time";
+      txt=qtn_clockapp_internet_time;
     }
   };
 }
 
 RESOURCE TBUF32 r_clockapp_extra_setting_title
 {
-  buf="Settings";
+  buf=qtn_clockapp_settings;
 }
 
 RESOURCE AVKON_VIEW r_clockapp_extra_setting_view
@@ -99,24 +100,24 @@ RESOURCE MENU_PANE r_clockapp_extra_setting_menu
     MENU_ITEM 
     {
       command=EClockAppExtraChange;
-      txt="Change";
+      txt=qtn_clockapp_change;
     },
     MENU_ITEM
     {
       command=EAknSoftkeyExit;
-      txt="Exit";
+      txt=qtn_clockapp_exit;
     }
   };
 }
 
 RESOURCE TBUF32 r_clockapp_stop_watch_title
 {
-  buf="Stop-watch";
+  buf=qtn_clockapp_stop_watch;
 }
 
 RESOURCE TBUF32 r_clockapp_stop_watch_lap
 {
-  buf="lap";
+  buf=qtn_clockapp_lap;
 }
 
 RESOURCE AVKON_VIEW r_clockapp_stop_watch_view
@@ -143,17 +144,17 @@ RESOURCE MENU_PANE r_clockapp_stop_watch_menu
     MENU_ITEM 
     {
       command=EClockAppExtraStopWatchStartStop;
-      txt="Start/Stop";
+      txt=qtn_clockapp_start_stop;
     },
     MENU_ITEM 
     {
       command=EClockAppExtraStopWatchLapReset;
-      txt="Lap/Reset";
+      txt=qtn_clockapp_lap_reset;
     },
     MENU_ITEM
     {
       command=EAknSoftkeyExit;
-      txt="Exit";
+      txt=qtn_clockapp_exit;
     }
   };
 }
@@ -166,22 +167,22 @@ RESOURCE TAB_GROUP r_clockapp_extra_setting_tabs
     TAB
     {
       id=EClockAppExtraSettingTabAlarm;
-      txt="alarm";
+      txt=qtn_clockapp_tab_alarm;
     },
     TAB
     {
       id=EClockAppExtraSettingTabCalendar;
-      txt="calendar";
+      txt=qtn_clockapp_tab_calendar;
     },
     TAB
     {
       id=EClockAppExtraSettingTabBeep;
-      txt="beep";
+      txt=qtn_clockapp_tab_beep;
     },
     TAB
     {
       id=EClockAppExtraSettingTabBirthday;
-      txt="birthday";
+      txt=qtn_clockapp_tab_birthday;
     }
   };
 }
@@ -194,101 +195,101 @@ RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_extra_setting
     {
       identifier=EClockAppExtraSettingAlarmTone;
       setting_page_resource=r_clockapp_extra_setting_clock_tone;
-      name="Alarm tone";
+      name=qtn_clockapp_tone;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppExtraSettingSnoozeTime;
       setting_page_resource=r_clockapp_extra_setting_snooze_time;
-      name="Snooze Time";
+      name=qtn_clockapp_snooze_time;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppExtraSettingSnoozeCount;
       setting_page_resource=r_clockapp_extra_setting_snooze_count;
-      name="Snooze Count";
+      name=qtn_clockapp_snooze_count;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppExtraSettingCalendarTone;
       setting_page_resource=r_clockapp_extra_setting_calendar_tone;
-      name="Calendar tone";
+      name=qtn_clockapp_tone;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppExtraSettingBeepEnabled;
       associated_resource=r_clockapp_extra_setting_binary_texts;
-      name="Beep";
+      name=qtn_clockapp_beep;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppExtraSettingBeepTone;
       setting_page_resource=r_clockapp_extra_setting_beep_tone;
-      name="Beep tone";
+      name=qtn_clockapp_tone;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppExtraSettingBeepStart;
       setting_page_resource=r_clockapp_extra_setting_beep_start;
-      name="Beep Start";
+      name=qtn_clockapp_beep_start;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppExtraSettingBeepFinish;
       setting_page_resource=r_clockapp_extra_setting_beep_finish;
-      name="Beep Finish";
+      name=qtn_clockapp_beep_finish;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppExtraSettingBirthdayEnabled;
       associated_resource=r_clockapp_extra_setting_binary_texts;
-      name="Birthday";
+      name=qtn_clockapp_birthday;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppExtraSettingBirthdayTone;
       setting_page_resource=r_clockapp_extra_setting_birthday_tone;
-      name="Birthday tone";
+      name=qtn_clockapp_tone;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppExtraSettingBirthdayStart;
       setting_page_resource=r_clockapp_extra_setting_birthday_start;
-      name="Birthday Gap";
+      name=qtn_clockapp_birthday_gap;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppExtraSettingBirthdayHour;
       setting_page_resource=r_clockapp_extra_setting_birthday_hour;
-      name="Birthday Hour";
+      name=qtn_clockapp_birthday_hour;
     }
   };
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_clock_tone
 {
-  label="Alarm tone";
+  label=qtn_clockapp_tone;
   type=EAknCtSingleGraphicPopupMenuListBox;
   editor_resource_id=r_clockapp_extra_setting_listbox;
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_calendar_tone
 {
-  label="Calendar tone";
+  label=qtn_clockapp_tone;
   type=EAknCtSingleGraphicPopupMenuListBox;
   editor_resource_id=r_clockapp_extra_setting_listbox;
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_beep_tone
 {
-  label="Beep tone";
+  label=qtn_clockapp_tone;
   type=EAknCtSingleGraphicPopupMenuListBox;
   editor_resource_id=r_clockapp_extra_setting_listbox;
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_birthday_tone
 {
-  label="Birthday tone";
+  label=qtn_clockapp_tone;
   type=EAknCtSingleGraphicPopupMenuListBox;
   editor_resource_id=r_clockapp_extra_setting_listbox;
 }
@@ -319,7 +320,7 @@ RESOURCE AKN_ICON_ARRAY r_clockapp_extra_setting_icons
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_snooze_time
 {
-  label="Snooze Time";
+  label=qtn_clockapp_snooze_time;
   type=EAknCtSlider;
   editor_resource_id=r_clockapp_extra_setting_snooze_time_slider;
 }
@@ -331,13 +332,13 @@ RESOURCE SLIDER r_clockapp_extra_setting_snooze_time_slider
   maxvalue=255;
   step=1;
   valuetype=EAknSliderValueDecimal;
-  minlabel="Min";
-  maxlabel="Max";
+  minlabel=qtn_clockapp_min;
+  maxlabel=qtn_clockapp_max;
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_snooze_count
 {
-  label="Snooze Count";
+  label=qtn_clockapp_snooze_count;
   type=EAknCtSlider;
   editor_resource_id=r_clockapp_extra_setting_snooze_count_slider;
 }
@@ -349,27 +350,27 @@ RESOURCE SLIDER r_clockapp_extra_setting_snooze_count_slider
   maxvalue=255;
   step=1;
   valuetype=EAknSliderValueDecimal;
-  minlabel="Min";
-  maxlabel="Max";
+  minlabel=qtn_clockapp_min;
+  maxlabel=qtn_clockapp_max;
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_beep_start
 {
-  label="Beep Start";
+  label=qtn_clockapp_beep_start;
   type=EAknCtSlider;
   editor_resource_id=r_clockapp_extra_setting_hour_slider;
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_beep_finish
 {
-  label="Beep Finish";
+  label=qtn_clockapp_beep_finish;
   type=EAknCtSlider;
   editor_resource_id=r_clockapp_extra_setting_hour_slider;
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_birthday_hour
 {
-  label="Birthday Hour";
+  label=qtn_clockapp_birthday_hour;
   type=EAknCtSlider;
   editor_resource_id=r_clockapp_extra_setting_hour_slider;
 }
@@ -387,7 +388,7 @@ RESOURCE SLIDER r_clockapp_extra_setting_hour_slider
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_extra_setting_birthday_start
 {
-  label="Birthday Gap";
+  label=qtn_clockapp_birthday_gap;
   type=EAknCtSlider;
   editor_resource_id=r_clockapp_extra_setting_birthday_start_slider;
 }
@@ -415,19 +416,19 @@ RESOURCE ARRAY r_clockapp_extra_setting_binary_texts_menu
     AVKON_ENUMERATED_TEXT
     {
       value=1;
-      text="Enabled";
+      text=qtn_clockapp_enabled;
     },
     AVKON_ENUMERATED_TEXT
     {
       value=0;
-      text="Disabled";
+      text=qtn_clockapp_disabled;
     }
   };
 }
 
 RESOURCE TBUF32 r_clockapp_locale_title
 {
-  buf="Locale";
+  buf=qtn_clockapp_locale;
 }
 
 RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_locale
@@ -438,27 +439,27 @@ RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_locale
     {
       identifier=EClockAppLocaleTimeOffset;
       setting_page_resource=r_clockapp_locale_time_offset;
-      name="Time Offset";
+      name=qtn_clockapp_time_offset;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppLocaleWorkDays;
       setting_page_resource=r_clockapp_locale_work_days;
-      name="Work Days";
+      name=qtn_clockapp_work_days;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppLocaleStartOfWeek;
       setting_page_resource=r_clockapp_locale_start_of_week;
       associated_resource=r_clockapp_locale_start_of_week_list;
-      name="Start Of Week";
+      name=qtn_clockapp_start_of_week;
     }
   };
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_locale_time_offset
 {
-  label="Time Offset";
+  label=qtn_clockapp_time_offset;
   type=EEikCtTimeOffsetEditor;
   editor_resource_id=r_clockapp_locale_time_offset_editor;
 }
@@ -477,7 +478,7 @@ RESOURCE TIME_OFFSET_EDITOR r_clockapp_locale_time_offset_editor
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_locale_work_days
 {
-  label="Work Days";
+  label=qtn_clockapp_work_days;
   type=EAknCtPopupSettingList;
   editor_resource_id=r_clockapp_locale_work_days_editor;
 }
@@ -488,7 +489,7 @@ RESOURCE POPUP_SETTING_LIST r_clockapp_locale_work_days_editor
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_locale_start_of_week
 {   
-  label="Start Of Week";
+  label=qtn_clockapp_start_of_week;
   type=EAknCtPopupSettingList;
   editor_resource_id=r_clockapp_locale_start_of_week_editor;
 }
@@ -535,17 +536,17 @@ RESOURCE MENU_PANE r_clockapp_internet_time_menu
     MENU_ITEM 
     {
       command=EClockAppExtraSynchronize;
-      txt="Synchronize";
+      txt=qtn_clockapp_synchronize;
     },
     MENU_ITEM 
     {
       command=EClockAppExtraChange;
-      txt="Change";
+      txt=qtn_clockapp_change;
     },
     MENU_ITEM
     {
       command=EAknSoftkeyExit;
-      txt="Exit";
+      txt=qtn_clockapp_exit;
     }
   };
 }
@@ -558,26 +559,26 @@ RESOURCE AVKON_SETTING_ITEM_LIST r_clockapp_internet_time
     {
       identifier=EClockAppInternetTimeServer;
       setting_page_resource=r_clockapp_internet_time_server;
-      name="Server";
+      name=qtn_clockapp_server;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppInternetTimePort;
       setting_page_resource=r_clockapp_internet_time_port;
-      name="Port";
+      name=qtn_clockapp_port;
     },
     AVKON_SETTING_ITEM
     {
       identifier=EClockAppInternetTimeCorrection;
       setting_page_resource=r_clockapp_internet_time_correction;
-      name="Correction";
+      name=qtn_clockapp_correction;
     }
   };
 }
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_internet_time_server
 {
-  label="Server";
+  label=qtn_clockapp_server;
   type=EEikCtEdwin;
   editor_resource_id=r_clockapp_internet_time_server_edwin;
 }
@@ -594,7 +595,7 @@ RESOURCE EDWIN r_clockapp_internet_time_server_edwin
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_internet_time_port
 {
-  label="Port";
+  label=qtn_clockapp_port;
   type=EEikCtEdwin;
   editor_resource_id=r_clockapp_internet_time_port_edwin;
 }
@@ -611,7 +612,7 @@ RESOURCE EDWIN r_clockapp_internet_time_port_edwin
 
 RESOURCE AVKON_SETTING_PAGE r_clockapp_internet_time_correction
 {
-  label="Correction";
+  label=qtn_clockapp_correction;
   type=EEikCtTimeOffsetEditor;
   editor_resource_id=r_clockapp_locale_time_offset_editor;
 }
@@ -628,7 +629,7 @@ RESOURCE DIALOG r_clockapp_wait_note_softkey_cancel
       control=AVKON_NOTE 
       { 
         layout=EWaitLayout;
-        singular_label="Synchronizing, please wait.";
+        singular_label=qtn_clockapp_synchronize_wait;
         imagefile="z:\\system\\data\\avkon.mbm";
         imageid=EMbmAvkonQgn_note_alarm_clock;
         imagemask=EMbmAvkonQgn_note_alarm_clock_mask;
@@ -640,30 +641,30 @@ RESOURCE DIALOG r_clockapp_wait_note_softkey_cancel
 
 RESOURCE TBUF64 r_clockapp_ntp_ok
 {
-  buf="%S, before\n%S, after";
+  buf=qtn_clockapp_ntp_ok;
 }
 
 RESOURCE TBUF64 r_clockapp_ntp_error
 {
-  buf="Error (%d)";
+  buf=qtn_clockapp_ntp_error;
 }
 
 RESOURCE TBUF64 r_clockapp_ntp_error1
 {
-  buf="Last Minute Has 61 Seconds";
+  buf=qtn_clockapp_ntp_error1;
 }
 
 RESOURCE TBUF64 r_clockapp_ntp_error2
 {
-  buf="Last Minute Has 59 Seconds";
+  buf=qtn_clockapp_ntp_error2;
 }
 
 RESOURCE TBUF64 r_clockapp_ntp_error3
 {
-  buf="Server Clock Not Synchronized";
+  buf=qtn_clockapp_ntp_error3;
 }
 
 RESOURCE TBUF64 r_clockapp_ntp_error4
 {
-  buf="Invalid NTP server mode";
+  buf=qtn_clockapp_ntp_error4;
 }
