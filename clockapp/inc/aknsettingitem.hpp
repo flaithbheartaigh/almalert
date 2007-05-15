@@ -90,4 +90,12 @@ class CAknWorkDaysSettingItem: public CAknSettingItem
     CCoeEnv* iCoeEnv;
 };
 
+class CAknStartOfWeekSettingItem: public CAknEnumeratedTextPopupSettingItem
+{
+  public:
+    CAknStartOfWeekSettingItem(TInt aResourceId,TInt& aStartOfWeek);
+  protected:
+    void CompleteConstructionL(void);
+};
+
 #endif

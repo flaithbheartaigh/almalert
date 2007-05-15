@@ -57,6 +57,7 @@ class CLocaleControl: public CAknSettingItemList
   private:
     TTimeIntervalSeconds iTimeOffset;
     TUint iWorkDays;
+    TInt iStartOfWeek;
 };
 
 #endif
