@@ -22,8 +22,9 @@
 
 #include <e32base.h>
 #include <d32dbms.h>
+#include "AlmLock.hpp"
 
-class CAlmSettingsServer: public CServer
+class CAlmSettingsServer: public CServer,public CLockNotifier
 {
   public:
     static CAlmSettingsServer* NewLC(void);
@@ -31,19 +32,24 @@ class CAlmSettingsServer: public CServer
     static TInt ThreadFunction(TAny* aNone);
     void IncrementSessions(void);
     void DecrementSessions(void);
-    inline RDbDatabase& Db(void) {return iBase;};
+    RDbDatabase& DbL(void);
     void Notify(void);
+  public: //CLockNotifier
+    void LockNotifyL(TBool aState);
   private:
     CAlmSettingsServer(TInt aPriority);
     void ConstructL(void);
     static void ThreadFunctionL(void);
     static void SignalL(void);
+    void DbOpenL(void);
+    void DbClose(void);
   private: //CServer
     CSharableSession* NewSessionL(const TVersion& aVersion) const;
   private:
     TInt iSessionCount;
     RDbNamedDatabase iBase;
     RDbs iSession;
+    TBool iLock;
 };
 
 typedef void (*TSettingsGetFunctionL)(const RDbView& aViev,TAny* aData);
