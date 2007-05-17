@@ -21,6 +21,7 @@
 #include "AlmSettingsCommon.hpp"
 #include <f32file.h>
 #include <d32dbms_cleanup.hpp>
+#include "AlmUsb.hpp"
 
 _LIT(KSettings,"AlmAlert.db");
 _LIT(KLibs,"\\System\\Libs\\");
@@ -35,24 +36,18 @@ CAlmSettingsServer* CAlmSettingsServer::NewLC(void)
 
 CAlmSettingsServer::~CAlmSettingsServer()
 {
-  iBase.Close();
+  DbClose();
   iSession.Close();
 }
 
-CAlmSettingsServer::CAlmSettingsServer(TInt aPriority): CServer(aPriority)
+CAlmSettingsServer::CAlmSettingsServer(TInt aPriority): CServer(aPriority),iLock(ETrue)
 {
 }
 
 void CAlmSettingsServer::ConstructL(void)
 {
-  RFs fs;
-  User::LeaveIfError(fs.Connect());
-  CleanupClosePushL(fs);
-  TFindFile find(fs);
-  User::LeaveIfError(find.FindByDir(KSettings,KLibs));
   User::LeaveIfError(iSession.Connect());
-  User::LeaveIfError(iBase.Open(iSession,find.File()));
-  CleanupStack::PopAndDestroy(); //fs
+  DbOpenL();
   StartL(KSettingsServerName);
 }
 
@@ -88,10 +83,10 @@ void CAlmSettingsServer::ThreadFunctionL(void)
   CActiveScheduler* scheduler=new(ELeave)CActiveScheduler;
   CleanupStack::PushL(scheduler);
   CActiveScheduler::Install(scheduler);
-  CAlmSettingsServer::NewLC();
+  CUsbNotifier::NewLC(*CAlmSettingsServer::NewLC());
   SignalL();
   CActiveScheduler::Start();
-  CleanupStack::PopAndDestroy(2); //CAlmSettingsServer,scheduler
+  CleanupStack::PopAndDestroy(3); //CUsbNotifier,CAlmSettingsServer,scheduler
 }
 
 void CAlmSettingsServer::SignalL(void)
@@ -116,6 +111,49 @@ TInt CAlmSettingsServer::ThreadFunction(TAny* aNone)
     return err;
   }
   return KErrNoMemory;
+}
+
+RDbDatabase& CAlmSettingsServer::DbL(void)
+{
+  if(iLock) User::Leave(KErrLocked);
+  return iBase;
+}
+
+void CAlmSettingsServer::LockNotifyL(TBool aState)
+{
+  if(aState!=iLock)
+  {
+    if(aState) DbClose();
+    else
+    {
+      User::After(1000000);
+      DbOpenL();
+    }
+  }
+}
+
+void CAlmSettingsServer::DbOpenL(void)
+{
+  if(iLock)
+  {
+    RFs fs;
+    User::LeaveIfError(fs.Connect());
+    CleanupClosePushL(fs);
+    TFindFile find(fs);
+    User::LeaveIfError(find.FindByDir(KSettings,KLibs));
+    User::LeaveIfError(iBase.Open(iSession,find.File()));
+    CleanupStack::PopAndDestroy(); //fs
+    iLock=EFalse;
+  }
+}
+
+void CAlmSettingsServer::DbClose(void)
+{
+  if(!iLock)
+  {
+    iBase.Close();
+    iLock=ETrue;
+  }
 }
 
 CAlmSettingsSession* CAlmSettingsSession::NewL(RThread& aClient,CAlmSettingsServer& aServer)
@@ -175,7 +213,7 @@ TUint32 CAlmSettingsSession::CategoryL(const TAny* aSrc)
   HBufC8* param0=ValueLC(aSrc);
   TPtrC name((const TUint16*)param0->Ptr(),param0->Length()/2);
   sql.Format(KSQL,&name);
-  User::LeaveIfError(view.Prepare(iServer.Db(),TDbQuery(sql),RDbView::EReadOnly));
+  User::LeaveIfError(view.Prepare(iServer.DbL(),TDbQuery(sql),RDbView::EReadOnly));
   CleanupClosePushL(view);
   User::LeaveIfError(view.EvaluateAll());
   if(!view.FirstL()) User::Leave(KErrNotFound);
@@ -195,7 +233,7 @@ void CAlmSettingsSession::ProcessDataL(void)
   HBufC8* param1=ValueLC(Message().Ptr1());
   TPtrC name((const TUint16*)param1->Ptr(),param1->Length()/2);
   sql.Format(KSQL,cid,&name);
-  User::LeaveIfError(view.Prepare(iServer.Db(),TDbQuery(sql),(func==ESettingsServerRequestSet)?RDbView::EUpdatable:RDbView::EReadOnly));
+  User::LeaveIfError(view.Prepare(iServer.DbL(),TDbQuery(sql),(func==ESettingsServerRequestSet)?RDbView::EUpdatable:RDbView::EReadOnly));
   CleanupClosePushL(view);
   User::LeaveIfError(view.EvaluateAll());
   TBool first=view.FirstL();
@@ -243,7 +281,7 @@ void CAlmSettingsSession::ProcessDataL(void)
 
 void CAlmSettingsSession::ProcessCompactL(void)
 {
-  User::LeaveIfError(iServer.Db().Compact());
+  User::LeaveIfError(iServer.DbL().Compact());
 }
 
 void CAlmSettingsSession::DispatchMessageL(const RMessage& aMessage)

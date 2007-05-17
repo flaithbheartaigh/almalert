@@ -18,6 +18,7 @@ source AlmBirthdayTimer.cpp
 source AlmSuspendDsp.cpp
 source AlmSettingsServer.cpp
 source AlmOnGui.cpp
+source AlmUsb.cpp
 
 userinclude ..\inc 
 
@@ -48,3 +49,4 @@ library activitymanager.lib
 library hal.lib
 library edbms.lib
 library estor.lib
+library sysagt.lib
