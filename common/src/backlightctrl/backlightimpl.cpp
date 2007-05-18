@@ -23,7 +23,7 @@
 
 const TDesC8& CBackLightControlImpl::Copyright(void)
 {
-  _LIT8(KAppCopyright,"backlightctrl. (c) 2005-2006 by zg. version 1.02");
+  _LIT8(KAppCopyright,"backlightctrl. (c) 2005-2006 by zg. version 1.03");
   return KAppCopyright;
 }
 
