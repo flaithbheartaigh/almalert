@@ -17,9 +17,9 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 */
 
-#include <hwtricks.hpp>
 #include "backlightimpl.hpp"
 #include "backlighttimer.hpp"
+#include <hal.h>
 
 const TDesC8& CBackLightControlImpl::Copyright(void)
 {
@@ -34,8 +34,8 @@ CBackLightControlImpl::CBackLightControlImpl(MBackLightControlObserver* aCallbac
 CBackLightControlImpl::~CBackLightControlImpl()
 {
   iCallback=NULL;
-  TRAPD(err,HWBacklight::SetGameModeL(EFalse));
-  TRAP(err,HWBacklight::SetBrightnessL(HWBacklight::EBrightnessScreen,iBrightnessOriginalState));
+  TRAPD(err,SetGameModeL(EFalse));
+  TRAP(err,SetBrightnessL(iBrightnessOriginalState));
   BackLightOn(EBackLightTypeBoth,0);
   CCoeEnv::Static()->RemoveForegroundObserver(*this);
   delete iScreen;
@@ -43,14 +43,39 @@ CBackLightControlImpl::~CBackLightControlImpl()
   delete iBrightness;
   delete iScreenBlinker;
   delete iKeysBlinker;
+  Close();
 }
 
 void CBackLightControlImpl::ConstructL(void)
 {
-  TUint8 dummy;
-  HWBacklight::BrightnessL(HWBacklight::EBrightnessScreen,iBrightnessOriginalState,dummy);
+  _LIT(KMutexName,"zg0x13nosunit");
+  TInt err=iMutex.CreateGlobal(KMutexName);
+  if(err==KErrAlreadyExists) err=iMutex.OpenGlobal(KMutexName);
+  User::LeaveIfError(err);
+  TInt machine;
+  User::LeaveIfError(HAL::Get(HALData::EModel,machine));
+  switch(machine)
+  {
+    case 0x101F466A: //3650&3660
+      iObjectNumber=0x51;
+      break;
+    case 0x101F8C19: //n-gage
+      iObjectNumber=0x58;
+      break;
+    case 0x101FB2B0: //n-gage qda
+    case 0x101FB2B1: //n-gage qd
+    case 0x101FB2B2: //n-gage qd unknown1
+    case 0x101FB2B3: //n-gage qd unknown2
+      iObjectNumber=0x54;
+      break;
+    default:
+      User::Leave(KErrNotSupported);
+      break;
+  }
+  Open();
+  BrightnessL(iBrightnessOriginalState);
   iBrightnessState=iBrightnessCurrentState=iBrightnessOriginalState;
-  HWBacklight::SetGameModeL(ETrue);
+  SetGameModeL(ETrue);
   iScreen=CBackLightTimer::NewL(this,EScreen);
   iKeys=CBackLightTimer::NewL(this,EKeys);
   iBrightness=CBackLightTimer::NewL(this,EBrightness);
@@ -62,28 +87,28 @@ void CBackLightControlImpl::ConstructL(void)
 
 TInt CBackLightControlImpl::Switch(void)
 {
-  TInt type=HWBacklight::ESwitchBoth;
-  TInt state=HWBacklight::EOn;
+  TInt type=ESwitchBoth;
+  TInt state=EOn;
   if(iScreenCurrentState==iKeysCurrentState)
   {
     if(iScreenCurrentState==EBackLightStateOff)
     {
-      type=HWBacklight::ESwitchKeys;
-      state=HWBacklight::ESmoothOff;
+      type=ESwitchKeys;
+      state=ESmoothOff;
     }
   }
   else
   {
     if(iScreenCurrentState==EBackLightStateOn)
     {
-      type=HWBacklight::ESwitchScreen;
+      type=ESwitchScreen;
     }
     else
     {
-      type=HWBacklight::ESwitchKeys;
+      type=ESwitchKeys;
     }
   }
-  TRAPD(err,HWBacklight::SwitchL(type,state));
+  TRAPD(err,SwitchL(type,state));
   if(iScreenCurrentBlink)
   {
     if(!iScreenBlinker->IsActive()) iScreenBlinker->Start((iScreenCurrentState==EBackLightStateOn)?iScreenCurrentTime.iOn:iScreenCurrentTime.iOff);
@@ -138,7 +163,7 @@ void CBackLightControlImpl::UpdateState(TInt aType,TInt aState,TUint16 aDuration
 
 TInt CBackLightControlImpl::SwitchBrightness(void)
 {
-  TRAPD(err,HWBacklight::SetBrightnessL(HWBacklight::EBrightnessScreen,iBrightnessCurrentState));
+  TRAPD(err,SetBrightnessL(iBrightnessCurrentState));
   if(err==KErrNone) Switch();
   if(iCallback) iCallback->BrightnessNotify(NormalizeBrightness(iBrightnessCurrentState));
   return err;
@@ -299,7 +324,8 @@ EXPORT_C TInt CBackLightControlImpl::ScreenBrightness(void)
 
 void CBackLightControlImpl::HandleGainingForeground(void)
 {
-  TRAPD(err,HWBacklight::SetGameModeL(ETrue));
+  Open();
+  TRAPD(err,SetGameModeL(ETrue));
   BackLightOn(EBackLightTypeBoth,0);
 }
 
@@ -307,7 +333,8 @@ void CBackLightControlImpl::HandleLosingForeground(void)
 {
   SetScreenBrightnessInternal(iBrightnessOriginalState,0);
   BackLightOn(EBackLightTypeBoth,0);
-  TRAPD(err,HWBacklight::SetGameModeL(EFalse));
+  TRAPD(err,SetGameModeL(EFalse));
+  Close();
 }
 
 EXPORT_C CBackLightControl* CBackLightControl::NewL(void)
