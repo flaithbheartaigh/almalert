@@ -1,0 +1,20 @@
+target ezip.dll
+targettype dll
+
+uid 0x1000008d 0x1000AC5A
+targetpath \system\libs
+
+sourcepath ..\src\ezip
+source ezipDll.cpp                       
+source ezipCZipFile.cpp                  
+source ezipRZipFileMemberReaderStream.cpp
+source ezipCZipFileMember.cpp            
+source ezipCZipFileMemberIterator.cpp    
+
+systeminclude ..\inc 
+systeminclude \epoc32\include
+
+library euser.lib
+library efsrv.lib
+library charconv.lib
+library ezlib.lib

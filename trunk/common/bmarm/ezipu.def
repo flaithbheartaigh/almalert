@@ -1,0 +1,22 @@
+EXPORTS
+	__8CZipFileR3RFsRC7TDesC16 @ 1 NONAME R3UNUSED ; CZipFile::CZipFile(RFs &, TDesC16 const &)
+	CaseInsensitiveMemberL__8CZipFileRC7TDesC16 @ 2 NONAME R3UNUSED ; CZipFile::CaseInsensitiveMemberL(TDesC16 const &)
+	Close__8CZipFile @ 3 NONAME R3UNUSED ; CZipFile::Close(void)
+	CompressedSize__C14CZipFileMember @ 4 NONAME R3UNUSED ; CZipFileMember::CompressedSize(void) const
+	GetInputStreamL__8CZipFilePC14CZipFileMemberRP26RZipFileMemberReaderStream @ 5 NONAME R3UNUSED ; CZipFile::GetInputStreamL(CZipFileMember const *, RZipFileMemberReaderStream *&)
+	GetMembersL__8CZipFile @ 6 NONAME R3UNUSED ; CZipFile::GetMembersL(void)
+	MemberL__8CZipFileRC7TDesC16 @ 7 NONAME R3UNUSED ; CZipFile::MemberL(TDesC16 const &)
+	Name__C14CZipFileMember @ 8 NONAME R3UNUSED ; CZipFileMember::Name(void) const
+	NewL__8CZipFileR3RFsRC7TDesC16 @ 9 NONAME R3UNUSED ; CZipFile::NewL(RFs &, TDesC16 const &)
+	NextL__22CZipFileMemberIterator @ 10 NONAME R3UNUSED ; CZipFileMemberIterator::NextL(void)
+	OpenL__8CZipFile @ 11 NONAME R3UNUSED ; CZipFile::OpenL(void)
+	UncompressedSize__C14CZipFileMember @ 12 NONAME R3UNUSED ; CZipFileMember::UncompressedSize(void) const
+	"_._26RZipFileMemberReaderStream" @ 13 NONAME R3UNUSED ; RZipFileMemberReaderStream::~RZipFileMemberReaderStream(void)
+	"_._8CZipFile" @ 14 NONAME R3UNUSED ; CZipFile::~CZipFile(void)
+	CRC32__C14CZipFileMember @ 15 NONAME R3UNUSED ; CZipFileMember::CRC32(void) const
+	"_._14CZipFileMember" @ 16 NONAME R3UNUSED ; CZipFileMember::~CZipFileMember(void)
+	CaseSensitiveOrCaseInsensitiveMemberL__8CZipFileRC7TDesC16 @ 17 NONAME R3UNUSED ; CZipFile::CaseSensitiveOrCaseInsensitiveMemberL(TDesC16 const &)
+	Size__C8CZipFileRi @ 18 NONAME R3UNUSED ; CZipFile::Size(int &) const
+	ConstructL__8CZipFileRC7TDesC16 @ 19 NONAME R3UNUSED ; CZipFile::ConstructL(TDesC16 const &)
+	Read__26RZipFileMemberReaderStreamR6TDes16i @ 20 NONAME R3UNUSED ; RZipFileMemberReaderStream::Read(TDes16 &, int)
+
