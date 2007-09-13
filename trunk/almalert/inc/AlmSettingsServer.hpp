@@ -22,9 +22,10 @@
 
 #include <e32base.h>
 #include <d32dbms.h>
+#include <babackup.h>
 #include "AlmLock.hpp"
 
-class CAlmSettingsServer: public CServer,public CLockNotifier
+class CAlmSettingsServer: public CServer,public CLockNotifier,public MBackupOperationObserver
 {
   public:
     static CAlmSettingsServer* NewLC(void);
@@ -36,6 +37,8 @@ class CAlmSettingsServer: public CServer,public CLockNotifier
     void Notify(void);
   public: //CLockNotifier
     void LockNotifyL(TBool aState);
+  public: //MBackupObserver
+    void HandleBackupOperationEventL(const TBackupOperationAttributes& aBackupOperationAttributes);
   private:
     CAlmSettingsServer(TInt aPriority);
     void ConstructL(void);
@@ -49,7 +52,10 @@ class CAlmSettingsServer: public CServer,public CLockNotifier
     TInt iSessionCount;
     RDbNamedDatabase iBase;
     RDbs iSession;
+    TBool iDbState;
     TBool iLock;
+    TBool iBackup;
+    CBaBackupSessionWrapper* iBackupSession;
 };
 
 typedef void (*TSettingsGetFunctionL)(const RDbView& aViev,TAny* aData);

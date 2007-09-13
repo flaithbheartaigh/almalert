@@ -38,14 +38,18 @@ CAlmSettingsServer::~CAlmSettingsServer()
 {
   DbClose();
   iSession.Close();
+  if(iBackupSession) iBackupSession->DeRegisterBackupOperationObserver(*this);
+  delete iBackupSession;
 }
 
-CAlmSettingsServer::CAlmSettingsServer(TInt aPriority): CServer(aPriority),iLock(ETrue)
+CAlmSettingsServer::CAlmSettingsServer(TInt aPriority): CServer(aPriority)
 {
 }
 
 void CAlmSettingsServer::ConstructL(void)
 {
+  iBackupSession=CBaBackupSessionWrapper::NewL();
+  iBackupSession->RegisterBackupOperationObserverL(*this);
   User::LeaveIfError(iSession.Connect());
   DbOpenL();
   StartL(KSettingsServerName);
@@ -115,7 +119,7 @@ TInt CAlmSettingsServer::ThreadFunction(TAny* aNone)
 
 RDbDatabase& CAlmSettingsServer::DbL(void)
 {
-  if(iLock) User::Leave(KErrLocked);
+  if(!iDbState) User::Leave(KErrLocked);
   return iBase;
 }
 
@@ -124,17 +128,33 @@ void CAlmSettingsServer::LockNotifyL(TBool aState)
   if(aState!=iLock)
   {
     if(aState) DbClose();
-    else
+    else if(!iBackup)
     {
       User::After(1000000);
       DbOpenL();
     }
+    iLock=aState;
+  }
+}
+
+void CAlmSettingsServer::HandleBackupOperationEventL(const TBackupOperationAttributes& aBackupOperationAttributes)
+{
+  TBool state=EFalse;
+  if(aBackupOperationAttributes.iOperation==EStart) state=ETrue;
+  if(state!=iBackup)
+  {
+    if(state) DbClose();
+    else if(!iLock)
+    {
+      DbOpenL();
+    }
+    iBackup=state;
   }
 }
 
 void CAlmSettingsServer::DbOpenL(void)
 {
-  if(iLock)
+  if(!iDbState)
   {
     RFs fs;
     User::LeaveIfError(fs.Connect());
@@ -143,16 +163,16 @@ void CAlmSettingsServer::DbOpenL(void)
     User::LeaveIfError(find.FindByDir(KSettings,KLibs));
     User::LeaveIfError(iBase.Open(iSession,find.File()));
     CleanupStack::PopAndDestroy(); //fs
-    iLock=EFalse;
+    iDbState=ETrue;
   }
 }
 
 void CAlmSettingsServer::DbClose(void)
 {
-  if(!iLock)
+  if(iDbState)
   {
     iBase.Close();
-    iLock=ETrue;
+    iDbState=EFalse;
   }
 }
 
