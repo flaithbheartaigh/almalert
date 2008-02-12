@@ -213,6 +213,7 @@ TInt CLoadNotifier::LoadPlugin(TAny* aPtr)
     RLibrary current;
     res=current.Load(data.iName,data.iPath);
     mutex.Signal();
+    mutex.Close();
     if(res==KErrNone)
     {
       TLibraryFunction func=current.Lookup(1);
@@ -220,7 +221,6 @@ TInt CLoadNotifier::LoadPlugin(TAny* aPtr)
       else res=KErrGeneral;
       current.Close();
     }
-    mutex.Close();
   }
   return res;
 }
