@@ -5,8 +5,11 @@ targetpath \system\regogs\fixss
 
 sourcepath .
 source langsw.cpp
+sourcepath ..\shutdown
+source shutdown.cpp
 
 userinclude .
+userinclude ..\shutdown
 systeminclude \epoc32\include
 systeminclude ..\..\..\common\inc
 
