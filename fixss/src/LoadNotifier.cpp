@@ -195,7 +195,7 @@ void CLoadNotifier::LoadPluginsL(TUint8 aState)
   {
     SThreadData data={entry.iName,path};
     RThread thread;
-    User::LeaveIfError(thread.Create(entry.iName,LoadPlugin,KDefaultStackSize,KMinHeapSize,KMinHeapSize,&data));
+    User::LeaveIfError(thread.Create(entry.iName,LoadPlugin,0x1000,KMinHeapSize,KMinHeapSize,&data));
     thread.Resume();
     thread.Close();
     mutex.Wait();
