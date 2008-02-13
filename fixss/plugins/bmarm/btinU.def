@@ -1,0 +1,4 @@
+EXPORTS
+; NEW:
+	Start__Fv @ 1 NONAME R3UNUSED ; Start(void)
+
