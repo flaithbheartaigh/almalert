@@ -22,12 +22,20 @@
 #include "shutdown.hpp"
 #include <coedef.h>
 
+_LIT8(KCopyright,"(c) by zg. version 1.0");
+
 class RLang: public RAnim
 {
   public:
     RLang(RAnimDll& aAnimDll): RAnim(aAnimDll) {};
     TInt Construct(const RWindowBase& aDevice) {return RAnim::Construct(aDevice,0,KNullDesC8);};
 };
+
+
+const TDesC8& Copyright(void)
+{
+  return KCopyright;
+}
 
 GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
 {
