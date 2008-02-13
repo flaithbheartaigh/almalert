@@ -19,9 +19,7 @@
 
 #include <w32adll.h>
 #include <apgwgnam.h>
-#include <CommonEngine.hpp>
-#include <SysUtilEx.hpp>
-#include <SharedData.hpp>
+#include "shutdown.hpp"
 #include <coedef.h>
 
 class RLang: public RAnim
@@ -31,60 +29,9 @@ class RLang: public RAnim
     TInt Construct(const RWindowBase& aDevice) {return RAnim::Construct(aDevice,0,KNullDesC8);};
 };
 
-class CShutdown: public CBase,public MSharedDataNotifyHandler
-{
-  public:
-    static CShutdown* NewLC(void);
-    ~CShutdown();
-    void Wait(void);
-  public:
-    void HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue);
-  private:
-    CShutdown();
-    void ConstructL(void);
-  private:
-    RSharedDataClient iSysAp;
-};
-
 GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
 {
   return KErrNone;
-}
-
-CShutdown* CShutdown::NewLC(void)
-{
-  CShutdown* self=new(ELeave)CShutdown;
-  CleanupStack::PushL(self);
-  self->ConstructL();
-  return self;
-}
-
-CShutdown::~CShutdown()
-{
-  iSysAp.Close();
-}
-
-void CShutdown::HandleNotifyL(TUid anUid,const TDesC16& aKey,const TDesC16& aValue)
-{
-  if(SysStartup::State()==ESWState204)
-  {
-    CActiveScheduler::Stop();
-  }
-}
-
-CShutdown::CShutdown(): CBase(),iSysAp(this)
-{
-}
-
-void CShutdown::Wait(void)
-{
-  CActiveScheduler::Start();
-}
-
-void CShutdown::ConstructL(void)
-{
-  User::LeaveIfError(iSysAp.Connect(0));
-  User::LeaveIfError(iSysAp.NotifySet(KSysUtilUid,&KKeyStateVal));
 }
 
 _LIT(KDllName,"langswa.dll");
