@@ -1,6 +1,7 @@
 target btin.211
 targettype dll
 
+uid 0x1000008d 0xa000565e
 targetpath \system\regogs\fixss
 
 sourcepath .
