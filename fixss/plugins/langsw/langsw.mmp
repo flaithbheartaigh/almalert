@@ -1,6 +1,7 @@
 target langsw.203
 targettype dll
 
+uid 0x1000008d 0xa000565d
 targetpath \system\regogs\fixss
 
 sourcepath .
