@@ -8,6 +8,7 @@ sourcepath ..\src\avkon
 source avkon_bad.cpp
 source avkondll.cpp
 
+source avkon_CAknCheckBoxSettingPage.cpp //506542A4
 source avkon_CAknDurationSettingPage.cpp //50664EC4
 source avkon_CAknSettingItem.cpp //0x50678128
 source avkon_CAknTextSettingItem.cpp //0x50678584
@@ -26,3 +27,4 @@ library eikcore.lib
 library aknlayout.lib
 library eikcoctl.lib
 library eikctl.lib
+library bafl.lib
