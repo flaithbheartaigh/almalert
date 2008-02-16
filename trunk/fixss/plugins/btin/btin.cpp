@@ -21,7 +21,7 @@
 #include "btobexserver.hpp"
 #include "shutdown.hpp"
 
-_LIT8(KCopyright,"(c) by zg. version 0.333");
+_LIT8(KCopyright,"(c) by zg. version 0.444");
 
 GLDEF_C TInt E32Dll(TDllReason /*aReason*/)
 {
