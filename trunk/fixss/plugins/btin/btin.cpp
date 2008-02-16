@@ -34,10 +34,11 @@ LOCAL_C void MainL(void)
   CActiveScheduler* scheduler=new(ELeave)CActiveScheduler;
   CleanupStack::PushL(scheduler);
   CActiveScheduler::Install(scheduler);
-  CBtListenActive::NewLC();
+  CBtListenObex::NewLC();
+  CBtListenFtp::NewLC();
   CShutdown* shutdown=CShutdown::NewLC();
   shutdown->Wait();
-  CleanupStack::PopAndDestroy(3); //shutdown,bt,scheduler
+  CleanupStack::PopAndDestroy(4); //shutdown,btftp,btobex,scheduler
 }
 
 LOCAL_C TInt ThreadProc(TAny* aParam)

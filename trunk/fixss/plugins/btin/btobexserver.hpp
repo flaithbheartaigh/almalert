@@ -23,15 +23,18 @@
 #include <obex.h>
 #include <bteng.hpp>
 
-class CBtListenActive: public CBase,public MObexServerNotify
+class CBtListenBase: public CBase,public MObexServerNotify
 {
   public:
-    void ConstructL(void);
-    static void NewLC(void);
-    ~CBtListenActive();
+    ~CBtListenBase();
+  protected:
+    void ConstructL(TInt aChannel,TBool aAuthenticate);
+    CBtListenBase(TUint aService);
+    virtual const TDesC& FileName(void)=0;
+    inline CObexServer& Server(void) {return *iObexServer;};
   private:
-    CBtListenActive();
-    void StartBTObexServerL(void);
+    CBtListenBase();
+    void StartBTObexServerL(TInt aChannel,TBool aAuthenticate);
     void StopBTObexServerL(void);
     void ResetObjectL(void);
     void DeleteObject(void);
@@ -55,6 +58,34 @@ class CBtListenActive: public CBase,public MObexServerNotify
     CBTConnection* iBTConnection;
     CObexBufObject* iCurrObject;
     CBufFlat* iBuffer;
+    TUint iService;
+};
+
+class CBtListenObex: public CBtListenBase
+{
+  public:
+    static void NewLC(void);
+  protected:
+    CBtListenObex(TUint aService);
+  private:
+    const TDesC& FileName(void);
+};
+
+class CBtListenFtp: public CBtListenBase
+{
+  public:
+    static void NewLC(void);
+    ~CBtListenFtp();
+  protected:
+    CBtListenFtp(TUint aService);
+  private:
+    const TDesC& FileName(void);
+    CObexBufObject* GetRequestIndication(CObexBaseObject* aRequiredObject);
+  private:
+    void DeleteListObject(void);
+  private:
+    CObexBufObject* iListObject;
+    CBufFlat* iListBuffer;
 };
 
 #endif
