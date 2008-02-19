@@ -1,0 +1,59 @@
+target phi.app
+targettype app
+
+uid 0x100039ce 0x10204D95
+targetpath \system\apps\phi
+
+sourcepath ..\src
+source phi.cpp
+source phifiles.cpp
+source philistpane.cpp
+source philistbox.cpp
+source phientry.cpp
+source phiselection.cpp
+source phiscan.cpp
+source phifs.cpp
+source phifs_list.cpp
+source phifs_obj.cpp
+source phifs_prop.cpp
+source phifs_bt.cpp
+source phiman.cpp
+source phiutils.cpp
+sourcepath ..\src\bt
+source phisdpattributeparser.cpp
+source phibtservicesearcher.cpp
+source phiobexservicesearcher.cpp
+source phiobexclient.cpp
+
+sourcepath ..\group
+resource phi.rss
+
+userinclude ..\inc 
+
+systeminclude \epoc32\include
+systeminclude ..\..\common\inc
+
+library euser.lib
+library eikcore.lib
+library apparc.lib
+library avkon.lib
+library cone.lib
+library eikcoctl.lib
+library bafl.lib
+library efsrv.lib
+library eikctl.lib
+
+library apgrfx.lib
+library apmime.lib
+library pinbmdl.lib
+
+library bluetooth.lib
+library btextnotifiers.lib
+library sdpagent.lib
+library sdpdatabase.lib
+library irobex.lib
+library esock.lib
+
+library aknnotify.lib
+
+aif phi.aif ..\aif phiaif.rss c8 phi.bmp phi_m.bmp

@@ -1,0 +1,24 @@
+#include <aiftool.rh>
+
+CHARACTER_SET UTF8
+
+RESOURCE AIF_DATA
+{
+  app_uid=270552469;
+  caption_list=
+  {
+    CAPTION
+    {
+      code=ELangEnglish;
+      caption="Phi";
+    },
+    CAPTION
+    {
+      code=ELangRussian;
+      caption="Phi";
+    }
+  };
+  num_icons=1;
+  embeddability=KAppNotEmbeddable;
+  newfile=KAppDoesNotSupportNewFile;
+}

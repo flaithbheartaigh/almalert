@@ -1,0 +1,67 @@
+/*
+    phiEN.loc
+    Copyright (C) 2007-2008 zg
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef __PHIEN_LOC__
+#define __PHIEN_LOC__
+
+#define qtn_phi_exit "Exit"
+#define qtn_phi_cut "Cut"
+#define qtn_phi_copy "Copy"
+#define qtn_phi_new_folder "New folder"
+#define qtn_phi_rename "Rename"
+#define qtn_phi_sort_name "n"
+#define qtn_phi_sort_ext "e"
+#define qtn_phi_sort_size "s"
+#define qtn_phi_sort_date "d"
+#define qtn_phi_byte "B"
+#define qtn_phi_kbyte "K"
+#define qtn_phi_mbyte "M"
+#define qtn_phi_archive "A"
+#define qtn_phi_readonly "R"
+#define qtn_phi_hidden "H"
+#define qtn_phi_system "S"
+#define qtn_phi_info_size "size"
+#define qtn_phi_info_free "free"
+#define qtn_phi_info_attr "attr"
+#define qtn_phi_info_date "date"
+#define qtn_phi_info_content "content"
+#define qtn_phi_archive_l "1\tarchive"
+#define qtn_phi_readonly_l "1\tread only"
+#define qtn_phi_hidden_l "1\thidden"
+#define qtn_phi_system_l "1\tsystem"
+#define qtn_phi_set_attr "Set attributes"
+#define qtn_phi_delete_files "Delete files?"
+#define qtn_phi_kill_processes "Kill processes?"
+#define qtn_phi_kill_threads "Kill threads?"
+#define qtn_phi_ask_overwrite "%S exists, overwrite?"
+#define qtn_phi_operations "Operations"
+#define qtn_phi_paste "Paste"
+#define qtn_phi_delete "Delete"
+#define qtn_phi_send "Send"
+#define qtn_phi_send_bt "via bt"
+#define qtn_phi_send_pinboard "to pinboard"
+#define qtn_phi_info "Info"
+#define qtn_phi_refresh "Refresh"
+#define qtn_phi_sort "Sort"
+#define qtn_phi_sort_name_full "Name"
+#define qtn_phi_sort_ext_full "Extension"
+#define qtn_phi_sort_size_full "Size"
+#define qtn_phi_sort_date_full "Date"
+#define qtn_phi_error "Error (%d)"
+
+#endif
