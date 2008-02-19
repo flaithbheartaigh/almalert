@@ -25,7 +25,7 @@
 #include <apgcli.h> //RApaLsSession
 #include <PinbMdl.hpp>
 #include <PinbLnkApp.hpp>
-#include <phi.rsg>
+#include <phien.rsg>
 #include <aknmessagequerydialog.h> //CAknMessageQueryDialog
 #include "phiconst.hpp"
 #include "phiscan.hpp"
@@ -420,7 +420,7 @@ void CPhiFs::AppendInfoResource(TDes& aTarget,TInt aResourceID)
 
 void CPhiFs::AppendInfoSize(TDes& aTarget,TInt aResourceID,TInt aSize)
 {
-  TBuf<64> buffer;
+  TBuf<16> buffer;
   AppendInfoResource(aTarget,aResourceID);
   PhiUtils::FormatSize(aSize,buffer);
   aTarget.Append(buffer);

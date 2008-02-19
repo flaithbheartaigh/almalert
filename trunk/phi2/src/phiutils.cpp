@@ -17,30 +17,37 @@
 */
 
 #include "phiutils.hpp"
-#include <phi.rsg>
-#include <aknnotewrappers.h>
+#include <phien.rsg>
 
 void PhiUtils::FormatSize(TInt aSize,TDes& aResult)
 {
-  TInt unit=R_PHI_BYTE;
+  TInt unit=R_PHI_BYTE,mod=0;
   while((aSize>=10000)&&(unit<R_PHI_MBYTE))
   {
+    mod=(aSize%1024)*100/1024;
     aSize/=1024;
     unit++;
   }
   TBuf<4> unitStr;
   CCoeEnv::Static()->ReadResourceAsDes16(unitStr,unit);
-  _LIT(KSizeFormat,"%d%S");
-  aResult.Format(KSizeFormat,aSize,&unitStr);
+  _LIT(KSizeFormat1,"%d.%02d%S");
+  _LIT(KSizeFormat2,"%d%S");
+  if(mod) aResult.Format(KSizeFormat1,aSize,mod,&unitStr);
+  else aResult.Format(KSizeFormat2,aSize,&unitStr);
 }
 
 void PhiUtils::ShowMessageL(TInt aResourceID)
 {
   TBuf<32> message;
   CCoeEnv::Static()->ReadResourceAsDes16(message,aResourceID);
+  ShowMessageL(message,CAknNoteDialog::EShortTimeout);
+}
+
+void PhiUtils::ShowMessageL(const TDesC& aMessage,CAknNoteDialog::TTimeout aTimeout)
+{
   CAknInformationNote* dlg=new(ELeave)CAknInformationNote;
-  dlg->SetTimeout(CAknNoteDialog::EShortTimeout);
-  dlg->ExecuteLD(message);
+  dlg->SetTimeout(aTimeout);
+  dlg->ExecuteLD(aMessage);
 }
 
 TBool PhiUtils::ShowConfirmationL(TInt aResourceID)

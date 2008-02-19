@@ -23,7 +23,7 @@
 #include "phiconst.hpp"
 #include "phifs.hpp"
 #include <aknutils.h>
-#include <phi.rsg>
+#include <phien.rsg>
 #include "phi.hrh"
 #include <eikmenup.h>
 

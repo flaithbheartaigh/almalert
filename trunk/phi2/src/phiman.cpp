@@ -21,7 +21,7 @@
 #include "phipckg.hpp"
 #include "phientry.hpp"
 #include "phiutils.hpp"
-#include <phi.rsg>
+#include <phien.rsg>
 #include <eikprogi.h>
 #include <aknglobalconfirmationquery.h>
 
@@ -103,7 +103,7 @@ void CPhiMan::RunL(void)
 {
   //Log(_L8("RunL"),iStatus.Int());
   TBool stop=EFalse;
-  if(iStatus==KErrNone&&iError==KErrNone)
+  if((iStatus==KErrNone||iStatus==KErrAlreadyExists)&&iError==KErrNone)
   {
     if(iCurrent>=0)
     {
@@ -224,6 +224,7 @@ MFileManObserver::TControl CPhiMan::NotifyFileManEnded(void)
       TRAP(err,DeleteL(dst));
       if(err==KErrNone) ok=MFileManObserver::ERetry;
     }
+    else err=KErrNone;
   }
   if(ok==MFileManObserver::EContinue) User::LockedInc(iAddCount);
   if(ok!=MFileManObserver::ERetry&&iError==KErrNone) iError=err;

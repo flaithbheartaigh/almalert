@@ -35,7 +35,8 @@ enum TPhiIds
   EPhiSortName,
   EPhiSortExt,
   EPhiSortSize,
-  EPhiSortDate
+  EPhiSortDate,
+  EPhiCompressMemory
 };
 
 

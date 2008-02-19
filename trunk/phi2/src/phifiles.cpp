@@ -19,8 +19,10 @@
 #include "phi.hpp"
 #include "phifiles.hpp"
 #include "philistpane.hpp"
-#include <phi.rsg>
+#include "phiutils.hpp"
+#include <phien.rsg>
 #include "phi.hrh"
+#include <e32hal.h>
 
 CPhiFilesView* CPhiFilesView::NewLC(void)
 {
@@ -95,6 +97,22 @@ void CPhiFilesView::HandleCommandL(TInt aCommand)
       event.iCode='4';
       event.iModifiers=EModifierShift;
       break;
+    case EPhiCompressMemory:
+      {
+        TMemoryInfoV1Buf info1,info2;
+        UserHal::MemoryInfo(info1);
+        User::CompressAllHeaps();
+        UserHal::MemoryInfo(info2);
+        TBuf<32> format;
+        CCoeEnv::Static()->ReadResourceAsDes16(format,R_PHI_MEMORY_COMPRESS_MESSAGE);
+        TBuf<16> str1,str2;
+        PhiUtils::FormatSize(info1().iFreeRamInBytes,str1);
+        PhiUtils::FormatSize(info2().iFreeRamInBytes,str2);
+        TBuf<64> message;
+        message.Format(format,&str1,&str2);
+        PhiUtils::ShowMessageL(message,CAknNoteDialog::ENoTimeout);
+      }
+      return;
     case EAknSoftkeyBack:
     case EAknSoftkeyExit:
       AppUi()->HandleCommandL(EEikCmdExit);

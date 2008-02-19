@@ -19,7 +19,7 @@
 #include "bt/phiobexclient.hpp"
 #include "bt/phiobexservicesearcher.hpp"
 #include "phiutils.hpp"
-#include <phi.rsg>
+#include <phien.rsg>
 #include <eikprogi.h>
 
 /*
