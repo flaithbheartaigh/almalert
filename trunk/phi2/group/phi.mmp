@@ -26,7 +26,8 @@ source phiobexservicesearcher.cpp
 source phiobexclient.cpp
 
 sourcepath ..\group
-resource phi.rss
+resource phiEN.rss
+resource phiRU.rss
 
 userinclude ..\inc 
 
