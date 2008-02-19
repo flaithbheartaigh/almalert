@@ -59,6 +59,11 @@ RESOURCE MENU_PANE r_phi_file_menu
     },
     MENU_ITEM
     {
+      cascade=r_phi_tools_menu;
+      txt=qtn_phi_tools;
+    },
+    MENU_ITEM
+    {
       command=EAknSoftkeyExit;
       txt=qtn_phi_exit;
     }
@@ -157,6 +162,18 @@ RESOURCE MENU_PANE r_phi_sort_menu
     {
       command=EPhiSortDate;
       txt=qtn_phi_sort_date_full" {^4}";
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_phi_tools_menu
+{
+  items=
+  {
+    MENU_ITEM
+    {
+      command=EPhiCompressMemory;
+      txt=qtn_phi_memory_compress;
     }
   };
 }
@@ -284,6 +301,11 @@ RESOURCE TBUF64 r_phi_ask_overwrite
 RESOURCE TBUF32 r_phi_error
 {
   buf=qtn_phi_error;
+}
+
+RESOURCE TBUF32 r_phi_memory_compress_message
+{
+  buf=qtn_phi_memory_compress_message;
 }
 
 RESOURCE DIALOG r_phi_operation_progress_note_softkey_cancel

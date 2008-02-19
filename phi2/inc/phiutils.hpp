@@ -20,12 +20,14 @@
 #define __PHIUTILS_HPP__
 
 #include <e32std.h>
+#include <aknnotewrappers.h>
 
 class PhiUtils
 {
   public:
     static void FormatSize(TInt aSize,TDes& aResult);
     static void ShowMessageL(TInt aResourceID);
+    static void ShowMessageL(const TDesC& aMessage,CAknNoteDialog::TTimeout aTimeout);
     static TBool ShowConfirmationL(TInt aResourceID);
     static void ShowErrorL(TInt aResourceID,TInt anError);
 };

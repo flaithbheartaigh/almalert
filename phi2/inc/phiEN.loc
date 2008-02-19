@@ -63,5 +63,8 @@
 #define qtn_phi_sort_size_full "Size"
 #define qtn_phi_sort_date_full "Date"
 #define qtn_phi_error "Error (%d)"
+#define qtn_phi_tools "Tools"
+#define qtn_phi_memory_compress "Compess memory"
+#define qtn_phi_memory_compress_message "%S, before\n%S, after"
 
 #endif

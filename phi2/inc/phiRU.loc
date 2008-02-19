@@ -63,5 +63,8 @@
 #define qtn_phi_sort_size_full "размеру"
 #define qtn_phi_sort_date_full "дате"
 #define qtn_phi_error "Ошибка (%d)"
+#define qtn_phi_tools "Утилиты"
+#define qtn_phi_memory_compress "Сжать память"
+#define qtn_phi_memory_compress_message "%S, до\n%S, после"
 
 #endif
