@@ -1,0 +1,401 @@
+#include "phiEN.loc"
+
+NAME PHI
+CHARACTER_SET UTF8
+
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.rsg>
+#include <avkon.rh>
+#include <avkon.mbg>
+#include "phi.hrh"
+
+RESOURCE RSS_SIGNATURE
+{
+}
+
+RESOURCE TBUF r_default_document_name
+{
+  buf="";
+}
+
+RESOURCE EIK_APP_INFO
+{
+}
+
+RESOURCE AVKON_VIEW r_phi_file_view
+{
+  menubar=r_phi_file_menubar;
+  cba=R_AVKON_SOFTKEYS_OPTIONS_BACK;
+}
+
+RESOURCE MENU_BAR r_phi_file_menubar
+{
+  titles=
+  {
+    MENU_TITLE
+    {
+      menu_pane=r_phi_file_menu;
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_phi_file_menu
+{
+  items=
+  {
+    MENU_ITEM
+    {
+      cascade=r_phi_operations_menu;
+      txt=qtn_phi_operations;
+    },
+    MENU_ITEM
+    {
+      cascade=r_phi_send_menu;
+      txt=qtn_phi_send;
+    },
+    MENU_ITEM
+    {
+      cascade=r_phi_sort_menu;
+      txt=qtn_phi_sort;
+    },
+    MENU_ITEM
+    {
+      command=EAknSoftkeyExit;
+      txt=qtn_phi_exit;
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_phi_operations_menu
+{
+  items=
+  {
+    MENU_ITEM
+    {
+      command=EPhiCopy;
+      txt=qtn_phi_copy" {*}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiCut;
+      txt=qtn_phi_cut" {#}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiPaste;
+      txt=qtn_phi_paste" {0}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiDelete;
+      txt=qtn_phi_delete" {c}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiInfo;
+      txt=qtn_phi_info" {5}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiSetAttr;
+      txt=qtn_phi_set_attr" {^5}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiRename;
+      txt=qtn_phi_rename" {6}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiMkDir;
+      txt=qtn_phi_new_folder" {7}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiRefresh;
+      txt=qtn_phi_refresh" {9}";
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_phi_send_menu
+{
+  items=
+  {
+    MENU_ITEM
+    {
+      command=EPhiBt;
+      txt=qtn_phi_send_bt" {1}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiPinboard;
+      txt=qtn_phi_send_pinboard" {2}";
+    }
+  };
+}
+
+RESOURCE MENU_PANE r_phi_sort_menu
+{
+  items=
+  {
+    MENU_ITEM
+    {
+      command=EPhiSortName;
+      txt=qtn_phi_sort_name_full" {^1}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiSortExt;
+      txt=qtn_phi_sort_ext_full" {^2}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiSortSize;
+      txt=qtn_phi_sort_size_full" {^3}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiSortDate;
+      txt=qtn_phi_sort_date_full" {^4}";
+    }
+  };
+}
+
+RESOURCE TBUF32 r_phi_string_cut
+{
+  buf=qtn_phi_cut;
+}
+
+RESOURCE TBUF32 r_phi_string_copy
+{
+  buf=qtn_phi_copy;
+}
+
+RESOURCE TBUF32 r_phi_string_new_folder
+{
+  buf=qtn_phi_new_folder;
+}
+
+RESOURCE TBUF32 r_phi_string_rename
+{
+  buf=qtn_phi_rename;
+}
+
+RESOURCE TBUF1 r_phi_sort_name
+{
+  buf=qtn_phi_sort_name;
+}
+
+RESOURCE TBUF1 r_phi_sort_ext
+{
+  buf=qtn_phi_sort_ext;
+}
+
+RESOURCE TBUF1 r_phi_sort_size
+{
+  buf=qtn_phi_sort_size;
+}
+
+RESOURCE TBUF1 r_phi_sort_date
+{
+  buf=qtn_phi_sort_date;
+}
+
+RESOURCE TBUF4 r_phi_byte
+{
+  buf=qtn_phi_byte;
+}
+
+RESOURCE TBUF4 r_phi_kbyte
+{
+  buf=qtn_phi_kbyte;
+}
+
+RESOURCE TBUF4 r_phi_mbyte
+{
+  buf=qtn_phi_mbyte;
+}
+
+RESOURCE TBUF1 r_phi_archive
+{
+  buf=qtn_phi_archive;
+}
+
+RESOURCE TBUF1 r_phi_readonly
+{
+  buf=qtn_phi_readonly;
+}
+
+RESOURCE TBUF1 r_phi_hidden
+{
+  buf=qtn_phi_hidden;
+}
+
+RESOURCE TBUF1 r_phi_system
+{
+  buf=qtn_phi_system;
+}
+
+RESOURCE TBUF16 r_phi_info_size
+{
+  buf=qtn_phi_info_size;
+}
+
+RESOURCE TBUF16 r_phi_info_free
+{
+  buf=qtn_phi_info_free;
+}
+
+RESOURCE TBUF16 r_phi_info_attr
+{
+  buf=qtn_phi_info_attr;
+}
+
+RESOURCE TBUF16 r_phi_info_date
+{
+  buf=qtn_phi_info_date;
+}
+
+RESOURCE TBUF16 r_phi_info_content
+{
+  buf=qtn_phi_info_content;
+}
+
+RESOURCE TBUF32 r_phi_delete_files
+{
+  buf=qtn_phi_delete_files;
+}
+
+RESOURCE TBUF32 r_phi_kill_processes
+{
+  buf=qtn_phi_kill_processes;
+}
+
+RESOURCE TBUF32 r_phi_kill_threads
+{
+  buf=qtn_phi_kill_threads;
+}
+
+RESOURCE TBUF64 r_phi_ask_overwrite
+{
+  buf=qtn_phi_ask_overwrite;
+}
+
+RESOURCE TBUF32 r_phi_error
+{
+  buf=qtn_phi_error;
+}
+
+RESOURCE DIALOG r_phi_operation_progress_note_softkey_cancel
+{
+  flags=EAknProgressNoteFlags;
+  buttons=R_AVKON_SOFTKEYS_CANCEL;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtNote;
+      control=AVKON_NOTE 
+      { 
+        layout=EProgressLayout;
+        singular_label="";
+        imagefile="z:\\system\\data\\avkon.mbm";
+        imageid=EMbmAvkonQgn_note_alarm_clock;
+        imagemask=EMbmAvkonQgn_note_alarm_clock_mask;
+      };
+    }
+  };
+}
+
+RESOURCE DIALOG r_phi_dialog_edit_name
+{
+  flags=EGeneralQueryFlags;
+  buttons=R_AVKON_SOFTKEYS_OK_CANCEL;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtQuery;
+      id=EGeneralQuery;
+      control=AVKON_DATA_QUERY
+      {
+        layout=EDataLayout;
+        control=EDWIN
+        {
+          flags=EEikEdwinNoHorizScrolling|EEikEdwinResizable;
+          width=25;
+          lines=1;
+          maxlength=100;
+          default_case=EAknEditorLowerCase;
+          allowed_case_modes=EAknEditorUpperCase|EAknEditorLowerCase;
+        };
+      };
+    }
+  };
+}
+
+RESOURCE ARRAY r_phi_set_attr_query_item
+{
+  items=
+  {
+    LBUF
+    {
+      txt=qtn_phi_archive_l;
+    },
+    LBUF
+    {
+      txt=qtn_phi_readonly_l;
+    },
+    LBUF
+    {
+      txt=qtn_phi_hidden_l;
+    },
+    LBUF
+    {
+      txt=qtn_phi_system_l;
+    }
+  };
+}
+
+RESOURCE AVKON_MULTISELECTION_LIST_QUERY r_phi_set_attr_query
+{
+  softkeys=R_AVKON_SOFTKEYS_DONE_CANCEL;
+  items=
+  {
+    AVKON_MULTISELECTION_LIST_QUERY_DLG_LINE
+    {
+      control=AVKON_LIST_QUERY_CONTROL
+      {
+        listtype=EAknCtSingleGraphicPopupMenuListBox;
+        listbox=AVKON_MULTISELECTION_LIST_QUERY_LIST
+        {
+          height=4;
+          array_id=r_phi_set_attr_query_item;
+        };
+        heading=qtn_phi_set_attr;
+      };
+    }
+  };
+}
+
+RESOURCE DIALOG r_phi_confirmation_query
+{
+  flags=EGeneralQueryFlags;
+  buttons=R_AVKON_SOFTKEYS_YES_NO;
+  items=
+  {
+    DLG_LINE
+    {
+      type=EAknCtQuery;
+      id=EGeneralQuery;
+      control=AVKON_CONFIRMATION_QUERY
+      {
+        layout=EConfirmationQueryLayout;
+        label="aa";
+        animation=R_QGN_NOTE_QUERY_ANIM;
+      };
+    }
+  };
+}
