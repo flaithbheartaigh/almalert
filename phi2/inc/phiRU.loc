@@ -1,0 +1,67 @@
+/*
+    phiRU.loc
+    Copyright (C) 2008 zg
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef __PHIRU_LOC__
+#define __PHIRU_LOC__
+
+#define qtn_phi_exit "Выход"
+#define qtn_phi_cut "Вырезать"
+#define qtn_phi_copy "Скопировать"
+#define qtn_phi_new_folder "Новая папка"
+#define qtn_phi_rename "Переименовать"
+#define qtn_phi_sort_name "и"
+#define qtn_phi_sort_ext "р"
+#define qtn_phi_sort_size "а"
+#define qtn_phi_sort_date "д"
+#define qtn_phi_byte "б"
+#define qtn_phi_kbyte "К"
+#define qtn_phi_mbyte "М"
+#define qtn_phi_archive "A"
+#define qtn_phi_readonly "R"
+#define qtn_phi_hidden "H"
+#define qtn_phi_system "S"
+#define qtn_phi_info_size "размер"
+#define qtn_phi_info_free "свободно"
+#define qtn_phi_info_attr "аттрибуты"
+#define qtn_phi_info_date "дата"
+#define qtn_phi_info_content "содержимое"
+#define qtn_phi_archive_l "1\tархивный"
+#define qtn_phi_readonly_l "1\tдля чтения"
+#define qtn_phi_hidden_l "1\tскрытый"
+#define qtn_phi_system_l "1\tсистемный"
+#define qtn_phi_set_attr "Уст. атрибуты"
+#define qtn_phi_delete_files "Удалить файлы?"
+#define qtn_phi_kill_processes "Убить процессы?"
+#define qtn_phi_kill_threads "Убить треды?"
+#define qtn_phi_ask_overwrite "%S существует, перезаписать?"
+#define qtn_phi_operations "Операции"
+#define qtn_phi_paste "Вставить"
+#define qtn_phi_delete "Удалить"
+#define qtn_phi_send "Послать"
+#define qtn_phi_send_bt "по блутус"
+#define qtn_phi_send_pinboard "в ссылки"
+#define qtn_phi_info "Информация"
+#define qtn_phi_refresh "Обновить"
+#define qtn_phi_sort "Сортировка по"
+#define qtn_phi_sort_name_full "имени"
+#define qtn_phi_sort_ext_full "расширению"
+#define qtn_phi_sort_size_full "размеру"
+#define qtn_phi_sort_date_full "дате"
+#define qtn_phi_error "Ошибка (%d)"
+
+#endif
