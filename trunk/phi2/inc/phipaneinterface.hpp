@@ -19,7 +19,7 @@
 #ifndef __PHIPANEINTERFACE_HPP__
 #define __PHIPANEINTERFACE_HPP__
 
-class MPhiPhaneInterface
+class MPhiPaneInterface
 {
   public:
     enum TFsEvent
