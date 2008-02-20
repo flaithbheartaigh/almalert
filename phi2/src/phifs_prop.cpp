@@ -23,7 +23,7 @@ void CPhiFs::SetSortModeL(TInt aMode)
 {
   iSortMode=aMode;
   RefreshL();
-  iInterface->NotifyFsEvent(MPhiPhaneInterface::EFsEventSortModeChanged);
+  iInterface->NotifyFsEvent(MPhiPaneInterface::EFsEventSortModeChanged);
 }
 
 TInt CPhiFs::SortMode(void)

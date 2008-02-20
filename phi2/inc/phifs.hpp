@@ -24,14 +24,14 @@
 #include "phientry.hpp"
 #include "phipckg.hpp"
 
-class MPhiPhaneInterface;
+class MPhiPaneInterface;
 class CPhiSelection;
 class CPhiListBox;
 class CPhiRefresh;
 class CPhiFs: public CBase
 {
   public:
-    static CPhiFs* NewL(MPhiPhaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles);
+    static CPhiFs* NewL(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles);
     ~CPhiFs();
   public:
     void FolderUpL(void);
@@ -54,7 +54,7 @@ class CPhiFs: public CBase
     void SetSortModeL(TInt aMode);
     TInt SortMode(void);
   private:
-    CPhiFs(MPhiPhaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles);
+    CPhiFs(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles);
     void ConstructL(void);
   public:
     enum TWhere
@@ -102,7 +102,7 @@ class CPhiFs: public CBase
     void KillProcessesL(void);
     void KillThreadsL(void);
   private:
-    MPhiPhaneInterface* iInterface; //not owned
+    MPhiPaneInterface* iInterface; //not owned
     CPhiListBox* iListBox; //not owned
     CDesCArrayFlat* iFiles; //not owned
     RFs iFs;

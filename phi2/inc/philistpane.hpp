@@ -26,7 +26,7 @@
 class CPhiListBox;
 class CPhiFs;
 class CEikMenuPane;
-class CPhiListPane: public CCoeControl,public MPhiPhaneInterface
+class CPhiListPane: public CCoeControl,public MPhiPaneInterface
 {
   public:
     static CPhiListPane* NewL(const TRect& aRect,MObjectProvider* aObjectProvider);
@@ -36,7 +36,7 @@ class CPhiListPane: public CCoeControl,public MPhiPhaneInterface
     CCoeControl* ComponentControl(TInt aIndex) const;
     TKeyResponse OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode aType);
     void DynInitMenuPaneL(TInt aResourceId,CEikMenuPane* aMenuPane);
-  public: //MPhiPhaneInterface
+  public: //MPhiPaneInterface
     void NotifyFsEvent(TFsEvent aEvent);
   private:
     void Draw(const TRect& aRect) const;

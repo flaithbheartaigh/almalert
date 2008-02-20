@@ -61,7 +61,7 @@ static void Log(const TDesC& aBuffer,TInt aParam)
 
 const TUint KAttr[]={KEntryAttArchive,KEntryAttReadOnly,KEntryAttHidden,KEntryAttSystem};
 
-CPhiFs* CPhiFs::NewL(MPhiPhaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles)
+CPhiFs* CPhiFs::NewL(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles)
 {
   CPhiFs* self=new(ELeave)CPhiFs(anInterface,aListBox,aFiles);
   CleanupStack::PushL(self);
@@ -76,7 +76,7 @@ CPhiFs::~CPhiFs()
   iFs.Close();
 }
 
-CPhiFs::CPhiFs(MPhiPhaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles): CBase(),iInterface(anInterface),iListBox(aListBox),iFiles(aFiles),iWhere(ERoot),iSortMode(ESortByName)
+CPhiFs::CPhiFs(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles): CBase(),iInterface(anInterface),iListBox(aListBox),iFiles(aFiles),iWhere(ERoot),iSortMode(ESortByName)
 {
 }
 
@@ -132,7 +132,7 @@ void CPhiFs::SetFolderL(const TDesC& aFolder)
   }
   UpdateWhere();
   ReadListL(pos);
-  iInterface->NotifyFsEvent(MPhiPhaneInterface::EFsEventFolderChanged);
+  iInterface->NotifyFsEvent(MPhiPaneInterface::EFsEventFolderChanged);
 }
 
 void CPhiFs::UpdateFileL(void)
@@ -145,7 +145,7 @@ void CPhiFs::UpdateFileL(void)
     iFileValue=parse.DriveAndPath();
     iFileValue.Append(item().iName);
   }
-  iInterface->NotifyFsEvent(MPhiPhaneInterface::EFsEventFileChanged);
+  iInterface->NotifyFsEvent(MPhiPaneInterface::EFsEventFileChanged);
 }
 
 const TFileName CPhiFs::CurrentFolder(void) const
