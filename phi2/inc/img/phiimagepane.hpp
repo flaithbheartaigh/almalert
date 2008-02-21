@@ -43,8 +43,8 @@ class CPhiImagePane: public CCoeControl,public MMdaImageUtilObserver
   private:
     enum TConsts
     {
-      EStep=5,
-      EStepFast=50
+      EStep=8,
+      EStepFast=48
     };
   private:
     TBool iLoaded;
