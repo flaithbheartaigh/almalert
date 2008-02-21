@@ -22,6 +22,7 @@
 #include <coecntrl.h>
 #include <eiklbo.h>
 #include "phipaneinterface.hpp"
+#include "phifs.hpp"
 
 class CPhiListBox;
 class CPhiFs;
@@ -29,7 +30,7 @@ class CEikMenuPane;
 class CPhiListPane: public CCoeControl,public MPhiPaneInterface
 {
   public:
-    static CPhiListPane* NewL(const TRect& aRect,MObjectProvider* aObjectProvider);
+    static CPhiListPane* NewL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere);
     ~CPhiListPane();
   public:
     TInt CountComponentControls() const;
@@ -41,7 +42,7 @@ class CPhiListPane: public CCoeControl,public MPhiPaneInterface
   private:
     void Draw(const TRect& aRect) const;
   private:
-    void ConstructL(const TRect& aRect,MObjectProvider* aObjectProvider);
+    void ConstructL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere);
     CPhiListPane();
     void SortSymbol(TDes& aSymbol) const;
   private:

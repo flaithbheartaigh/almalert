@@ -31,7 +31,17 @@ class CPhiRefresh;
 class CPhiFs: public CBase
 {
   public:
-    static CPhiFs* NewL(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles);
+    enum TWhere
+    {
+      ERoot,
+      EFiles,
+      EObjRoot,
+#define READ_OBJ_L(name) EObj##name,
+#include "phifs.inl"
+#undef READ_OBJ_L(name)
+    };
+  public:
+    static CPhiFs* NewL(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere);
     ~CPhiFs();
   public:
     void FolderUpL(void);
@@ -54,18 +64,8 @@ class CPhiFs: public CBase
     void SetSortModeL(TInt aMode);
     TInt SortMode(void);
   private:
-    CPhiFs(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles);
+    CPhiFs(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere);
     void ConstructL(void);
-  public:
-    enum TWhere
-    {
-      ERoot,
-      EFiles,
-      EObjRoot,
-#define READ_OBJ_L(name) EObj##name,
-#include "phifs.inl"
-#undef READ_OBJ_L(name)
-    };
   private:
     struct SPhiEntry
     {
@@ -106,9 +106,9 @@ class CPhiFs: public CBase
     CPhiListBox* iListBox; //not owned
     CDesCArrayFlat* iFiles; //not owned
     RFs iFs;
-    TFileName iFileValue;
+    TDes& iFileValue;
     CPhiSelection* iSelection;
-    TWhere iWhere;
+    TWhere& iWhere;
     TInt iSortMode;
 };
 

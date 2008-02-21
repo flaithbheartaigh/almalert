@@ -127,7 +127,7 @@ void CPhiFilesView::DoActivateL(const TVwsViewId& aPrevViewId,TUid aCustomMessag
   {
     TRect rect=ClientRect();
     rect.iTl.iY=0;
-    iControl=CPhiListPane::NewL(rect,this);
+    iControl=CPhiListPane::NewL(rect,this,iPath,iWhere);
     iPhiAppUi->AddToStackL(*this,iControl);
   }
   iControl->ActivateL();
@@ -141,6 +141,10 @@ void CPhiFilesView::DoDeactivate(void)
     delete iControl;
     iControl=NULL;
   }
+}
+
+CPhiFilesView::CPhiFilesView(): CAknView(),iWhere(CPhiFs::ERoot)
+{
 }
 
 void CPhiFilesView::ConstructL(void)

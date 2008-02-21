@@ -30,6 +30,7 @@
 #include "phiconst.hpp"
 #include "phiscan.hpp"
 #include "phiutils.hpp"
+#include "phi.hpp"
 
 /*
 #include <f32file.h>
@@ -61,9 +62,9 @@ static void Log(const TDesC& aBuffer,TInt aParam)
 
 const TUint KAttr[]={KEntryAttArchive,KEntryAttReadOnly,KEntryAttHidden,KEntryAttSystem};
 
-CPhiFs* CPhiFs::NewL(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles)
+CPhiFs* CPhiFs::NewL(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere)
 {
-  CPhiFs* self=new(ELeave)CPhiFs(anInterface,aListBox,aFiles);
+  CPhiFs* self=new(ELeave)CPhiFs(anInterface,aListBox,aFiles,aPath,aWhere);
   CleanupStack::PushL(self);
   self->ConstructL();
   CleanupStack::Pop(); //self
@@ -76,14 +77,17 @@ CPhiFs::~CPhiFs()
   iFs.Close();
 }
 
-CPhiFs::CPhiFs(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles): CBase(),iInterface(anInterface),iListBox(aListBox),iFiles(aFiles),iWhere(ERoot),iSortMode(ESortByName)
+CPhiFs::CPhiFs(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere): CBase(),iInterface(anInterface),iListBox(aListBox),iFiles(aFiles),iFileValue(aPath),iWhere(aWhere),iSortMode(ESortByName)
 {
 }
 
 void CPhiFs::ConstructL(void)
 {
   User::LeaveIfError(iFs.Connect());
-  ReadListL(NULL);
+  TParse parse;
+  parse.SetNoWild(iFileValue,NULL,NULL);
+  TPtrC ptr=parse.NameAndExt();
+  ReadListL(&ptr);
 }
 
 const TDesC& CPhiFs::Up(void) const
@@ -247,6 +251,10 @@ void CPhiFs::StartItemL(void)
       cmd->SetCommandL(EApaCommandRun);
       EikDll::StartAppL(*cmd);
       CleanupStack::PopAndDestroy(cmd);
+    }
+    else if(item().IsImage())
+    {
+      iPhiViewAppUi->CmdShowImageL(file);
     }
     else
     {

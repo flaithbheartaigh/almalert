@@ -19,6 +19,9 @@ source phifs_prop.cpp
 source phifs_bt.cpp
 source phiman.cpp
 source phiutils.cpp
+sourcepath ..\src\img
+source phiimage.cpp
+source phiimagepane.cpp
 sourcepath ..\src\bt
 source phisdpattributeparser.cpp
 source phibtservicesearcher.cpp
@@ -56,5 +59,8 @@ library irobex.lib
 library esock.lib
 
 library aknnotify.lib
+
+library fbscli.lib
+library mediaclientimage.lib
 
 aif phi.aif ..\aif phiaif.rss c8 phi.bmp phi_m.bmp

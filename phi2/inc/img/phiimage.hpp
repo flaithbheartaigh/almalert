@@ -1,6 +1,6 @@
 /*
-    phifiles.hpp
-    Copyright (C) 2007-2008 zg
+    phiimage.hpp
+    Copyright (C) 2008 zg
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,36 +16,32 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __PHIFILES_HPP__
-#define __PHIFILES_HPP__
+#ifndef __PHIIMAGE_HPP__
+#define __PHIIMAGE_HPP__
 
 #include <aknview.h>
-#include "phifs.hpp"
 
-class CPhiListPane;
-class CPhiFilesView: public CAknView
+class CPhiImagePane;
+class CPhiImageView: public CAknView
 {
   public:
-    static CPhiFilesView* NewLC(void);
-    ~CPhiFilesView();
+    static CPhiImageView* NewLC(void);
+    ~CPhiImageView();
   public: //CAknView
     TUid Id(void) const;
     void HandleCommandL(TInt aCommand);
-  public: //MEikMenuObserver
-    void DynInitMenuPaneL(TInt aResourceId,CEikMenuPane* aMenuPane);
+    void SetFileName(const TDesC& aFileName);
   private: //CAknView
     void DoActivateL(const TVwsViewId& aPrevViewId,TUid aCustomMessageId,const TDesC8& aCustomMessage);
     void DoDeactivate(void);
   private:
-    CPhiFilesView();
     void ConstructL(void);
   private:
-    CPhiListPane* iControl;
-    TFileName iPath;
-    CPhiFs::TWhere iWhere;
+    CPhiImagePane* iControl;
+    TFileName iFileName;
 };
 
-const TUid KPhiFileViewId={1};
+const TUid KPhiImageViewId={2};
 
 #define iPhiAppUi ((CPhiAppUi*)AppUi())
 

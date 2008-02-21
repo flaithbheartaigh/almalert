@@ -31,6 +31,7 @@ class TPhiEntry
     TBool IsVolume(void) const;
     TBool IsApp(void) const;
     TBool IsExe(void) const;
+    TBool IsImage(void) const;
   public:
     TUint iAtt;
     TInt iSize;
