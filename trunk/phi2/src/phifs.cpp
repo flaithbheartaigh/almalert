@@ -396,6 +396,25 @@ void CPhiFs::ShowInfoL(void)
     ptr.Append(buffer);
     ptr.Append('\n');
   }
+  if(Where()==EObjProcess)
+  {
+    RProcess proccess;
+    if(proccess.Open(item().iName)==KErrNone)
+    {
+      CleanupClosePushL(proccess);
+      ptr.Append(proccess.FileName());
+      ptr.Append('\n');
+      HBufC* commandLine=HBufC::NewLC(proccess.CommandLineLength());
+      TPtr cl=commandLine->Des();
+      proccess.CommandLine(cl);
+      if(commandLine->Length())
+      {
+        ptr.Append(*commandLine);
+        ptr.Append('\n');
+      }
+      CleanupStack::PopAndDestroy(2); //commandLine,proccess
+    }
+  }
   CAknMessageQueryDialog* dlg=CAknMessageQueryDialog::NewL(*message);
   CleanupStack::PopAndDestroy(); //message
   dlg->PrepareLC(R_AVKON_MESSAGE_QUERY_DIALOG);
