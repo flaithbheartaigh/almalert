@@ -60,6 +60,7 @@ class CPhiFs: public CBase
     void ShowInfoL(void);
     void SendL(void);
     void SetAttrL(void);
+    void OpenWithL(void);
   public: //properties
     void SetSortModeL(TInt aMode);
     TInt SortMode(void);

@@ -66,5 +66,6 @@
 #define qtn_phi_tools "Tools"
 #define qtn_phi_memory_compress "Compess memory"
 #define qtn_phi_memory_compress_message "%S, before\n%S, after"
+#define qtn_phi_open_with "Open with"
 
 #endif

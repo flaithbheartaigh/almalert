@@ -17,6 +17,7 @@ source phifs_list.cpp
 source phifs_obj.cpp
 source phifs_prop.cpp
 source phifs_bt.cpp
+source phifs_open.cpp
 source phiman.cpp
 source phiutils.cpp
 sourcepath ..\src\img
