@@ -118,6 +118,11 @@ RESOURCE MENU_PANE r_phi_operations_menu
     {
       command=EPhiRefresh;
       txt=qtn_phi_refresh" {9}";
+    },
+    MENU_ITEM
+    {
+      command=EPhiOpenWith;
+      txt=qtn_phi_open_with;
     }
   };
 }
@@ -413,8 +418,38 @@ RESOURCE DIALOG r_phi_confirmation_query
       control=AVKON_CONFIRMATION_QUERY
       {
         layout=EConfirmationQueryLayout;
-        label="aa";
+        label="";
         animation=R_QGN_NOTE_QUERY_ANIM;
+      };
+    }
+  };
+}
+
+RESOURCE ARRAY r_phi_open_with_item
+{
+  items=
+  {
+    LBUF
+    {
+      txt="";
+    }
+  };
+}
+
+RESOURCE AVKON_LIST_QUERY r_phi_open_with
+{
+  items=
+  {
+    AVKON_LIST_QUERY_DLG_LINE 
+    {
+      control=AVKON_LIST_QUERY_CONTROL
+      {
+        listtype=EAknCtSinglePopupMenuListBox;
+        listbox=AVKON_LIST_QUERY_LIST
+        {
+          array_id=r_phi_open_with_item;
+        };
+        heading=qtn_phi_open_with;
       };
     }
   };

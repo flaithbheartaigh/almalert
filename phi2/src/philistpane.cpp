@@ -126,6 +126,9 @@ TKeyResponse CPhiListPane::OfferKeyEventL(const TKeyEvent& aKeyEvent,TEventCode 
         case '5':
           iFs->SetAttrL();
           return EKeyWasConsumed;
+        case EKeyDevice3:
+          iFs->OpenWithL();
+          return EKeyWasConsumed;
       }
     }
   }

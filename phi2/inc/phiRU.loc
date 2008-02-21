@@ -66,5 +66,6 @@
 #define qtn_phi_tools "Утилиты"
 #define qtn_phi_memory_compress "Сжать память"
 #define qtn_phi_memory_compress_message "%S, до\n%S, после"
+#define qtn_phi_open_with "Открыть с"
 
 #endif

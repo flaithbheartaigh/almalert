@@ -113,6 +113,10 @@ void CPhiFilesView::HandleCommandL(TInt aCommand)
         PhiUtils::ShowMessageL(message,CAknNoteDialog::ENoTimeout);
       }
       return;
+    case EPhiOpenWith:
+      event.iCode=EKeyDevice3;
+      event.iModifiers=EModifierShift;
+      break;
     case EAknSoftkeyBack:
     case EAknSoftkeyExit:
       AppUi()->HandleCommandL(EEikCmdExit);
