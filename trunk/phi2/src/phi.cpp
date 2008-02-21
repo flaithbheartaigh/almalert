@@ -18,6 +18,7 @@
 
 #include "phi.hpp"
 #include "phifiles.hpp"
+#include "img/phiimage.hpp"
 
 static const TUid KUidPhiApp={0x10204D95};
 
@@ -58,9 +59,13 @@ CEikAppUi* CPhiDocument::CreateAppUiL()
 void CPhiAppUi::ConstructL(void)
 {
   BaseConstructL();
+  SetKeyBlockMode(ENoKeyBlock);
   CEikStatusPane* status=iEikonEnv->AppUiFactory()->StatusPane();
   if(status) status->MakeVisible(EFalse);
   CAknView* view=CPhiFilesView::NewLC();
+  AddViewL(view);
+  CleanupStack::Pop(); //view
+  view=CPhiImageView::NewLC();
   AddViewL(view);
   CleanupStack::Pop(); //view
 }
@@ -74,4 +79,15 @@ void CPhiAppUi::HandleCommandL(TInt aCommand)
       Exit();
       break;
   }
+}
+
+void CPhiAppUi::CmdShowImageL(const TDesC& aFileName)
+{
+  static_cast<CPhiImageView*>(View(KPhiImageViewId))->SetFileName(aFileName);
+  ActivateLocalViewL(KPhiImageViewId);
+}
+
+void CPhiAppUi::CmdBackL(void)
+{
+  ActivateLocalViewL(KPhiFileViewId);
 }

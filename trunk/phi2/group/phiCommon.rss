@@ -419,3 +419,8 @@ RESOURCE DIALOG r_phi_confirmation_query
     }
   };
 }
+
+RESOURCE AVKON_VIEW r_phi_image_view
+{
+  cba=R_AVKON_SOFTKEYS_BACK;
+}

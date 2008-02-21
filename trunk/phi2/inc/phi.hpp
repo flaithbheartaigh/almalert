@@ -43,9 +43,14 @@ class CPhiDocument: public CAknDocument
 
 class CPhiAppUi: public CAknViewAppUi
 {
+  public:
+    void CmdShowImageL(const TDesC& aFileName);
+    void CmdBackL(void);
   private: //CAknAppUi
     void ConstructL(void);
     void HandleCommandL(TInt aCommand);
 };
+
+#define iPhiViewAppUi ((CPhiAppUi*)CEikonEnv::Static()->EikAppUi())
 
 #endif

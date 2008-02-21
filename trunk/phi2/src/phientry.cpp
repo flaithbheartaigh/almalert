@@ -60,3 +60,11 @@ TBool TPhiEntry::IsExe(void) const
   _LIT(KExeMask,"*.exe");
   return !IsDir()&&iName.MatchF(KExeMask)>=0;
 }
+
+TBool TPhiEntry::IsImage(void) const
+{
+  _LIT(KBmpMask,"*.bmp");
+  _LIT(KJpgMask,"*.jpg");
+  _LIT(KPngMask,"*.png");
+  return !IsDir()&&(iName.MatchF(KBmpMask)>=0||iName.MatchF(KJpgMask)>=0||iName.MatchF(KPngMask)>=0);
+}

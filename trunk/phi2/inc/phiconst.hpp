@@ -31,6 +31,7 @@ const TInt KPhiSortAreaWidth=12;
 const TInt KPhiColorShadow=0xde;
 const TInt KPhiColorSelection=0x23;
 const TInt KPhiColorExe=0xc5;
+const TInt KPhiColorImage=0xd4;
 const TInt KPhiColorHidden=0xdd;
 
 #define sizeofa(array) (sizeof(array)/sizeof(array[0]))

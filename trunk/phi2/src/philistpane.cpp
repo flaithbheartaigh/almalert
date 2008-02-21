@@ -27,11 +27,11 @@
 #include "phi.hrh"
 #include <eikmenup.h>
 
-CPhiListPane* CPhiListPane::NewL(const TRect& aRect,MObjectProvider* aObjectProvider)
+CPhiListPane* CPhiListPane::NewL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere)
 {
   CPhiListPane* self=new(ELeave)CPhiListPane;
   CleanupStack::PushL(self);
-  self->ConstructL(aRect,aObjectProvider);
+  self->ConstructL(aRect,aObjectProvider,aPath,aWhere);
   CleanupStack::Pop(); //self
   return self;
 }
@@ -154,7 +154,7 @@ void CPhiListPane::Draw(const TRect& aRect) const
   gc.DiscardFont();
 }
 
-void CPhiListPane::ConstructL(const TRect& aRect,MObjectProvider* aObjectProvider)
+void CPhiListPane::ConstructL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere)
 {
   SetMopParent(aObjectProvider);
   CreateWindowL();
@@ -174,7 +174,7 @@ void CPhiListPane::ConstructL(const TRect& aRect,MObjectProvider* aObjectProvide
 
   iListBox->SetItemHeightL(KPhiItemHeight);
 
-  iFs=CPhiFs::NewL(this,iListBox,files);
+  iFs=CPhiFs::NewL(this,iListBox,files,aPath,aWhere);
 }
 
 CPhiListPane::CPhiListPane(): CCoeControl()

@@ -62,6 +62,10 @@ void CPhiListItemDrawer::DrawActualItem(TInt aItemIndex,const TRect& aActualItem
   {
     iGc->SetPenColor(CEikonEnv::AvkonColor(KPhiColorExe));
   }
+  else if(item().IsImage())
+  {
+    iGc->SetPenColor(CEikonEnv::AvkonColor(KPhiColorImage));
+  }
   TFileName clip(item().iName);
   AknTextUtils::ClipToFit(clip,*font,itemRect.Width()-2*KPhiItemHMargin);
   iGc->DrawText(clip,itemRect,KPhiItemBaseLine+KPhiItemVMargin,CGraphicsContext::ELeft,KPhiItemHMargin);
