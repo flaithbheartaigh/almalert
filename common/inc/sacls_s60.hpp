@@ -59,6 +59,25 @@ enum TSAHeadsetStatus
   ESAUnsupportedAccessoryConnected
 };
 
+const TInt KUidSecuredConnectionStatusValue=0x100052D6;
+const TUid KUidSecuredConnectionStatus={KUidSecuredConnectionStatusValue};
+enum TSASecuredConnectionStatus
+{
+  ESASecuredConnectionOff,
+  ESASecuredConnectionOn
+};
+
+const TInt KUidChargerCStatusValue=0x100052D7;
+const TUid KUidChargerCStatus={KUidChargerCStatusValue};
+enum TSAChargerCStatus
+{
+  ESACChargerOff,
+  ESACChargerOn,
+  ESACChargerAlmostFull,
+  ESACChargerFull,
+  ESACChargerError
+};
+
 const TInt KUidBatteryCStatusValue=0x100052D8;
 const TUid KUidBatteryCStatus={KUidBatteryCStatusValue};
 enum TSABatteryCStatus
@@ -68,6 +87,9 @@ enum TSABatteryCStatus
   ESACBatteryEmpty,
   ESACPowerOff
 };
+
+const TInt KUidBatteryLowIndicationValue=0x100052D9;
+const TUid KUidBatteryLowIndication={KUidBatteryLowIndicationValue};
 
 const TInt KUidGprsAvailabilityValue=0x100052DA;
 const TUid KUidGprsAvailability={KUidGprsAvailabilityValue};
