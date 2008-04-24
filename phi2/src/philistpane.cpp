@@ -27,11 +27,11 @@
 #include "phi.hrh"
 #include <eikmenup.h>
 
-CPhiListPane* CPhiListPane::NewL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere)
+CPhiListPane* CPhiListPane::NewL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere,TInt& aSortMode)
 {
   CPhiListPane* self=new(ELeave)CPhiListPane;
   CleanupStack::PushL(self);
-  self->ConstructL(aRect,aObjectProvider,aPath,aWhere);
+  self->ConstructL(aRect,aObjectProvider,aPath,aWhere,aSortMode);
   CleanupStack::Pop(); //self
   return self;
 }
@@ -157,7 +157,7 @@ void CPhiListPane::Draw(const TRect& aRect) const
   gc.DiscardFont();
 }
 
-void CPhiListPane::ConstructL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere)
+void CPhiListPane::ConstructL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere,TInt& aSortMode)
 {
   SetMopParent(aObjectProvider);
   CreateWindowL();
@@ -177,7 +177,7 @@ void CPhiListPane::ConstructL(const TRect& aRect,MObjectProvider* aObjectProvide
 
   iListBox->SetItemHeightL(KPhiItemHeight);
 
-  iFs=CPhiFs::NewL(this,iListBox,files,aPath,aWhere);
+  iFs=CPhiFs::NewL(this,iListBox,files,aPath,aWhere,aSortMode);
 }
 
 CPhiListPane::CPhiListPane(): CCoeControl()

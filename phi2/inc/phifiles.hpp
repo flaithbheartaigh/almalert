@@ -43,6 +43,7 @@ class CPhiFilesView: public CAknView
     CPhiListPane* iControl;
     TFileName iPath;
     CPhiFs::TWhere iWhere;
+    TInt iSortMode;
 };
 
 const TUid KPhiFileViewId={1};
