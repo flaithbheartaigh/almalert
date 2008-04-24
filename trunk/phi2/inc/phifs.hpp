@@ -41,7 +41,7 @@ class CPhiFs: public CBase
 #undef READ_OBJ_L(name)
     };
   public:
-    static CPhiFs* NewL(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere);
+    static CPhiFs* NewL(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere,TInt& aSortMode);
     ~CPhiFs();
   public:
     void FolderUpL(void);
@@ -65,7 +65,7 @@ class CPhiFs: public CBase
     void SetSortModeL(TInt aMode);
     TInt SortMode(void);
   private:
-    CPhiFs(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere);
+    CPhiFs(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere,TInt& aSortMode);
     void ConstructL(void);
   private:
     struct SPhiEntry
@@ -110,7 +110,7 @@ class CPhiFs: public CBase
     TDes& iFileValue;
     CPhiSelection* iSelection;
     TWhere& iWhere;
-    TInt iSortMode;
+    TInt& iSortMode;
 };
 
 #define PHIFSChunkSize

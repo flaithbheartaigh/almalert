@@ -30,7 +30,7 @@ class CEikMenuPane;
 class CPhiListPane: public CCoeControl,public MPhiPaneInterface
 {
   public:
-    static CPhiListPane* NewL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere);
+    static CPhiListPane* NewL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere,TInt& aSortMode);
     ~CPhiListPane();
   public:
     TInt CountComponentControls() const;
@@ -42,7 +42,7 @@ class CPhiListPane: public CCoeControl,public MPhiPaneInterface
   private:
     void Draw(const TRect& aRect) const;
   private:
-    void ConstructL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere);
+    void ConstructL(const TRect& aRect,MObjectProvider* aObjectProvider,TDes& aPath,CPhiFs::TWhere& aWhere,TInt& aSortMode);
     CPhiListPane();
     void SortSymbol(TDes& aSymbol) const;
   private:

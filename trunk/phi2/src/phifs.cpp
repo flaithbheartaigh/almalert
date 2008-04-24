@@ -62,9 +62,9 @@ static void Log(const TDesC& aBuffer,TInt aParam)
 
 const TUint KAttr[]={KEntryAttArchive,KEntryAttReadOnly,KEntryAttHidden,KEntryAttSystem};
 
-CPhiFs* CPhiFs::NewL(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere)
+CPhiFs* CPhiFs::NewL(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere,TInt& aSortMode)
 {
-  CPhiFs* self=new(ELeave)CPhiFs(anInterface,aListBox,aFiles,aPath,aWhere);
+  CPhiFs* self=new(ELeave)CPhiFs(anInterface,aListBox,aFiles,aPath,aWhere,aSortMode);
   CleanupStack::PushL(self);
   self->ConstructL();
   CleanupStack::Pop(); //self
@@ -77,7 +77,7 @@ CPhiFs::~CPhiFs()
   iFs.Close();
 }
 
-CPhiFs::CPhiFs(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere): CBase(),iInterface(anInterface),iListBox(aListBox),iFiles(aFiles),iFileValue(aPath),iWhere(aWhere),iSortMode(ESortByName)
+CPhiFs::CPhiFs(MPhiPaneInterface* anInterface,CPhiListBox* aListBox,CDesCArrayFlat* aFiles,TDes& aPath,TWhere& aWhere,TInt& aSortMode): CBase(),iInterface(anInterface),iListBox(aListBox),iFiles(aFiles),iFileValue(aPath),iWhere(aWhere),iSortMode(aSortMode)
 {
 }
 
