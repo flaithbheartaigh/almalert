@@ -1,0 +1,25 @@
+target car.203
+targettype dll
+
+uid 0x1000008d 0xa000b1b5
+targetpath \system\recogs\fixss
+
+sourcepath .
+source car.cpp
+source lineobserver.cpp
+sourcepath ..\shutdown
+source shutdown.cpp
+
+userinclude .
+userinclude ..\shutdown
+systeminclude \epoc32\include
+systeminclude ..\..\..\common\inc
+systeminclude ..\..\..\tricks\inc
+
+library euser.lib
+library etel.lib
+library gsmadv.lib
+library commonengine.lib
+library sysutil.lib
+library efsrv.lib
+library hwtricks.lib
