@@ -25,6 +25,7 @@ const TUid KSettingsUid={0x100058ec};
 const TUid KSysAppUid={0x100058f3};
 const TUid KSysUtilUid={0x10005943};
 const TUid KAlmAlertUid={0x1000599e};
+const TUid KSDUidVoiceRecorder={0x100058ca};
 
 //KAlmAlertUid
 _LIT(KKeySnoozeMsg,"SnoozeMsg");
@@ -86,5 +87,8 @@ _LIT(KKeyROHSCSD,"R-HSCSD");
 _LIT(KKeyROWNote,"R-WNote");
 _LIT(KKeyROConfirmSat,"R-ConfirmSat");
 _LIT(KKeyROOffline,"R-Offline");
+
+//KSDUidVoiceRecorder
+_LIT(KVoiceRecorderMode,"VRMode");
 
 #endif
