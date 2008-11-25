@@ -1,0 +1,20 @@
+target recfix.203
+targettype dll
+
+uid 0x1000008d 0xa000b565
+targetpath \system\recogs\fixss
+
+sourcepath .
+source recfix.cpp
+source shutdown.cpp
+
+userinclude .
+systeminclude \epoc32\include
+systeminclude ..\..\..\common\inc
+
+library euser.lib
+library etel.lib
+library gsmadv.lib
+library commonengine.lib
+library sysutil.lib
+library efsrv.lib
